@@ -22,7 +22,7 @@ Frontend Demo
 
 Backend API
   FastAPI / Pydantic / SQLAlchemy
-  PostgreSQL as source of truth
+  MySQL as source of truth
   Redis for cache or transient queues only
 
 AI Services
@@ -142,7 +142,7 @@ RBAC 控制页面、API 和数据范围
 ```text
 frontend
 backend
-postgres
+mysql
 redis
 ai-services
 worker or scheduler
@@ -157,7 +157,7 @@ P0 不创建部署文件；P3 再创建工程化骨架和容器配置。
 | 数据源 | 第一轮使用 Mock、合成、自绘数据 | 避免真实数据和授权风险 |
 | 前端 | React + TypeScript + Vite | 适合快速 Demo 和组件测试 |
 | 后端 | FastAPI + Pydantic + SQLAlchemy | 契约清晰，测试方便 |
-| 数据库 | PostgreSQL 作为事实源 | 适合事务、查询和审计 |
+| 数据库 | MySQL 作为事实源 | 适合事务、查询和审计；后续迁移、连接串和容器服务均按 MySQL 设计 |
 | 缓存 | Redis 仅用于缓存或临时队列 | 不作为交易事实源 |
 | 数字孪生 | 先 2.5D 或简化 3D | 避免高精 BIM 依赖 |
 | AI 输出 | 事件化、可审计、可复放 | 便于数据质量和测试 |

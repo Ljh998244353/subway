@@ -36,4 +36,4 @@ RBAC required after auth implementation
 
 ## 下一步
 
-P2 前端先使用 Mock 数据；P4 创建正式 OpenAPI 契约和 FastAPI 实现。
+P2-I3 实现 `/dashboard` 时继续使用前端 Mock 数据，不固化真实 API，也不创建后端服务。P4 创建正式 OpenAPI 契约和 FastAPI 实现，路径继续使用 `/api/v1`。

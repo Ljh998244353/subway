@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库已完成 P0 项目基线：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明和汇报稿，尚未开始前端、后端、AI 视频服务或部署工程编码。
+当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化和 P2-I2 Mock 数据与共享类型：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据和数据边界测试。尚未开始后端、AI 视频服务或部署工程编码。
 
 ## 文档入口
 
@@ -15,6 +15,15 @@
 | [docs/PRD_v1.md](docs/PRD_v1.md) | AI / 人类 | P0 产品需求基线 |
 | [docs/REQUIREMENTS_ANALYSIS.md](docs/REQUIREMENTS_ANALYSIS.md) | AI / 人类 | 需求分析、需求分层、功能和非功能需求 |
 | [docs/SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md) | AI / 人类 | 系统架构、模块、数据流、API 草案和部署草案 |
+| [docs/design/SCREEN_LAYOUTS.md](docs/design/SCREEN_LAYOUTS.md) | AI / 人类 | P1-I1 信息架构、5 个核心页面范围、跳转关系、状态和素材策略 |
+| [docs/design/DESIGN_TOKENS.md](docs/design/DESIGN_TOKENS.md) | AI / 人类 | P1-I2 颜色、字体、间距、状态色、图表色板和可访问性 token |
+| [docs/design/UI_SPEC.md](docs/design/UI_SPEC.md) | AI / 人类 | P1-I2 App Shell、栅格、页面模板、卡片密度和响应式规则 |
+| [docs/design/COMPONENT_SPEC.md](docs/design/COMPONENT_SPEC.md) | AI / 人类 | P1-I3 核心组件、页面状态、属性边界和 P2 测试关注点 |
+| [docs/design/CHART_SPEC.md](docs/design/CHART_SPEC.md) | AI / 人类 | P1-I3 图表口径、图例、状态、可访问性和页面图表映射 |
+| [docs/design/INTERACTION_SPEC.md](docs/design/INTERACTION_SPEC.md) | AI / 人类 | P1-I4 路由、筛选恢复、页面交互、键盘、响应式和可访问性规范 |
+| [docs/design/DESIGN_REVIEW_CHECKLIST.md](docs/design/DESIGN_REVIEW_CHECKLIST.md) | AI / 人类 | P1-I4 设计评审清单和 P2 前端实现门禁 |
+| [frontend/README.md](frontend/README.md) | AI / 人类 | P2 前端工程、Mock 数据、命令和边界 |
+| [frontend/package.json](frontend/package.json) | AI | 前端依赖和 `lint/test/build/dev` 命令 |
 | [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) | AI / 人类 | 当前已引用第三方工具、字体、素材或包的许可证记录 |
 | [context/TODO_NEXT.md](context/TODO_NEXT.md) | AI | 下一步增量和短指令接力信息 |
 | [skills/mall-vision-ai-delivery/SKILL.md](skills/mall-vision-ai-delivery/SKILL.md) | Codex | 本项目专用单 AI 增量迭代开发工作流 |
@@ -65,13 +74,21 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 - 不引入付费开发工具、付费云服务、付费 API、付费模型或付费素材，除非用户明确批准。
 - 不使用来源不明的视频、图片、字体、地图、商场平面图、品牌 Logo、商户 Logo、监控画面、模型权重、数据集或复制代码。
-- 优先使用 MIT、Apache-2.0、BSD、ISC、PostgreSQL License、CC0、CC-BY 等许可证清晰的资源。
+- 优先使用 MIT、Apache-2.0、BSD、ISC、PostgreSQL License、CC0、CC-BY 等许可证清晰的资源；这里的 PostgreSQL License 只指许可证类型，不代表数据库选型。
 - 真实商场资料、监控数据、人脸图像、品牌资产和对外发布内容必须经过授权或合规确认。
 - 新增第三方内容必须记录到 [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md)，重点风险同步记录到 [IMPORTANT.md](IMPORTANT.md)。
 
+## 环境约束
+
+后续实现阶段需要遵守以下固定约束：
+
+- 数据库统一使用 MySQL；后端数据模型、迁移、连接串、容器服务和部署文档都按 MySQL 设计。
+- 后续创建 Python 后端或 AI 服务时必须重新创建虚拟环境，不复用旧 `venv`。
+- 任何需要 `sudo`、系统包安装、系统服务管理或提权修改的命令，AI 必须停下来说明命令和目的，由人类手动执行后再继续。
+
 ## 当前下一步
 
-下一步应执行 `P1-I1`，创建信息架构与页面范围文档，不要直接开始写前端或后端。
+下一步应执行 `P2-I3`，实现 `/dashboard` 运营总览页面。
 
 给 AI 的指令：
 
@@ -79,11 +96,11 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 请进行下一步
 ```
 
-AI 收到后必须自动读取项目文档和 `context/TODO_NEXT.md`，执行 `P1-I1`：信息架构与页面范围。本次只创建设计文档，不写前端、后端、AI 视频服务或部署工程。
+AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P2-I3`：运营总览页面。P2-I3 只实现 `/dashboard` 所需的页面内容、轻量组件和测试；不要创建后端、AI 视频服务或部署工程，不接真实 API、真实视频或真实商场素材。
 
 ## 当前检查方法
 
-当前没有业务代码，只能检查文档、第三方声明、skill 和演示稿文件：
+当前检查文档、第三方声明、skill、演示稿文件和前端基础门禁：
 
 ```bash
 test -f AGENT.md
@@ -96,12 +113,31 @@ test -f docs/PRD_v1.md
 test -f docs/REQUIREMENTS_ANALYSIS.md
 test -f docs/SYSTEM_DESIGN.md
 test -f docs/LICENSE_AUDIT.md
+test -f docs/design/SCREEN_LAYOUTS.md
+test -f docs/design/DESIGN_TOKENS.md
+test -f docs/design/UI_SPEC.md
+test -f docs/design/COMPONENT_SPEC.md
+test -f docs/design/CHART_SPEC.md
+test -f docs/design/INTERACTION_SPEC.md
+test -f docs/design/DESIGN_REVIEW_CHECKLIST.md
+test -f frontend/package.json
+test -f frontend/package-lock.json
+test -f frontend/src/App.tsx
+test -f frontend/src/components/AppShell.tsx
+test -f frontend/src/types/domain.ts
+test -f frontend/src/mock/mockOverview.ts
+test -f frontend/src/mock/mockData.test.ts
 test -f context/TODO_NEXT.md
 test -f skills/mall-vision-ai-delivery/SKILL.md
 test -f skills/mall-vision-ai-delivery/agents/openai.yaml
 test -f slides/project-intro.typ
 test -f slides/slide.pdf
-rg -n "P1-I1|请进行下一步|SCREEN_LAYOUTS|信息架构|页面范围" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
+rg -n "P2-I3|operations overview dashboard|运营总览|/dashboard|MetricCard|SummaryStrip" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
+cd frontend
+npm run lint
+npm run test
+npm run build
+npm audit --audit-level=high
 ```
 
 ## 免责声明

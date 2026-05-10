@@ -23,12 +23,20 @@ logs and backup docs required before production-like delivery
 ```text
 frontend
 backend
-postgres
+mysql
 redis
 ai-services
 worker or scheduler
 ```
 
+## 环境执行约束
+
+```text
+数据库服务使用 MySQL
+后续 Python backend/ 和 ai-services/ 需要重新创建虚拟环境
+涉及 sudo、系统包安装、系统服务管理或提权修改时，AI 必须暂停并让人类执行
+```
+
 ## 下一步
 
-P3 创建工程化骨架和部署草案；P11 完成部署与观测。
+P2-I3 只实现前端 `/dashboard` 页面，不创建 `infra/` 或 Docker Compose。P3 创建工程化骨架和部署草案；P11 完成部署与观测。

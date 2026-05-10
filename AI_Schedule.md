@@ -38,7 +38,18 @@ skills/mall-vision-ai-delivery/SKILL.md
 | P1 | 可维护 | 代码结构、接口、数据模型必须稳定 |
 | P1 | 可扩展 | 在不牺牲交付质量的前提下支持后续扩展 |
 
-### 1.2 不做什么
+### 1.2 环境与提权约束
+
+```text
+后续 Python 后端或 AI 服务开发必须重新创建虚拟环境
+涉及 sudo、系统包安装、系统服务管理或提权修改时，AI 必须暂停并让人类执行
+数据库统一使用 MySQL，不再使用 PostgreSQL
+Python 环境：进入 backend/ 或 ai-services/ 开发时新建虚拟环境，不能复用旧 venv
+提权命令：AI 不直接执行 sudo；需要 sudo 时写出命令、目的和预期结果，等待人类执行后继续
+数据库：MySQL 作为事实源；迁移、连接串、容器服务、测试 fixture 和文档均按 MySQL 设计
+```
+
+### 1.3 不做什么
 
 第一轮交付禁止把范围扩大到无法验收：
 
@@ -52,7 +63,7 @@ skills/mall-vision-ai-delivery/SKILL.md
 不跳过测试直接标记完成
 ```
 
-### 1.3 增量完成定义
+### 1.4 增量完成定义
 
 每个增量完成时必须同时满足：
 
@@ -108,7 +119,7 @@ P2-I3  运营总览页面
 | P1 | 1 周 | 设计规范与信息架构 | 页面、组件、数据指标、设计 token | CP1 |
 | P2 | 2 周 | 前端 Demo MVP | Mock 数据驱动 5 个核心页面 | CP2 |
 | P3 | 1 周 | 工程化骨架 | Monorepo、CI、lint、格式化、基础测试 | CP3 |
-| P4 | 2 周 | 后端 API 与数据模型 | FastAPI、PostgreSQL、核心接口 | CP4 |
+| P4 | 2 周 | 后端 API 与数据模型 | FastAPI、MySQL、核心接口 | CP4 |
 | P5 | 1 周 | 前后端联调 | 用真实 API 替换 Mock，处理状态和错误 | CP5 |
 | P6 | 3 周 | AI 视频识别 MVP | 视频接入、人体检测、ROI/进出计数 | CP6 |
 | P7 | 2 周 | 店铺经营评分 MVP | 停留、转化、评分、评级、预警 | CP7 |
@@ -429,7 +440,7 @@ FastAPI
 Pydantic
 SQLAlchemy
 Alembic
-PostgreSQL
+MySQL
 Redis
 Pytest
 ```
@@ -1278,13 +1289,13 @@ TODO_NEXT.md 没有下一步
 请进行下一步
 ```
 
-AI 收到该指令后必须读取 `AGENT.md`、`README.md`、`PROGRESS.md`、`AI_Schedule.md`、`IMPORTANT.md` 和已存在的 `context/*.md`，自动识别当前应执行的增量。当前 P0 已完成，下一步以 `context/TODO_NEXT.md` 为准，进入 `P1-I1`：信息架构与页面范围。
+AI 收到该指令后必须读取 `AGENT.md`、`README.md`、`PROGRESS.md`、`AI_Schedule.md`、`IMPORTANT.md` 和已存在的 `context/*.md`，自动识别当前应执行的增量。当前 P0 和 P1 已完成，下一步以 `context/TODO_NEXT.md` 为准，进入 `P2-I1`：前端工程初始化。
 
 ---
 
 ## 八、当前仓库状态
 
-当前仓库已完成 P0 项目基线与上下文恢复，主要交付物是：
+当前仓库已完成 P0 项目基线与上下文恢复、P1 设计规范阶段，主要交付物是：
 
 ```text
 AGENT.md
@@ -1302,10 +1313,17 @@ docs/TEST_STRATEGY.md
 docs/QUALITY_GATE.md
 docs/LICENSE_AUDIT.md
 docs/THIRD_PARTY_NOTICES.md
+docs/design/SCREEN_LAYOUTS.md
+docs/design/DESIGN_TOKENS.md
+docs/design/UI_SPEC.md
+docs/design/COMPONENT_SPEC.md
+docs/design/CHART_SPEC.md
+docs/design/INTERACTION_SPEC.md
+docs/design/DESIGN_REVIEW_CHECKLIST.md
 context/*.md
 skills/mall-vision-ai-delivery/SKILL.md
 slides/project-intro.typ
 slides/slide.pdf
 ```
 
-下一步建议执行 `P1-I1`，先创建信息架构和页面范围文档，不要直接进入编码。
+下一步建议执行 `P2-I1`，初始化 React + TypeScript + Vite 前端工程。P2-I1 可以创建 `frontend/`，但只做工程骨架、基础路由、AppShell、样式 token 入口、基础测试和许可证记录；不要创建 `backend/`、`ai-services/` 或 `infra/`。

@@ -21,6 +21,8 @@ SIL Open Font License 1.1
 自绘或自生成合成数据、楼层图、视频和 Mock 资产
 ```
 
+说明：`PostgreSQL License` 只表示一种 permissive license 名称，不代表本项目数据库选型；本项目数据库已确认使用 MySQL。后续引入 MySQL 服务、Docker 镜像或 Python driver 时，必须单独审计对应版本、许可证和分发方式。
+
 默认暂缓或禁用：
 
 ```text
@@ -43,10 +45,18 @@ Non-Commercial 素材
 | Roboto | https://github.com/googlefonts/roboto-2 | System font | Apache License 2.0 | 拉丁字体备选 | Apache-2.0 通常允许商用 | 分发字体时保留许可证和 notice | 无已知付费要求 | 允许 |
 | Slidev | https://github.com/slidevjs/slidev | 52.15.1 | MIT | `slides/slidev` 功能介绍演示稿框架 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | @slidev/theme-default | https://www.npmjs.com/package/@slidev/theme-default | 0.25.0 | MIT | `slides/slidev/slides.md` 默认主题 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| React | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` UI runtime | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| React DOM | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` DOM renderer | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| React Router DOM | https://github.com/remix-run/react-router | 7.15.0 | MIT | `frontend/` 5 个核心路由占位和导航 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| Vite | https://github.com/vitejs/vite | 7.3.3 | MIT | `frontend/` 开发服务器和生产构建 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| TypeScript | https://github.com/microsoft/TypeScript | 5.9.3 | Apache-2.0 | `frontend/` 类型检查和构建门禁 | Apache-2.0 通常允许商用 | 保留许可证和 notice | 无已知付费要求 | 允许 |
+| @types/react | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.14 | MIT | React TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | React DOM TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | Node API TypeScript 类型定义，用于测试和配置 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 
 ## 3. P0 结论
 
-P0 创建 Markdown 文档和 context 文件，未新增第三方依赖、模型、媒体、字体、图标、数据集或外部服务。后续新增的 Slidev 演示稿已在本文件和 `docs/THIRD_PARTY_NOTICES.md` 记录。
+P0 创建 Markdown 文档和 context 文件，未新增第三方依赖、模型、媒体、字体、图标、数据集或外部服务。后续新增的 Slidev 演示稿和 P2-I1 前端工程依赖已在本文件和 `docs/THIRD_PARTY_NOTICES.md` 记录。
 
 ## 4. 后续动作
 
@@ -55,6 +65,6 @@ P0 创建 Markdown 文档和 context 文件，未新增第三方依赖、模型�
 | P1 | 设计图标、字体、颜色来源；禁止未授权真实素材 |
 | P2 | 前端依赖、图表库、3D 库、图标库、Mock 数据来源 |
 | P3 | 工程化工具、CI、Docker 镜像和扫描工具许可证 |
-| P4 | Python 后端依赖、数据库、缓存、迁移工具许可证 |
+| P4 | Python 后端依赖、MySQL 服务或镜像、MySQL driver、缓存、迁移工具许可证 |
 | P6 | AI 模型、视频 fixture、检测/追踪库、数据集许可证 |
 | P11 | 部署平台、监控组件、日志组件和外部服务条款 |

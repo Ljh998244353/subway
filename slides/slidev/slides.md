@@ -176,6 +176,14 @@ mdc: true
 
 ---
 
+# 鼠标交互模拟：点击店铺查看运营解释
+
+<MallScenarioDemo />
+
+<div class="interaction-hint">试试看：点击不同店铺，切换楼层与模式，观察右侧指标和解释如何联动。</div>
+
+---
+
 # 店铺分析：解释经营表现
 
 <div class="store-slide">

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-P0 仅定义数据实体草案，尚未创建数据库、迁移或 ORM 模型。
+P0 定义了数据实体草案。P2-I2 在前端创建了 TypeScript 共享类型和虚构 Mock 数据，尚未创建数据库、迁移或 ORM 模型。
 
 ## 实体草案
 
@@ -55,4 +55,4 @@ operation_log
 
 ## 下一步
 
-P4 进入后端 API 与数据模型阶段时，再创建正式 ERD、Alembic 迁移和 SQLAlchemy 模型。
+P2-I3 继续只消费前端 Mock 数据，不创建数据库、迁移或 ORM 模型。P4 进入后端 API 与数据模型阶段时，再创建正式 ERD、Alembic 迁移和 SQLAlchemy 模型；数据库统一使用 MySQL。

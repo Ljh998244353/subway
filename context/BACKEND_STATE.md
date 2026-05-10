@@ -14,7 +14,7 @@ FastAPI
 Pydantic
 SQLAlchemy
 Alembic
-PostgreSQL
+MySQL
 Redis
 Pytest
 ```
@@ -22,12 +22,14 @@ Pytest
 ## 后端约束
 
 ```text
-PostgreSQL is source of truth
+MySQL is source of truth
 Redis is cache/transient only
 OpenAPI contract must match implementation
 RBAC and operation logs required before production-like use
+backend Python environment must be recreated when backend development starts
+AI must not execute sudo; human runs sudo or system-level setup commands
 ```
 
 ## 下一步
 
-P4 开始后端 API 与数据模型实现。
+P2-I3 只实现前端 `/dashboard` 运营总览页面，不创建 `backend/`。P4 开始后端 API 与数据模型实现；进入后端开发时必须重新创建 Python 虚拟环境，并继续使用 MySQL。

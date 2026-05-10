@@ -12,6 +12,14 @@ This file records third-party resources currently referenced by project delivera
 | Roboto | https://github.com/googlefonts/roboto-2 | System font | Apache License 2.0 | Latin font fallback for slide compilation | Apache-2.0 generally permits commercial use with notice requirements | Preserve license and notice if distributing font files | Allowed |
 | Slidev | https://github.com/slidevjs/slidev | 52.15.1 | MIT | Markdown-based presentation framework for `slides/slidev` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | @slidev/theme-default | https://www.npmjs.com/package/@slidev/theme-default | 0.25.0 | MIT | Default Slidev theme used by `slides/slidev/slides.md` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| React | https://github.com/facebook/react | 19.2.6 | MIT | Frontend UI runtime for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| React DOM | https://github.com/facebook/react | 19.2.6 | MIT | React DOM renderer for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| React Router DOM | https://github.com/remix-run/react-router | 7.15.0 | MIT | Client-side route placeholders and navigation for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| Vite | https://github.com/vitejs/vite | 7.3.3 | MIT | Frontend dev server and production build tool for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| TypeScript | https://github.com/microsoft/TypeScript | 5.9.3 | Apache-2.0 | Type checking and frontend build gate for `frontend/` | Apache-2.0 generally permits commercial use with notice requirements | Preserve license and notice | Allowed |
+| @types/react | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.14 | MIT | TypeScript type definitions for React | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | TypeScript type definitions for React DOM | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | TypeScript type definitions for Node APIs used by tests/config | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 
 ## Blocked Until Reviewed
 

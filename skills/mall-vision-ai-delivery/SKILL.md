@@ -1,6 +1,6 @@
 ---
 name: mall-vision-ai-delivery
-description: Single-AI incremental delivery workflow for the commercial mall visual AI digital twin project. Use when Codex works in this repository or on project planning, context recovery, iteration planning, automatic role selection, React/Vite frontend demo, FastAPI/PostgreSQL backend, AI video analytics, store scoring, digital twin, testing gates, deployment, open-source resource selection, license compliance, risk tracking, or handoff documentation.
+description: Single-AI incremental delivery workflow for the commercial mall visual AI digital twin project. Use when Codex works in this repository or on project planning, context recovery, iteration planning, automatic role selection, React/Vite frontend demo, FastAPI/MySQL backend, AI video analytics, store scoring, digital twin, testing gates, deployment, open-source resource selection, license compliance, risk tracking, or handoff documentation.
 ---
 
 # Mall Vision AI Delivery
@@ -17,6 +17,9 @@ Optimize in this order:
 6. Preserve confirmed requirements, architecture, API contracts, and data model unless the increment explicitly changes them.
 7. Use free, open-source, license-clear resources only.
 8. Update non-engineering, legal/IP, privacy, license, and cost risks as soon as they appear.
+9. Use MySQL for the database unless a later explicit user instruction changes it.
+10. Recreate Python virtual environments when backend or AI service development starts.
+11. Stop and ask the human to run any sudo or system-level command; do not execute sudo directly.
 
 ## Required First Step
 
@@ -271,9 +274,17 @@ Treat the target product as a commercial mall visual AI digital twin operations 
 
 ```text
 frontend: React + TypeScript + Vite, ECharts, Three.js, Playwright, Vitest
-backend: Python 3.11+, FastAPI, Pydantic, SQLAlchemy, Alembic, PostgreSQL, Redis, Pytest
+backend: Python 3.11+, FastAPI, Pydantic, SQLAlchemy, Alembic, MySQL, Redis, Pytest
 ai-services: Python, video ingestion, detection, tracking, ROI/line counting, event publishing
 infra: Docker Compose first, CI quality gates, monitoring and backup docs
+```
+
+Environment rules:
+
+```text
+database: MySQL
+python env: recreate virtualenv for backend/ and ai-services/ work
+sudo: stop and let the human execute sudo/system-level commands
 ```
 
 ## Testing Rules
@@ -351,6 +362,8 @@ CC0
 CC-BY with attribution
 self-generated synthetic data, videos, floor plans, and mock assets
 ```
+
+Note: PostgreSQL License is a license name only; the project database is MySQL.
 
 Treat these as blocked until reviewed:
 
