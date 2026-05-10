@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化和 P2-I2 Mock 数据与共享类型。项目已进入前端 Demo MVP，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由占位、共享类型、虚构 Mock 数据和数据边界测试；尚未进入后端、AI 服务或部署工程编码。
+当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面。项目处于 CP2 前端 Demo 收口前状态，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面；尚未进入后端、AI 服务或部署工程编码。
 
 ## 已完成
 
@@ -40,9 +40,8 @@ frontend/README.md
 frontend/package.json
 frontend/package-lock.json
 frontend/src/App.tsx
-frontend/src/components/AppShell.tsx
-frontend/src/routes/routeConfig.ts
-frontend/src/routes/routeConfig.test.ts
+frontend/src/components/
+frontend/src/routes/
 frontend/src/pages/
 frontend/src/styles/
 frontend/src/types/
@@ -57,9 +56,10 @@ ai-services/
 infra/
 Docker Compose
 CI
-业务页面测试
 真实 API
 真实视频接入
+浏览器 E2E
+覆盖率统计
 ```
 
 ## 当前决策
@@ -76,6 +76,12 @@ CI
 | P1-I4 交互和设计评审 | 已定义路由参数、筛选恢复、页面交互、键盘、响应式、可访问性和 P2 前端门禁 |
 | P2-I1 前端工程 | React + TypeScript + Vite、React Router、AppShell、5 个路由占位、CSS token 和 Node 内置测试 |
 | P2-I2 Mock 数据 | 使用虚构商场、5 个楼层、100 家虚构店铺、8 种业态、20 条预警、热力点、流向线和匿名聚合画像 |
+| P2-I3 运营总览 | `/dashboard` 已使用 Mock 数据展示 KPI、客流趋势、楼层状态、低效店铺榜和告警摘要 |
+| P2-I4 店铺分析 | `/store-analysis` 已使用 Mock 数据展示筛选摘要、店铺列表、店铺详情、评分拆解、低效原因和关联入口 |
+| P2-I5 低效预警 | `/store-alerts` 已使用 Mock 数据展示告警列表、筛选摘要、告警详情、处理建议、状态统计和关联入口 |
+| P2-I6 数字孪生 | `/digital-twin` 已使用 Mock 数据展示自绘楼层平面、热力、动线、告警、评分、店铺选中和空间检查器 |
+| P2-I7 QA 打磨 | 已补核心演示流转 helper、query 测试、响应式 CSS 检查和防溢出样式 |
+| P2-I8 客群画像 | `/customer-profile` 已使用 Mock 数据展示匿名聚合画像摘要、时段分布、楼层偏好、业态偏好和隐私口径 |
 | 真实素材 | 未授权真实素材禁用 |
 | 前端建议 | React + TypeScript + Vite |
 | 后端建议 | FastAPI + MySQL |
@@ -86,4 +92,4 @@ CI
 
 ## 下一目标
 
-进入 P2-I3：运营总览页面。基于 `frontend/src/mock` 和 `frontend/src/types` 实现 `/dashboard` 的 KPI、客流趋势、楼层状态、低效店铺榜和告警摘要；不要创建 `backend/`、`ai-services/` 或 `infra/`，不要接真实 API、真实视频或真实商场素材。
+进入 P2-I9：CP2 前端 Demo 收口和交接。只做五个核心页面的演示路径说明、测试报告摘要、已知缺口和 P3 接力；不要创建 `backend/`、`ai-services/` 或 `infra/`，不要接真实 API、真实视频、真实商场平面图、真实地图、真实商场素材、个人身份或个人轨迹。

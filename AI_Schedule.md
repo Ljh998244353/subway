@@ -159,7 +159,9 @@ P2 前端 Demo 按以下增量执行：
 | P2-I4 | Frontend Mode | 店铺分析页面 | `/store-analysis` 和对应测试 |
 | P2-I5 | Frontend Mode | 低效预警页面 | `/store-alerts` 和对应测试 |
 | P2-I6 | Frontend Mode | 数字孪生 Demo 页面 | `/digital-twin` 和 2.5D/简易 3D 验证 |
-| P2-I7 | QA Mode | E2E、响应式和演示打磨 | Playwright、响应式检查、演示说明 |
+| P2-I7 | QA Mode | E2E、响应式和演示打磨 | 核心流转、响应式检查、演示说明 |
+| P2-I8 | Frontend Mode | 客群画像页面 | `/customer-profile` 和对应测试 |
+| P2-I9 | QA Mode | CP2 前端 Demo 收口和交接 | 五页演示路径、测试报告摘要、P3 接力 |
 
 P3-P12 也必须按同样原则拆成小增量：一次只完成一个可运行或可检查的小闭环。
 
@@ -362,6 +364,8 @@ P2-I4：店铺分析页面
 P2-I5：低效预警页面
 P2-I6：数字孪生 Demo 页面
 P2-I7：E2E、响应式和演示打磨
+P2-I8：客群画像页面
+P2-I9：CP2 前端 Demo 收口和交接
 ```
 
 Mock 覆盖：
@@ -1289,13 +1293,13 @@ TODO_NEXT.md 没有下一步
 请进行下一步
 ```
 
-AI 收到该指令后必须读取 `AGENT.md`、`README.md`、`PROGRESS.md`、`AI_Schedule.md`、`IMPORTANT.md` 和已存在的 `context/*.md`，自动识别当前应执行的增量。当前 P0 和 P1 已完成，下一步以 `context/TODO_NEXT.md` 为准，进入 `P2-I1`：前端工程初始化。
+AI 收到该指令后必须读取 `AGENT.md`、`README.md`、`PROGRESS.md`、`AI_Schedule.md`、`IMPORTANT.md` 和已存在的 `context/*.md`，自动识别当前应执行的增量。当前 P0、P1、P2-I1 到 P2-I8 已完成，下一步以 `context/TODO_NEXT.md` 为准，进入 `P2-I9`：CP2 前端 Demo 收口和交接。
 
 ---
 
 ## 八、当前仓库状态
 
-当前仓库已完成 P0 项目基线与上下文恢复、P1 设计规范阶段，主要交付物是：
+当前仓库已完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 到 P2-I8 前端 Demo 增量，主要交付物是：
 
 ```text
 AGENT.md
@@ -1324,6 +1328,7 @@ context/*.md
 skills/mall-vision-ai-delivery/SKILL.md
 slides/project-intro.typ
 slides/slide.pdf
+frontend/
 ```
 
-下一步建议执行 `P2-I1`，初始化 React + TypeScript + Vite 前端工程。P2-I1 可以创建 `frontend/`，但只做工程骨架、基础路由、AppShell、样式 token 入口、基础测试和许可证记录；不要创建 `backend/`、`ai-services/` 或 `infra/`。
+下一步建议执行 `P2-I9`，做 CP2 前端 Demo 收口和交接。P2-I9 只整理五个核心页面演示路径、测试报告摘要、已知缺口和 P3 接力；不要创建 `backend/`、`ai-services/` 或 `infra/`。

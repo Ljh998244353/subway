@@ -17,3 +17,9 @@
 | 2026-05-10 | P1-I4 固定交互、响应式、可访问性和设计评审门禁 | P2 前端初始化前需要明确路由状态、筛选恢复、键盘交互、响应式视口和合规门禁 | P2-I1 可以创建 `frontend/`，但只做工程骨架、基础路由、AppShell、样式 token、基础测试和许可证记录 |
 | 2026-05-10 | P2-I1 前端工程采用 React + TypeScript + Vite 与 Node 内置测试 | 在网络依赖受限时保持最小依赖集合，并提供可运行 lint/test/build 门禁 | 后续前端页面在 `frontend/` 内增量实现；Playwright/Vitest 可在后续明确增量引入 |
 | 2026-05-10 | P2-I2 Mock 数据全部使用虚构商场、虚构店铺、自绘坐标和匿名聚合数据 | 避免真实商场资料、品牌、监控和个人信息风险，同时为页面实现提供稳定数据源 | P2-I3 及后续页面优先复用 `frontend/src/types` 和 `frontend/src/mock`，不要在页面内复制临时数据 |
+| 2026-05-10 | P2-I3 运营总览先用 CSS/SVG 和 Node 内置测试实现 | 不新增图表库和测试库，保持依赖面可控，同时让 `/dashboard` 具备可演示业务内容 | 后续页面可复用 StatusBadge、MetricCard、SummaryStrip、TrendSparkline 和 `buildRouteWithGlobalQuery` 的 query 合并能力 |
+| 2026-05-10 | P2-I4 店铺分析继续用 CSS/HTML 和 Node 内置测试实现 | 不新增图表库和测试库，保持依赖面可控，同时让 `/store-analysis` 具备可演示业务内容 | 后续预警页可复用 StatusBadge、ScoreBreakdown、StoreList 和店铺/告警 drill-down query 合并能力 |
+| 2026-05-10 | P2-I5 低效预警继续用 CSS/HTML 和 Node 内置测试实现 | 不新增图表库和测试库，保持依赖面可控，同时让 `/store-alerts` 具备可演示业务内容 | 后续数字孪生页可复用 StatusBadge、AlertList、AlertDetail 和告警/店铺/空间位置 drill-down query 合并能力 |
+| 2026-05-10 | P2-I6 数字孪生 Demo 用自绘 SVG、CSS 和 Node 内置测试实现 | 避免真实商场平面图、地图、BIM、品牌和新增图形依赖风险，同时让 `/digital-twin` 具备热力、动线、告警和评分联动展示 | P2-I7 可以围绕 Dashboard、Digital Twin、Store Analysis、Store Alerts 做核心路径、响应式和演示打磨 |
+| 2026-05-10 | P2-I7 不新增 Playwright/Vitest，先用 Node 内置测试固化核心演示流转和响应式 CSS 规则 | 降低新增依赖、浏览器下载、网络和许可证风险，同时满足当前 Demo 的可重复检查 | P2-I8 可复用 `frontend/src/routes/demoFlow.ts` 做客群画像到数字孪生和店铺分析的 drill-down query |
+| 2026-05-10 | P2-I8 客群画像继续用 Mock、CSS/HTML 和 Node 内置测试实现 | 避免引入图表库、个人画像、会员身份、人脸和个人轨迹风险，同时补齐第五个核心业务页面 | P2-I9 可以做 CP2 前端 Demo 收口和 P3 工程化骨架接力 |

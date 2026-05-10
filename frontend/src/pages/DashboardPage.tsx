@@ -1,18 +1,180 @@
-import { PageScaffold } from './PageScaffold';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { SummaryStrip } from '../components/SummaryStrip';
+import {
+  getAlertLevelLabel,
+  getAlertStatusLabel,
+  getAlertStatusTone,
+  getAlertTone,
+  getScoreLevelLabel,
+  getScoreTone,
+  StatusBadge
+} from '../components/StatusBadge';
+import { TrendSparkline } from '../components/TrendSparkline';
+import { mockAlerts, mockFloors, mockMall, mockOverview, mockStoresWithAlerts } from '../mock/index.ts';
+import { buildDashboardFloorTwinUrl, buildStoreAnalysisUrl, buildStoreAlertsUrl } from '../routes/demoFlow.ts';
+import { buildDashboardViewModel, getDashboardState } from './dashboardModel.ts';
+
+const dashboard = buildDashboardViewModel(mockOverview, mockStoresWithAlerts, mockAlerts, mockFloors);
+const dashboardState = getDashboardState(dashboard);
+
+const dashboardStateCopy = {
+  normal: '运行正常',
+  warning: '需要关注',
+  danger: '高危告警',
+  empty: '暂无数据'
+} as const;
+
+function formatTimeRange(timeRange: string) {
+  if (timeRange === 'today') {
+    return '今日';
+  }
+
+  if (timeRange === '7d') {
+    return '近 7 日';
+  }
+
+  return timeRange;
+}
 
 export function DashboardPage() {
+  const [params] = useSearchParams();
+  const location = useLocation();
+  const timeRange = params.get('timeRange') || 'today';
+  const floorId = params.get('floorId') || 'all';
+  const selectedFloor = floorId === 'all' ? undefined : mockFloors.find((floor) => floor.id === floorId);
+
   return (
-    <PageScaffold
-      title="运营总览"
-      description="快速判断全场客流、拥挤、低效店铺和高等级告警。"
-      primaryAction="刷新总览"
-      metrics={[
-        { label: '当前场内人数', value: '8,426', detail: '较上小时 +6.4%', status: 'info' },
-        { label: '今日累计客流', value: '42,180', detail: 'Mock 小时粒度', status: 'normal' },
-        { label: '拥挤楼层', value: '2', detail: 'F2、F4 需要关注', status: 'warning' },
-        { label: '未处理告警', value: '12', detail: '高危 3 条', status: 'danger' }
-      ]}
-      sections={['客流趋势占位', '楼层状态占位', '低效店铺榜占位', '实时告警摘要占位']}
-    />
+    <section className="page dashboard-page">
+      <header className="page-header dashboard-header">
+        <div>
+          <p className="page-kicker">运营总览 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <h1>运营总览</h1>
+          <p>
+            聚合 {mockMall.name} 的客流、拥挤、低效店铺和告警状态，所有数据均为虚构 Mock 数据。
+          </p>
+        </div>
+        <div className="dashboard-header__actions">
+          <StatusBadge label={dashboardStateCopy[dashboardState]} tone={dashboardState === 'empty' ? 'neutral' : dashboardState} />
+          <button className="primary-button" type="button">
+            刷新总览
+          </button>
+        </div>
+      </header>
+
+      <div className="filter-bar" aria-label="运营总览筛选摘要">
+        <span>商场：{mockMall.name}</span>
+        <span>时间：{formatTimeRange(timeRange)}</span>
+        <span>楼层：{selectedFloor?.name ?? '全部楼层'}</span>
+        <span>数据源：Mock</span>
+        <span>最近更新：{new Date(mockOverview.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</span>
+      </div>
+
+      <SummaryStrip metrics={dashboard.metrics} />
+
+      <div className="dashboard-grid">
+        <section className="dashboard-panel dashboard-panel--wide" aria-labelledby="traffic-trend-title">
+          <div className="panel-heading">
+            <div>
+              <h2 id="traffic-trend-title">客流趋势</h2>
+              <p>小时粒度，展示当前场内人数与新增客流趋势。</p>
+            </div>
+            <StatusBadge label="Mock / 小时" tone="info" />
+          </div>
+          <TrendSparkline points={dashboard.trafficTrend} />
+          <p className="chart-readable-summary">
+            当前趋势峰值来自 {dashboard.busiestFloor?.floorName ?? '暂无楼层'}，最高拥挤指数 {dashboard.busiestFloor?.crowdingIndex.toFixed(2) ?? '-'}。
+          </p>
+        </section>
+
+        <section className="dashboard-panel" aria-labelledby="floor-status-title">
+          <div className="panel-heading">
+            <div>
+              <h2 id="floor-status-title">楼层状态</h2>
+              <p>按拥挤指数排序，点击进入数字孪生。</p>
+            </div>
+          </div>
+          <div className="floor-list">
+            {dashboard.floorSummaries.map((floor) => (
+              <Link
+                className="floor-row"
+                key={floor.floorId}
+                to={buildDashboardFloorTwinUrl(floor.floorId, location.search)}
+              >
+                <span className="floor-row__name">{floor.floorName}</span>
+                <span className="floor-row__meta">{floor.traffic.toLocaleString('zh-CN')} 人次</span>
+                <span className="floor-row__bar" aria-hidden="true">
+                  <span style={{ width: `${Math.min(floor.crowdingIndex * 82, 100)}%` }} />
+                </span>
+                <span className="floor-row__status">
+                  拥挤 {floor.crowdingIndex.toFixed(2)} · 告警 {floor.alertCount}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="dashboard-panel dashboard-panel--wide" aria-labelledby="inefficient-stores-title">
+          <div className="panel-heading">
+            <div>
+              <h2 id="inefficient-stores-title">低效店铺榜</h2>
+              <p>仅展示 C/D 级或明确关注店铺，作为招商和运营巡检入口。</p>
+            </div>
+          </div>
+          <div className="data-table" role="table" aria-label="低效店铺榜">
+            <div className="data-table__row data-table__row--head" role="row">
+              <span role="columnheader">店铺</span>
+              <span role="columnheader">楼层 / 业态</span>
+              <span role="columnheader">评分</span>
+              <span role="columnheader">转化</span>
+              <span role="columnheader">原因</span>
+            </div>
+            {dashboard.inefficientStores.map((store) => (
+              <Link
+                className="data-table__row"
+                key={store.id}
+                role="row"
+                to={buildStoreAnalysisUrl({ storeId: store.id }, location.search)}
+              >
+                <span role="cell">{store.name}</span>
+                <span role="cell">{store.floorName} / {store.category}</span>
+                <span role="cell">
+                  <StatusBadge label={`${store.score} 分 · ${getScoreLevelLabel(store.level)}`} tone={getScoreTone(store.level)} />
+                </span>
+                <span role="cell">{store.conversionRate}%</span>
+                <span role="cell">{store.reason}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="dashboard-panel" aria-labelledby="alerts-title">
+          <div className="panel-heading">
+            <div>
+              <h2 id="alerts-title">告警摘要</h2>
+              <p>高等级和未处理告警优先处理。</p>
+            </div>
+          </div>
+          <div className="alert-list">
+            {dashboard.alerts.map((alert) => (
+              <Link
+                className="alert-item"
+                key={alert.id}
+                to={buildStoreAlertsUrl({ alertId: alert.id }, location.search)}
+              >
+                <div className="alert-item__topline">
+                  <strong>{alert.title}</strong>
+                  <span className="alert-item__badges">
+                    <StatusBadge label={`${getAlertLevelLabel(alert.level)}风险`} tone={getAlertTone(alert.level)} />
+                    <StatusBadge label={getAlertStatusLabel(alert.status)} tone={getAlertStatusTone(alert.status)} />
+                  </span>
+                </div>
+                <p>{alert.floorName} · {alert.storeName} · 已持续 {alert.durationMinutes} 分钟</p>
+                <span>{alert.suggestedAction}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+    </section>
   );
 }

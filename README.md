@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化和 P2-I2 Mock 数据与共享类型：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据和数据边界测试。尚未开始后端、AI 视频服务或部署工程编码。
+当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨和 P2-I8 客群画像页面：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务或部署工程编码。
 
 ## 文档入口
 
@@ -88,7 +88,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 ## 当前下一步
 
-下一步应执行 `P2-I3`，实现 `/dashboard` 运营总览页面。
+下一步应执行 `P2-I9`，做 CP2 前端 Demo 收口和交接。
 
 给 AI 的指令：
 
@@ -96,7 +96,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 请进行下一步
 ```
 
-AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P2-I3`：运营总览页面。P2-I3 只实现 `/dashboard` 所需的页面内容、轻量组件和测试；不要创建后端、AI 视频服务或部署工程，不接真实 API、真实视频或真实商场素材。
+AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P2-I9`：CP2 前端 Demo 收口和交接。P2-I9 只做五个核心页面的演示路径、检查说明、测试报告摘要和下一阶段接力；不要创建后端、AI 视频服务或部署工程，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。
 
 ## 当前检查方法
 
@@ -127,12 +127,22 @@ test -f frontend/src/components/AppShell.tsx
 test -f frontend/src/types/domain.ts
 test -f frontend/src/mock/mockOverview.ts
 test -f frontend/src/mock/mockData.test.ts
+test -f frontend/src/pages/DashboardPage.tsx
+test -f frontend/src/pages/DashboardPage.test.ts
+test -f frontend/src/pages/StoreAnalysisPage.tsx
+test -f frontend/src/pages/StoreAnalysisPage.test.ts
+test -f frontend/src/pages/StoreAlertsPage.tsx
+test -f frontend/src/pages/StoreAlertsPage.test.ts
+test -f frontend/src/pages/DigitalTwinPage.tsx
+test -f frontend/src/pages/DigitalTwinPage.test.ts
+test -f frontend/src/routes/demoFlow.test.ts
+test -f frontend/src/styles/responsiveChecks.test.ts
 test -f context/TODO_NEXT.md
 test -f skills/mall-vision-ai-delivery/SKILL.md
 test -f skills/mall-vision-ai-delivery/agents/openai.yaml
 test -f slides/project-intro.typ
 test -f slides/slide.pdf
-rg -n "P2-I3|operations overview dashboard|运营总览|/dashboard|MetricCard|SummaryStrip" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
+rg -n "P2-I9|CP2|frontend demo closure|阶段收口|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
 cd frontend
 npm run lint
 npm run test

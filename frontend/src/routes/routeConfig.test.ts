@@ -12,3 +12,10 @@ test('keeps mallId and timeRange when switching routes', () => {
 test('falls back to demo defaults when query params are missing', () => {
   assert.deepEqual(getGlobalQuery(''), { mallId: 'M_DEMO', timeRange: 'today' });
 });
+
+test('merges route-specific query params with global query params', () => {
+  assert.equal(
+    buildRouteWithGlobalQuery('/digital-twin?floorId=F2&mode=heatmap', '?mallId=M_DEMO&timeRange=today'),
+    '/digital-twin?floorId=F2&mode=heatmap&mallId=M_DEMO&timeRange=today'
+  );
+});

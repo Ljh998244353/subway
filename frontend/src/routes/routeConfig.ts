@@ -28,7 +28,12 @@ export function getGlobalQuery(search: string) {
 
 export function buildRouteWithGlobalQuery(path: string, search: string) {
   const query = getGlobalQuery(search);
-  const params = new URLSearchParams(query);
+  const [pathname, routeSearch = ''] = path.split('?');
+  const params = new URLSearchParams(routeSearch);
 
-  return `${path}?${params.toString()}`;
+  Object.entries(query).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+
+  return `${pathname}?${params.toString()}`;
 }

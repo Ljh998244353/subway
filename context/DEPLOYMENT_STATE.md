@@ -39,4 +39,4 @@ worker or scheduler
 
 ## 下一步
 
-P2-I3 只实现前端 `/dashboard` 页面，不创建 `infra/` 或 Docker Compose。P3 创建工程化骨架和部署草案；P11 完成部署与观测。
+P2-I9 只做前端 Demo 收口和交接，不创建 `infra/` 或 Docker Compose。P3 创建工程化骨架和部署草案；P11 完成部署与观测。

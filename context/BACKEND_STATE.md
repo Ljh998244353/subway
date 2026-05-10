@@ -32,4 +32,4 @@ AI must not execute sudo; human runs sudo or system-level setup commands
 
 ## 下一步
 
-P2-I3 只实现前端 `/dashboard` 运营总览页面，不创建 `backend/`。P4 开始后端 API 与数据模型实现；进入后端开发时必须重新创建 Python 虚拟环境，并继续使用 MySQL。
+P2-I9 只做前端 Demo 收口和交接，不创建 `backend/`。P4 开始后端 API 与数据模型实现；进入后端开发时必须重新创建 Python 虚拟环境，并继续使用 MySQL。

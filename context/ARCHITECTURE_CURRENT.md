@@ -4,7 +4,7 @@
 
 ## 当前架构状态
 
-P0 已完成系统设计初稿，详见 `docs/SYSTEM_DESIGN.md`。P1 设计规范阶段已完成：页面范围和信息架构见 `docs/design/SCREEN_LAYOUTS.md`，设计 token 和布局规则见 `docs/design/DESIGN_TOKENS.md` 与 `docs/design/UI_SPEC.md`，组件、图表和 UI 状态规范见 `docs/design/COMPONENT_SPEC.md` 与 `docs/design/CHART_SPEC.md`，交互、响应式、可访问性和设计评审见 `docs/design/INTERACTION_SPEC.md` 与 `docs/design/DESIGN_REVIEW_CHECKLIST.md`。P2-I1 已创建 `frontend/` React + TypeScript + Vite 工程骨架，P2-I2 已补充共享类型与虚构 Mock 数据。下一步开始实现第一个业务页面 `/dashboard`。
+P0 已完成系统设计初稿，详见 `docs/SYSTEM_DESIGN.md`。P1 设计规范阶段已完成：页面范围和信息架构见 `docs/design/SCREEN_LAYOUTS.md`，设计 token 和布局规则见 `docs/design/DESIGN_TOKENS.md` 与 `docs/design/UI_SPEC.md`，组件、图表和 UI 状态规范见 `docs/design/COMPONENT_SPEC.md` 与 `docs/design/CHART_SPEC.md`，交互、响应式、可访问性和设计评审见 `docs/design/INTERACTION_SPEC.md` 与 `docs/design/DESIGN_REVIEW_CHECKLIST.md`。P2-I1 已创建 `frontend/` React + TypeScript + Vite 工程骨架，P2-I2 已补充共享类型与虚构 Mock 数据，P2-I3 已完成 `/dashboard`，P2-I4 已完成 `/store-analysis`，P2-I5 已完成 `/store-alerts`，P2-I6 已完成 `/digital-twin`，P2-I7 已完成核心演示流转和响应式检查，P2-I8 已完成 `/customer-profile` 客群画像页面。下一步做 CP2 前端 Demo 收口和交接。
 
 ## 技术栈草案
 
@@ -57,4 +57,4 @@ AI must pause and ask the human to run any sudo or system-level command
 
 ## 下一步架构工作
 
-P2-I3 先实现 `/dashboard` 运营总览页面，继续使用 `frontend/src/mock` 和 `frontend/src/types`。P3 再落整体工程化骨架；P4 再固化 API、数据模型和迁移。
+P2-I9 不改变 API 或数据模型边界，只整理前端 Demo 阶段交接。P3 再落整体工程化骨架；P4 再固化 API、数据模型和迁移。
