@@ -1,13 +1,13 @@
-# AI 分阶段开发计划
+# AI 增量迭代开发计划
 
-这份文档是面向“单个 AI 分阶段开发”的详细交付规范。它把项目拆成可恢复、可测试、可验收的阶段，让一个 AI 在不同时刻扮演不同角色顺序推进，避免长周期开发中丢失上下文、重复造轮子或交付不可运行的代码。
+这份文档是面向“单个 AI 增量迭代开发”的详细交付规范。`P0` 到 `P12` 是长期路线图，不是一次性瀑布式任务；实际开发必须拆成 `P0-I1`、`P0-I2` 这类小增量逐步推进。每个增量都要可恢复、可检查、可测试或明确测试缺口，并能给下一个 AI 留出清晰接力点。
 
 核心策略：
 
 1. 先做前端 Demo，尽快形成可演示价值。
 2. 再补工程化、后端 API、数据库、测试和部署。
 3. 再接入 AI 视频识别、经营评分、热力动线和 3D 数字孪生。
-4. 每个阶段都更新 `/context` 恢复包。
+4. 每个增量都更新 `/context` 恢复包或明确还未创建的原因。
 5. 所有代码都必须经过自动化测试、许可证检查和交付门禁。
 
 项目专用 AI skill 已放在：
@@ -17,6 +17,8 @@ skills/mall-vision-ai-delivery/SKILL.md
 ```
 
 后续让 AI 继续本项目时，建议显式要求使用该 skill。
+
+每次 AI 继续开发前，先读 `AGENT.md`；涉及非工程问题、付费工具、经济成本、版权、许可证、隐私或潜在侵权风险时，必须同步查看和更新 `IMPORTANT.md`。
 
 ---
 
@@ -28,9 +30,9 @@ skills/mall-vision-ai-delivery/SKILL.md
 
 | 优先级 | 原则 | 说明 |
 | --- | --- | --- |
-| P0 | 可恢复 | 任意新 AI 会话必须能从 `/context` 继续 |
+| P0 | 可恢复 | 任意新 AI 会话必须能从 `/context` 或当前文档继续 |
 | P0 | 可测试 | 新增功能必须有自动化测试或明确测试缺口 |
-| P0 | 可交付 | 每阶段必须能运行、能演示、能验收 |
+| P0 | 可交付 | 每个增量必须能运行、能检查、能演示或能验收 |
 | P0 | 免费合规 | 依赖、模型、图片、视频、字体必须有清晰许可 |
 | P1 | 可维护 | 代码结构、接口、数据模型必须稳定 |
 | P1 | 可扩展 | 在不牺牲交付质量的前提下支持后续扩展 |
@@ -43,31 +45,60 @@ skills/mall-vision-ai-delivery/SKILL.md
 不先做复杂招商推荐
 不先做多租户商业化 SaaS
 不先做完整高精 BIM 建模
+不引入付费开发工具、付费 SaaS、付费 API、付费模型或付费素材
 不使用来源不明的视频、图片、字体、地图或商场平面图
 不引入许可证义务不清晰的模型或代码
 不跳过测试直接标记完成
 ```
 
-### 1.3 阶段完成定义
+### 1.3 增量完成定义
 
-每个阶段完成时必须同时满足：
+每个增量完成时必须同时满足：
 
 ```text
-功能可运行
-测试可运行
+本次交付边界清晰
+功能可运行或文档可检查
+测试或检查可运行
 文档已更新
-/context 恢复包已更新
+PROGRESS.md 已更新
+/context 恢复包已更新或明确尚未进入创建时机
 新增依赖和素材许可证已记录
-已知风险和未完成事项已写入 TODO_NEXT.md
+非工程、法律侵权、隐私、许可证、经济成本风险已写入 IMPORTANT.md
+已知风险和下一增量已写入 TODO_NEXT.md 或 PROGRESS.md 推荐 prompt
 ```
 
 ---
 
-## 二、细化 Schedule
+## 二、路线图与增量模型
 
 总周期按可交付版本规划为约 23 周。若只做前端演示版，使用 2 到 3 周快速路径。
 
-### 2.1 总排期
+`P0` 到 `P12` 只表示路线图阶段。实际执行必须拆成更小的增量：
+
+```text
+P0-I1  项目边界与合规基线
+P0-I2  指标、用户故事与验收标准
+P0-I3  测试策略、质量门禁与许可证审计模板
+P0-I4  context 恢复包初始化与下一阶段计划
+P1-I1  信息架构与页面范围
+P2-I3  运营总览页面
+```
+
+每个增量都必须写清：
+
+```text
+增量编号
+主角色模式
+辅助检查角色
+本次小交付
+明确不做的范围
+可能修改的文件
+测试或检查命令
+非工程、法律侵权、隐私、许可证、经济成本风险
+给下一个 AI 的推荐 prompt
+```
+
+### 2.1 总路线图
 
 | 阶段 | 周期 | 名称 | 主要目标 | 阶段门禁 |
 | --- | --- | --- | --- | --- |
@@ -85,7 +116,41 @@ skills/mall-vision-ai-delivery/SKILL.md
 | P11 | 1 周 | 部署与观测 | Docker Compose、监控、日志、备份恢复 | CP11 |
 | P12 | 1 周 | 验收与移交 | 用户手册、测试报告、验收清单 | CP12 |
 
-### 2.2 前端 Demo 快速路径
+### 2.2 默认增量拆分
+
+P0 项目基线按以下增量执行：
+
+| 增量 | 主角色 | 目标 | 输出 |
+| --- | --- | --- | --- |
+| P0-I1 | Product Mode | 项目边界、目标用户、非目标范围、合规红线 | `docs/PRD_v1.md` 初稿、`context/PROJECT_STATE.md` 初稿、风险记录 |
+| P0-I2 | Product Mode | 用户故事、核心指标、验收标准 | `docs/USER_STORIES.md`、`docs/METRICS_DEFINITION.md`、`docs/ACCEPTANCE_CRITERIA.md` |
+| P0-I3 | QA Mode | 测试策略、质量门禁、许可证审计模板 | `docs/TEST_STRATEGY.md`、`docs/QUALITY_GATE.md`、`docs/LICENSE_AUDIT.md` |
+| P0-I4 | Product Mode | 恢复包补齐和 P1 接力 | `context/REQUIREMENTS_CURRENT.md`、`context/ARCHITECTURE_CURRENT.md`、`context/TEST_STATE.md`、`context/TODO_NEXT.md` |
+
+P1 设计规范按以下增量执行：
+
+| 增量 | 主角色 | 目标 | 输出 |
+| --- | --- | --- | --- |
+| P1-I1 | Design Mode | 信息架构和页面范围 | `docs/design/SCREEN_LAYOUTS.md` 初稿 |
+| P1-I2 | Design Mode | 设计 token 和布局规则 | `docs/design/DESIGN_TOKENS.md`、`docs/design/UI_SPEC.md` |
+| P1-I3 | Design Mode | 图表、组件和状态规范 | `docs/design/COMPONENT_SPEC.md`、`docs/design/CHART_SPEC.md` |
+| P1-I4 | Design Mode | 交互、响应式和可访问性检查 | `docs/design/INTERACTION_SPEC.md` 和设计检查清单 |
+
+P2 前端 Demo 按以下增量执行：
+
+| 增量 | 主角色 | 目标 | 输出 |
+| --- | --- | --- | --- |
+| P2-I1 | Frontend Mode | 前端工程初始化 | `frontend/`、基础路由、测试框架 |
+| P2-I2 | Frontend Mode | Mock 数据和共享类型 | `frontend/src/mock`、`frontend/src/types` |
+| P2-I3 | Frontend Mode | 运营总览页面 | `/dashboard` 和对应测试 |
+| P2-I4 | Frontend Mode | 店铺分析页面 | `/store-analysis` 和对应测试 |
+| P2-I5 | Frontend Mode | 低效预警页面 | `/store-alerts` 和对应测试 |
+| P2-I6 | Frontend Mode | 数字孪生 Demo 页面 | `/digital-twin` 和 2.5D/简易 3D 验证 |
+| P2-I7 | QA Mode | E2E、响应式和演示打磨 | Playwright、响应式检查、演示说明 |
+
+P3-P12 也必须按同样原则拆成小增量：一次只完成一个可运行或可检查的小闭环。
+
+### 2.3 前端 Demo 快速路径
 
 用于汇报或立项演示，目标是 2 到 3 周可见成果。
 
@@ -99,7 +164,7 @@ skills/mall-vision-ai-delivery/SKILL.md
 | D11-D12 | Playwright E2E、响应式、修复 | 测试报告、演示说明 |
 | D13-D15 | 打磨性能和上下文恢复包 | CP2，可继续接后端 |
 
-### 2.3 检查点文件
+### 2.4 检查点文件
 
 所有 CP 都必须更新 `/context`，缺失文件要补齐。
 
@@ -144,9 +209,9 @@ context/
 
 ### P0 项目基线与上下文恢复
 
-目标：让任何新 AI 会话都能理解项目边界。
+目标：让任何新 AI 会话都能理解项目边界。P0 必须按 P0-I1 到 P0-I4 增量执行，不要一次性把所有文档粗略生成完。
 
-任务：
+完整 P0 输出：
 
 ```text
 docs/PRD_v1.md
@@ -167,7 +232,17 @@ context/TODO_NEXT.md
 ```text
 核心指标已有定义
 一期范围和暂不实现范围已写清
+非工程、法律侵权、隐私、许可证、经济成本红线已写入 IMPORTANT.md
 所有后续阶段能从 TODO_NEXT.md 继续
+```
+
+默认执行顺序：
+
+```text
+P0-I1：项目边界、目标用户、非目标范围、合规红线
+P0-I2：用户故事、核心指标、验收标准
+P0-I3：测试策略、质量门禁、许可证审计模板
+P0-I4：context 恢复包初始化与 P1 接力
 ```
 
 ### P1 设计规范与信息架构
@@ -202,6 +277,15 @@ docs/design/CHART_SPEC.md
 所有图表有指标口径
 所有状态有空态、加载、错误、权限不足设计
 所有素材来源策略已写清
+```
+
+默认执行顺序：
+
+```text
+P1-I1：信息架构和页面范围
+P1-I2：设计 token 和布局规则
+P1-I3：图表、组件和状态规范
+P1-I4：交互、响应式和可访问性检查
 ```
 
 ### P2 前端 Demo MVP
@@ -253,6 +337,18 @@ mockHeatmap.ts
 mockTrajectory.ts
 mockCustomerProfile.ts
 mockAlerts.ts
+```
+
+默认执行顺序：
+
+```text
+P2-I1：前端工程初始化
+P2-I2：Mock 数据和共享类型
+P2-I3：运营总览页面
+P2-I4：店铺分析页面
+P2-I5：低效预警页面
+P2-I6：数字孪生 Demo 页面
+P2-I7：E2E、响应式和演示打磨
 ```
 
 Mock 覆盖：
@@ -949,42 +1045,54 @@ docs/LICENSE_AUDIT.md
 | P11 部署观测 | DevOps Mode | Backend、Frontend、QA |
 | P12 验收移交 | Product Mode | QA、DevOps、Security/License |
 
-### 5.4 每个任务的固定流程
+### 5.4 每个增量的固定流程
 
 AI 执行任何任务都必须按顺序做：
 
 ```text
 1. 恢复上下文
-   阅读 README.md、AI_Schedule.md 和 /context/*.md
-   重点阅读 PROGRESS.md、TODO_NEXT.md、TEST_STATE.md、DECISIONS_LOG.md
+   阅读 AGENT.md、README.md、AI_Schedule.md、PROGRESS.md、IMPORTANT.md 和 /context/*.md
+   重点阅读 TODO_NEXT.md、TEST_STATE.md、DECISIONS_LOG.md、RISKS_AND_ASSUMPTIONS.md
 
 2. 检查冲突
    如果需求、接口、数据模型或测试状态冲突，先输出冲突清单
 
-3. 选择本次角色模式
+3. 识别当前增量
+   优先 context/TODO_NEXT.md
+   其次 PROGRESS.md 的推荐 prompt
+   再其次选择最早未完成增量
+   如果 context 不存在且 P0 未完成，默认 P0-I1
+
+4. 自动选择本次角色模式
    只选一个主角色
    写明辅助检查角色
 
-4. 明确本次交付
+5. 明确本次交付
    写清本次要改哪些文件、完成哪些验收点、哪些不做
 
-5. 实现
+6. 风险预检
+   检查非工程、法律侵权、隐私、许可证、经济成本风险
+   发现风险时先更新 IMPORTANT.md
+
+7. 实现
    优先沿用现有架构和工具链
    不擅自替换技术栈
 
-6. 测试
+8. 测试
    新增或更新单元、集成、契约、E2E 或算法验证测试
    运行相关测试命令
 
-7. 许可证检查
-   新依赖、新素材、新模型必须更新 LICENSE_AUDIT
+9. 许可证检查
+   新依赖、新素材、新模型必须更新 THIRD_PARTY_NOTICES 和 LICENSE_AUDIT
+   付费工具、授权不明、隐私、侵权或经济成本风险必须更新 IMPORTANT.md
 
-8. 更新恢复包
+10. 更新恢复包
    更新 /context 中受影响文件
    更新 PROGRESS.md 的人类进度
+   在 PROGRESS.md 写入给人类复制使用的下一步 AI prompt
 
-9. 交付总结
-   列出修改文件、测试结果、风险、下一步
+11. 交付总结
+   列出当前增量、主角色、修改文件、测试结果、风险、下一增量
 ```
 
 ### 5.5 上下文恢复 Prompt 模板
@@ -997,50 +1105,57 @@ AI 执行任何任务都必须按顺序做：
 你现在继续开发“商业综合体视觉 AI 数字孪生运营系统”。
 
 请先阅读：
-1. README.md
-2. AI_Schedule.md
+1. AGENT.md
+2. README.md
 3. PROGRESS.md
-4. context/PROJECT_STATE.md
-5. context/REQUIREMENTS_CURRENT.md
-6. context/ARCHITECTURE_CURRENT.md
-7. context/API_CONTRACT_CURRENT.md
-8. context/DATA_MODEL_CURRENT.md
-9. context/FRONTEND_STATE.md
-10. context/BACKEND_STATE.md
-11. context/AI_ALGORITHM_STATE.md
-12. context/TEST_STATE.md
-13. context/DECISIONS_LOG.md
-14. context/RISKS_AND_ASSUMPTIONS.md
-15. context/TODO_NEXT.md
+4. AI_Schedule.md
+5. IMPORTANT.md
+6. context/PROJECT_STATE.md
+7. context/REQUIREMENTS_CURRENT.md
+8. context/ARCHITECTURE_CURRENT.md
+9. context/API_CONTRACT_CURRENT.md
+10. context/DATA_MODEL_CURRENT.md
+11. context/FRONTEND_STATE.md
+12. context/BACKEND_STATE.md
+13. context/AI_ALGORITHM_STATE.md
+14. context/TEST_STATE.md
+15. context/DECISIONS_LOG.md
+16. context/RISKS_AND_ASSUMPTIONS.md
+17. context/TODO_NEXT.md
 
 你的任务：
-[填写本次任务]
+[填写本次任务；如不填写，请自动从 PROGRESS.md 或 context/TODO_NEXT.md 选择下一增量]
 
 要求：
 1. 先总结当前项目状态
 2. 检查上下文冲突
-3. 选择一个主角色模式，不要假设多个 AI 并行
-4. 不重写已确认架构
-5. 不擅自修改接口契约和数据模型
-6. 所有新增代码必须有测试
-7. 新依赖和素材必须免费、开源、许可证清晰
-8. 阶段结束后更新 /context 恢复文件和 PROGRESS.md
-9. 如果无法测试或无法确认许可证，必须明确标记为阻塞或风险
+3. 自动识别当前增量并选择一个主角色模式，不要假设多个 AI 并行
+4. 明确本次小交付和不做范围
+5. 不重写已确认架构
+6. 不擅自修改接口契约和数据模型
+7. 所有新增代码必须有测试
+8. 不引入付费开发工具；新依赖和素材必须免费、开源、许可证清晰
+9. 发现非工程、法律侵权、隐私、许可证或经济成本风险时，先更新 IMPORTANT.md
+10. 增量结束后更新 /context 恢复文件和 PROGRESS.md
+11. 在 PROGRESS.md 写入推荐给人类复制使用的下一步 AI prompt
+12. 如果无法测试、无法确认许可证、可能侵权或涉及隐私，必须明确标记为阻塞或风险
 ```
 
 ### 5.6 单任务 Prompt 模板
 
 ```text
 你是本项目唯一使用的 AI。
-本次请进入 [角色模式]，例如 Product Mode / Frontend Mode / QA Mode。
+本次请自动选择一个主角色模式，例如 Product Mode / Frontend Mode / QA Mode。
 
 本次任务：
 [具体任务]
 
 输入上下文：
+- AGENT.md
 - README.md
 - AI_Schedule.md
 - PROGRESS.md
+- IMPORTANT.md
 - context/TODO_NEXT.md
 - context/TEST_STATE.md
 - 与任务相关的 context 文件
@@ -1051,8 +1166,10 @@ AI 执行任何任务都必须按顺序做：
 3. 所有新增代码必须有测试
 4. 所有测试必须可自动运行
 5. 新增依赖、模型、图片、视频、字体必须更新许可证记录
-6. 阶段结束必须更新 /context
-7. 发现冲突先停止并输出冲突清单
+6. 不引入付费开发工具；发现非工程、潜在侵权、授权不清、隐私或经济成本风险必须更新 IMPORTANT.md
+7. 增量结束必须更新 /context 和 PROGRESS.md
+8. PROGRESS.md 必须包含推荐给人类复制使用的下一步 AI prompt
+9. 发现冲突先停止并输出冲突清单
 
 输出：
 1. 修改文件列表
@@ -1061,7 +1178,7 @@ AI 执行任何任务都必须按顺序做：
 4. 许可证检查结果
 5. 风险和未完成事项
 6. 更新后的上下文恢复文件
-7. 更新后的 PROGRESS.md 摘要
+7. 更新后的 PROGRESS.md 摘要和下一步 prompt
 ```
 
 ### 5.7 单 AI 接力规则
@@ -1176,32 +1293,37 @@ TODO_NEXT.md 没有下一步
 ```text
 请使用 skills/mall-vision-ai-delivery/SKILL.md 作为工作规范。
 
-你是本项目唯一使用的 AI，需要按单 AI 角色模式开发“商业综合体视觉 AI 数字孪生运营系统”。
+你是本项目唯一使用的 AI，需要按单 AI 增量迭代模型开发“商业综合体视觉 AI 数字孪生运营系统”。
 
-当前第一阶段任务：
-进入 Product Mode，完成 P0 项目基线与上下文恢复。
+请先阅读：
+1. AGENT.md
+2. README.md
+3. PROGRESS.md
+4. AI_Schedule.md
+5. IMPORTANT.md
 
-请生成：
+当前第一增量任务：
+自动选择主角色。若没有 context，则进入 Product Mode，完成 P0-I1：项目边界、目标用户、非目标范围和合规红线。
+
+本次只生成或更新：
 1. docs/PRD_v1.md
-2. docs/USER_STORIES.md
-3. docs/ACCEPTANCE_CRITERIA.md
-4. docs/METRICS_DEFINITION.md
-5. docs/TEST_STRATEGY.md
-6. docs/QUALITY_GATE.md
-7. context/PROJECT_STATE.md
-8. context/REQUIREMENTS_CURRENT.md
-9. context/ARCHITECTURE_CURRENT.md
-10. context/TEST_STATE.md
-11. context/TODO_NEXT.md
+2. context/PROJECT_STATE.md
+3. context/RISKS_AND_ASSUMPTIONS.md
+4. context/TODO_NEXT.md
+5. PROGRESS.md
+6. IMPORTANT.md，如果发现新的非工程、法律侵权、隐私、许可证或经济成本风险
 
 要求：
 - 前端优先使用 React + TypeScript + Vite
 - 后端优先使用 FastAPI + PostgreSQL
 - AI 视频服务优先使用 Python + ONNXRuntime
+- 不引入付费开发工具、付费 SaaS、付费 API、付费模型或付费素材
 - 优先使用 MIT、Apache-2.0、BSD、ISC、CC0、CC-BY 等清晰许可证资源
 - 禁止使用来源不明或许可证不清晰的视频、图片、字体、模型和代码
 - 所有后续任务都必须更新上下文恢复包和 PROGRESS.md
-- 每次任务只选择一个主角色模式，其他角色只作为检查清单
+- 发现非工程、付费工具、经济成本、许可证、隐私或潜在侵权风险时必须更新 IMPORTANT.md
+- 每次任务只自动选择一个主角色模式，其他角色只作为检查清单
+- PROGRESS.md 必须写入推荐给人类复制使用的下一步 AI prompt
 - 输出必须结构化，能直接放入代码仓库
 ```
 
@@ -1212,10 +1334,15 @@ TODO_NEXT.md 没有下一步
 当前仓库还是规划阶段，主要交付物是：
 
 ```text
+AGENT.md
 README.md
 AI_Schedule.md
 PROGRESS.md
+IMPORTANT.md
+docs/THIRD_PARTY_NOTICES.md
 skills/mall-vision-ai-delivery/SKILL.md
+slides/project-intro.typ
+slides/slide.pdf
 ```
 
-下一步建议执行 P0，先创建 `docs/` 和 `context/`，不要直接进入编码。
+下一步建议执行 `P0-I1`，先创建项目边界和合规基线相关 `docs/` 与 `context/` 文件，不要直接进入编码。
