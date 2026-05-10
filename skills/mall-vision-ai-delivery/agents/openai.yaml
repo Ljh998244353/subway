@@ -1,4 +1,4 @@
 interface:
   display_name: "Mall Vision AI Delivery"
-  short_description: "单 AI 分阶段交付、角色模式、严格测试与许可证合规规范"
-  default_prompt: "Use $mall-vision-ai-delivery to continue the commercial mall visual AI digital twin project as a single AI using staged role modes, strict context recovery, testing, delivery, and license checks."
+  short_description: "单 AI 短指令接力、分阶段交付、测试与许可证合规规范"
+  default_prompt: "请进行下一步"

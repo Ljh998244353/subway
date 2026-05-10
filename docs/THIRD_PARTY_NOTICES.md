@@ -10,6 +10,8 @@ This file records third-party resources currently referenced by project delivera
 | Noto Sans CJK | https://github.com/notofonts/noto-cjk | System font | SIL Open Font License 1.1 | Recommended Chinese font for slide compilation | OFL generally permits use, modification, and redistribution under its terms | Preserve font license; do not sell font by itself | Allowed |
 | Inter | https://github.com/rsms/inter | System font | SIL Open Font License 1.1 | Recommended Latin UI font fallback for slide compilation | OFL generally permits use, modification, and redistribution under its terms | Preserve font license; do not sell font by itself | Allowed |
 | Roboto | https://github.com/googlefonts/roboto-2 | System font | Apache License 2.0 | Latin font fallback for slide compilation | Apache-2.0 generally permits commercial use with notice requirements | Preserve license and notice if distributing font files | Allowed |
+| Slidev | https://github.com/slidevjs/slidev | 52.15.1 | MIT | Markdown-based presentation framework for `slides/slidev` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| @slidev/theme-default | https://www.npmjs.com/package/@slidev/theme-default | 0.25.0 | MIT | Default Slidev theme used by `slides/slidev/slides.md` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 
 ## Blocked Until Reviewed
 

@@ -1,0 +1,15 @@
+{
+  "name": "mall-vision-ai-slidev",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev slides.md",
+    "dev:open": "slidev slides.md --open",
+    "build": "slidev build slides.md --out dist",
+    "export": "slidev export slides.md --output ../mall-vision-ai-feature-intro.pdf"
+  },
+  "devDependencies": {
+    "@slidev/cli": "52.15.1",
+    "@slidev/theme-default": "0.25.0"
+  }
+}

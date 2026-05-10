@@ -49,6 +49,41 @@ If `/context` is missing, use `AGENT.md`, `PROGRESS.md`, `AI_Schedule.md`, and `
 
 If documents conflict, stop implementation and list the conflicts before changing requirements, architecture, contracts, data models, risk decisions, or phase status.
 
+## Human Handoff Protocol
+
+The human should only need to review results and type a short continuation command such as:
+
+```text
+请进行下一步
+继续
+下一步
+```
+
+When receiving a short continuation command, do not ask the human to paste a detailed prompt. Automatically recover the next task from repository files:
+
+1. Read the required files.
+2. Prefer `context/TODO_NEXT.md` when it exists.
+3. Otherwise parse the next-task handoff, incomplete phase, and risk notes in `PROGRESS.md`.
+4. If `PROGRESS.md` is incomplete, infer the earliest unfinished increment from the roadmap and current files.
+5. Execute exactly one coherent next increment unless the continuation file explicitly recommends a bounded batch.
+
+The AI owns the full increment lifecycle for each continuation:
+
+```text
+context recovery
+scope confirmation
+risk review
+implementation or documentation
+tests and checks
+PROGRESS.md update
+affected context/*.md update
+IMPORTANT.md risk update when needed
+third-party/license records when needed
+next-step handoff text
+```
+
+The human role is limited to reviewing the result, raising corrections, and typing the next continuation command. Every completed increment must leave `PROGRESS.md` and, when present, `context/TODO_NEXT.md` sufficient for the next AI session to continue from only `请进行下一步`.
+
 ## Increment Model
 
 Treat `P0` through `P12` as a roadmap. Execute the roadmap through small increments named like:
@@ -85,7 +120,7 @@ Select exactly one primary role mode using this precedence. Use other modes only
 
 ```text
 Product Mode:
-  requirements, scope, user stories, metrics, acceptance criteria, progress prompts
+  requirements, scope, user stories, metrics, acceptance criteria, progress handoffs
 
 Architect Mode:
   architecture, module boundaries, API contracts, data flow, data model decisions
@@ -147,10 +182,11 @@ README/PROGRESS/AGENT workflow update -> Product Mode
 Choose the current increment this way:
 
 1. If the user names an increment, use it.
-2. Else if `context/TODO_NEXT.md` exists, use its next recommended increment.
-3. Else if `PROGRESS.md` contains a recommended AI prompt, follow that prompt.
-4. Else infer the earliest incomplete increment from `PROGRESS.md`.
-5. If no context files exist and P0 is incomplete, start with `P0-I1`.
+2. Else if the user says `请进行下一步`, `继续`, `下一步`, or similar, enter Human Handoff Protocol.
+3. Else if `context/TODO_NEXT.md` exists, use its next recommended increment.
+4. Else if `PROGRESS.md` contains a next-task handoff, follow it.
+5. Else infer the earliest incomplete increment from `PROGRESS.md`.
+6. If no context files exist and P0 is incomplete, start with `P0-I1`.
 
 Default P0 breakdown:
 
@@ -198,7 +234,7 @@ For every task, execute this sequence:
 8. Add or update tests/checks at the right level.
 9. Run relevant commands.
 10. Update affected `/context` files when they exist or when the increment creates them.
-11. Update human-readable `PROGRESS.md`, including the recommended prompt for the next AI task.
+11. Update human-readable `PROGRESS.md`, including a short continuation command and enough detail for AI to infer the next task automatically.
 12. Update `docs/THIRD_PARTY_NOTICES.md` and `docs/LICENSE_AUDIT.md` for new dependencies, models, media, fonts, icons, datasets, copied code, or external services.
 13. Finalize with changed files, test results, risk updates, and next increment.
 
@@ -352,7 +388,7 @@ current increment and primary role are stated
 README or relevant docs still match the implementation
 /context files reflect the new state when present or created
 PROGRESS.md reflects the human-readable current state
-PROGRESS.md includes a recommended next prompt for humans to copy
+PROGRESS.md includes the short human continuation command and enough AI-readable next-task context
 IMPORTANT.md reflects new non-engineering/legal/IP/privacy/license/cost risks
 tests/checks were run or a test gap is explicitly recorded
 commands and results are reported

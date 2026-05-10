@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库处于开发前准备阶段：已有规划文档、项目 skill、第三方声明和汇报稿，尚未开始前端、后端、AI 视频服务或部署工程编码。
+当前仓库已完成 P0 项目基线：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明和汇报稿，尚未开始前端、后端、AI 视频服务或部署工程编码。
 
 ## 文档入口
 
@@ -12,12 +12,16 @@
 | [AI_Schedule.md](AI_Schedule.md) | AI | P0-P12 路线图、增量拆分、角色模式、技术栈、测试门禁和许可证规则 |
 | [PROGRESS.md](PROGRESS.md) | 人类 | 当前进度、已完成事项、下一步、当前风险和检查命令 |
 | [IMPORTANT.md](IMPORTANT.md) | AI / 人类 | 非工程问题、付费工具、经济成本、版权、许可证、隐私和潜在侵权风险重点批注 |
+| [docs/PRD_v1.md](docs/PRD_v1.md) | AI / 人类 | P0 产品需求基线 |
+| [docs/REQUIREMENTS_ANALYSIS.md](docs/REQUIREMENTS_ANALYSIS.md) | AI / 人类 | 需求分析、需求分层、功能和非功能需求 |
+| [docs/SYSTEM_DESIGN.md](docs/SYSTEM_DESIGN.md) | AI / 人类 | 系统架构、模块、数据流、API 草案和部署草案 |
 | [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) | AI / 人类 | 当前已引用第三方工具、字体、素材或包的许可证记录 |
+| [context/TODO_NEXT.md](context/TODO_NEXT.md) | AI | 下一步增量和短指令接力信息 |
 | [skills/mall-vision-ai-delivery/SKILL.md](skills/mall-vision-ai-delivery/SKILL.md) | Codex | 本项目专用单 AI 增量迭代开发工作流 |
 | [slides/project-intro.typ](slides/project-intro.typ) | 人类 | 课程或汇报用 Typst 演示稿源码 |
 | [slides/slide.pdf](slides/slide.pdf) | 人类 | 已生成的项目介绍 PDF |
 
-P0 完成后，会新增 `context/` 恢复包。之后每次继续开发都应先读 `AGENT.md` 和 `context/TODO_NEXT.md`。
+P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人类只需输入“请进行下一步”；AI 应先读 `AGENT.md`、`PROGRESS.md` 和 `context/TODO_NEXT.md`，自动判断当前增量。
 
 ## 项目范围
 
@@ -34,6 +38,8 @@ P0 完成后，会新增 `context/` 恢复包。之后每次继续开发都应�
 ## 开发模式
 
 本项目采用单 AI 增量迭代开发模式。`P0` 到 `P12` 是长期路线图，实际执行必须拆成 `P0-I1`、`P0-I2` 这类小增量；每个增量由 AI 自动选择一个主角色模式，其他角色仅作为检查清单使用，避免并行拆分造成上下文分裂和接口冲突。
+
+人类参与方式固定为：检查 AI 交付结果，提出必要修正；确认继续时只输入“请进行下一步”。AI 每次必须自动从 `PROGRESS.md` 和 `context/TODO_NEXT.md` 找到下一任务，并完成开发、测试、文档、context、风险和许可证记录更新。
 
 | 阶段 | 主角色 | 目标 |
 | --- | --- | --- |
@@ -65,27 +71,15 @@ P0 完成后，会新增 `context/` 恢复包。之后每次继续开发都应�
 
 ## 当前下一步
 
-下一步应执行 `P0-I1`，不要直接开始写前端或后端。
+下一步应执行 `P1-I1`，创建信息架构与页面范围文档，不要直接开始写前端或后端。
 
-建议给 AI 的 prompt：
+给 AI 的指令：
 
 ```text
-请使用 $mall-vision-ai-delivery。
-
-先阅读 AGENT.md、README.md、PROGRESS.md、AI_Schedule.md、IMPORTANT.md。
-本次按单 AI 增量迭代模型继续。请自动识别当前增量；如果没有 context，则进入 Product Mode，执行 P0-I1 项目边界与合规基线。
-
-只创建或更新：
-- docs/PRD_v1.md
-- context/PROJECT_STATE.md
-- context/RISKS_AND_ASSUMPTIONS.md
-- context/TODO_NEXT.md
-- PROGRESS.md
-- IMPORTANT.md，如果发现新的非工程、法律侵权、隐私、许可证或经济成本风险
-
-不要写前端、后端、AI 视频服务或部署工程。
-完成后运行文档/结构检查，更新 PROGRESS.md，并在 PROGRESS.md 写入推荐给人类复制使用的下一步 AI prompt。
+请进行下一步
 ```
+
+AI 收到后必须自动读取项目文档和 `context/TODO_NEXT.md`，执行 `P1-I1`：信息架构与页面范围。本次只创建设计文档，不写前端、后端、AI 视频服务或部署工程。
 
 ## 当前检查方法
 
@@ -98,11 +92,16 @@ test -f AI_Schedule.md
 test -f PROGRESS.md
 test -f IMPORTANT.md
 test -f docs/THIRD_PARTY_NOTICES.md
+test -f docs/PRD_v1.md
+test -f docs/REQUIREMENTS_ANALYSIS.md
+test -f docs/SYSTEM_DESIGN.md
+test -f docs/LICENSE_AUDIT.md
+test -f context/TODO_NEXT.md
 test -f skills/mall-vision-ai-delivery/SKILL.md
 test -f skills/mall-vision-ai-delivery/agents/openai.yaml
 test -f slides/project-intro.typ
 test -f slides/slide.pdf
-rg -n "增量|P0-I1|自动选择|测试与质量门禁|开源资源|版权规范" AI_Schedule.md
+rg -n "P1-I1|请进行下一步|SCREEN_LAYOUTS|信息架构|页面范围" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
 ```
 
 ## 免责声明

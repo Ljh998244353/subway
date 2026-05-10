@@ -1,6 +1,6 @@
 # AI 增量迭代开发计划
 
-这份文档是面向“单个 AI 增量迭代开发”的详细交付规范。`P0` 到 `P12` 是长期路线图，不是一次性瀑布式任务；实际开发必须拆成 `P0-I1`、`P0-I2` 这类小增量逐步推进。每个增量都要可恢复、可检查、可测试或明确测试缺口，并能给下一个 AI 留出清晰接力点。
+这份文档是面向“单个 AI 增量迭代开发”的详细交付规范。`P0` 到 `P12` 是长期路线图，不是一次性瀑布式任务；实际开发必须拆成 `P0-I1`、`P0-I2` 这类小增量逐步推进。每个增量都要可恢复、可检查、可测试或明确测试缺口，并能让下一个 AI 在人类只输入“请进行下一步”时自动接力。
 
 核心策略：
 
@@ -9,6 +9,7 @@
 3. 再接入 AI 视频识别、经营评分、热力动线和 3D 数字孪生。
 4. 每个增量都更新 `/context` 恢复包或明确还未创建的原因。
 5. 所有代码都必须经过自动化测试、许可证检查和交付门禁。
+6. 人类只负责检查结果和输入“请进行下一步”；AI 自动从 `PROGRESS.md` 和 `context/TODO_NEXT.md` 找到下一任务，并完成开发、测试、文档、context 和风险记录。
 
 项目专用 AI skill 已放在：
 
@@ -16,7 +17,7 @@
 skills/mall-vision-ai-delivery/SKILL.md
 ```
 
-后续让 AI 继续本项目时，建议显式要求使用该 skill。
+后续让 AI 继续本项目时，人类只需输入“请进行下一步”。AI 必须按该 skill 自动恢复上下文、识别下一增量并执行完整闭环。
 
 每次 AI 继续开发前，先读 `AGENT.md`；涉及非工程问题、付费工具、经济成本、版权、许可证、隐私或潜在侵权风险时，必须同步查看和更新 `IMPORTANT.md`。
 
@@ -64,7 +65,8 @@ PROGRESS.md 已更新
 /context 恢复包已更新或明确尚未进入创建时机
 新增依赖和素材许可证已记录
 非工程、法律侵权、隐私、许可证、经济成本风险已写入 IMPORTANT.md
-已知风险和下一增量已写入 TODO_NEXT.md 或 PROGRESS.md 推荐 prompt
+已知风险和下一增量已写入 TODO_NEXT.md 或 PROGRESS.md 接力信息
+PROGRESS.md 足以支持人类下一次只输入“请进行下一步”
 ```
 
 ---
@@ -95,7 +97,7 @@ P2-I3  运营总览页面
 可能修改的文件
 测试或检查命令
 非工程、法律侵权、隐私、许可证、经济成本风险
-给下一个 AI 的推荐 prompt
+给下一个 AI 的接力信息
 ```
 
 ### 2.1 总路线图
@@ -201,7 +203,7 @@ context/
 | DEPLOYMENT_STATE.md | 环境变量、启动方式、镜像、监控、备份 |
 | DECISIONS_LOG.md | 已确认决策、日期、原因、影响 |
 | RISKS_AND_ASSUMPTIONS.md | 假设、风险、缓解措施、负责人或下一动作 |
-| TODO_NEXT.md | 下一阶段 P0/P1/P2、禁止修改项、推荐恢复 prompt |
+| TODO_NEXT.md | 下一阶段 P0/P1/P2、禁止修改项、AI 可自动读取的下一步接力信息 |
 
 ---
 
@@ -1059,7 +1061,7 @@ AI 执行任何任务都必须按顺序做：
 
 3. 识别当前增量
    优先 context/TODO_NEXT.md
-   其次 PROGRESS.md 的推荐 prompt
+   其次 PROGRESS.md 的下一步和未完成事项
    再其次选择最早未完成增量
    如果 context 不存在且 P0 未完成，默认 P0-I1
 
@@ -1089,22 +1091,23 @@ AI 执行任何任务都必须按顺序做：
 10. 更新恢复包
    更新 /context 中受影响文件
    更新 PROGRESS.md 的人类进度
-   在 PROGRESS.md 写入给人类复制使用的下一步 AI prompt
+   在 PROGRESS.md 写入下一步接力信息，并明确人类只需输入“请进行下一步”
 
 11. 交付总结
    列出当前增量、主角色、修改文件、测试结果、风险、下一增量
 ```
 
-### 5.5 上下文恢复 Prompt 模板
+### 5.5 短指令上下文恢复规则
 
-新对话开始时使用：
+新对话开始时，人类只需要输入：
 
 ```text
-请使用 skills/mall-vision-ai-delivery/SKILL.md 作为本项目工作规范。
+请进行下一步
+```
 
-你现在继续开发“商业综合体视觉 AI 数字孪生运营系统”。
+AI 收到短指令后，不要求人类复制长 prompt，必须自动执行以下恢复流程：
 
-请先阅读：
+```text
 1. AGENT.md
 2. README.md
 3. PROGRESS.md
@@ -1122,63 +1125,43 @@ AI 执行任何任务都必须按顺序做：
 15. context/DECISIONS_LOG.md
 16. context/RISKS_AND_ASSUMPTIONS.md
 17. context/TODO_NEXT.md
-
-你的任务：
-[填写本次任务；如不填写，请自动从 PROGRESS.md 或 context/TODO_NEXT.md 选择下一增量]
-
-要求：
-1. 先总结当前项目状态
-2. 检查上下文冲突
-3. 自动识别当前增量并选择一个主角色模式，不要假设多个 AI 并行
-4. 明确本次小交付和不做范围
-5. 不重写已确认架构
-6. 不擅自修改接口契约和数据模型
-7. 所有新增代码必须有测试
-8. 不引入付费开发工具；新依赖和素材必须免费、开源、许可证清晰
-9. 发现非工程、法律侵权、隐私、许可证或经济成本风险时，先更新 IMPORTANT.md
-10. 增量结束后更新 /context 恢复文件和 PROGRESS.md
-11. 在 PROGRESS.md 写入推荐给人类复制使用的下一步 AI prompt
-12. 如果无法测试、无法确认许可证、可能侵权或涉及隐私，必须明确标记为阻塞或风险
 ```
 
-### 5.6 单任务 Prompt 模板
+恢复后必须：
 
 ```text
-你是本项目唯一使用的 AI。
-本次请自动选择一个主角色模式，例如 Product Mode / Frontend Mode / QA Mode。
+1. 先总结当前项目状态
+2. 检查上下文冲突
+3. 优先从 context/TODO_NEXT.md 找下一增量
+4. 其次从 PROGRESS.md 的下一步、未完成事项、风险和检查记录找下一增量
+5. 自动选择一个主角色模式，不假设多个 AI 并行
+6. 明确本次小交付和不做范围
+7. 不重写已确认架构
+8. 不擅自修改接口契约和数据模型
+9. 所有新增代码必须有测试
+10. 不引入付费开发工具；新依赖和素材必须免费、开源、许可证清晰
+11. 发现非工程、法律侵权、隐私、许可证或经济成本风险时，先更新 IMPORTANT.md
+12. 完成开发或文档产出后，运行相关测试或检查
+13. 增量结束后更新 /context 恢复文件和 PROGRESS.md
+14. 在 PROGRESS.md 写入下一步 AI 可读接力信息，并保留人类短指令“请进行下一步”
+15. 如果无法测试、无法确认许可证、可能侵权或涉及隐私，必须明确标记为阻塞或风险
+```
 
-本次任务：
-[具体任务]
+### 5.6 单任务补充规则
 
-输入上下文：
-- AGENT.md
-- README.md
-- AI_Schedule.md
-- PROGRESS.md
-- IMPORTANT.md
-- context/TODO_NEXT.md
-- context/TEST_STATE.md
-- 与任务相关的 context 文件
+当人类明确指定具体任务时，AI 仍然只选一个主角色模式，并完整完成本次增量闭环：
 
-约束：
-1. 不破坏已有接口契约
-2. 不修改已确认数据模型，除非先说明理由
-3. 所有新增代码必须有测试
-4. 所有测试必须可自动运行
-5. 新增依赖、模型、图片、视频、字体必须更新许可证记录
-6. 不引入付费开发工具；发现非工程、潜在侵权、授权不清、隐私或经济成本风险必须更新 IMPORTANT.md
-7. 增量结束必须更新 /context 和 PROGRESS.md
-8. PROGRESS.md 必须包含推荐给人类复制使用的下一步 AI prompt
-9. 发现冲突先停止并输出冲突清单
-
-输出：
-1. 修改文件列表
-2. 新增文件列表
-3. 测试命令和结果
-4. 许可证检查结果
-5. 风险和未完成事项
-6. 更新后的上下文恢复文件
-7. 更新后的 PROGRESS.md 摘要和下一步 prompt
+```text
+不破坏已有接口契约
+不修改已确认数据模型，除非先说明理由
+所有新增代码必须有测试
+所有测试必须可自动运行
+新增依赖、模型、图片、视频、字体必须更新许可证记录
+不引入付费开发工具
+发现非工程、潜在侵权、授权不清、隐私或经济成本风险必须更新 IMPORTANT.md
+增量结束必须更新 /context 和 PROGRESS.md
+PROGRESS.md 必须支持人类下一次只输入“请进行下一步”
+发现冲突先停止并输出冲突清单
 ```
 
 ### 5.7 单 AI 接力规则
@@ -1192,6 +1175,7 @@ AI 执行任何任务都必须按顺序做：
 接口变化必须同步 API_CONTRACT_CURRENT.md
 数据模型变化必须同步 DATA_MODEL_CURRENT.md
 面向人的进度变化必须同步 PROGRESS.md
+PROGRESS.md 和 TODO_NEXT.md 必须让 AI 能从“请进行下一步”自动恢复下一任务
 ```
 
 ---
@@ -1288,50 +1272,19 @@ TODO_NEXT.md 没有下一步
 
 ---
 
-## 七、首轮启动 Prompt
+## 七、当前续作指令
 
 ```text
-请使用 skills/mall-vision-ai-delivery/SKILL.md 作为工作规范。
-
-你是本项目唯一使用的 AI，需要按单 AI 增量迭代模型开发“商业综合体视觉 AI 数字孪生运营系统”。
-
-请先阅读：
-1. AGENT.md
-2. README.md
-3. PROGRESS.md
-4. AI_Schedule.md
-5. IMPORTANT.md
-
-当前第一增量任务：
-自动选择主角色。若没有 context，则进入 Product Mode，完成 P0-I1：项目边界、目标用户、非目标范围和合规红线。
-
-本次只生成或更新：
-1. docs/PRD_v1.md
-2. context/PROJECT_STATE.md
-3. context/RISKS_AND_ASSUMPTIONS.md
-4. context/TODO_NEXT.md
-5. PROGRESS.md
-6. IMPORTANT.md，如果发现新的非工程、法律侵权、隐私、许可证或经济成本风险
-
-要求：
-- 前端优先使用 React + TypeScript + Vite
-- 后端优先使用 FastAPI + PostgreSQL
-- AI 视频服务优先使用 Python + ONNXRuntime
-- 不引入付费开发工具、付费 SaaS、付费 API、付费模型或付费素材
-- 优先使用 MIT、Apache-2.0、BSD、ISC、CC0、CC-BY 等清晰许可证资源
-- 禁止使用来源不明或许可证不清晰的视频、图片、字体、模型和代码
-- 所有后续任务都必须更新上下文恢复包和 PROGRESS.md
-- 发现非工程、付费工具、经济成本、许可证、隐私或潜在侵权风险时必须更新 IMPORTANT.md
-- 每次任务只自动选择一个主角色模式，其他角色只作为检查清单
-- PROGRESS.md 必须写入推荐给人类复制使用的下一步 AI prompt
-- 输出必须结构化，能直接放入代码仓库
+请进行下一步
 ```
+
+AI 收到该指令后必须读取 `AGENT.md`、`README.md`、`PROGRESS.md`、`AI_Schedule.md`、`IMPORTANT.md` 和已存在的 `context/*.md`，自动识别当前应执行的增量。当前 P0 已完成，下一步以 `context/TODO_NEXT.md` 为准，进入 `P1-I1`：信息架构与页面范围。
 
 ---
 
 ## 八、当前仓库状态
 
-当前仓库还是规划阶段，主要交付物是：
+当前仓库已完成 P0 项目基线与上下文恢复，主要交付物是：
 
 ```text
 AGENT.md
@@ -1339,10 +1292,20 @@ README.md
 AI_Schedule.md
 PROGRESS.md
 IMPORTANT.md
+docs/PRD_v1.md
+docs/REQUIREMENTS_ANALYSIS.md
+docs/SYSTEM_DESIGN.md
+docs/USER_STORIES.md
+docs/ACCEPTANCE_CRITERIA.md
+docs/METRICS_DEFINITION.md
+docs/TEST_STRATEGY.md
+docs/QUALITY_GATE.md
+docs/LICENSE_AUDIT.md
 docs/THIRD_PARTY_NOTICES.md
+context/*.md
 skills/mall-vision-ai-delivery/SKILL.md
 slides/project-intro.typ
 slides/slide.pdf
 ```
 
-下一步建议执行 `P0-I1`，先创建项目边界和合规基线相关 `docs/` 与 `context/` 文件，不要直接进入编码。
+下一步建议执行 `P1-I1`，先创建信息架构和页面范围文档，不要直接进入编码。
