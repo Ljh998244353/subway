@@ -1,6 +1,6 @@
 # API Contract Current
 
-更新时间：2026-05-10
+更新时间：2026-05-11
 
 ## 当前状态
 
@@ -36,4 +36,4 @@ RBAC required after auth implementation
 
 ## 下一步
 
-P2-I9 只做前端 Demo 收口和交接，不固化真实 API，也不创建后端服务。P4 创建正式 OpenAPI 契约和 FastAPI 实现，路径继续使用 `/api/v1`。
+P3-I1 只做工程化骨架规划与质量门禁对齐，不固化真实 API，也不创建后端服务。P4 创建正式 OpenAPI 契约和 FastAPI 实现，路径继续使用 `/api/v1`。

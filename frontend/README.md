@@ -19,6 +19,7 @@ Business pages for /dashboard, /store-analysis, /store-alerts, and /digital-twin
 Customer profile page for anonymous aggregate time, floor, and category preferences
 Digital twin SVG floor plan with heatmap, flow, alert, and score modes
 Shared demo flow helpers and Node checks for cross-page query preservation
+CP2 demo readiness checks for five core routes, presentation paths, and privacy boundaries
 Responsive CSS checks for core demo layouts
 ```
 
@@ -50,3 +51,17 @@ npm run dev
 ```
 
 If any command asks for `sudo` or system package installation, stop and let the human execute that step.
+
+## CP2 Demo Paths
+
+Recommended presentation entry points:
+
+```text
+/dashboard?mallId=M_DEMO&timeRange=today
+/digital-twin?mallId=M_DEMO&timeRange=today&floorId=F2&mode=heatmap
+/store-analysis?mallId=M_DEMO&timeRange=today&storeId=S008
+/store-alerts?mallId=M_DEMO&timeRange=today&alertId=A0002
+/customer-profile?mallId=M_DEMO&timeRange=30d
+```
+
+For the full CP2 handoff checklist, see `../docs/FRONTEND_DEMO_HANDOFF.md`.

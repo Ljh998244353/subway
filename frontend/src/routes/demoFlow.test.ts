@@ -4,6 +4,7 @@ import { mockAlerts, mockStoresWithAlerts } from '../mock/index.ts';
 import {
   buildAlertTwinUrl,
   buildDemoCoreFlow,
+  buildDemoCustomerProfileFlow,
   buildStoreAlertsUrl,
   buildStoreScoreTwinUrl
 } from './demoFlow.ts';
@@ -67,4 +68,29 @@ test('omits optional empty route params while preserving global context', () => 
     buildStoreAlertsUrl({ floorId: 'F3' }, '?mallId=M_DEMO&timeRange=today&storeId=OLD_STORE'),
     '/store-alerts?floorId=F3&mallId=M_DEMO&timeRange=today'
   );
+});
+
+test('builds the customer profile demo branch without leaking unrelated filters', () => {
+  const flow = buildDemoCustomerProfileFlow(
+    { floorId: 'F2', category: '餐饮' },
+    '?mallId=M_DEMO&timeRange=30d&floorId=OLD_FLOOR&category=OLD_CATEGORY&storeId=OLD_STORE'
+  );
+
+  assert.deepEqual(flow.map((step) => step.id), ['customer-profile', 'digital-twin', 'store-analysis']);
+  assert.equal(flow[0].path, '/customer-profile?mallId=M_DEMO&timeRange=30d');
+
+  const twinParams = getParams(flow[1].path);
+  assert.equal(twinParams.get('floorId'), 'F2');
+  assert.equal(twinParams.get('mode'), 'flow');
+  assert.equal(twinParams.get('mallId'), 'M_DEMO');
+  assert.equal(twinParams.get('timeRange'), '30d');
+  assert.equal(twinParams.get('category'), null);
+  assert.equal(twinParams.get('storeId'), null);
+
+  const analysisParams = getParams(flow[2].path);
+  assert.equal(analysisParams.get('category'), '餐饮');
+  assert.equal(analysisParams.get('mallId'), 'M_DEMO');
+  assert.equal(analysisParams.get('timeRange'), '30d');
+  assert.equal(analysisParams.get('floorId'), null);
+  assert.equal(analysisParams.get('storeId'), null);
 });

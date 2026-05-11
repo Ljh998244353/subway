@@ -1,10 +1,10 @@
 # Project State
 
-更新时间：2026-05-10
+更新时间：2026-05-11
 
 ## 当前阶段
 
-当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面。项目处于 CP2 前端 Demo 收口前状态，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面；尚未进入后端、AI 服务或部署工程编码。
+当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接。项目已达到 CP2 前端 Demo 阶段收口状态，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查、`docs/FRONTEND_DEMO_HANDOFF.md`，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面；尚未进入后端、AI 服务或部署工程编码。
 
 ## 已完成
 
@@ -31,6 +31,7 @@ docs/design/COMPONENT_SPEC.md
 docs/design/CHART_SPEC.md
 docs/design/INTERACTION_SPEC.md
 docs/design/DESIGN_REVIEW_CHECKLIST.md
+docs/FRONTEND_DEMO_HANDOFF.md
 context/*.md
 skills/mall-vision-ai-delivery/SKILL.md
 slides/project-intro.typ
@@ -82,6 +83,7 @@ CI
 | P2-I6 数字孪生 | `/digital-twin` 已使用 Mock 数据展示自绘楼层平面、热力、动线、告警、评分、店铺选中和空间检查器 |
 | P2-I7 QA 打磨 | 已补核心演示流转 helper、query 测试、响应式 CSS 检查和防溢出样式 |
 | P2-I8 客群画像 | `/customer-profile` 已使用 Mock 数据展示匿名聚合画像摘要、时段分布、楼层偏好、业态偏好和隐私口径 |
+| P2-I9 CP2 收口 | 已补前端 Demo 交接文档、客群画像演示分支 helper、CP2 演示就绪测试、测试报告摘要和 P3 接力 |
 | 真实素材 | 未授权真实素材禁用 |
 | 前端建议 | React + TypeScript + Vite |
 | 后端建议 | FastAPI + MySQL |
@@ -92,4 +94,4 @@ CI
 
 ## 下一目标
 
-进入 P2-I9：CP2 前端 Demo 收口和交接。只做五个核心页面的演示路径说明、测试报告摘要、已知缺口和 P3 接力；不要创建 `backend/`、`ai-services/` 或 `infra/`，不要接真实 API、真实视频、真实商场平面图、真实地图、真实商场素材、个人身份或个人轨迹。
+进入 P3-I1：工程化骨架规划与质量门禁对齐。优先定义根级质量门禁、CI 检查计划、P3 增量拆分和不变的工程边界；不要直接创建 `backend/` 或 `ai-services/`，不要接真实 API、真实视频、真实商场平面图、真实地图、真实商场素材、个人身份或个人轨迹。

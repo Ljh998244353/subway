@@ -1,10 +1,10 @@
 # Frontend State
 
-更新时间：2026-05-10
+更新时间：2026-05-11
 
 ## 当前状态
 
-P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面已完成。当前 `frontend/` 是 React + TypeScript + Vite 工程，已有 5 个核心路由、AppShell、CSS token、共享领域类型、虚构 Mock 数据、Node 内置数据边界测试、核心演示流转测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面。
+P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接已完成。当前 `frontend/` 是 React + TypeScript + Vite 工程，已有 5 个核心路由、AppShell、CSS token、共享领域类型、虚构 Mock 数据、Node 内置数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面。
 
 ## 已完成文件
 
@@ -35,6 +35,7 @@ frontend/src/routes/routeConfig.ts
 frontend/src/routes/routeConfig.test.ts
 frontend/src/routes/demoFlow.ts
 frontend/src/routes/demoFlow.test.ts
+frontend/src/routes/demoReadiness.test.ts
 frontend/src/pages/PageScaffold.tsx
 frontend/src/pages/DashboardPage.tsx
 frontend/src/pages/DashboardPage.test.ts
@@ -129,6 +130,16 @@ npm audit --audit-level=high
 
 结果：通过。`npm audit --audit-level=high` 在沙箱内因 DNS `EAI_AGAIN` 失败，经权限规则允许联网后通过，结果为 `found 0 vulnerabilities`。
 
+## P2-I9 已完成
+
+```text
+前端 Demo 交接：新增 docs/FRONTEND_DEMO_HANDOFF.md，记录 5 个核心页面、推荐演示路径、页面检查清单、测试摘要、已知缺口和 P3 接力
+客群画像演示分支：demoFlow 增加 buildCustomerProfileUrl 和 buildDemoCustomerProfileFlow
+演示就绪测试：demoReadiness.test.ts 覆盖 5 个核心路由、主线演示路径、画像分支和匿名聚合隐私边界
+frontend README：补充 CP2 演示入口和交接文档链接
+依赖边界：未新增依赖、图标、字体、图片、视频、模型、数据集或外部服务
+```
+
 ## P2-I3 已完成
 
 ```text
@@ -200,4 +211,4 @@ Query 检查：覆盖 mallId、timeRange、floorId、storeId、alertId、mode �
 
 ## 下一步
 
-P2-I9 做 CP2 前端 Demo 收口和交接。范围限定在五个核心页面演示路径、测试报告摘要、已知缺口、文档接力和 P3 准备；不要实现其他业务页面，不接真实 API，不创建 `backend/`、`ai-services/` 或 `infra/`，不要展示个人轨迹、会员身份、人脸、真实商场素材或真实品牌。
+P3-I1 做工程化骨架规划与质量门禁对齐。范围优先限定在根级质量门禁、CI 检查计划、P3 增量拆分和文档接力；不要直接创建 `backend/` 或 `ai-services/`，不要接真实 API，不要展示个人轨迹、会员身份、人脸、真实商场素材或真实品牌。

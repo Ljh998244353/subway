@@ -1,6 +1,6 @@
 # Deployment State
 
-更新时间：2026-05-10
+更新时间：2026-05-11
 
 ## 当前状态
 
@@ -39,4 +39,4 @@ worker or scheduler
 
 ## 下一步
 
-P2-I9 只做前端 Demo 收口和交接，不创建 `infra/` 或 Docker Compose。P3 创建工程化骨架和部署草案；P11 完成部署与观测。
+P3-I1 做工程化骨架规划与质量门禁对齐，优先定义根级质量门禁、CI 检查计划、Docker Compose 规划边界和 P3 拆分；是否创建 `infra/` 需由 P3-I1 的小增量边界明确。P11 完成部署与观测。

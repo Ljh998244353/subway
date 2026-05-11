@@ -22,14 +22,21 @@ export type StoreAlertsRouteParams = {
   floorId?: string;
 };
 
+export type DemoFlowStepId = 'dashboard' | 'digital-twin' | 'store-analysis' | 'store-alerts' | 'customer-profile';
+
 export type DemoCoreFlowSeed = {
   floorId: string;
   storeId: string;
   alertId?: string;
 };
 
+export type DemoCustomerProfileFlowSeed = {
+  floorId: string;
+  category: string;
+};
+
 export type DemoCoreFlowStep = {
-  id: 'dashboard' | 'digital-twin' | 'store-analysis' | 'store-alerts';
+  id: DemoFlowStepId;
   label: string;
   path: string;
 };
@@ -49,6 +56,10 @@ function buildPath(pathname: string, params?: OptionalRouteParams) {
 
 export function buildDashboardUrl(search: string) {
   return buildRouteWithGlobalQuery('/dashboard', search);
+}
+
+export function buildCustomerProfileUrl(search: string) {
+  return buildRouteWithGlobalQuery('/customer-profile', search);
 }
 
 export function buildDigitalTwinUrl(params: DigitalTwinRouteParams, search: string) {
@@ -141,6 +152,26 @@ export function buildDemoCoreFlow(seed: DemoCoreFlowSeed, search: string): DemoC
       id: 'store-alerts',
       label: '低效预警',
       path: buildStoreAlertsUrl({ alertId: seed.alertId, storeId: seed.storeId, floorId: seed.floorId }, search)
+    }
+  ];
+}
+
+export function buildDemoCustomerProfileFlow(seed: DemoCustomerProfileFlowSeed, search: string): DemoCoreFlowStep[] {
+  return [
+    {
+      id: 'customer-profile',
+      label: '客群画像',
+      path: buildCustomerProfileUrl(search)
+    },
+    {
+      id: 'digital-twin',
+      label: '数字孪生动线',
+      path: buildCustomerProfileFloorTwinUrl(seed.floorId, search)
+    },
+    {
+      id: 'store-analysis',
+      label: '业态店铺分析',
+      path: buildCustomerProfileCategoryUrl(seed.category, search)
     }
   ];
 }
