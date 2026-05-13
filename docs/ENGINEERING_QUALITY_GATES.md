@@ -10,7 +10,7 @@ Primary role mode: DevOps Mode
 Auxiliary checklists: Product, QA, Security/License
 ```
 
-本文定义 P3 工程化骨架的质量门禁。P3-I1 只做规划和门禁对齐，不创建 `backend/`、`ai-services/`、`infra/`、Docker Compose 文件或 CI 配置，不接真实 API、真实视频、真实商场素材或个人轨迹。
+本文定义 P3 工程化骨架的质量门禁。P3-I1 只做规划和门禁对齐，P3-I2 已创建根级本地质量门禁脚本和统一命令入口。当前仍不创建 `backend/`、`ai-services/`、`infra/`、Docker Compose 文件或 CI 配置，不接真实 API、真实视频、真实商场素材或个人轨迹。
 
 ## 2. 当前工程状态
 
@@ -19,7 +19,8 @@ Auxiliary checklists: Product, QA, Security/License
 | Frontend | `frontend/` 已有 React + TypeScript + Vite、5 个核心页面、Node 内置测试、lint/test/build 脚本 | 继续作为当前唯一可运行代码门禁 |
 | Backend | 尚无 `backend/` | P3-I1 不创建，P4 再进入 FastAPI/MySQL 实现 |
 | AI Services | 尚无 `ai-services/` | P3-I1 不创建，P6 前先完成模型和数据集许可证审计 |
-| Infra | 尚无 `infra/`、Docker Compose、CI | P3-I1 只定义计划，后续 P3-I2/P3-I3/P3-I4 分步落地 |
+| Quality Gate | 已有根级 `package.json` 和 `scripts/quality-gate.mjs` | P3-I2 已落地本地统一门禁入口 |
+| Infra | 尚无 `infra/`、Docker Compose、CI | 后续 P3-I3/P3-I4 分步落地 |
 | License | 已有 `docs/THIRD_PARTY_NOTICES.md` 和 `docs/LICENSE_AUDIT.md` | 新增依赖、镜像、工具前必须更新 |
 
 ## 3. 根级门禁目标
@@ -37,38 +38,33 @@ Auxiliary checklists: Product, QA, Security/License
 新增第三方内容许可证记录检查
 ```
 
-P3-I1 不新增根级脚本。P3-I2 可创建根级脚本或 `package.json`，统一调用现有 `frontend` 命令。
+P3-I2 已新增根级脚本和 `package.json`，统一调用现有 `frontend` 命令。
+
+### 3.1 根级命令入口
+
+```bash
+npm run quality
+npm run quality:docs
+npm run quality:compliance
+npm run quality:boundary
+npm run quality:frontend
+npm run quality:audit
+```
+
+说明：`npm run quality` 覆盖文档结构、合规关键词、工程边界和 frontend lint/test/build；`npm run quality:audit` 单独运行高危依赖审计，可能需要网络审批。
 
 ## 4. 当前可执行门禁
 
 ### 4.1 文档结构检查
 
 ```bash
-test -f AGENT.md
-test -f README.md
-test -f AI_Schedule.md
-test -f PROGRESS.md
-test -f IMPORTANT.md
-test -f PRODUCT.md
-test -f DESIGN.md
-test -f docs/PRD_v1.md
-test -f docs/REQUIREMENTS_ANALYSIS.md
-test -f docs/SYSTEM_DESIGN.md
-test -f docs/TEST_STRATEGY.md
-test -f docs/QUALITY_GATE.md
-test -f docs/LICENSE_AUDIT.md
-test -f docs/THIRD_PARTY_NOTICES.md
-test -f docs/FRONTEND_DEMO_HANDOFF.md
-test -f docs/ENGINEERING_QUALITY_GATES.md
-test -f docs/CI_PLAN.md
-test -f context/TODO_NEXT.md
+npm run quality:docs
 ```
 
 ### 4.2 合规关键词检查
 
 ```bash
-rg -n "不使用真实监控画面|不存储人脸原图|不展示个人轨迹|不使用未授权商场平面图|不使用真实品牌|不引入付费" docs context IMPORTANT.md README.md
-rg -n "MySQL|sudo|虚拟环境|backend/|ai-services/|P3-I1|P3-I2" AGENT.md README.md PROGRESS.md context/TODO_NEXT.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md
+npm run quality:compliance
 ```
 
 ### 4.3 工程边界检查
@@ -76,7 +72,7 @@ rg -n "MySQL|sudo|虚拟环境|backend/|ai-services/|P3-I1|P3-I2" AGENT.md READM
 P3-I1 结束时应仍未创建后端、AI 服务或部署工程目录：
 
 ```bash
-find /home/ljh/project/subway -maxdepth 1 -type d \( -name backend -o -name ai-services -o -name infra \)
+npm run quality:boundary
 ```
 
 期望输出为空。若后续 P3-I4 创建 `infra/`，必须同步更新本文和 `context/DEPLOYMENT_STATE.md`。
@@ -84,11 +80,8 @@ find /home/ljh/project/subway -maxdepth 1 -type d \( -name backend -o -name ai-s
 ### 4.4 前端门禁
 
 ```bash
-cd frontend
-npm run lint
-npm run test
-npm run build
-npm audit --audit-level=high
+npm run quality:frontend
+npm run quality:audit
 ```
 
 当前 `npm audit --audit-level=high` 可能需要网络。若沙箱 DNS 或网络失败，必须按权限规则重试；仍失败时记录命令、错误和剩余风险，不能静默跳过。
@@ -97,7 +90,7 @@ npm audit --audit-level=high
 
 | 阶段 | 必须新增的门禁 | 完成条件 |
 | --- | --- | --- |
-| P3-I2 | 根级脚本或命令入口 | 一条命令可运行文档结构、合规关键词、工程边界和 frontend lint/test/build |
+| P3-I2 | 根级脚本或命令入口 | 已完成：一条命令可运行文档结构、合规关键词、工程边界和 frontend lint/test/build |
 | P3-I3 | CI 配置 | CI 自动运行 P3-I2 门禁，并清晰阻断失败 |
 | P3-I4 | Docker Compose 草案或部署文档 | 明确服务、健康检查、环境变量、MySQL/Redis 许可证和不使用付费云 |
 | P4 | 后端 API 和数据模型门禁 | FastAPI/OpenAPI、MySQL 迁移、Pytest、错误码和契约检查 |

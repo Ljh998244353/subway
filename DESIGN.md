@@ -62,4 +62,4 @@ Motion is limited to hover, focus, selected-state feedback, and chart or spatial
 
 ## Asset Policy
 
-Use only free local code, system fonts, CSS, and self-drawn SVG/HTML shapes. Do not add paid tools, external images, icon packs, real mall plans, real videos, logos, or web-scraped assets without a license audit.
+Use only free local code, system fonts, CSS, self-drawn SVG/HTML shapes, and audited permissive open-source frontend packages. `motion` is allowed for restrained React state transitions after MIT license recording. Do not add paid tools, external images, icon packs, real mall plans, real videos, logos, or web-scraped assets without a license audit.

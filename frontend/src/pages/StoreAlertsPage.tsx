@@ -1,6 +1,7 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { AlertDetail } from '../components/AlertDetail';
 import { AlertList } from '../components/AlertList';
+import { MotionSurface } from '../components/MotionSurface';
 import {
   getAlertLevelLabel,
   getAlertStatusLabel,
@@ -64,8 +65,8 @@ export function StoreAlertsPage() {
     buildAlertTwinUrl({ floorId, storeId, alertId }, location.search);
 
   return (
-    <section className="page store-alerts-page">
-      <header className="page-header dashboard-header">
+    <MotionSurface as="section" className="page store-alerts-page">
+      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
           <p className="page-kicker">低效预警 / {formatTimeRange(timeRange)} / Mock 数据</p>
           <h1>低效预警</h1>
@@ -79,9 +80,9 @@ export function StoreAlertsPage() {
             重置筛选
           </Link>
         </div>
-      </header>
+      </MotionSurface>
 
-      <div className="filter-bar" aria-label="低效预警筛选摘要">
+      <MotionSurface className="filter-bar" aria-label="低效预警筛选摘要" delay={0.04}>
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         <span>等级：{filters.level ? `${getAlertLevelLabel(filters.level)}风险` : '全部等级'}</span>
@@ -90,9 +91,9 @@ export function StoreAlertsPage() {
         <span>店铺：{filters.storeId ? viewModel.selectedStoreName : '全部店铺'}</span>
         <span>关键词：{filters.keyword ?? '无'}</span>
         <span>选中：{selectedAlert?.id ?? '无'}</span>
-      </div>
+      </MotionSurface>
 
-      <div className="alert-summary-grid" aria-label="低效预警统计">
+      <MotionSurface className="alert-summary-grid" aria-label="低效预警统计" delay={0.06}>
         <article className="alert-summary-card">
           <span>匹配告警</span>
           <strong>{viewModel.summary.total}</strong>
@@ -113,10 +114,10 @@ export function StoreAlertsPage() {
           <strong>{viewModel.summary.high}</strong>
           <p>高等级且尚未处理完成</p>
         </article>
-      </div>
+      </MotionSurface>
 
       <div className="store-alerts-layout">
-        <section className="dashboard-panel store-alerts-list-panel" aria-labelledby="alert-list-title">
+        <MotionSurface as="section" className="dashboard-panel store-alerts-list-panel" aria-labelledby="alert-list-title" delay={0.08}>
           <div className="panel-heading">
             <div>
               <h2 id="alert-list-title">告警列表</h2>
@@ -125,9 +126,9 @@ export function StoreAlertsPage() {
             <StatusBadge label={`${viewModel.rows.length} 条`} tone="neutral" />
           </div>
           <AlertList rows={viewModel.rows} selectedAlertId={selectedAlert?.id ?? ''} buildAlertUrl={buildAlertUrl} />
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel store-alerts-detail-panel" aria-labelledby="alert-detail-title">
+        <MotionSurface as="section" className="dashboard-panel store-alerts-detail-panel" aria-labelledby="alert-detail-title" delay={0.1}>
           <div className="panel-heading">
             <div>
               <h2 id="alert-detail-title">告警详情</h2>
@@ -148,8 +149,8 @@ export function StoreAlertsPage() {
             buildStoreAnalysisUrl={buildStoreAnalysisUrl}
             buildDigitalTwinUrl={buildDigitalTwinUrl}
           />
-        </section>
+        </MotionSurface>
       </div>
-    </section>
+    </MotionSurface>
   );
 }

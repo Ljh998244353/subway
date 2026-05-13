@@ -48,11 +48,17 @@ Non-Commercial 素材
 | React | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` UI runtime | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | React DOM | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` DOM renderer | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | React Router DOM | https://github.com/remix-run/react-router | 7.15.0 | MIT | `frontend/` 5 个核心路由占位和导航 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| Motion | https://motion.dev/ and https://www.npmjs.com/package/motion | 12.38.0 | MIT | `frontend/` 页面、面板和状态变化的克制动画 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| Framer Motion | https://github.com/motiondivision/motion | 12.38.0 | MIT | Motion 的 React 动画传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| Motion DOM | https://github.com/motiondivision/motion | 12.38.0 | MIT | Motion 的 DOM 动画传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| Motion Utils | https://github.com/motiondivision/motion | 12.36.0 | MIT | Motion 的工具函数传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| tslib | https://github.com/microsoft/tslib | 2.8.1 | 0BSD | Motion 的运行时辅助传递依赖 | 0BSD 通常允许商用 | 保留依赖包许可证记录 | 无已知付费要求；不需要账号 | 允许 |
 | Vite | https://github.com/vitejs/vite | 7.3.3 | MIT | `frontend/` 开发服务器和生产构建 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | TypeScript | https://github.com/microsoft/TypeScript | 5.9.3 | Apache-2.0 | `frontend/` 类型检查和构建门禁 | Apache-2.0 通常允许商用 | 保留许可证和 notice | 无已知付费要求 | 允许 |
 | @types/react | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.14 | MIT | React TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | React DOM TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | Node API TypeScript 类型定义，用于测试和配置 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 | Unlicense OR MIT | P3-I2 根级质量门禁中的本地关键词扫描工具，不进入前端运行包 | Unlicense/MIT 通常允许商用 | 如重新分发需保留许可证记录；CI 安装来源需在 P3-I3 复核 | 当前本机已有；无项目新增付费或账号要求 | 允许用于本地检查 |
 
 ## 3. P0 结论
 

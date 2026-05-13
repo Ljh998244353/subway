@@ -1,4 +1,5 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { MotionSurface } from '../components/MotionSurface';
 import { SummaryStrip } from '../components/SummaryStrip';
 import {
   getAlertLevelLabel,
@@ -45,8 +46,8 @@ export function DashboardPage() {
   const openHighAlertCount = dashboard.alerts.filter((alert) => alert.level === 'high' && alert.status !== 'resolved').length;
 
   return (
-    <section className="page dashboard-page">
-      <header className="page-header dashboard-header">
+    <MotionSurface as="section" className="page dashboard-page">
+      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
           <p className="page-kicker">运营总览 / {formatTimeRange(timeRange)} / Mock 数据</p>
           <h1>运营总览</h1>
@@ -60,17 +61,17 @@ export function DashboardPage() {
             刷新总览
           </button>
         </div>
-      </header>
+      </MotionSurface>
 
-      <div className="filter-bar" aria-label="运营总览筛选摘要">
+      <MotionSurface className="filter-bar" aria-label="运营总览筛选摘要" delay={0.04}>
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         <span>楼层：{selectedFloor?.name ?? '全部楼层'}</span>
         <span>数据源：Mock</span>
         <span>最近更新：{new Date(mockOverview.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</span>
-      </div>
+      </MotionSurface>
 
-      <section className="operations-ribbon" aria-label="运营巡检摘要">
+      <MotionSurface as="section" className="operations-ribbon" aria-label="运营巡检摘要" delay={0.06}>
         <div>
           <span>今日巡检重点</span>
           <strong>{openHighAlertCount} 条高风险未闭环</strong>
@@ -81,12 +82,12 @@ export function DashboardPage() {
         <Link className="ghost-button link-button" to={buildStoreAlertsUrl({}, location.search)}>
           进入预警队列
         </Link>
-      </section>
+      </MotionSurface>
 
       <SummaryStrip metrics={dashboard.metrics} />
 
       <div className="dashboard-grid">
-        <section className="dashboard-panel dashboard-panel--wide" aria-labelledby="traffic-trend-title">
+        <MotionSurface as="section" className="dashboard-panel dashboard-panel--wide" aria-labelledby="traffic-trend-title" delay={0.08}>
           <div className="panel-heading">
             <div>
               <h2 id="traffic-trend-title">客流趋势</h2>
@@ -98,9 +99,9 @@ export function DashboardPage() {
           <p className="chart-readable-summary">
             当前趋势峰值来自 {dashboard.busiestFloor?.floorName ?? '暂无楼层'}，最高拥挤指数 {dashboard.busiestFloor?.crowdingIndex.toFixed(2) ?? '-'}。
           </p>
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel" aria-labelledby="floor-status-title">
+        <MotionSurface as="section" className="dashboard-panel" aria-labelledby="floor-status-title" delay={0.1}>
           <div className="panel-heading">
             <div>
               <h2 id="floor-status-title">楼层状态</h2>
@@ -125,9 +126,9 @@ export function DashboardPage() {
               </Link>
             ))}
           </div>
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel dashboard-panel--wide" aria-labelledby="inefficient-stores-title">
+        <MotionSurface as="section" className="dashboard-panel dashboard-panel--wide" aria-labelledby="inefficient-stores-title" delay={0.12}>
           <div className="panel-heading">
             <div>
               <h2 id="inefficient-stores-title">低效店铺榜</h2>
@@ -159,9 +160,9 @@ export function DashboardPage() {
               </Link>
             ))}
           </div>
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel" aria-labelledby="alerts-title">
+        <MotionSurface as="section" className="dashboard-panel" aria-labelledby="alerts-title" delay={0.14}>
           <div className="panel-heading">
             <div>
               <h2 id="alerts-title">告警摘要</h2>
@@ -187,8 +188,8 @@ export function DashboardPage() {
               </Link>
             ))}
           </div>
-        </section>
+        </MotionSurface>
       </div>
-    </section>
+    </MotionSurface>
   );
 }

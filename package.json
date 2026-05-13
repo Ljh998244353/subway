@@ -1,0 +1,14 @@
+{
+  "name": "mall-vision-ai-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "quality": "node scripts/quality-gate.mjs all",
+    "quality:docs": "node scripts/quality-gate.mjs docs",
+    "quality:compliance": "node scripts/quality-gate.mjs compliance",
+    "quality:boundary": "node scripts/quality-gate.mjs boundary",
+    "quality:frontend": "node scripts/quality-gate.mjs frontend",
+    "quality:audit": "node scripts/quality-gate.mjs audit"
+  }
+}

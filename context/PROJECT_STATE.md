@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接。2026-05-13 完成 CP2 后前端视觉重构和 `impeccable` 上下文补齐，新增 `PRODUCT.md`、`DESIGN.md`，升级 OKLCH token、AppShell、Dashboard 运营摘要、Digital Twin 控制区和全局组件样式。同日完成 P3-I1 工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。项目已达到 CP2 前端 Demo 收口和 P3-I1 工程规划完成状态，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查、`docs/FRONTEND_DEMO_HANDOFF.md`，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面；尚未进入后端、AI 服务、CI 配置或部署工程编码。
+当前完成 P0 项目基线与上下文恢复、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接。2026-05-13 完成 CP2 后前端视觉重构和 `impeccable` 上下文补齐，新增 `PRODUCT.md`、`DESIGN.md`，升级 OKLCH token、AppShell、Dashboard 运营摘要、Digital Twin 控制区和全局组件样式。同日完成 P3-I1 工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。随后按用户确认追加“极简高级版”全站五页精修，新增已审计 MIT `motion` 依赖和 `MotionSurface`，统一五页页面、面板和状态动效，并继续保持免费、虚构 Mock、自绘 SVG 和无真实素材边界。P3-I2 已完成根级质量门禁脚本和本地统一命令入口，新增根级 `package.json` 与 `scripts/quality-gate.mjs`，提供 `npm run quality` 和 `npm run quality:audit`。项目已达到 CP2 前端 Demo 收口、P3-I1 工程规划完成、全站视觉精修和 P3-I2 本地质量门禁完成状态，已有 `frontend/` React + TypeScript + Vite 工程骨架、5 个核心路由、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查、`docs/FRONTEND_DEMO_HANDOFF.md`，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面；尚未进入后端、AI 服务、CI 配置或部署工程编码。
 
 ## 已完成
 
@@ -41,6 +41,8 @@ skills/mall-vision-ai-delivery/SKILL.md
 slides/project-intro.typ
 slides/slide.pdf
 slides/slidev/
+package.json
+scripts/quality-gate.mjs
 frontend/README.md
 frontend/package.json
 frontend/package-lock.json
@@ -61,7 +63,6 @@ ai-services/
 infra/
 Docker Compose
 CI
-根级脚本
 真实 API
 真实视频接入
 浏览器 E2E
@@ -90,7 +91,9 @@ CI
 | P2-I8 客群画像 | `/customer-profile` 已使用 Mock 数据展示匿名聚合画像摘要、时段分布、楼层偏好、业态偏好和隐私口径 |
 | P2-I9 CP2 收口 | 已补前端 Demo 交接文档、客群画像演示分支 helper、CP2 演示就绪测试、测试报告摘要和 P3 接力 |
 | CP2 后前端视觉重构 | 已补 `PRODUCT.md` / `DESIGN.md`，用免费本地代码和自绘 SVG/CSS 升级前端视觉，不新增依赖或素材 |
+| CP2 后极简高级全站精修 | 已补 `motion@12.38.0` 和 `MotionSurface`，统一五页克制动效、留白、卡片、表格、列表和数字孪生质感 |
 | P3-I1 工程化规划 | 已补 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`，只规划门禁和 CI，不创建后端、AI 服务、infra、根级脚本或 CI 配置 |
+| P3-I2 根级质量门禁 | 已补根级 `package.json` 和 `scripts/quality-gate.mjs`，`npm run quality` 串联文档、合规、边界和前端 lint/test/build，`npm run quality:audit` 单独运行高危依赖审计 |
 | 真实素材 | 未授权真实素材禁用 |
 | 前端建议 | React + TypeScript + Vite |
 | 后端建议 | FastAPI + MySQL |
@@ -101,4 +104,4 @@ CI
 
 ## 下一目标
 
-进入 P3-I2：根级质量门禁脚本或统一命令入口。优先把 P3-I1 定义的文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令；不要直接创建 `backend/`、`ai-services/`、`infra/` 或 CI 配置，不要接真实 API、真实视频、真实商场平面图、真实地图、真实商场素材、个人身份或个人轨迹。
+进入 P3-I3：免费 CI 配置或本地到 CI 映射。优先复用 `npm run quality` 和 `npm run quality:audit`，不要直接创建 `backend/`、`ai-services/`、`infra/` 或 Docker Compose，不要接真实 API、真实视频、真实商场平面图、真实地图、真实商场素材、个人身份或个人轨迹。

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接已完成。2026-05-13 已完成一次 CP2 后前端视觉重构：补齐 `PRODUCT.md` / `DESIGN.md`，升级 `tokens.css` 的 OKLCH 语义 token，打磨 AppShell、Dashboard 运营巡检摘要、Digital Twin 空间模式控制区、卡片/表格/告警/画像图表/数字孪生 SVG 和选中态。当前 `frontend/` 是 React + TypeScript + Vite 工程，已有 5 个核心路由、AppShell、CSS token、共享领域类型、虚构 Mock 数据、Node 内置数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面。
+P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接已完成。2026-05-13 已完成 CP2 后前端视觉重构：补齐 `PRODUCT.md` / `DESIGN.md`，升级 `tokens.css` 的 OKLCH 语义 token，打磨 AppShell、Dashboard 运营巡检摘要、Digital Twin 空间模式控制区、卡片/表格/告警/画像图表/数字孪生 SVG 和选中态。同日追加一次“极简高级版”全站五页精修：新增已审计 MIT `motion` 依赖和 `MotionSurface` 组件，用于克制的页面、面板和状态入场动效；进一步收敛色彩、阴影、留白、卡片、表格、列表、数字孪生和画像图表质感。当前 `frontend/` 是 React + TypeScript + Vite 工程，已有 5 个核心路由、AppShell、CSS token、共享领域类型、虚构 Mock 数据、Node 内置数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面。
 
 ## 已完成文件
 
@@ -21,6 +21,7 @@ frontend/src/main.tsx
 frontend/src/App.tsx
 frontend/src/components/AppShell.tsx
 frontend/src/components/MetricCard.tsx
+frontend/src/components/MotionSurface.tsx
 frontend/src/components/SummaryStrip.tsx
 frontend/src/components/StatusBadge.tsx
 frontend/src/components/TrendSparkline.tsx
@@ -107,6 +108,7 @@ frontend/src/mock/mockData.test.ts
 
 ```text
 React + TypeScript + Vite
+允许已审计 MIT `motion` 用于克制状态动效
 P2 当前不新增图表库、3D 库、图标库或字体文件
 Mock mode first, API mode later
 routes preserve mallId, timeRange, floorId, storeId, category, alertId when relevant
@@ -127,7 +129,7 @@ npm run test
 npm run build
 ```
 
-结果：2026-05-13 P3-I1 收尾检查中 `npm run lint`、`npm run test`、`npm run build` 和 `npm audit --audit-level=high` 通过。`npm run build` 仅提示 React Router 依赖内 `"use client"` 指令被忽略；`npm audit --audit-level=high` 沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，结果为 `found 0 vulnerabilities`。本次未新增依赖、字体、图标、图片、视频、模型、数据集或外部服务。
+结果：2026-05-13 极简高级全站精修后 `npm run lint`、`npm run test`、`npm run build` 和 `npm audit --audit-level=high` 通过。新增 `motion@12.38.0` 及其传递依赖已记录许可证；`npm run build` 仅提示 React Router 和 Motion/Framer Motion 依赖内 `"use client"` 指令被忽略，JS gzip 约 132.53 kB。
 
 ## CP2 后视觉重构
 

@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口、CP2 后前端视觉重构和 P3-I1 工程化骨架规划与质量门禁对齐：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档、工程质量门禁文档、CI 计划文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务、CI 配置或部署工程编码。
+当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口、CP2 后前端视觉重构、P3-I1 工程化骨架规划与质量门禁对齐、CP2 后极简高级全站五页精修，以及 P3-I2 根级质量门禁脚本和本地统一命令入口：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档、工程质量门禁文档、CI 计划文档、根级 `npm run quality` 门禁，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、已审计 MIT `motion` 动效、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务、CI 配置或部署工程编码。
 
 ## 文档入口
 
@@ -25,6 +25,8 @@
 | [docs/FRONTEND_DEMO_HANDOFF.md](docs/FRONTEND_DEMO_HANDOFF.md) | AI / 人类 | P2-I9 CP2 前端 Demo 页面清单、演示路径、测试摘要和 P3 接力 |
 | [docs/ENGINEERING_QUALITY_GATES.md](docs/ENGINEERING_QUALITY_GATES.md) | AI / 人类 | P3-I1 工程质量门禁、可执行检查、阻断规则和后续阶段门禁 |
 | [docs/CI_PLAN.md](docs/CI_PLAN.md) | AI / 人类 | P3-I1 CI 计划、Job 拆分、本地等价命令和后续扩展点 |
+| [package.json](package.json) | AI / 人类 | P3-I2 根级质量门禁命令入口 |
+| [scripts/quality-gate.mjs](scripts/quality-gate.mjs) | AI | P3-I2 本地质量门禁脚本：文档、合规、工程边界、前端门禁和审计 |
 | [frontend/README.md](frontend/README.md) | AI / 人类 | P2 前端工程、Mock 数据、命令和边界 |
 | [frontend/package.json](frontend/package.json) | AI | 前端依赖和 `lint/test/build/dev` 命令 |
 | [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) | AI / 人类 | 当前已引用第三方工具、字体、素材或包的许可证记录 |
@@ -91,7 +93,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 ## 当前下一步
 
-下一步应执行 `P3-I2`，做根级质量门禁脚本或统一命令入口。
+下一步应执行 `P3-I3`，把 P3-I2 的根级本地质量门禁映射到免费 CI 配置。
 
 给 AI 的指令：
 
@@ -99,61 +101,18 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 请进行下一步
 ```
 
-AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P3-I2`：根级质量门禁脚本或统一命令入口。P3-I2 优先把 P3-I1 定义的文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令；不要创建后端或 AI 视频服务，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。若新增依赖或 CI/扫描工具，必须先审计许可证和成本。
+AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P3-I3`：免费 CI 配置或本地到 CI 的映射。P3-I3 应复用根级 `npm run quality`，不要创建后端或 AI 视频服务，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。若引入 CI 平台、扫描工具、Docker 镜像、外部服务或账号能力，必须先审计许可证、成本、账号要求和数据边界。
 
 ## 当前检查方法
 
-当前检查文档、第三方声明、skill、演示稿文件和前端基础门禁：
+当前根级本地质量门禁：
 
 ```bash
-test -f AGENT.md
-test -f README.md
-test -f AI_Schedule.md
-test -f PROGRESS.md
-test -f IMPORTANT.md
-test -f docs/THIRD_PARTY_NOTICES.md
-test -f docs/PRD_v1.md
-test -f docs/REQUIREMENTS_ANALYSIS.md
-test -f docs/SYSTEM_DESIGN.md
-test -f docs/ENGINEERING_QUALITY_GATES.md
-test -f docs/CI_PLAN.md
-test -f docs/LICENSE_AUDIT.md
-test -f docs/design/SCREEN_LAYOUTS.md
-test -f docs/design/DESIGN_TOKENS.md
-test -f docs/design/UI_SPEC.md
-test -f docs/design/COMPONENT_SPEC.md
-test -f docs/design/CHART_SPEC.md
-test -f docs/design/INTERACTION_SPEC.md
-test -f docs/design/DESIGN_REVIEW_CHECKLIST.md
-test -f frontend/package.json
-test -f frontend/package-lock.json
-test -f frontend/src/App.tsx
-test -f frontend/src/components/AppShell.tsx
-test -f frontend/src/types/domain.ts
-test -f frontend/src/mock/mockOverview.ts
-test -f frontend/src/mock/mockData.test.ts
-test -f frontend/src/pages/DashboardPage.tsx
-test -f frontend/src/pages/DashboardPage.test.ts
-test -f frontend/src/pages/StoreAnalysisPage.tsx
-test -f frontend/src/pages/StoreAnalysisPage.test.ts
-test -f frontend/src/pages/StoreAlertsPage.tsx
-test -f frontend/src/pages/StoreAlertsPage.test.ts
-test -f frontend/src/pages/DigitalTwinPage.tsx
-test -f frontend/src/pages/DigitalTwinPage.test.ts
-test -f frontend/src/routes/demoFlow.test.ts
-test -f frontend/src/styles/responsiveChecks.test.ts
-test -f context/TODO_NEXT.md
-test -f skills/mall-vision-ai-delivery/SKILL.md
-test -f skills/mall-vision-ai-delivery/agents/openai.yaml
-test -f slides/project-intro.typ
-test -f slides/slide.pdf
-rg -n "P3-I2|quality gate|质量门禁|CI|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md
-cd frontend
-npm run lint
-npm run test
-npm run build
-npm audit --audit-level=high
+npm run quality
+npm run quality:audit
 ```
+
+其中 `npm run quality` 覆盖文档结构、合规关键词、工程边界和 `frontend` lint/test/build；`npm run quality:audit` 单独运行高危依赖审计，可能需要网络。
 
 ## 免责声明
 

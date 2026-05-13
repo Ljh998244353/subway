@@ -1,4 +1,5 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { MotionSurface } from '../components/MotionSurface';
 import { StatusBadge } from '../components/StatusBadge';
 import { mockCustomerProfile, mockFloors, mockMall } from '../mock/index.ts';
 import {
@@ -165,8 +166,8 @@ export function CustomerProfilePage() {
   const stateCopy = profileStateCopy[profileState];
 
   return (
-    <section className="page customer-profile-page">
-      <header className="page-header dashboard-header">
+    <MotionSurface as="section" className="page customer-profile-page">
+      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
           <p className="page-kicker">客群画像 / {formatTimeRange(timeRange)} / Mock 数据</p>
           <h1>客群画像</h1>
@@ -180,27 +181,27 @@ export function CustomerProfilePage() {
             查看口径
           </a>
         </div>
-      </header>
+      </MotionSurface>
 
-      <div className="filter-bar" aria-label="客群画像筛选摘要">
+      <MotionSurface className="filter-bar" aria-label="客群画像筛选摘要" delay={0.04}>
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         {viewModel.filterSummary.map((item) => (
           <span key={item}>{item}</span>
         ))}
         <span>最近生成：{formatGeneratedAt(mockCustomerProfile.generatedAt)}</span>
-      </div>
+      </MotionSurface>
 
       <SummaryCards metrics={viewModel.summaryMetrics} />
 
       {viewModel.smallSampleHidden ? (
-        <div className="customer-privacy-notice" role="status">
+        <MotionSurface className="customer-privacy-notice" role="status" delay={0.06}>
           样本不足时已隐藏明细，只保留匿名聚合口径，避免反推个人身份或单人行为。
-        </div>
+        </MotionSurface>
       ) : null}
 
       <div className="customer-profile-grid">
-        <section className="dashboard-panel dashboard-panel--wide" aria-labelledby="time-distribution-title">
+        <MotionSurface as="section" className="dashboard-panel dashboard-panel--wide" aria-labelledby="time-distribution-title" delay={0.08}>
           <div className="panel-heading">
             <div>
               <h2 id="time-distribution-title">时段分布</h2>
@@ -213,9 +214,9 @@ export function CustomerProfilePage() {
             活跃时段为 {mockCustomerProfile.activeTimeRange}；当前峰值为 {viewModel.peakTime?.label ?? '暂无'}，
             不提供个人路径回放。
           </p>
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel" aria-labelledby="privacy-boundary-title">
+        <MotionSurface as="section" className="dashboard-panel" aria-labelledby="privacy-boundary-title" delay={0.1}>
           <div className="panel-heading">
             <div>
               <h2 id="privacy-boundary-title">隐私口径</h2>
@@ -230,9 +231,9 @@ export function CustomerProfilePage() {
               </article>
             ))}
           </div>
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel" aria-labelledby="floor-preference-title">
+        <MotionSurface as="section" className="dashboard-panel" aria-labelledby="floor-preference-title" delay={0.12}>
           <div className="panel-heading">
             <div>
               <h2 id="floor-preference-title">楼层偏好</h2>
@@ -244,9 +245,9 @@ export function CustomerProfilePage() {
             rows={viewModel.floorPreferences}
             buildFloorUrl={(floorId) => buildCustomerProfileFloorTwinUrl(floorId, location.search)}
           />
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel" aria-labelledby="category-preference-title">
+        <MotionSurface as="section" className="dashboard-panel" aria-labelledby="category-preference-title" delay={0.14}>
           <div className="panel-heading">
             <div>
               <h2 id="category-preference-title">业态偏好</h2>
@@ -258,8 +259,8 @@ export function CustomerProfilePage() {
             rows={viewModel.categoryPreferences}
             buildCategoryUrl={(category) => buildCustomerProfileCategoryUrl(category, location.search)}
           />
-        </section>
+        </MotionSurface>
       </div>
-    </section>
+    </MotionSurface>
   );
 }

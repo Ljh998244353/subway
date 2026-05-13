@@ -26,3 +26,5 @@
 | 2026-05-11 | P2-I9 不新增依赖，使用文档和 Node 内置测试完成 CP2 前端 Demo 收口 | 保持依赖面、许可证和网络风险可控，同时让 5 个核心路由、演示路径和隐私边界可重复检查 | P3-I1 可以进入工程化骨架规划与质量门禁对齐，仍不得直接接真实 API、真实视频或真实商场素材 |
 | 2026-05-13 | CP2 后前端视觉重构只使用本地 CSS/React 和自绘 SVG，不新增依赖或素材 | 用户要求使用前端设计 skill 重构更精美、优雅且免费的页面；继续保持免费工具、可审计和低侵权风险边界 | 新增 `PRODUCT.md` / `DESIGN.md` 作为 impeccable 上下文；升级 AppShell、token、Dashboard、Digital Twin 和全局样式；为后续 P3-I1 工程化规划保留视觉上下文 |
 | 2026-05-13 | P3-I1 只产出工程质量门禁和 CI 计划文档，不创建 CI、Docker、后端或 AI 服务 | 先对齐可重复门禁和边界，避免一口气引入工具、镜像、账号或未审计依赖 | 新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`；下一步 P3-I2 创建根级质量门禁脚本或统一命令入口 |
+| 2026-05-13 | 极简高级全站精修允许新增已审计 MIT `motion` 依赖 | 用户选择“极简高级版”“全站五页”和“允许动画库”；`motion` 可在 React 19 下提供克制状态动效，npm lockfile 记录许可证为 MIT | 新增 `MotionSurface`，五页使用页面/面板入场动效；更新第三方声明和许可证审计；下一步仍保持 P3-I2 |
+| 2026-05-13 | P3-I2 采用根级 npm scripts 和 Node 内置脚本实现本地质量门禁 | 避免新增依赖、付费工具、CI 账号或外部服务，同时让文档、合规、边界和前端 lint/test/build 可由一条命令重复执行 | 新增 `package.json` 与 `scripts/quality-gate.mjs`；`npm run quality` 运行基础门禁，`npm run quality:audit` 单独运行高危依赖审计；下一步 P3-I3 复用该入口做免费 CI 映射 |

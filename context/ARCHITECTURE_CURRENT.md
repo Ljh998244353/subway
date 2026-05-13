@@ -4,7 +4,7 @@
 
 ## 当前架构状态
 
-P0 已完成系统设计初稿，详见 `docs/SYSTEM_DESIGN.md`。P1 设计规范阶段已完成：页面范围和信息架构见 `docs/design/SCREEN_LAYOUTS.md`，设计 token 和布局规则见 `docs/design/DESIGN_TOKENS.md` 与 `docs/design/UI_SPEC.md`，组件、图表和 UI 状态规范见 `docs/design/COMPONENT_SPEC.md` 与 `docs/design/CHART_SPEC.md`，交互、响应式、可访问性和设计评审见 `docs/design/INTERACTION_SPEC.md` 与 `docs/design/DESIGN_REVIEW_CHECKLIST.md`。P2-I1 已创建 `frontend/` React + TypeScript + Vite 工程骨架，P2-I2 已补充共享类型与虚构 Mock 数据，P2-I3 已完成 `/dashboard`，P2-I4 已完成 `/store-analysis`，P2-I5 已完成 `/store-alerts`，P2-I6 已完成 `/digital-twin`，P2-I7 已完成核心演示流转和响应式检查，P2-I8 已完成 `/customer-profile` 客群画像页面，P2-I9 已完成 CP2 前端 Demo 收口和交接。P3-I1 已完成工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。下一步做 P3-I2 根级质量门禁脚本或统一命令入口。
+P0 已完成系统设计初稿，详见 `docs/SYSTEM_DESIGN.md`。P1 设计规范阶段已完成：页面范围和信息架构见 `docs/design/SCREEN_LAYOUTS.md`，设计 token 和布局规则见 `docs/design/DESIGN_TOKENS.md` 与 `docs/design/UI_SPEC.md`，组件、图表和 UI 状态规范见 `docs/design/COMPONENT_SPEC.md` 与 `docs/design/CHART_SPEC.md`，交互、响应式、可访问性和设计评审见 `docs/design/INTERACTION_SPEC.md` 与 `docs/design/DESIGN_REVIEW_CHECKLIST.md`。P2-I1 已创建 `frontend/` React + TypeScript + Vite 工程骨架，P2-I2 已补充共享类型与虚构 Mock 数据，P2-I3 已完成 `/dashboard`，P2-I4 已完成 `/store-analysis`，P2-I5 已完成 `/store-alerts`，P2-I6 已完成 `/digital-twin`，P2-I7 已完成核心演示流转和响应式检查，P2-I8 已完成 `/customer-profile` 客群画像页面，P2-I9 已完成 CP2 前端 Demo 收口和交接。P3-I1 已完成工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。P3-I2 已完成根级质量门禁脚本和统一命令入口，新增 `package.json` 与 `scripts/quality-gate.mjs`。下一步做 P3-I3 免费 CI 配置或本地到 CI 映射。
 
 ## 技术栈草案
 
@@ -18,6 +18,7 @@ P0 已完成系统设计初稿，详见 `docs/SYSTEM_DESIGN.md`。P1 设计规�
 | Database | MySQL |
 | Cache / Queue | Redis |
 | AI Services | Python video ingestion, detection, tracking, ROI/line counting |
+| Quality Gate | Root npm scripts + Node built-in quality gate script |
 | Infra | Docker Compose first, CI quality gates |
 
 ## 模块边界
@@ -58,9 +59,9 @@ AI must pause and ask the human to run any sudo or system-level command
 ## P3-I1 工程化规划结论
 
 ```text
-当前唯一可运行代码门禁仍是 frontend lint/test/build/audit
+当前可运行门禁是根级 npm run quality 与 npm run quality:audit
 P3-I1 不创建 backend/、ai-services/、infra/、Docker Compose 或 CI 配置
-P3-I2 再创建根级脚本或统一命令入口
+P3-I2 已创建根级脚本或统一命令入口
 P3-I3 再创建 CI 配置
 P3-I4 再规划或创建 Docker Compose 草案
 新增 CI 工具、Docker 镜像、扫描工具或依赖前必须审计许可证和成本
@@ -68,4 +69,4 @@ P3-I4 再规划或创建 Docker Compose 草案
 
 ## 下一步架构工作
 
-P3-I2 不改变 API 或数据模型边界，优先创建根级质量门禁脚本或统一命令入口，调用文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build。P4 再固化 API、数据模型和迁移。
+P3-I3 不改变 API 或数据模型边界，优先复用根级质量门禁创建免费 CI 配置或本地到 CI 映射。P4 再固化 API、数据模型和迁移。

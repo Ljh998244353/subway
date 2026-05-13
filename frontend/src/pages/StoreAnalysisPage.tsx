@@ -1,4 +1,5 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { MotionSurface } from '../components/MotionSurface';
 import { ScoreBreakdown } from '../components/ScoreBreakdown';
 import { getWeightedScore } from '../components/scoreBreakdownUtils.ts';
 import { StoreList } from '../components/StoreList';
@@ -43,8 +44,8 @@ export function StoreAnalysisPage() {
   const selectedScore = selectedStore?.score;
 
   return (
-    <section className="page store-analysis-page">
-      <header className="page-header dashboard-header">
+    <MotionSurface as="section" className="page store-analysis-page">
+      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
           <p className="page-kicker">店铺分析 / {formatTimeRange(timeRange)} / Mock 数据</p>
           <h1>店铺分析</h1>
@@ -58,9 +59,9 @@ export function StoreAnalysisPage() {
             重置筛选
           </Link>
         </div>
-      </header>
+      </MotionSurface>
 
-      <div className="filter-bar" aria-label="店铺分析筛选摘要">
+      <MotionSurface className="filter-bar" aria-label="店铺分析筛选摘要" delay={0.04}>
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         <span>楼层：{filters.floorId === 'all' ? '全部楼层' : viewModel.selectedFloorName}</span>
@@ -68,10 +69,10 @@ export function StoreAnalysisPage() {
         <span>评分：{filters.scoreLevel ? getScoreLevelLabel(filters.scoreLevel) : '全部等级'}</span>
         <span>关键词：{filters.keyword ?? '无'}</span>
         <span>选中：{selectedStore?.name ?? '无'}</span>
-      </div>
+      </MotionSurface>
 
       <div className="store-analysis-layout">
-        <section className="dashboard-panel store-analysis-list-panel" aria-labelledby="store-list-title">
+        <MotionSurface as="section" className="dashboard-panel store-analysis-list-panel" aria-labelledby="store-list-title" delay={0.06}>
           <div className="panel-heading">
             <div>
               <h2 id="store-list-title">店铺列表</h2>
@@ -80,9 +81,9 @@ export function StoreAnalysisPage() {
             <StatusBadge label={`${viewModel.rows.length} 家`} tone="neutral" />
           </div>
           <StoreList rows={viewModel.rows.slice(0, 18)} selectedStoreId={selectedStore?.id ?? ''} buildStoreUrl={buildStoreUrl} />
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel store-analysis-detail-panel" aria-labelledby="store-detail-title">
+        <MotionSurface as="section" className="dashboard-panel store-analysis-detail-panel" aria-labelledby="store-detail-title" delay={0.08}>
           <div className="panel-heading">
             <div>
               <h2 id="store-detail-title">店铺详情</h2>
@@ -172,8 +173,8 @@ export function StoreAnalysisPage() {
               当前筛选没有店铺数据，请调整楼层、业态、评分或关键词。
             </div>
           )}
-        </section>
+        </MotionSurface>
       </div>
-    </section>
+    </MotionSurface>
   );
 }

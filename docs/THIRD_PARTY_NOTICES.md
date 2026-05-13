@@ -15,11 +15,17 @@ This file records third-party resources currently referenced by project delivera
 | React | https://github.com/facebook/react | 19.2.6 | MIT | Frontend UI runtime for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | React DOM | https://github.com/facebook/react | 19.2.6 | MIT | React DOM renderer for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | React Router DOM | https://github.com/remix-run/react-router | 7.15.0 | MIT | Client-side route placeholders and navigation for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| Motion | https://motion.dev/ and https://www.npmjs.com/package/motion | 12.38.0 | MIT | Lightweight React animation primitives for restrained page, panel, and state transitions in `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| Framer Motion | https://github.com/motiondivision/motion | 12.38.0 | MIT | Transitive runtime dependency of Motion for React animations | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| Motion DOM | https://github.com/motiondivision/motion | 12.38.0 | MIT | Transitive runtime dependency of Motion for DOM animation primitives | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| Motion Utils | https://github.com/motiondivision/motion | 12.36.0 | MIT | Transitive runtime dependency of Motion utility helpers | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| tslib | https://github.com/microsoft/tslib | 2.8.1 | 0BSD | Transitive runtime helper dependency of Motion | 0BSD generally permits commercial use with minimal obligations | Preserve package license notice when distributing dependencies | Allowed |
 | Vite | https://github.com/vitejs/vite | 7.3.3 | MIT | Frontend dev server and production build tool for `frontend/` | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | TypeScript | https://github.com/microsoft/TypeScript | 5.9.3 | Apache-2.0 | Type checking and frontend build gate for `frontend/` | Apache-2.0 generally permits commercial use with notice requirements | Preserve license and notice | Allowed |
 | @types/react | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.14 | MIT | TypeScript type definitions for React | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | TypeScript type definitions for React DOM | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | TypeScript type definitions for Node APIs used by tests/config | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 | Unlicense OR MIT | Local developer quality gate keyword scanning via `scripts/quality-gate.mjs`; not bundled into frontend runtime | Unlicense/MIT generally permit commercial use | Preserve license notice if redistributed; CI installation source must be reviewed before use | Allowed for local checks |
 
 ## Blocked Until Reviewed
 

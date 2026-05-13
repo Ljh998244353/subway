@@ -10,7 +10,7 @@ Primary role mode: DevOps Mode
 Auxiliary checklists: Product, QA, Security/License
 ```
 
-本文定义 CI 的分阶段计划。P3-I1 不创建 CI 配置文件，不绑定 GitHub Actions、GitLab CI、云服务或付费能力；后续 P3-I3 再在许可证、成本和账号边界明确后落地具体 CI 配置。
+本文定义 CI 的分阶段计划。P3-I1 不创建 CI 配置文件，不绑定 GitHub Actions、GitLab CI、云服务或付费能力；P3-I2 已创建根级本地质量门禁入口；后续 P3-I3 再在许可证、成本和账号边界明确后落地具体 CI 配置。
 
 ## 2. 设计原则
 
@@ -35,12 +35,11 @@ CI 结果必须能映射到 PROGRESS.md 和 context/TEST_STATE.md
 
 | Job | 命令来源 | P3-I3 阻断 | 说明 |
 | --- | --- | --- | --- |
-| docs-check | shell + `rg` | 是 | 检查关键文档、context、合规关键词和接力信息 |
-| boundary-check | shell `find` | 是 | P3-I3 前确认没有意外创建 `backend/`、`ai-services/`、`infra/` |
-| frontend-lint | `frontend/package.json` | 是 | `npm run lint` |
-| frontend-test | `frontend/package.json` | 是 | `npm run test` |
-| frontend-build | `frontend/package.json` | 是 | `npm run build` |
-| dependency-audit | npm | 是，但网络失败需记录 | `npm audit --audit-level=high` |
+| docs-check | `npm run quality:docs` | 是 | 检查关键文档和 context 文件 |
+| compliance-check | `npm run quality:compliance` | 是 | 检查合规关键词、工程约束和接力信息 |
+| boundary-check | `npm run quality:boundary` | 是 | P3-I3 前确认没有意外创建 `backend/`、`ai-services/`、`infra/` |
+| frontend-gate | `npm run quality:frontend` | 是 | 运行 `frontend` lint/test/build |
+| dependency-audit | `npm run quality:audit` | 是，但网络失败需记录 | 运行 `frontend` 高危 npm audit |
 | license-record-check | docs scan | 是 | 新增依赖或素材时必须同步第三方记录 |
 
 ## 5. Node 与缓存策略
@@ -61,17 +60,11 @@ P3-I1 不修改 Node 版本、不新增 `.nvmrc`、不新增 CI 配置。若 P3-
 CI 落地前，以下命令是本地等价门禁：
 
 ```bash
-test -f docs/ENGINEERING_QUALITY_GATES.md
-test -f docs/CI_PLAN.md
-rg -n "P3-I1|P3-I2|质量门禁|CI|MySQL|sudo|虚拟环境|请进行下一步" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md
-rg -n "不使用真实监控画面|不存储人脸原图|不展示个人轨迹|不使用未授权商场平面图|不使用真实品牌|不引入付费" docs context IMPORTANT.md README.md
-find /home/ljh/project/subway -maxdepth 1 -type d \( -name backend -o -name ai-services -o -name infra \)
-cd frontend
-npm run lint
-npm run test
-npm run build
-npm audit --audit-level=high
+npm run quality
+npm run quality:audit
 ```
+
+`npm run quality` 覆盖文档结构、合规关键词、工程边界和 frontend lint/test/build；`npm run quality:audit` 单独运行高危依赖审计，便于处理网络审批或 DNS 失败记录。
 
 ## 7. 失败处理
 
@@ -88,7 +81,7 @@ npm audit --audit-level=high
 
 | 阶段 | 扩展 |
 | --- | --- |
-| P3-I2 | 创建根级脚本，减少手工命令拼接 |
+| P3-I2 | 已创建根级脚本，减少手工命令拼接 |
 | P3-I3 | 创建 CI 配置，自动运行根级脚本 |
 | P3-I4 | 增加 Docker Compose 配置检查或部署文档检查 |
 | P4 | 增加 backend Pytest、OpenAPI contract、Alembic migration 检查 |
@@ -97,4 +90,4 @@ npm audit --audit-level=high
 
 ## 9. P3-I1 结论
 
-P3-I1 的 CI 结论是“先规划，后落地”。当前 CI 不存在，不能宣称流水线已可用；当前可执行保障来自本地文档检查、工程边界检查和 frontend lint/test/build/audit。下一增量 P3-I2 应优先创建根级脚本或统一命令入口，为 P3-I3 CI 配置做准备。
+P3-I2 之后的 CI 结论是“本地门禁已统一，CI 尚未落地”。当前 CI 不存在，不能宣称流水线已可用；当前可执行保障来自 `npm run quality` 和 `npm run quality:audit`。下一增量 P3-I3 应优先创建免费 CI 配置或完成本地到 CI 的明确映射，仍需先确认平台、账号、成本、网络和数据边界。

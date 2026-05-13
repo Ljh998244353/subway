@@ -26,13 +26,13 @@ body {
 
 body::before {
   background:
-    linear-gradient(to right, color-mix(in oklch, var(--color-text-muted) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklch, var(--color-text-muted) 6%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(to right, color-mix(in oklch, var(--color-text-muted) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--color-text-muted) 4%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
   content: "";
   inset: 0;
   mask-image: linear-gradient(to bottom, black, transparent 58%);
-  opacity: 0.34;
+  opacity: 0.24;
   pointer-events: none;
   position: fixed;
   z-index: 0;
@@ -85,8 +85,9 @@ main:focus-visible {
 
 .topbar {
   align-items: center;
-  background: color-mix(in oklch, var(--color-bg-surface) 96%, var(--color-bg-page));
+  background: color-mix(in oklch, var(--color-bg-surface) 94%, transparent);
   border-bottom: 1px solid var(--color-border-soft);
+  box-shadow: 0 1px 0 color-mix(in oklch, var(--color-text-primary) 3%, transparent);
   display: grid;
   gap: var(--space-16);
   grid-template-columns: minmax(280px, 1fr) auto auto;
@@ -220,8 +221,7 @@ main:focus-visible {
 }
 
 .sidebar {
-  background:
-    linear-gradient(to bottom, color-mix(in oklch, var(--color-bg-surface) 98%, var(--color-brand-faint)), var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-surface) 90%, var(--color-bg-page));
   border-right: 1px solid var(--color-border-soft);
   display: flex;
   flex-direction: column;
@@ -279,31 +279,32 @@ main:focus-visible {
   margin: 0 auto;
   max-width: var(--content-max-width);
   min-width: 0;
-  padding: var(--space-24);
+  padding: var(--space-32);
   width: 100%;
 }
 
 .page {
   display: grid;
-  gap: var(--space-24);
+  gap: var(--space-20);
 }
 
 .page-header {
   align-items: center;
-  background:
-    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-surface) 98%, var(--color-bg-page-warm)), var(--color-bg-surface));
-  border: 1px solid var(--color-border-soft);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-soft);
+  border-radius: 0;
+  box-shadow: none;
   display: flex;
   gap: var(--space-20);
   justify-content: space-between;
-  padding: var(--space-16);
+  padding: 0 0 var(--space-16);
 }
 
 .page-header h1 {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 28px;
+  font-weight: 760;
+  line-height: 36px;
   margin: 0;
 }
 
@@ -322,7 +323,7 @@ main:focus-visible {
 
 .filter-bar {
   align-items: center;
-  background: color-mix(in oklch, var(--color-bg-surface) 92%, var(--color-bg-subtle));
+  background: color-mix(in oklch, var(--color-bg-surface) 74%, var(--color-bg-subtle));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: flex;
@@ -333,8 +334,8 @@ main:focus-visible {
 }
 
 .filter-bar span {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border-faint);
+  background: color-mix(in oklch, var(--color-bg-surface) 86%, transparent);
+  border: 1px solid color-mix(in oklch, var(--color-border-faint) 78%, transparent);
   border-radius: var(--radius-pill);
   color: var(--color-text-secondary);
   font-size: 13px;
@@ -355,6 +356,7 @@ main:focus-visible {
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
+.motion-card-shell,
 .metric-card,
 .placeholder-panel {
   background: var(--color-bg-surface);
@@ -363,10 +365,16 @@ main:focus-visible {
   box-shadow: var(--shadow-card);
 }
 
+.motion-card-shell {
+  box-shadow: none;
+  display: grid;
+  grid-column: span 12;
+}
+
 .metric-card {
   display: grid;
   gap: var(--space-4);
-  grid-column: span 12;
+  grid-column: auto;
   min-height: 148px;
   padding: var(--space-16);
   position: relative;
@@ -406,13 +414,13 @@ main:focus-visible {
 }
 
 @media (min-width: 900px) {
-  .metric-card {
+  .motion-card-shell {
     grid-column: span 6;
   }
 }
 
 @media (min-width: 1400px) {
-  .metric-card {
+  .motion-card-shell {
     grid-column: span 2;
   }
 }
@@ -454,6 +462,7 @@ main:focus-visible {
 }
 
 .status-badge {
+  border: 1px solid color-mix(in oklch, currentColor 18%, transparent);
   border-radius: var(--radius-pill);
   display: inline-flex;
   font-size: 12px;
@@ -518,7 +527,7 @@ main:focus-visible {
 .operations-ribbon {
   align-items: center;
   background:
-    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-ink) 96%, var(--color-brand)), var(--color-bg-ink));
+    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-ink) 94%, var(--color-brand)), var(--color-bg-ink));
   border: 1px solid color-mix(in oklch, var(--color-bg-ink) 72%, var(--color-brand));
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-panel);
@@ -552,7 +561,7 @@ main:focus-visible {
 }
 
 .dashboard-panel {
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 96%, var(--color-bg-page));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -610,7 +619,7 @@ main:focus-visible {
 
 .trend-chart__svg {
   background:
-    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
+    linear-gradient(to bottom, color-mix(in oklch, var(--chart-traffic-soft) 62%, transparent), var(--chart-traffic-faint)),
     repeating-linear-gradient(to right, transparent 0, transparent 9%, var(--chart-grid) 9.1%, transparent 9.4%);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
@@ -686,6 +695,7 @@ main:focus-visible {
 }
 
 .floor-row {
+  background: color-mix(in oklch, var(--color-bg-surface) 84%, transparent);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -746,6 +756,7 @@ main:focus-visible {
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   overflow: hidden;
+  background: color-mix(in oklch, var(--color-bg-surface) 94%, transparent);
 }
 
 .data-table__row {
@@ -763,13 +774,14 @@ main:focus-visible {
 }
 
 .data-table__row--head {
-  background: color-mix(in oklch, var(--color-bg-subtle) 86%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
   color: var(--color-text-secondary);
   font-size: 13px;
   font-weight: 700;
 }
 
 .alert-item {
+  background: color-mix(in oklch, var(--color-bg-surface) 84%, transparent);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -820,6 +832,7 @@ main:focus-visible {
 .store-list__item {
   align-items: center;
   border: 1px solid var(--color-border-soft);
+  background: color-mix(in oklch, var(--color-bg-surface) 86%, transparent);
   border-radius: var(--radius-card);
   color: var(--color-text-primary);
   display: grid;
@@ -867,7 +880,7 @@ main:focus-visible {
 }
 
 .store-detail-metric {
-  background: color-mix(in oklch, var(--color-bg-subtle) 72%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 56%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -921,6 +934,7 @@ main:focus-visible {
 }
 
 .score-breakdown__item {
+  background: color-mix(in oklch, var(--color-bg-surface) 90%, transparent);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -961,7 +975,7 @@ main:focus-visible {
 }
 
 .reason-list li {
-  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 56%, var(--color-bg-surface));
   border: 1px solid var(--color-border-faint);
   border-radius: var(--radius-card);
   color: var(--color-text-secondary);
@@ -984,6 +998,7 @@ main:focus-visible {
 .related-alert {
   align-items: center;
   border: 1px solid var(--color-border-soft);
+  background: color-mix(in oklch, var(--color-bg-surface) 86%, transparent);
   border-radius: var(--radius-card);
   color: var(--color-text-primary);
   display: grid;
@@ -1013,7 +1028,7 @@ main:focus-visible {
 }
 
 .alert-summary-card {
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 95%, var(--color-bg-page));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -1035,7 +1050,7 @@ main:focus-visible {
 }
 
 .alert-summary-card::after {
-  background: color-mix(in oklch, var(--color-brand) 10%, transparent);
+  background: color-mix(in oklch, var(--color-brand) 18%, transparent);
   border-radius: var(--radius-pill);
   content: "";
   height: 8px;
@@ -1084,6 +1099,7 @@ main:focus-visible {
 
 .store-alert-list__item {
   border: 1px solid var(--color-border-soft);
+  background: color-mix(in oklch, var(--color-bg-surface) 86%, transparent);
   border-radius: var(--radius-card);
   color: var(--color-text-primary);
   display: grid;
@@ -1129,8 +1145,7 @@ main:focus-visible {
 }
 
 .alert-detail__summary {
-  background:
-    linear-gradient(135deg, color-mix(in oklch, var(--status-warning-bg) 42%, var(--color-bg-surface)), var(--color-bg-subtle));
+  background: color-mix(in oklch, var(--status-warning-bg) 34%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   padding: var(--space-16);
@@ -1157,7 +1172,7 @@ main:focus-visible {
 }
 
 .action-list li {
-  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 56%, var(--color-bg-surface));
   border: 1px solid var(--color-border-faint);
   border-radius: var(--radius-card);
   counter-increment: action-step;
@@ -1190,7 +1205,7 @@ main:focus-visible {
 
 .twin-control-row {
   align-items: center;
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 94%, var(--color-bg-page));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -1255,8 +1270,8 @@ main:focus-visible {
 
 .floor-plan__svg {
   background:
-    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
-    radial-gradient(circle at 22% 22%, color-mix(in oklch, var(--color-accent-green) 10%, transparent), transparent 28%),
+    linear-gradient(to bottom, color-mix(in oklch, var(--chart-traffic-soft) 48%, transparent), var(--chart-traffic-faint)),
+    radial-gradient(circle at 22% 22%, color-mix(in oklch, var(--color-accent-green) 7%, transparent), transparent 28%),
     var(--color-bg-subtle);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
@@ -1292,6 +1307,7 @@ main:focus-visible {
 .floor-plan__store.is-selected {
   fill: var(--color-brand-soft);
   stroke: var(--color-brand);
+  stroke-width: 3;
 }
 
 .floor-plan__store--c {
@@ -1319,15 +1335,15 @@ main:focus-visible {
 }
 
 .floor-plan__heat-point {
-  fill: color-mix(in oklch, var(--color-accent-red) 58%, transparent);
-  stroke: color-mix(in oklch, var(--color-accent-red) 20%, transparent);
+  fill: color-mix(in oklch, var(--color-accent-red) 48%, transparent);
+  stroke: color-mix(in oklch, var(--color-accent-red) 16%, transparent);
   stroke-width: 12;
 }
 
 .floor-plan__flow-line {
   stroke: var(--color-brand);
   stroke-linecap: round;
-  stroke-width: 8;
+  stroke-width: 7;
 }
 
 .floor-plan__flow-line--outbound {
@@ -1447,7 +1463,7 @@ main:focus-visible {
 
 .twin-store-card,
 .twin-alert-card {
-  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 52%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   color: var(--color-text-primary);
@@ -1489,7 +1505,7 @@ main:focus-visible {
 }
 
 .customer-summary-card {
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 95%, var(--color-bg-page));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -1547,7 +1563,7 @@ main:focus-visible {
 .time-distribution {
   align-items: end;
   background:
-    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
+    linear-gradient(to bottom, color-mix(in oklch, var(--chart-traffic-soft) 54%, transparent), var(--chart-traffic-faint)),
     repeating-linear-gradient(to right, transparent 0, transparent 8%, var(--chart-grid) 8.1%, transparent 8.4%);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
@@ -1661,13 +1677,26 @@ main:focus-visible {
 }
 
 .privacy-boundary-item {
-  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  background: color-mix(in oklch, var(--color-bg-subtle) 54%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
   gap: var(--space-4);
   min-height: 84px;
   padding: var(--space-12);
+}
+
+.metric-card,
+.dashboard-panel,
+.alert-summary-card,
+.customer-summary-card,
+.store-list__item,
+.store-alert-list__item,
+.floor-row,
+.alert-item,
+.profile-preference-row,
+.related-alert {
+  will-change: transform;
 }
 
 .privacy-boundary-item strong {

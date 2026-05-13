@@ -1,5 +1,6 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { FloorPlan } from '../components/FloorPlan';
+import { MotionSurface } from '../components/MotionSurface';
 import { StatusBadge } from '../components/StatusBadge';
 import { TwinInspector } from '../components/TwinInspector';
 import { mockAlerts, mockFloors, mockFlowEdges, mockHeatmapPoints, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
@@ -52,8 +53,8 @@ export function DigitalTwinPage() {
     buildStoreAlertsUrl({ alertId, storeId, floorId: viewModel.floor.id }, location.search);
 
   return (
-    <section className="page digital-twin-page">
-      <header className="page-header dashboard-header">
+    <MotionSurface as="section" className="page digital-twin-page">
+      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
           <p className="page-kicker">数字孪生 / {formatTimeRange(timeRange)} / Mock 数据</p>
           <h1>数字孪生</h1>
@@ -67,9 +68,9 @@ export function DigitalTwinPage() {
             重置视图
           </Link>
         </div>
-      </header>
+      </MotionSurface>
 
-      <div className="filter-bar" aria-label="数字孪生筛选摘要">
+      <MotionSurface className="filter-bar" aria-label="数字孪生筛选摘要" delay={0.04}>
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         <span>楼层：{viewModel.floor.name}</span>
@@ -77,9 +78,9 @@ export function DigitalTwinPage() {
         <span>店铺：{viewModel.selectedStore?.name ?? '无'}</span>
         <span>告警：{viewModel.selectedAlert?.id ?? '无'}</span>
         <span>数据源：自绘 Mock geometry</span>
-      </div>
+      </MotionSurface>
 
-      <div className="twin-control-row" aria-label="数字孪生控制">
+      <MotionSurface className="twin-control-row" aria-label="数字孪生控制" delay={0.06}>
         <div className="twin-control-copy">
           <span>空间模式</span>
           <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]}</strong>
@@ -106,9 +107,9 @@ export function DigitalTwinPage() {
             </Link>
           ))}
         </div>
-      </div>
+      </MotionSurface>
 
-      <div className="alert-summary-grid twin-metric-grid" aria-label="数字孪生指标">
+      <MotionSurface className="alert-summary-grid twin-metric-grid" aria-label="数字孪生指标" delay={0.08}>
         {viewModel.metrics.map((metric) => (
           <article className="alert-summary-card" key={metric.label}>
             <span>{metric.label}</span>
@@ -116,10 +117,10 @@ export function DigitalTwinPage() {
             <p>{metric.hint}</p>
           </article>
         ))}
-      </div>
+      </MotionSurface>
 
       <div className="digital-twin-layout">
-        <section className="dashboard-panel digital-twin-map-panel" aria-labelledby="floor-plan-heading">
+        <MotionSurface as="section" className="dashboard-panel digital-twin-map-panel" aria-labelledby="floor-plan-heading" delay={0.1}>
           <div className="panel-heading">
             <div>
               <h2 id="floor-plan-heading">自绘楼层平面</h2>
@@ -128,9 +129,9 @@ export function DigitalTwinPage() {
             <StatusBadge label={`${viewModel.stores.length} 店铺`} tone="neutral" />
           </div>
           <FloorPlan viewModel={viewModel} buildTwinUrl={buildTwinUrl} buildAlertUrl={(alertId) => buildStoreAlertsRoute(alertId)} />
-        </section>
+        </MotionSurface>
 
-        <section className="dashboard-panel digital-twin-inspector-panel" aria-labelledby="twin-inspector-heading">
+        <MotionSurface as="section" className="dashboard-panel digital-twin-inspector-panel" aria-labelledby="twin-inspector-heading" delay={0.12}>
           <div className="panel-heading">
             <div>
               <h2 id="twin-inspector-heading">空间检查器</h2>
@@ -142,8 +143,8 @@ export function DigitalTwinPage() {
             buildStoreAnalysisUrl={buildStoreAnalysisRoute}
             buildStoreAlertsUrl={buildStoreAlertsRoute}
           />
-        </section>
+        </MotionSurface>
       </div>
-    </section>
+    </MotionSurface>
   );
 }
