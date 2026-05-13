@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面和 P2-I9 CP2 前端 Demo 收口：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务或部署工程编码。
+当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口、CP2 后前端视觉重构和 P3-I1 工程化骨架规划与质量门禁对齐：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档、工程质量门禁文档、CI 计划文档，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务、CI 配置或部署工程编码。
 
 ## 文档入口
 
@@ -23,6 +23,8 @@
 | [docs/design/INTERACTION_SPEC.md](docs/design/INTERACTION_SPEC.md) | AI / 人类 | P1-I4 路由、筛选恢复、页面交互、键盘、响应式和可访问性规范 |
 | [docs/design/DESIGN_REVIEW_CHECKLIST.md](docs/design/DESIGN_REVIEW_CHECKLIST.md) | AI / 人类 | P1-I4 设计评审清单和 P2 前端实现门禁 |
 | [docs/FRONTEND_DEMO_HANDOFF.md](docs/FRONTEND_DEMO_HANDOFF.md) | AI / 人类 | P2-I9 CP2 前端 Demo 页面清单、演示路径、测试摘要和 P3 接力 |
+| [docs/ENGINEERING_QUALITY_GATES.md](docs/ENGINEERING_QUALITY_GATES.md) | AI / 人类 | P3-I1 工程质量门禁、可执行检查、阻断规则和后续阶段门禁 |
+| [docs/CI_PLAN.md](docs/CI_PLAN.md) | AI / 人类 | P3-I1 CI 计划、Job 拆分、本地等价命令和后续扩展点 |
 | [frontend/README.md](frontend/README.md) | AI / 人类 | P2 前端工程、Mock 数据、命令和边界 |
 | [frontend/package.json](frontend/package.json) | AI | 前端依赖和 `lint/test/build/dev` 命令 |
 | [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) | AI / 人类 | 当前已引用第三方工具、字体、素材或包的许可证记录 |
@@ -89,7 +91,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 ## 当前下一步
 
-下一步应执行 `P3-I1`，做工程化骨架规划与质量门禁对齐。
+下一步应执行 `P3-I2`，做根级质量门禁脚本或统一命令入口。
 
 给 AI 的指令：
 
@@ -97,7 +99,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 请进行下一步
 ```
 
-AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P3-I1`：工程化骨架规划与质量门禁对齐。P3-I1 优先定义根级质量门禁、CI 检查计划和 P3 拆分；不要直接创建后端或 AI 视频服务，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。
+AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P3-I2`：根级质量门禁脚本或统一命令入口。P3-I2 优先把 P3-I1 定义的文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令；不要创建后端或 AI 视频服务，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。若新增依赖或 CI/扫描工具，必须先审计许可证和成本。
 
 ## 当前检查方法
 
@@ -113,6 +115,8 @@ test -f docs/THIRD_PARTY_NOTICES.md
 test -f docs/PRD_v1.md
 test -f docs/REQUIREMENTS_ANALYSIS.md
 test -f docs/SYSTEM_DESIGN.md
+test -f docs/ENGINEERING_QUALITY_GATES.md
+test -f docs/CI_PLAN.md
 test -f docs/LICENSE_AUDIT.md
 test -f docs/design/SCREEN_LAYOUTS.md
 test -f docs/design/DESIGN_TOKENS.md
@@ -143,7 +147,7 @@ test -f skills/mall-vision-ai-delivery/SKILL.md
 test -f skills/mall-vision-ai-delivery/agents/openai.yaml
 test -f slides/project-intro.typ
 test -f slides/slide.pdf
-rg -n "P3-I1|engineering skeleton|质量门禁|CI|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
+rg -n "P3-I2|quality gate|质量门禁|CI|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md
 cd frontend
 npm run lint
 npm run test

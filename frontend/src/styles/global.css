@@ -3,7 +3,9 @@
 }
 
 html {
-  background: var(--color-bg-page);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-page-warm) 74%, transparent), transparent 34%),
+    var(--color-bg-page);
   color: var(--color-text-primary);
   font-family:
     Inter,
@@ -20,6 +22,20 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+}
+
+body::before {
+  background:
+    linear-gradient(to right, color-mix(in oklch, var(--color-text-muted) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--color-text-muted) 6%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  content: "";
+  inset: 0;
+  mask-image: linear-gradient(to bottom, black, transparent 58%);
+  opacity: 0.34;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
 }
 
 button,
@@ -63,11 +79,13 @@ main:focus-visible {
 
 .app-shell {
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .topbar {
   align-items: center;
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 96%, var(--color-bg-page));
   border-bottom: 1px solid var(--color-border-soft);
   display: grid;
   gap: var(--space-16);
@@ -97,9 +115,33 @@ main:focus-visible {
   flex-wrap: wrap;
 }
 
+.topbar__brand-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.topbar__mark {
+  align-items: center;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-brand) 96%, var(--color-accent-green)), var(--color-bg-ink));
+  border: 1px solid color-mix(in oklch, var(--color-brand) 56%, var(--color-border-soft));
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--color-text-inverse) 24%, transparent);
+  color: var(--color-text-inverse);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 800;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
 .topbar__title {
   font-size: 16px;
   font-weight: 700;
+  line-height: 20px;
 }
 
 .topbar__mall,
@@ -111,7 +153,7 @@ main:focus-visible {
 
 .status-chip {
   align-items: center;
-  background: var(--color-bg-subtle);
+  background: var(--color-bg-elevated);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-pill);
   display: inline-flex;
@@ -122,7 +164,7 @@ main:focus-visible {
 
 .status-chip--info {
   background: var(--status-info-bg);
-  border-color: #b8d3f3;
+  border-color: var(--status-info-border);
   color: var(--status-info-text);
   font-weight: 600;
 }
@@ -141,7 +183,9 @@ main:focus-visible {
   text-decoration: none;
   transition:
     background var(--duration-fast) var(--ease-standard),
-    border-color var(--duration-fast) var(--ease-standard);
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
 }
 
 .ghost-button {
@@ -152,16 +196,21 @@ main:focus-visible {
 
 .ghost-button:hover {
   border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
 }
 
 .primary-button {
   background: var(--color-brand);
+  border-color: color-mix(in oklch, var(--color-brand) 82%, var(--color-bg-ink));
   color: var(--color-text-inverse);
   font-weight: 600;
 }
 
 .primary-button:hover {
   background: var(--color-brand-hover);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .shell-body {
@@ -171,7 +220,8 @@ main:focus-visible {
 }
 
 .sidebar {
-  background: var(--color-bg-surface);
+  background:
+    linear-gradient(to bottom, color-mix(in oklch, var(--color-bg-surface) 98%, var(--color-brand-faint)), var(--color-bg-surface));
   border-right: 1px solid var(--color-border-soft);
   display: flex;
   flex-direction: column;
@@ -181,12 +231,12 @@ main:focus-visible {
 
 .sidebar__link {
   align-items: center;
-  border-left: 3px solid transparent;
+  border: 1px solid transparent;
   border-radius: var(--radius-4);
   color: var(--color-text-secondary);
   display: flex;
   gap: var(--space-8);
-  justify-content: space-between;
+  justify-content: flex-start;
   min-height: 40px;
   padding: 0 var(--space-12);
   text-decoration: none;
@@ -194,21 +244,33 @@ main:focus-visible {
 
 .sidebar__link:hover {
   background: var(--color-bg-subtle);
+  border-color: var(--color-border-soft);
   color: var(--color-text-primary);
 }
 
 .sidebar__link.is-active {
-  background: var(--color-brand-soft);
-  border-left-color: var(--color-brand);
+  background: var(--color-brand-faint);
+  border-color: color-mix(in oklch, var(--color-brand) 42%, var(--color-border-soft));
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-brand) 12%, transparent);
   color: var(--color-text-primary);
   font-weight: 700;
 }
 
+.sidebar__link.is-active::before {
+  background: var(--color-brand);
+  border-radius: 50%;
+  content: "";
+  height: 7px;
+  width: 7px;
+}
+
 .sidebar__badge {
-  background: var(--color-bg-subtle);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-pill);
   color: var(--color-text-secondary);
   font-size: 12px;
+  margin-left: auto;
   padding: 2px var(--space-8);
   white-space: nowrap;
 }
@@ -217,20 +279,26 @@ main:focus-visible {
   margin: 0 auto;
   max-width: var(--content-max-width);
   min-width: 0;
-  padding: var(--space-20);
+  padding: var(--space-24);
   width: 100%;
 }
 
 .page {
   display: grid;
-  gap: var(--space-20);
+  gap: var(--space-24);
 }
 
 .page-header {
-  align-items: flex-start;
+  align-items: center;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-surface) 98%, var(--color-bg-page-warm)), var(--color-bg-surface));
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   display: flex;
-  gap: var(--space-16);
+  gap: var(--space-20);
   justify-content: space-between;
+  padding: var(--space-16);
 }
 
 .page-header h1 {
@@ -246,14 +314,15 @@ main:focus-visible {
 }
 
 .page-kicker {
-  color: var(--color-text-muted);
+  color: var(--color-brand);
   font-size: 13px;
+  font-weight: 700;
   margin: 0 0 var(--space-4);
 }
 
 .filter-bar {
   align-items: center;
-  background: var(--color-bg-surface);
+  background: color-mix(in oklch, var(--color-bg-surface) 92%, var(--color-bg-subtle));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: flex;
@@ -264,7 +333,8 @@ main:focus-visible {
 }
 
 .filter-bar span {
-  background: var(--color-bg-subtle);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-faint);
   border-radius: var(--radius-pill);
   color: var(--color-text-secondary);
   font-size: 13px;
@@ -299,6 +369,40 @@ main:focus-visible {
   grid-column: span 12;
   min-height: 148px;
   padding: var(--space-16);
+  position: relative;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.metric-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.metric-card::after {
+  background: color-mix(in oklch, var(--color-brand) 10%, transparent);
+  border-radius: 50%;
+  content: "";
+  height: 42px;
+  position: absolute;
+  right: var(--space-16);
+  top: 46px;
+  width: 42px;
+}
+
+.metric-card--warning::after {
+  background: color-mix(in oklch, var(--color-accent-amber) 16%, transparent);
+}
+
+.metric-card--danger::after {
+  background: color-mix(in oklch, var(--color-accent-red) 14%, transparent);
+}
+
+.metric-card--normal::after {
+  background: color-mix(in oklch, var(--color-accent-green) 12%, transparent);
 }
 
 @media (min-width: 900px) {
@@ -314,8 +418,10 @@ main:focus-visible {
 }
 
 .metric-card strong {
-  font-size: 28px;
-  line-height: 36px;
+  font-size: 30px;
+  line-height: 38px;
+  position: relative;
+  z-index: 1;
 }
 
 .metric-card__topline,
@@ -409,6 +515,42 @@ main:focus-visible {
   justify-content: flex-end;
 }
 
+.operations-ribbon {
+  align-items: center;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--color-bg-ink) 96%, var(--color-brand)), var(--color-bg-ink));
+  border: 1px solid color-mix(in oklch, var(--color-bg-ink) 72%, var(--color-brand));
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-panel);
+  color: var(--color-text-inverse);
+  display: grid;
+  gap: var(--space-16);
+  grid-template-columns: minmax(220px, auto) minmax(0, 1fr) auto;
+  min-height: 84px;
+  padding: var(--space-16);
+}
+
+.operations-ribbon span,
+.operations-ribbon p {
+  color: color-mix(in oklch, var(--color-text-inverse) 76%, transparent);
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.operations-ribbon strong {
+  display: block;
+  font-size: 20px;
+  line-height: 28px;
+  margin-top: var(--space-4);
+}
+
+.operations-ribbon .ghost-button {
+  background: color-mix(in oklch, var(--color-text-inverse) 12%, transparent);
+  border-color: color-mix(in oklch, var(--color-text-inverse) 28%, transparent);
+  color: var(--color-text-inverse);
+}
+
 .dashboard-panel {
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-soft);
@@ -419,6 +561,14 @@ main:focus-visible {
   grid-column: span 12;
   min-height: 260px;
   padding: var(--space-16);
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.dashboard-panel:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-panel);
 }
 
 .dashboard-panel--wide {
@@ -460,8 +610,8 @@ main:focus-visible {
 
 .trend-chart__svg {
   background:
-    linear-gradient(to bottom, rgba(20, 125, 143, 0.08), rgba(20, 125, 143, 0.01)),
-    repeating-linear-gradient(to right, transparent 0, transparent 9%, rgba(83, 98, 114, 0.08) 9.1%, transparent 9.4%);
+    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
+    repeating-linear-gradient(to right, transparent 0, transparent 9%, var(--chart-grid) 9.1%, transparent 9.4%);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   min-height: 280px;
@@ -543,11 +693,28 @@ main:focus-visible {
   padding: var(--space-12);
 }
 
+.floor-row,
+.alert-item,
+.data-table__row:not(.data-table__row--head),
+.store-list__item,
+.store-alert-list__item,
+.profile-preference-row,
+.related-alert,
+.twin-store-card,
+.twin-alert-card {
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
 .floor-row:hover,
 .alert-item:hover,
 .data-table__row:not(.data-table__row--head):hover {
   border-color: var(--color-border-strong);
   background: var(--color-bg-subtle);
+  transform: translateY(-1px);
 }
 
 .floor-row__name {
@@ -596,7 +763,7 @@ main:focus-visible {
 }
 
 .data-table__row--head {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 86%, var(--color-bg-surface));
   color: var(--color-text-secondary);
   font-size: 13px;
   font-weight: 700;
@@ -608,6 +775,10 @@ main:focus-visible {
   display: grid;
   gap: var(--space-8);
   padding: var(--space-12);
+}
+
+.alert-item:hover {
+  box-shadow: var(--shadow-card);
 }
 
 .alert-item strong {
@@ -666,7 +837,9 @@ main:focus-visible {
 }
 
 .store-list__item.is-selected {
-  box-shadow: inset 3px 0 0 var(--color-brand);
+  background: var(--color-brand-faint);
+  border-color: color-mix(in oklch, var(--color-brand) 48%, var(--color-border-soft));
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-brand) 16%, transparent);
 }
 
 .store-list__item strong,
@@ -694,7 +867,7 @@ main:focus-visible {
 }
 
 .store-detail-metric {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 72%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -788,7 +961,8 @@ main:focus-visible {
 }
 
 .reason-list li {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  border: 1px solid var(--color-border-faint);
   border-radius: var(--radius-card);
   color: var(--color-text-secondary);
   line-height: 22px;
@@ -847,6 +1021,26 @@ main:focus-visible {
   gap: var(--space-4);
   min-height: 112px;
   padding: var(--space-16);
+  position: relative;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.alert-summary-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.alert-summary-card::after {
+  background: color-mix(in oklch, var(--color-brand) 10%, transparent);
+  border-radius: var(--radius-pill);
+  content: "";
+  height: 8px;
+  justify-self: start;
+  width: 42px;
 }
 
 .alert-summary-card span,
@@ -906,7 +1100,9 @@ main:focus-visible {
 }
 
 .store-alert-list__item.is-selected {
-  box-shadow: inset 3px 0 0 var(--color-brand);
+  background: var(--color-brand-faint);
+  border-color: color-mix(in oklch, var(--color-brand) 48%, var(--color-border-soft));
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-brand) 16%, transparent);
 }
 
 .store-alert-list__topline,
@@ -933,7 +1129,8 @@ main:focus-visible {
 }
 
 .alert-detail__summary {
-  background: var(--color-bg-subtle);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--status-warning-bg) 42%, var(--color-bg-surface)), var(--color-bg-subtle));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   padding: var(--space-16);
@@ -960,7 +1157,8 @@ main:focus-visible {
 }
 
 .action-list li {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
+  border: 1px solid var(--color-border-faint);
   border-radius: var(--radius-card);
   counter-increment: action-step;
   display: grid;
@@ -992,10 +1190,15 @@ main:focus-visible {
 
 .twin-control-row {
   align-items: center;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-12);
   justify-content: space-between;
+  padding: var(--space-12);
 }
 
 .twin-control-group {
@@ -1004,8 +1207,25 @@ main:focus-visible {
   gap: var(--space-8);
 }
 
+.twin-control-copy {
+  display: grid;
+  gap: 2px;
+  margin-right: auto;
+  min-width: 180px;
+}
+
+.twin-control-copy span {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.twin-control-copy strong {
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .ghost-button.is-active {
-  background: var(--color-brand-soft);
+  background: var(--color-brand-faint);
   border-color: var(--color-brand);
   color: var(--color-brand);
   font-weight: 700;
@@ -1035,8 +1255,8 @@ main:focus-visible {
 
 .floor-plan__svg {
   background:
-    linear-gradient(to bottom, rgba(20, 125, 143, 0.08), rgba(20, 125, 143, 0.02)),
-    radial-gradient(circle at 22% 22%, rgba(34, 197, 94, 0.08), transparent 28%),
+    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
+    radial-gradient(circle at 22% 22%, color-mix(in oklch, var(--color-accent-green) 10%, transparent), transparent 28%),
     var(--color-bg-subtle);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
@@ -1046,7 +1266,7 @@ main:focus-visible {
 }
 
 .floor-plan__boundary {
-  fill: rgba(255, 255, 255, 0.78);
+  fill: color-mix(in oklch, var(--color-bg-surface) 82%, transparent);
   stroke: var(--color-border-strong);
   stroke-width: 2;
 }
@@ -1054,13 +1274,13 @@ main:focus-visible {
 .floor-plan__corridor {
   fill: none;
   opacity: 0.7;
-  stroke: #d3dde7;
+  stroke: var(--plan-corridor);
   stroke-linecap: round;
   stroke-width: 32;
 }
 
 .floor-plan__store {
-  fill: #ffffff;
+  fill: var(--plan-store-fill);
   stroke: var(--color-border-soft);
   stroke-width: 2;
   transition:
@@ -1075,11 +1295,11 @@ main:focus-visible {
 }
 
 .floor-plan__store--c {
-  fill: #fff8e8;
+  fill: var(--plan-store-c);
 }
 
 .floor-plan__store--d {
-  fill: #fff0f0;
+  fill: var(--plan-store-d);
 }
 
 .floor-plan__store-label,
@@ -1099,8 +1319,8 @@ main:focus-visible {
 }
 
 .floor-plan__heat-point {
-  fill: rgba(239, 68, 68, 0.5);
-  stroke: rgba(239, 68, 68, 0.18);
+  fill: color-mix(in oklch, var(--color-accent-red) 58%, transparent);
+  stroke: color-mix(in oklch, var(--color-accent-red) 20%, transparent);
   stroke-width: 12;
 }
 
@@ -1111,11 +1331,11 @@ main:focus-visible {
 }
 
 .floor-plan__flow-line--outbound {
-  stroke: #64748b;
+  stroke: var(--color-text-muted);
 }
 
 .floor-plan__flow-line--cross {
-  stroke: #8b5cf6;
+  stroke: var(--color-accent-purple);
 }
 
 .floor-plan__arrow {
@@ -1180,7 +1400,7 @@ main:focus-visible {
 }
 
 .legend-swatch--heat {
-  background: rgba(239, 68, 68, 0.58);
+  background: color-mix(in oklch, var(--color-accent-red) 62%, transparent);
 }
 
 .legend-swatch--flow {
@@ -1227,7 +1447,7 @@ main:focus-visible {
 
 .twin-store-card,
 .twin-alert-card {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   color: var(--color-text-primary);
@@ -1278,6 +1498,16 @@ main:focus-visible {
   grid-column: span 12;
   min-height: 148px;
   padding: var(--space-16);
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.customer-summary-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .customer-summary-card strong {
@@ -1299,16 +1529,16 @@ main:focus-visible {
 }
 
 .customer-summary-card--warning {
-  border-color: #f4d18c;
+  border-color: var(--status-warning-border);
 }
 
 .customer-summary-card--info {
-  border-color: #b8d3f3;
+  border-color: var(--status-info-border);
 }
 
 .customer-privacy-notice {
   background: var(--status-info-bg);
-  border: 1px solid #b8d3f3;
+  border: 1px solid var(--status-info-border);
   border-radius: var(--radius-card);
   color: var(--status-info-text);
   padding: var(--space-12) var(--space-16);
@@ -1317,8 +1547,8 @@ main:focus-visible {
 .time-distribution {
   align-items: end;
   background:
-    linear-gradient(to bottom, rgba(20, 125, 143, 0.06), rgba(20, 125, 143, 0.01)),
-    repeating-linear-gradient(to right, transparent 0, transparent 8%, rgba(83, 98, 114, 0.08) 8.1%, transparent 8.4%);
+    linear-gradient(to bottom, var(--chart-traffic-soft), var(--chart-traffic-faint)),
+    repeating-linear-gradient(to right, transparent 0, transparent 8%, var(--chart-grid) 8.1%, transparent 8.4%);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;
@@ -1347,8 +1577,8 @@ main:focus-visible {
 
 .time-bar__track {
   align-items: end;
-  background: rgba(20, 125, 143, 0.09);
-  border: 1px solid rgba(20, 125, 143, 0.12);
+  background: color-mix(in oklch, var(--color-brand) 10%, var(--color-bg-surface));
+  border: 1px solid color-mix(in oklch, var(--color-brand) 16%, var(--color-border-soft));
   border-radius: var(--radius-pill);
   display: flex;
   height: 100%;
@@ -1367,7 +1597,7 @@ main:focus-visible {
 
 .time-bar.is-peak .time-bar__track {
   background: var(--status-warning-bg);
-  border-color: #f4d18c;
+  border-color: var(--status-warning-border);
 }
 
 .time-bar.is-peak .time-bar__track span {
@@ -1396,6 +1626,8 @@ main:focus-visible {
 .profile-preference-row:hover {
   background: var(--color-bg-subtle);
   border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
 }
 
 .profile-preference-row__label {
@@ -1429,7 +1661,7 @@ main:focus-visible {
 }
 
 .privacy-boundary-item {
-  background: var(--color-bg-subtle);
+  background: color-mix(in oklch, var(--color-bg-subtle) 74%, var(--color-bg-surface));
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   display: grid;

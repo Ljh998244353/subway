@@ -1,10 +1,10 @@
 # Deployment State
 
-更新时间：2026-05-11
+更新时间：2026-05-13
 
 ## 当前状态
 
-尚未创建部署工程、Docker Compose、CI 或环境变量模板。
+尚未创建部署工程、Docker Compose、CI 或环境变量模板。P3-I1 已新增工程质量门禁和 CI 计划文档，但未创建 `infra/`、Docker Compose 文件、CI 配置或任何外部服务绑定。
 
 补充：`slides/slidev/` 已生成静态演示稿构建产物 `slides/slidev/dist/`，这只属于演示材料，不代表系统部署工程。
 
@@ -39,4 +39,4 @@ worker or scheduler
 
 ## 下一步
 
-P3-I1 做工程化骨架规划与质量门禁对齐，优先定义根级质量门禁、CI 检查计划、Docker Compose 规划边界和 P3 拆分；是否创建 `infra/` 需由 P3-I1 的小增量边界明确。P11 完成部署与观测。
+P3-I2 做根级质量门禁脚本或统一命令入口，仍不创建部署工程。P3-I3 再创建 CI 配置，P3-I4 再规划或创建 Docker Compose 草案。任何 CI 工具、Docker 镜像、扫描工具或外部服务都必须先审计许可证、成本和账号要求。P11 完成部署与观测。

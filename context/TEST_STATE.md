@@ -1,10 +1,10 @@
 # Test State
 
-更新时间：2026-05-11
+更新时间：2026-05-13
 
 ## 当前状态
 
-P0 与 P1 使用文档和结构检查。P2-I1 已创建前端工程基础测试，P2-I2 已补充 Mock 数据边界测试，P2-I3 已补充 Dashboard view model 与路由测试，P2-I4 已补充 Store Analysis view model 与路由测试，P2-I5 已补充 Store Alerts view model 与路由测试，P2-I6 已补充 Digital Twin view model 与空间边界测试，P2-I7 已补充核心演示流转和响应式 CSS 检查，P2-I8 已补充 Customer Profile view model、drill-down、隐私和空态测试，P2-I9 已补充 CP2 Demo readiness 测试和前端交接检查。当前没有后端、AI 服务、CI、浏览器 E2E 或覆盖率统计。
+P0 与 P1 使用文档和结构检查。P2-I1 已创建前端工程基础测试，P2-I2 已补充 Mock 数据边界测试，P2-I3 已补充 Dashboard view model 与路由测试，P2-I4 已补充 Store Analysis view model 与路由测试，P2-I5 已补充 Store Alerts view model 与路由测试，P2-I6 已补充 Digital Twin view model 与空间边界测试，P2-I7 已补充核心演示流转和响应式 CSS 检查，P2-I8 已补充 Customer Profile view model、drill-down、隐私和空态测试，P2-I9 已补充 CP2 Demo readiness 测试和前端交接检查。2026-05-13 前端视觉重构后 `npm run lint`、`npm run test`、`npm run build` 均通过。P3-I1 已新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`，并对齐文档结构、合规关键词、工程边界和前端门禁。当前没有后端、AI 服务、CI、浏览器 E2E 或覆盖率统计。
 
 ## 当前前端测试命令
 
@@ -20,12 +20,12 @@ npm audit --audit-level=high
 
 | 命令 | 结果 |
 | --- | --- |
-| `npm run lint` | 通过，执行 `tsc -b --pretty false` |
-| `npm run test` | 通过，执行 `src/routes/routeConfig.test.ts`、`src/routes/demoFlow.test.ts`、`src/routes/demoReadiness.test.ts`、`src/mock/mockData.test.ts`、`src/pages/DashboardPage.test.ts`、`src/pages/StoreAnalysisPage.test.ts`、`src/pages/StoreAlertsPage.test.ts`、`src/pages/DigitalTwinPage.test.ts`、`src/pages/CustomerProfilePage.test.ts`、`src/styles/responsiveChecks.test.ts`；10 个测试文件全部通过 |
-| `npm run build` | 通过，输出 `frontend/dist/`；Vite 仅提示 React Router 依赖内 `"use client"` 指令被忽略 |
-| `npm audit --audit-level=high` | 通过，联网重试后返回 `found 0 vulnerabilities` |
+| `npm run lint` | 2026-05-13 通过，执行 `tsc -b --pretty false` |
+| `npm run test` | 2026-05-13 通过，执行 `src/routes/routeConfig.test.ts`、`src/routes/demoFlow.test.ts`、`src/routes/demoReadiness.test.ts`、`src/mock/mockData.test.ts`、`src/pages/DashboardPage.test.ts`、`src/pages/StoreAnalysisPage.test.ts`、`src/pages/StoreAlertsPage.test.ts`、`src/pages/DigitalTwinPage.test.ts`、`src/pages/CustomerProfilePage.test.ts`、`src/styles/responsiveChecks.test.ts`；10 个测试文件全部通过 |
+| `npm run build` | 2026-05-13 通过，输出 `frontend/dist/`；Vite 仅提示 React Router 依赖内 `"use client"` 指令被忽略 |
+| `npm audit --audit-level=high` | P3-I1 通过；沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，结果 `found 0 vulnerabilities`；2026-05-13 未新增依赖 |
 
-说明：`npm audit --audit-level=high` 在沙箱内首次因 DNS `EAI_AGAIN` 失败，随后按权限规则联网重试并通过。
+说明：`npm audit --audit-level=high` 在沙箱内因 DNS `EAI_AGAIN` 失败，随后按权限规则联网重试并通过。
 
 ## 已有测试
 
@@ -114,8 +114,10 @@ test -f frontend/src/routes/demoReadiness.test.ts
 test -f frontend/src/styles/responsiveChecks.test.ts
 test -f context/TODO_NEXT.md
 test -f docs/FRONTEND_DEMO_HANDOFF.md
+test -f docs/ENGINEERING_QUALITY_GATES.md
+test -f docs/CI_PLAN.md
 rg -n "不使用真实监控画面|不存储人脸原图|不展示个人轨迹|不使用未授权商场平面图|不使用真实品牌|不引入付费" docs context IMPORTANT.md
-rg -n "P3-I1|engineering skeleton|质量门禁|CI|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md
+rg -n "P3-I2|quality gate|质量门禁|CI|请进行下一步|MySQL|sudo|虚拟环境" PROGRESS.md context/TODO_NEXT.md AGENT.md README.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md
 python /home/ljh/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/mall-vision-ai-delivery
 ```
 
@@ -151,14 +153,36 @@ AI validation tests include deterministic videos or synthetic fixtures
 | 工程边界 | 通过，根目录没有 `backend/`、`ai-services/`、`infra/` |
 | 合规关键词 | 通过，隐私、真实素材、付费边界仍可在 docs/context/IMPORTANT.md 检索 |
 
+## CP2 后前端视觉重构检查结果
+
+| 检查 | 结果 |
+| --- | --- |
+| `npm run lint` | 通过 |
+| `npm run test` | 通过，10 个测试文件全部通过 |
+| `npm run build` | 通过；Vite 仅提示 React Router 依赖内 `"use client"` 指令被忽略 |
+| 本地预览 | 已启动 `http://127.0.0.1:5174/` |
+| 依赖边界 | 通过，未新增依赖、字体文件、图标库、图片、视频、模型、数据集或外部服务 |
+
+## P3-I1 检查结果
+
+| 检查 | 结果 |
+| --- | --- |
+| 工程质量门禁文档 | 已新增 `docs/ENGINEERING_QUALITY_GATES.md` |
+| CI 计划文档 | 已新增 `docs/CI_PLAN.md` |
+| 文档结构检查 | 通过，P3-I1 关键文档、`PRODUCT.md`、`DESIGN.md` 和 `context/TODO_NEXT.md` 存在 |
+| 合规关键词检查 | 通过，隐私、真实素材、付费、MySQL、sudo、虚拟环境和 P3-I2 接力关键词可检索 |
+| 前端 lint/test/build/audit | 通过，`npm run lint`、`npm run test`、`npm run build`、`npm audit --audit-level=high` 均通过；audit 沙箱内 DNS 失败后联网重试返回 `found 0 vulnerabilities` |
+| 工程边界 | 通过，根目录没有 `backend/`、`ai-services/`、`infra/` |
+| 依赖边界 | P3-I1 未新增依赖、镜像、CI 工具或外部服务 |
+
 ## 下一步测试关注点
 
-P3-I1 做工程化骨架规划与质量门禁对齐时至少测试：
+P3-I2 做根级质量门禁脚本或统一命令入口时至少测试：
 
 ```text
 确认 P2 前端门禁仍可通过 npm run lint/test/build/audit
-确认根级质量门禁不会跳过 frontend 现有检查
+确认根级脚本不会跳过 frontend 现有检查
 确认文档记录当前无后端、无 AI 服务、无 CI、无浏览器 E2E 和覆盖率统计
-确认 P3 规划仍保留 MySQL、Python venv 和 sudo 规则
+确认 P3 规划和脚本仍保留 MySQL、Python venv 和 sudo 规则
 如果新增 CI、Docker 或依赖，必须更新第三方声明和许可证审计
 ```

@@ -80,6 +80,10 @@ export function DigitalTwinPage() {
       </div>
 
       <div className="twin-control-row" aria-label="数字孪生控制">
+        <div className="twin-control-copy">
+          <span>空间模式</span>
+          <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]}</strong>
+        </div>
         <div className="twin-control-group" aria-label="楼层切换">
           {mockFloors.map((floor) => (
             <Link

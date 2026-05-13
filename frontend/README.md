@@ -21,9 +21,14 @@ Digital twin SVG floor plan with heatmap, flow, alert, and score modes
 Shared demo flow helpers and Node checks for cross-page query preservation
 CP2 demo readiness checks for five core routes, presentation paths, and privacy boundaries
 Responsive CSS checks for core demo layouts
+CP2 visual refinement with local CSS, OKLCH tokens, self-drawn SVG, and no paid assets
 ```
 
 It does not implement real APIs, real video, real mall maps, brand logos, backend services, AI services, or deployment infrastructure.
+
+## Visual Context
+
+The current UI has a product-workbench design context in `../PRODUCT.md` and `../DESIGN.md`. The CP2 visual refinement uses only local React/CSS, system font fallbacks, OKLCH tokens, and self-drawn SVG geometry. It does not add icon packs, font files, images, videos, external design assets, or paid services.
 
 ## Mock Data
 

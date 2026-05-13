@@ -14,8 +14,11 @@ export function AppShell({ children }: PropsWithChildren) {
 
       <header className="topbar" aria-label="全局上下文">
         <div className="topbar__brand">
-          <span className="topbar__title">商业综合体视觉 AI 数字孪生运营系统</span>
-          <span className="topbar__mall">示范商业中心</span>
+          <span className="topbar__mark" aria-hidden="true">M</span>
+          <span className="topbar__brand-copy">
+            <span className="topbar__title">商业综合体视觉 AI 数字孪生运营系统</span>
+            <span className="topbar__mall">示范商业中心</span>
+          </span>
         </div>
 
         <div className="topbar__filters" aria-label="全局筛选">

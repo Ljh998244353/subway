@@ -42,6 +42,7 @@ export function DashboardPage() {
   const timeRange = params.get('timeRange') || 'today';
   const floorId = params.get('floorId') || 'all';
   const selectedFloor = floorId === 'all' ? undefined : mockFloors.find((floor) => floor.id === floorId);
+  const openHighAlertCount = dashboard.alerts.filter((alert) => alert.level === 'high' && alert.status !== 'resolved').length;
 
   return (
     <section className="page dashboard-page">
@@ -68,6 +69,19 @@ export function DashboardPage() {
         <span>数据源：Mock</span>
         <span>最近更新：{new Date(mockOverview.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</span>
       </div>
+
+      <section className="operations-ribbon" aria-label="运营巡检摘要">
+        <div>
+          <span>今日巡检重点</span>
+          <strong>{openHighAlertCount} 条高风险未闭环</strong>
+        </div>
+        <p>
+          优先查看 {dashboard.busiestFloor?.floorName ?? '拥挤楼层'} 的空间拥挤和低效店铺，演示数据仅用于课程 Demo。
+        </p>
+        <Link className="ghost-button link-button" to={buildStoreAlertsUrl({}, location.search)}>
+          进入预警队列
+        </Link>
+      </section>
 
       <SummaryStrip metrics={dashboard.metrics} />
 
