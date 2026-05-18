@@ -28,3 +28,6 @@
 | 2026-05-13 | P3-I1 只产出工程质量门禁和 CI 计划文档，不创建 CI、Docker、后端或 AI 服务 | 先对齐可重复门禁和边界，避免一口气引入工具、镜像、账号或未审计依赖 | 新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`；下一步 P3-I2 创建根级质量门禁脚本或统一命令入口 |
 | 2026-05-13 | 极简高级全站精修允许新增已审计 MIT `motion` 依赖 | 用户选择“极简高级版”“全站五页”和“允许动画库”；`motion` 可在 React 19 下提供克制状态动效，npm lockfile 记录许可证为 MIT | 新增 `MotionSurface`，五页使用页面/面板入场动效；更新第三方声明和许可证审计；下一步仍保持 P3-I2 |
 | 2026-05-13 | P3-I2 采用根级 npm scripts 和 Node 内置脚本实现本地质量门禁 | 避免新增依赖、付费工具、CI 账号或外部服务，同时让文档、合规、边界和前端 lint/test/build 可由一条命令重复执行 | 新增 `package.json` 与 `scripts/quality-gate.mjs`；`npm run quality` 运行基础门禁，`npm run quality:audit` 单独运行高危依赖审计；下一步 P3-I3 复用该入口做免费 CI 映射 |
+| 2026-05-13 | P3-I3 采用 GitHub Actions 作为 GitHub 端免费 CI，并明确 Gitee 镜像边界 | GitHub Actions 可直接运行 `.github/workflows/ci.yml`，复用现有根级门禁；用户说明会同步到 Gitee，因此必须避免误认为 Gitee 自动运行 GitHub workflow | 新增 `.github/workflows/ci.yml`，运行 `npm run quality` 和 `npm run quality:audit`；同步到 Gitee 时 workflow 只是普通文件，后续如需 Gitee Go 另开增量审计 `/.workflow/` 配置 |
+| 2026-05-13 | P3-I3 将合规关键词检查从 `ripgrep` 改为 Node 内置扫描 | CI runner 不应为了关键词检查安装系统工具或执行 sudo；Node 扫描与现有根级脚本一致，减少 CI 环境差异 | `scripts/quality-gate.mjs` 不再要求运行时存在 `rg`；`ripgrep` 仍保留为本地可选开发工具记录 |
+| 2026-05-13 | P3-I4 选择部署文档优先，不创建真实 Docker Compose | 后端、AI 服务和健康检查尚未实现，过早创建 Compose 会引入未审计镜像并制造不可运行的假部署 | 新增 `docs/DEPLOYMENT_PLAN.md`，根级 docs 门禁检查部署计划；下一步 P4-I1 先固化后端 API 契约和 MySQL 数据模型基线 |

@@ -26,6 +26,11 @@ This file records third-party resources currently referenced by project delivera
 | @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | TypeScript type definitions for React DOM | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | TypeScript type definitions for Node APIs used by tests/config | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
 | ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 | Unlicense OR MIT | Local developer quality gate keyword scanning via `scripts/quality-gate.mjs`; not bundled into frontend runtime | Unlicense/MIT generally permit commercial use | Preserve license notice if redistributed; CI installation source must be reviewed before use | Allowed for local checks |
+| GitHub Actions | https://docs.github.com/actions | Hosted CI service | GitHub service terms | GitHub-side CI runner for `.github/workflows/ci.yml`; runs root quality gate and npm audit | Public repositories generally have free hosted-runner use; private repositories or overage may require account/billing review | Requires GitHub account and service terms; do not put secrets or personal data into logs | Allowed for GitHub-side CI |
+| actions/checkout | https://github.com/actions/checkout | 6.0.2 | MIT | Official GitHub Action for repository checkout in CI | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+| actions/setup-node | https://github.com/actions/setup-node | 6.4.0 | MIT | Official GitHub Action for Node 24 setup and npm cache in CI | MIT generally permits commercial use with license notice | Preserve license notice | Allowed |
+
+P3-I4 note: `docs/DEPLOYMENT_PLAN.md` is a project-authored deployment planning document. P3-I4 does not add Docker images, database services, cloud services, scanners, npm packages, fonts, images, videos, models, datasets, or external accounts, so no new third-party runtime record is added for this increment.
 
 ## Blocked Until Reviewed
 

@@ -27,6 +27,9 @@
 | 极简高级全站精修允许 `motion` | `motion@12.38.0` 已按 MIT 记录，用于克制状态动效；后续不得借此引入未审计图片、图标、字体或付费服务 |
 | P3-I1 工程化规划已完成 | 后续 P3-I2/P3-I3/P3-I4 应按 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md` 分步落地，不能跳到生产部署 |
 | P3-I2 根级质量门禁已完成 | 后续 P3-I3 应复用 `npm run quality` 和 `npm run quality:audit`，避免 CI 与本地检查分叉 |
+| P3-I3 GitHub Actions CI 已完成 | GitHub 端 CI 复用根级门禁；Gitee 镜像不会自动运行 `.github/workflows/ci.yml` |
+| P3-I4 部署计划已完成 | 当前只新增 `docs/DEPLOYMENT_PLAN.md` 和部署文档门禁，不创建真实 Compose、镜像、数据库服务或生产部署 |
+| P4-I1 将进入后端契约基线 | 先固化 `/api/v1`、`/api/v1/health`、MySQL 数据模型和测试策略；如创建 `backend/` 必须重建 Python venv |
 | 数据库使用 MySQL | 后续 P4 数据模型、迁移、容器和连接串必须按 MySQL 设计 |
 | 后续 Python 环境重新创建虚拟环境 | 避免旧依赖污染 backend/ 和 ai-services/ |
 | 需要 sudo 的命令由人类执行 | AI 必须暂停并等待执行结果 |
@@ -51,7 +54,10 @@
 | 前端视觉打磨可能诱发外部图片、图标库、字体或付费设计工具 | 中 | 2026-05-13 重构只用本地 CSS/React、自绘 SVG 和系统字体；后续新增素材或依赖必须先审计许可证和成本 |
 | 前端动画库增加依赖面和 bundle 体积 | 中 | 已选择 MIT `motion@12.38.0`，只用于克制页面/面板状态动效；保留 reduced motion，运行 lint/test/build/audit |
 | CI、Docker、扫描工具可能诱发账号、付费额度或许可证风险 | 中 | P3-I2 只新增本地脚本且未新增依赖；P3-I3/P3-I4 如引入 CI 服务、Docker 镜像或扫描工具，先审计许可证、成本、账号要求和数据传输边界 |
+| GitHub Actions 账号、额度和日志数据边界 | 中 | P3-I3 只运行质量门禁和高危 npm audit，不使用 secrets、不上传构建产物、不接真实数据；私有仓库或超额使用需人工确认 GitHub 额度和计费 |
+| Gitee 镜像不自动运行 GitHub Actions | 中 | 文档明确 `.github/workflows/ci.yml` 同步到 Gitee 只是普通文件；如需要 Gitee Go，单独增量评估 `/.workflow/`、免费额度、账号、服务条款和日志数据 |
+| 过早创建 Docker Compose 造成假部署 | 中 | P3-I4 选择部署文档优先；后续等 `/api/v1/health`、MySQL 数据模型和后端骨架明确后再创建可运行 Compose |
 
 ## 下一步动作
 
-P3-I3 做免费 CI 配置或本地到 CI 映射时继续避免真实监控、会员身份、人脸、个人轨迹、真实品牌和未授权视觉素材；优先复用 `npm run quality` 和 `npm run quality:audit`，不直接接真实 API 或创建 AI 服务。如新增 CI 工具、Docker 镜像、依赖或外部服务，必须先审计许可证和成本并更新第三方记录。如 npm 网络审计受限，需要按审批规则处理；如遇 sudo 或系统级安装要求，AI 必须停下来让人类执行。
+P4-I1 做后端 API 契约和 MySQL 数据模型基线时继续避免真实监控、会员身份、人脸、个人轨迹、真实品牌和未授权视觉素材；优先复用 GitHub Actions、`npm run quality` 和 `npm run quality:audit`，先固化 `/api/v1/health`、错误码、RBAC 占位和 MySQL 表边界。如新增 `backend/`、Python 依赖、MySQL driver、Docker 镜像、数据库服务、Gitee Go、依赖或外部服务，必须先审计许可证和成本并更新第三方记录。如 npm 网络审计受限，需要按审批规则处理；如遇 sudo 或系统级安装要求，AI 必须停下来让人类执行。

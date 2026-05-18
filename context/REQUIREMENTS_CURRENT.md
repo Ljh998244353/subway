@@ -62,4 +62,4 @@ AI 事件模型草案
 
 ## 下一步需求工作
 
-P2-I9 已完成 CP2 前端 Demo 收口和交接，覆盖五个核心页面演示路径、测试报告摘要、已知缺口和 P3 接力。P3-I1 已完成工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。下一步 P3-I2 做根级质量门禁脚本或统一命令入口，应把文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令；不要直接创建后端或 AI 服务，不接真实 API，不创建 CI 配置或 Docker Compose，不使用真实商场平面图、真实地图、真实 BIM、真实商场或真实品牌素材，不展示个人轨迹、会员身份、人脸或个人画像。
+P2-I9 已完成 CP2 前端 Demo 收口和交接，覆盖五个核心页面演示路径、测试报告摘要、已知缺口和 P3 接力。P3-I1 已完成工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。P3-I2 已完成根级质量门禁脚本或统一命令入口，把文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令。P3-I3 已完成 GitHub Actions 免费 CI 配置，GitHub 端运行根级质量门禁；同步到 Gitee 时 `.github/workflows/ci.yml` 不会自动运行。P3-I4 已完成 `docs/DEPLOYMENT_PLAN.md`，明确未来 Compose 服务、环境变量、健康检查和审计点，但不创建真实 Compose。下一步 P4-I1 做后端 API 契约和 MySQL 数据模型基线；不要创建 AI 服务，不接真实 API，不使用真实商场平面图、真实地图、真实 BIM、真实商场或真实品牌素材，不展示个人轨迹、会员身份、人脸或个人画像。

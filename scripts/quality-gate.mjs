@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -14,6 +14,7 @@ if (!modes.has(mode)) {
 }
 
 const requiredFiles = [
+  "AGENTS.md",
   "AGENT.md",
   "README.md",
   "AI_Schedule.md",
@@ -23,6 +24,7 @@ const requiredFiles = [
   "DESIGN.md",
   "package.json",
   "scripts/quality-gate.mjs",
+  ".github/workflows/ci.yml",
   "docs/THIRD_PARTY_NOTICES.md",
   "docs/LICENSE_AUDIT.md",
   "docs/PRD_v1.md",
@@ -33,6 +35,7 @@ const requiredFiles = [
   "docs/FRONTEND_DEMO_HANDOFF.md",
   "docs/ENGINEERING_QUALITY_GATES.md",
   "docs/CI_PLAN.md",
+  "docs/DEPLOYMENT_PLAN.md",
   "docs/design/SCREEN_LAYOUTS.md",
   "docs/design/DESIGN_TOKENS.md",
   "docs/design/UI_SPEC.md",
@@ -93,7 +96,8 @@ const complianceChecks = [
   },
   {
     name: "engineering and handoff rules",
-    pattern: "P3-I2|P3-I3|quality gate|质量门禁|CI|MySQL|sudo|虚拟环境|请进行下一步",
+    pattern:
+      "P3-I2|P3-I3|P3-I4|P4-I1|quality gate|质量门禁|CI|GitHub Actions|Gitee|Docker Compose|部署文档|健康检查|环境变量|MySQL|sudo|虚拟环境|请进行下一步",
     targets: [
       "AGENT.md",
       "README.md",
@@ -145,15 +149,15 @@ function runDocsCheck() {
     fail(`Missing required files:\n${missing.map((file) => `  - ${file}`).join("\n")}`);
   }
   ok(`checked ${requiredFiles.length} required files`);
+  runAgentsEntryCheck();
+  runTaskCardCheck();
+  runDeploymentPlanCheck();
 }
 
 function runComplianceCheck() {
   heading("compliance");
-  ensureRg();
   for (const check of complianceChecks) {
-    runCommand("rg", ["--quiet", "-n", check.pattern, ...check.targets], {
-      label: check.name
-    });
+    assertPatternExists(check);
   }
 }
 
@@ -187,17 +191,6 @@ function runAuditGate() {
   });
 }
 
-function ensureRg() {
-  const result = spawnSync("rg", ["--version"], {
-    cwd: rootDir,
-    encoding: "utf8",
-    stdio: "pipe"
-  });
-  if (result.status !== 0) {
-    fail("ripgrep (`rg`) is required for compliance checks. Install it or update this script with a reviewed replacement.");
-  }
-}
-
 function runCommand(command, args, options = {}) {
   const label = options.label ?? [command, ...args].join(" ");
   console.log(`\n> ${label}`);
@@ -221,6 +214,171 @@ function ok(message) {
 function fail(message) {
   console.error(`error: ${message}`);
   process.exit(1);
+}
+
+function assertPatternExists(check) {
+  const files = collectTargetFiles(check.targets);
+  const matcher = new RegExp(check.pattern, "u");
+  const matchedFile = files.find((file) => matcher.test(readTextFile(file)));
+
+  if (!matchedFile) {
+    fail(`Compliance check failed: ${check.name}`);
+  }
+
+  ok(`${check.name} found in ${relativePath(matchedFile)}`);
+}
+
+function runDeploymentPlanCheck() {
+  const file = "docs/DEPLOYMENT_PLAN.md";
+  const text = readTextFile(join(rootDir, file));
+  const requirements = [
+    {
+      name: "P3-I4 increment metadata",
+      patterns: ["P3-I4", "DevOps Mode", "Docker Compose"]
+    },
+    {
+      name: "future service boundaries",
+      patterns: ["frontend", "backend", "mysql", "redis", "ai-services", "worker"]
+    },
+    {
+      name: "configuration and health boundaries",
+      patterns: ["环境变量", "secrets", "健康检查", "/api/v1/health"]
+    },
+    {
+      name: "compliance and platform boundaries",
+      patterns: ["MySQL", "sudo", "GitHub Actions", "Gitee", "真实监控", "个人轨迹"]
+    },
+    {
+      name: "documentation-first decision",
+      patterns: ["不创建 `docker-compose.yml`", "尚未创建真实 Compose", "无需更新 `docs/THIRD_PARTY_NOTICES.md`"]
+    }
+  ];
+
+  for (const requirement of requirements) {
+    const missing = requirement.patterns.filter((pattern) => !text.includes(pattern));
+    if (missing.length > 0) {
+      fail(
+        `Deployment plan check failed: ${requirement.name}; missing ${missing
+          .map((pattern) => `"${pattern}"`)
+          .join(", ")}`
+      );
+    }
+  }
+
+  ok("deployment plan records service boundaries, health checks, compliance, and handoff");
+}
+
+function runAgentsEntryCheck() {
+  const text = readTextFile(join(rootDir, "AGENTS.md"));
+  const requirements = [
+    {
+      name: "standard agent entry",
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P4-I1"]
+    },
+    {
+      name: "hard rules",
+      patterns: ["MySQL", "sudo", "许可证", "真实视频", "完成增量后"]
+    },
+    {
+      name: "human workflow",
+      patterns: ["请进行下一步", "关键节点", "质量门禁"]
+    }
+  ];
+
+  assertTextRequirements("AGENTS.md check", requirements, text);
+  ok("AGENTS.md records standard entry rules, human workflow, and quality gates");
+}
+
+function runTaskCardCheck() {
+  const text = readTextFile(join(rootDir, "context/TODO_NEXT.md"));
+  const requirements = [
+    {
+      name: "task card metadata",
+      patterns: ["Task Card", "Increment:", "Primary role:", "Human command:"]
+    },
+    {
+      name: "scope boundaries",
+      patterns: ["Goal", "Non-goals", "Required Reading", "Deliverables"]
+    },
+    {
+      name: "acceptance and confirmation",
+      patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
+    },
+    {
+      name: "P4-I1 backend contract focus",
+      patterns: ["/api/v1/health", "MySQL", "RBAC", "OpenAPI", "契约检查"]
+    }
+  ];
+
+  assertTextRequirements("TODO task card check", requirements, text);
+  ok("context/TODO_NEXT.md records a complete executable task card");
+}
+
+function assertTextRequirements(label, requirements, text) {
+  for (const requirement of requirements) {
+    const missing = requirement.patterns.filter((pattern) => !text.includes(pattern));
+    if (missing.length > 0) {
+      fail(
+        `${label} failed: ${requirement.name}; missing ${missing
+          .map((pattern) => `"${pattern}"`)
+          .join(", ")}`
+      );
+    }
+  }
+}
+
+function collectTargetFiles(targets) {
+  const files = [];
+
+  for (const target of targets) {
+    const absoluteTarget = join(rootDir, target);
+    if (!existsSync(absoluteTarget)) {
+      fail(`Compliance target does not exist: ${target}`);
+    }
+    files.push(...walkTextFiles(absoluteTarget));
+  }
+
+  return files;
+}
+
+function walkTextFiles(path) {
+  const stat = statSync(path);
+  if (stat.isFile()) {
+    return [path];
+  }
+  if (!stat.isDirectory()) {
+    return [];
+  }
+
+  return readdirSync(path, { withFileTypes: true }).flatMap((entry) => {
+    const childPath = join(path, entry.name);
+    if (entry.isDirectory() && shouldSkipDirectory(entry.name)) {
+      return [];
+    }
+    if (entry.isDirectory()) {
+      return walkTextFiles(childPath);
+    }
+    if (entry.isFile() && isTextLikeFile(entry.name)) {
+      return [childPath];
+    }
+    return [];
+  });
+}
+
+function shouldSkipDirectory(name) {
+  return new Set([".git", "node_modules", "dist", "build", "coverage"]).has(name);
+}
+
+function isTextLikeFile(name) {
+  return /\.(cjs|css|html|js|json|md|mjs|ts|tsx|txt|vue|ya?ml)$/u.test(name);
+}
+
+function readTextFile(file) {
+  return readFileSync(file, "utf8");
+}
+
+function relativePath(file) {
+  return file.replace(`${rootDir}/`, "");
 }
 
 main();

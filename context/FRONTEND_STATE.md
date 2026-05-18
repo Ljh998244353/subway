@@ -224,4 +224,4 @@ Query 检查：覆盖 mallId、timeRange、floorId、storeId、alertId、mode �
 
 ## 下一步
 
-P3-I2 做根级质量门禁脚本或统一命令入口。范围优先限定在把 P3-I1 定义的文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令；不要直接创建 `backend/` 或 `ai-services/`，不要接真实 API，不要展示个人轨迹、会员身份、人脸、真实商场素材或真实品牌。
+P4-I1 做后端 API 契约和 MySQL 数据模型基线。前端仍作为当前唯一可运行应用纳入 `npm run quality` 和 GitHub Actions `quality-gate`；不要创建 `ai-services/`，不要接真实 API，不要展示个人轨迹、会员身份、人脸、真实商场素材或真实品牌。P4-I1 需要保持现有 Mock mode，后续 API mode 应以 `/api/v1` 契约和 `/api/v1/health` 为基础逐步接入。

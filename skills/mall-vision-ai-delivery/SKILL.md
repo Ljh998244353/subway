@@ -26,6 +26,7 @@ Optimize in this order:
 Before implementation, read these files when they exist:
 
 ```text
+AGENTS.md
 AGENT.md
 README.md
 PROGRESS.md
@@ -48,7 +49,7 @@ context/RISKS_AND_ASSUMPTIONS.md
 context/TODO_NEXT.md
 ```
 
-If `/context` is missing, use `AGENT.md`, `PROGRESS.md`, `AI_Schedule.md`, and `IMPORTANT.md` as the temporary source of truth, then create only the context files required by the current increment. Do not rely on chat history as the only project state.
+If `/context` is missing, use `AGENTS.md`, `AGENT.md`, `PROGRESS.md`, `AI_Schedule.md`, and `IMPORTANT.md` as the temporary source of truth, then create only the context files required by the current increment. Do not rely on chat history as the only project state.
 
 If documents conflict, stop implementation and list the conflicts before changing requirements, architecture, contracts, data models, risk decisions, or phase status.
 

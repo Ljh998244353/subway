@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-P0 定义了数据实体草案。P2-I2 在前端创建了 TypeScript 共享类型和虚构 Mock 数据，尚未创建数据库、迁移或 ORM 模型。
+P0 定义了数据实体草案。P2-I2 在前端创建了 TypeScript 共享类型和虚构 Mock 数据，尚未创建数据库、迁移或 ORM 模型。P3-I4 已在 `docs/DEPLOYMENT_PLAN.md` 中明确 MySQL 是事实源、Redis 只作为缓存或临时状态；未来 Compose 或后端实现前必须审计 MySQL/Redis 镜像、driver、许可证和备份策略。
 
 ## 实体草案
 
@@ -55,4 +55,4 @@ operation_log
 
 ## 下一步
 
-P3-I1 只做工程化骨架规划与质量门禁对齐，不创建数据库、迁移或 ORM 模型。P4 进入后端 API 与数据模型阶段时，再创建正式 ERD、Alembic 迁移和 SQLAlchemy 模型；数据库统一使用 MySQL。
+P4-I1 进入后端 API 契约和 MySQL 数据模型基线，优先创建正式实体、表边界、索引、幂等键、UTC 时间、字符集、数据保留策略和迁移测试计划。若 P4-I1 创建 `backend/` 或 Python 依赖，必须重新创建虚拟环境并同步许可证审计；数据库统一使用 MySQL。

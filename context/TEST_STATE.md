@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-P0 与 P1 使用文档和结构检查。P2-I1 已创建前端工程基础测试，P2-I2 已补充 Mock 数据边界测试，P2-I3 已补充 Dashboard view model 与路由测试，P2-I4 已补充 Store Analysis view model 与路由测试，P2-I5 已补充 Store Alerts view model 与路由测试，P2-I6 已补充 Digital Twin view model 与空间边界测试，P2-I7 已补充核心演示流转和响应式 CSS 检查，P2-I8 已补充 Customer Profile view model、drill-down、隐私和空态测试，P2-I9 已补充 CP2 Demo readiness 测试和前端交接检查。2026-05-13 前端视觉重构、P3-I1 收尾和极简高级全站精修后 `npm run lint`、`npm run test`、`npm run build`、`npm audit --audit-level=high` 均通过。P3-I1 已新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`，并对齐文档结构、合规关键词、工程边界和前端门禁。P3-I2 已新增根级 `npm run quality` 与 `npm run quality:audit`，统一运行文档结构、合规关键词、工程边界、frontend lint/test/build 和高危依赖审计。当前没有后端、AI 服务、CI、浏览器 E2E 或覆盖率统计。
+P0 与 P1 使用文档和结构检查。P2-I1 已创建前端工程基础测试，P2-I2 已补充 Mock 数据边界测试，P2-I3 已补充 Dashboard view model 与路由测试，P2-I4 已补充 Store Analysis view model 与路由测试，P2-I5 已补充 Store Alerts view model 与路由测试，P2-I6 已补充 Digital Twin view model 与空间边界测试，P2-I7 已补充核心演示流转和响应式 CSS 检查，P2-I8 已补充 Customer Profile view model、drill-down、隐私和空态测试，P2-I9 已补充 CP2 Demo readiness 测试和前端交接检查。2026-05-13 前端视觉重构、P3-I1 收尾和极简高级全站精修后 `npm run lint`、`npm run test`、`npm run build`、`npm audit --audit-level=high` 均通过。P3-I1 已新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`，并对齐文档结构、合规关键词、工程边界和前端门禁。P3-I2 已新增根级 `npm run quality` 与 `npm run quality:audit`，统一运行文档结构、合规关键词、工程边界、frontend lint/test/build 和高危依赖审计。P3-I3 已新增 GitHub Actions CI 配置 `.github/workflows/ci.yml`，把根级质量门禁映射到 GitHub 端 `quality-gate` 和 `dependency-audit` jobs；同时把合规关键词检查改为 Node 内置扫描，避免 CI 依赖系统 `rg` 或 `sudo` 安装。P3-I4 已新增 `docs/DEPLOYMENT_PLAN.md`，并在 `scripts/quality-gate.mjs` 的 docs 检查中验证部署计划服务边界、环境变量、健康检查和合规边界。当前没有后端、AI 服务、浏览器 E2E、覆盖率统计或真实 Docker Compose 启动测试；Gitee 镜像不会自动运行 GitHub Actions workflow。
 
 ## 当前前端测试命令
 
@@ -23,6 +23,10 @@ npm run quality:audit
 | `npm audit --audit-level=high` | 2026-05-13 极简高级全站精修后通过；沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，结果 `found 0 vulnerabilities` |
 | `npm run quality` | 2026-05-13 P3-I2 通过，运行文档结构、合规关键词、工程边界和 frontend lint/test/build |
 | `npm run quality:audit` | 2026-05-13 P3-I2 通过；沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，返回 `found 0 vulnerabilities` |
+| `npm run quality` | 2026-05-13 P3-I3 通过，检查 69 个关键文件，合规关键词使用 Node 内置扫描，frontend lint/test/build 全部通过 |
+| `npm run quality:audit` | 2026-05-13 P3-I3 通过；沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，返回 `found 0 vulnerabilities` |
+| `npm run quality` | 2026-05-13 P3-I4 通过，检查 70 个关键文件和 `docs/DEPLOYMENT_PLAN.md` 部署计划关键词；frontend lint/test/build 全部通过 |
+| `npm run quality:audit` | 2026-05-13 P3-I4 通过；沙箱内 DNS `EAI_AGAIN` 失败后按权限规则联网重试，返回 `found 0 vulnerabilities` |
 
 说明：`npm audit --audit-level=high` 在沙箱内因 DNS `EAI_AGAIN` 失败，随后按权限规则联网重试并通过。
 
@@ -89,7 +93,9 @@ AI validation tests include deterministic videos or synthetic fixtures
 当前前端没有组件测试框架、浏览器 E2E 和覆盖率统计，P2 后续可按需要引入 Vitest 或 Playwright，但新增依赖前必须审计许可证和成本
 尚无 backend/ 工程，无法运行后端测试
 尚无 ai-services/ 工程，无法运行 AI 验证测试
-尚无 CI，无法运行流水线
+尚无 docker-compose.yml，无法运行真实 Compose config、服务启动或健康检查
+已有 GitHub Actions 配置，但本地无法直接证明远端 GitHub runner 结果；需要推送到 GitHub 后查看 Actions 运行结果
+Gitee 镜像不会自动运行 `.github/workflows/ci.yml`；如需要 Gitee Go，需另行配置和审计
 ```
 
 ## P2-I9 检查结果
@@ -136,13 +142,26 @@ AI validation tests include deterministic videos or synthetic fixtures
 | 工程边界 | 通过，根目录没有 `backend/`、`ai-services/`、`infra/` |
 | 依赖边界 | P3-I1 未新增依赖、镜像、CI 工具或外部服务 |
 
+## P3-I4 检查结果
+
+| 检查 | 结果 |
+| --- | --- |
+| 部署计划文档 | 已新增 `docs/DEPLOYMENT_PLAN.md` |
+| 部署文档门禁 | `scripts/quality-gate.mjs` 已纳入必需文件和部署计划关键词检查 |
+| 工程边界 | 未创建 `backend/`、`ai-services/`、`infra/` 或 `docker-compose.yml` |
+| 依赖边界 | 未新增 Docker 镜像、数据库服务、云服务、扫描工具、npm 依赖、真实数据、真实素材或付费服务 |
+| 根级质量门禁 | `npm run quality` 通过 |
+| 高危依赖审计 | `npm run quality:audit` 通过；沙箱 DNS 失败后联网重试返回 `found 0 vulnerabilities` |
+
 ## 下一步测试关注点
 
-P3-I3 做免费 CI 配置或本地到 CI 映射时至少测试：
+P4-I1 做后端 API 契约和 MySQL 数据模型基线时至少测试：
 
 ```text
-确认 CI 或映射复用 npm run quality 和 npm run quality:audit
-确认文档记录当前无后端、无 AI 服务、无 CI、无浏览器 E2E 和覆盖率统计
-确认 P3 规划和脚本仍保留 MySQL、Python venv 和 sudo 规则
-如果新增 CI、Docker 或依赖，必须更新第三方声明和许可证审计
+确认现有 GitHub Actions 配置仍复用 npm run quality 和 npm run quality:audit
+确认文档记录当前无 AI 服务、无真实部署、无浏览器 E2E 和覆盖率统计
+确认 API 契约包含 /api/v1/health、错误码、RBAC 占位和响应 envelope
+确认数据模型基线继续使用 MySQL，不出现 PostgreSQL 连接串或方言
+确认后端规划仍保留 Python venv、sudo、真实素材和隐私规则
+如果新增 backend/、Python 依赖、MySQL driver、Docker、镜像、数据库服务、Gitee Go 或依赖，必须更新第三方声明和许可证审计
 ```

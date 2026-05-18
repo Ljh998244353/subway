@@ -2,13 +2,14 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统规划。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口、CP2 后前端视觉重构、P3-I1 工程化骨架规划与质量门禁对齐、CP2 后极简高级全站五页精修，以及 P3-I2 根级质量门禁脚本和本地统一命令入口：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档、工程质量门禁文档、CI 计划文档、根级 `npm run quality` 门禁，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、已审计 MIT `motion` 动效、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务、CI 配置或部署工程编码。
+当前仓库已完成 P0 项目基线、P1 设计规范阶段、P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口、CP2 后前端视觉重构、P3-I1 工程化骨架规划与质量门禁对齐、CP2 后极简高级全站五页精修、P3-I2 根级质量门禁脚本和本地统一命令入口、P3-I3 GitHub Actions 免费 CI 配置和本地到 CI 映射，以及 P3-I4 Docker Compose 草案或部署文档：已有规划文档、需求分析、系统设计、测试策略、许可证审计、`context/` 恢复包、项目 skill、第三方声明、汇报稿、设计规范文档、前端 Demo 交接文档、工程质量门禁文档、CI 计划文档、部署计划文档、根级 `npm run quality` 门禁、`.github/workflows/ci.yml`，以及 `frontend/` React + TypeScript + Vite 工程骨架、共享类型、虚构 Mock 数据、已审计 MIT `motion` 动效、数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查和 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 页面。尚未开始后端、AI 视频服务、Docker Compose 文件或生产部署工程编码。
 
 ## 文档入口
 
 | 文件 | 读者 | 用途 |
 | --- | --- | --- |
-| [AGENT.md](AGENT.md) | AI | 每次 AI 开发必读入口：当前状态、必读顺序、执行规则、文档职责边界 |
+| [AGENTS.md](AGENTS.md) | AI | AI coding 工具标准入口：硬规则、当前任务、用户工作流和质量门禁 |
+| [AGENT.md](AGENT.md) | AI | 兼容旧链接的短入口，指向 `AGENTS.md` 和当前任务卡 |
 | [AI_Schedule.md](AI_Schedule.md) | AI | P0-P12 路线图、增量拆分、角色模式、技术栈、测试门禁和许可证规则 |
 | [PROGRESS.md](PROGRESS.md) | 人类 | 当前进度、已完成事项、下一步、当前风险和检查命令 |
 | [IMPORTANT.md](IMPORTANT.md) | AI / 人类 | 非工程问题、付费工具、经济成本、版权、许可证、隐私和潜在侵权风险重点批注 |
@@ -25,8 +26,10 @@
 | [docs/FRONTEND_DEMO_HANDOFF.md](docs/FRONTEND_DEMO_HANDOFF.md) | AI / 人类 | P2-I9 CP2 前端 Demo 页面清单、演示路径、测试摘要和 P3 接力 |
 | [docs/ENGINEERING_QUALITY_GATES.md](docs/ENGINEERING_QUALITY_GATES.md) | AI / 人类 | P3-I1 工程质量门禁、可执行检查、阻断规则和后续阶段门禁 |
 | [docs/CI_PLAN.md](docs/CI_PLAN.md) | AI / 人类 | P3-I1 CI 计划、Job 拆分、本地等价命令和后续扩展点 |
+| [docs/DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md) | AI / 人类 | P3-I4 部署计划：未来 Compose 服务边界、环境变量、健康检查、启动顺序和审计点 |
 | [package.json](package.json) | AI / 人类 | P3-I2 根级质量门禁命令入口 |
 | [scripts/quality-gate.mjs](scripts/quality-gate.mjs) | AI | P3-I2 本地质量门禁脚本：文档、合规、工程边界、前端门禁和审计 |
+| [.github/workflows/ci.yml](.github/workflows/ci.yml) | GitHub Actions | P3-I3 免费 CI 配置，复用根级质量门禁，不发布生产环境 |
 | [frontend/README.md](frontend/README.md) | AI / 人类 | P2 前端工程、Mock 数据、命令和边界 |
 | [frontend/package.json](frontend/package.json) | AI | 前端依赖和 `lint/test/build/dev` 命令 |
 | [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) | AI / 人类 | 当前已引用第三方工具、字体、素材或包的许可证记录 |
@@ -35,7 +38,7 @@
 | [slides/project-intro.typ](slides/project-intro.typ) | 人类 | 课程或汇报用 Typst 演示稿源码 |
 | [slides/slide.pdf](slides/slide.pdf) | 人类 | 已生成的项目介绍 PDF |
 
-P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人类只需输入“请进行下一步”；AI 应先读 `AGENT.md`、`PROGRESS.md` 和 `context/TODO_NEXT.md`，自动判断当前增量。
+P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人类通常只需输入“请进行下一步”；AI 应先读 `AGENTS.md`、`context/TODO_NEXT.md`、`PROGRESS.md` 和当前增量点名文件，自动判断当前增量。
 
 ## 项目范围
 
@@ -53,7 +56,11 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 本项目采用单 AI 增量迭代开发模式。`P0` 到 `P12` 是长期路线图，实际执行必须拆成 `P0-I1`、`P0-I2` 这类小增量；每个增量由 AI 自动选择一个主角色模式，其他角色仅作为检查清单使用，避免并行拆分造成上下文分裂和接口冲突。
 
-人类参与方式固定为：检查 AI 交付结果，提出必要修正；确认继续时只输入“请进行下一步”。AI 每次必须自动从 `PROGRESS.md` 和 `context/TODO_NEXT.md` 找到下一任务，并完成开发、测试、文档、context、风险和许可证记录更新。
+当前优化后的协作方式是“常规短指令续作 + 关键节点人工确认”。普通增量中，人类检查 AI 交付结果、提出必要修正；确认继续时只输入“请进行下一步”。AI 每次必须自动从 `AGENTS.md` 和 `context/TODO_NEXT.md` 找到下一张任务卡，并完成开发、测试、文档、context、风险和许可证记录更新。
+
+关键节点不自动跳过，AI 必须先让人类确认：API 契约冻结前、MySQL 核心表结构冻结前、新增依赖/镜像/模型/数据集/外部服务前、接入真实数据或真实素材前、从文档基线进入真实后端/AI 服务/生产部署实现前。
+
+用户检查结果时优先看 4 项：`PROGRESS.md` 本次记录、`context/TODO_NEXT.md` 下一任务卡、质量门禁输出、风险或阻断点。
 
 | 阶段 | 主角色 | 目标 |
 | --- | --- | --- |
@@ -93,7 +100,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 
 ## 当前下一步
 
-下一步应执行 `P3-I3`，把 P3-I2 的根级本地质量门禁映射到免费 CI 配置。
+下一步应执行 `P4-I1`，做后端 API 契约和 MySQL 数据模型基线，不直接创建 AI 视频服务或生产部署。
 
 给 AI 的指令：
 
@@ -101,7 +108,7 @@ P0 已完成并新增 `context/` 恢复包。之后每次继续开发时，人�
 请进行下一步
 ```
 
-AI 收到后必须自动读取项目文档、`frontend/` 和 `context/TODO_NEXT.md`，执行 `P3-I3`：免费 CI 配置或本地到 CI 的映射。P3-I3 应复用根级 `npm run quality`，不要创建后端或 AI 视频服务，不接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。若引入 CI 平台、扫描工具、Docker 镜像、外部服务或账号能力，必须先审计许可证、成本、账号要求和数据边界。
+AI 收到后必须自动读取 `AGENTS.md`、`context/TODO_NEXT.md`、项目文档、`frontend/` 和相关 `context/*.md`，执行 `P4-I1`：后端 API 契约和 MySQL 数据模型基线。P4-I1 应延续 P3-I4 的部署边界和 P3-I3 的 CI 质量门禁，先固化 `/api/v1`、健康检查、核心实体、MySQL 约束和测试策略；不要接真实 API、真实视频、真实商场平面图、真实商场素材或个人轨迹。若引入 Python 依赖、MySQL 服务、Docker 镜像、扫描工具、外部服务或账号能力，必须先审计许可证、成本、账号要求和数据边界。
 
 ## 当前检查方法
 
@@ -112,7 +119,9 @@ npm run quality
 npm run quality:audit
 ```
 
-其中 `npm run quality` 覆盖文档结构、合规关键词、工程边界和 `frontend` lint/test/build；`npm run quality:audit` 单独运行高危依赖审计，可能需要网络。
+其中 `npm run quality` 覆盖文档结构、`AGENTS.md` 标准入口、`context/TODO_NEXT.md` 任务卡字段、部署计划文档、合规关键词、工程边界和 `frontend` lint/test/build；`npm run quality:audit` 单独运行高危依赖审计，可能需要网络。
+
+GitHub 端 CI 配置位于 `.github/workflows/ci.yml`，运行 `quality-gate` 和 `dependency-audit` 两个 job。若仓库同步到 Gitee，`.github/workflows/ci.yml` 只会作为普通文件保留；Gitee Go 不会自动执行 GitHub Actions workflow。后续如要启用 Gitee Go，需要在单独增量中按 Gitee 的 `/.workflow/` 机制、免费额度、账号要求和数据边界重新审计。
 
 ## 免责声明
 

@@ -66,6 +66,9 @@ AI 在执行任意增量时，只要遇到以下事项，必须先更新本文�
 | 2026-05-13 | 许可证 / 成本 / 工程化 | P3-I1 工程化骨架规划、CI、Docker、扫描工具 | 后续 CI、Docker 镜像、漏洞扫描、覆盖率、E2E 或部署工具可能引入外部账号、镜像下载、付费额度、许可证义务或网络数据传输 | 持续关注，P3-I1 只做规划不引入工具 | P3-I2/P3-I3/P3-I4 如新增脚本、CI 配置、Docker 镜像或扫描工具，必须先审计许可证、成本、账号要求和数据边界，并同步第三方声明和许可证审计 |
 | 2026-05-13 | 许可证 / 成本 / 前端动效 | CP2 后极简高级全站前端精修 | 用户确认允许新增免费开源动画库；动画库会进入前端分发包，必须确认许可证、成本、账号和隐私边界 | 允许 `motion`，前提是 npm 安装版本为 MIT 且无付费或账号要求 | 安装后同步 `docs/THIRD_PARTY_NOTICES.md`、`docs/LICENSE_AUDIT.md`，并运行 lint/test/build/audit |
 | 2026-05-13 | 许可证 / 成本 / 本地工具 | P3-I2 根级质量门禁脚本 | `scripts/quality-gate.mjs` 使用本机 `ripgrep` 做关键词检查；虽然不进入前端运行包，但后续 CI 安装来源和许可证仍需可追溯 | 允许本地使用，已记录 `ripgrep@15.1.0` 为 Unlicense OR MIT，无项目新增付费或账号要求 | P3-I3 若在 CI 安装 `ripgrep`，必须确认安装来源、版本、许可证、成本和账号边界 |
+| 2026-05-13 | 许可证 / 成本 / 账号 / CI | P3-I3 GitHub Actions 配置 | GitHub Actions 会在 GitHub-hosted runner 上运行，依赖 GitHub 账号、网络访问 npm registry 和 GitHub 服务额度；私有仓库或超额使用可能产生账号/计费风险 | 允许作为 GitHub 端免费 CI；不发布、不上传构建产物、不使用 secrets；公开仓库优先，私有仓库需人工确认额度 | 已记录 `actions/checkout@v6.0.2` 和 `actions/setup-node@v6.4.0`；后续若增加 secrets、制品上传、部署、计划任务或第三方扫描服务，必须重新审计 |
+| 2026-05-13 | 平台边界 / CI | GitHub 仓库同步到 Gitee | `.github/workflows/ci.yml` 同步到 Gitee 后只是普通文件，不会自动成为 Gitee Go 流水线；误以为 Gitee 已运行 CI 会造成质量门禁缺口 | 持续关注；当前不启用 Gitee Go | 文档中明确 GitHub Actions 只在 GitHub 端运行；如需 Gitee Go，单独增量评估 `/.workflow/` 配置、账号、免费额度、服务条款、日志和数据边界 |
+| 2026-05-13 | 许可证 / 成本 / 部署 | P3-I4 部署计划文档 | Docker Compose、MySQL、Redis、Python 镜像、静态服务器镜像、扫描工具和容器运行时都可能涉及镜像来源、许可证、账号、网络下载、sudo 或付费额度；在后端和 AI 服务尚不存在时创建 Compose 文件会制造不可运行的假部署 | 暂缓创建 `docker-compose.yml`，允许新增 `docs/DEPLOYMENT_PLAN.md` 和部署文档门禁 | 后续真正创建 Compose 或部署配置前，先审计镜像、版本、许可证、成本、账号、网络日志和 sudo 边界，并同步第三方声明和许可证审计 |
 
 ## 当前仓库已有第三方内容
 
