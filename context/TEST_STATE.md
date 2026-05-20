@@ -4,10 +4,12 @@ Updated: 2026-05-20
 
 ## Current Status
 
-P5-I1 added executable frontend tests for the overview data loader contract:
+P5-I2 added executable frontend tests for the dashboard overview state wiring:
 
 ```text
 frontend/src/api/overviewDataLoader.test.ts
+frontend/src/pages/DashboardPage.test.ts
+frontend/src/pages/dashboardOverviewState.ts
 frontend/src/api/referenceClient.test.ts
 backend/tests/test_health.py
 backend/tests/test_migrations.py
@@ -15,21 +17,19 @@ backend/tests/test_reference_api.py
 backend/tests/test_overview_api.py
 ```
 
-Latest local P5-I1 frontend result:
+Latest local P5-I2 frontend result:
 
 ```text
-npm --prefix frontend run test: 84 passed
+npm --prefix frontend run test: 87 passed
 ```
 
-P5-I1 test coverage includes:
+P5-I2 test coverage includes:
 
 ```text
-mock mode is default and does not touch the API client
-non-api mode resolves back to mock mode
-API mode can load overview through an injected client
-API mode normalizes base URL and encodes mallId when using injected fetch
-unknown API source/status values map to safe frontend domain values
-typed ApiClientError propagates without live backend dependency
+dashboard overview state starts in mock mode
+explicit API mode forwards mallId/apiBaseUrl to the injected loader
+API loader failure falls back to mock overview state
+overview loader tests still cover mock default, API success, URL boundaries, and typed errors
 ```
 
 ## Required Final Checks
@@ -40,10 +40,10 @@ npm run quality
 npm run quality:audit
 ```
 
-Final P5-I1 result:
+Final P5-I2 result:
 
 ```text
-npm --prefix frontend run test: 84 passed
+npm --prefix frontend run test: 87 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -53,7 +53,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Known Gaps
 
 ```text
-DashboardPage is not yet wired to the loader state boundary
+StoreAnalysisPage is not yet covered by an API-mode loader contract
 no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E

@@ -43,6 +43,8 @@ P4-I16 reviewed CP4 coverage and confirmed the synthetic API/client contract bas
 
 P5-I1 added `frontend/src/api/overviewDataLoader.ts`, which consumes `getOverview(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
 
+P5-I2 wired DashboardPage state to the overview loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
+
 ## Not Implemented
 
 ```text
@@ -54,4 +56,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P5-I2 should wire DashboardPage state to the overview loader while keeping mock mode as the default and avoiding live backend dependencies in tests.
+P5-I3 should add a Store Analysis API-mode loader contract using existing typed client methods while keeping mock mode as the default and avoiding live backend dependencies in tests.

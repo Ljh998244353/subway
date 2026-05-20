@@ -4,11 +4,11 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P5-I2 dashboard API-mode state wiring`
+- Current increment: `P5-I3 store analysis API-mode data loader contract`
 - Primary role: Frontend Integration Mode
 - Auxiliary reviews: Backend, QA, Security/License
-- Current base: P4-I1 through P4-I16 and P5-I1 are complete, including CP4 closure review, MySQL readiness planning, and the overview data loader contract.
-- Next focus: wire the dashboard page to the overview loader boundary while keeping mock mode as the default demo path.
+- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I2 are complete, including CP4 closure review, MySQL readiness planning, the overview data loader contract, and dashboard API-mode state wiring.
+- Next focus: add a narrow Store Analysis API-mode data loader contract while keeping mock mode as the default demo path.
 - Do not connect real MySQL. Do not create `ai-services/`, `infra/`, real Docker Compose, real API integration, real video, real mall material, real brands, face images, or personal trajectories.
 
 ## Required Reading

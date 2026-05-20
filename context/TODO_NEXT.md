@@ -5,25 +5,25 @@ Updated: 2026-05-20
 ## Task Card
 
 ```text
-Increment: P5-I2 dashboard API-mode state wiring
+Increment: P5-I3 store analysis API-mode data loader contract
 Primary role: Frontend Integration Mode
 Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P5-I1 overview data loader contract
+Status: ready after P5-I2 dashboard API-mode state wiring
 ```
 
 ## Goal
 
-Wire the P5-I1 overview data loader into the dashboard page state boundary so the dashboard can render mock data by default and use API mode only when explicitly selected. Keep the existing demo stable and do not require a live backend in tests.
+Continue P5 frontend/backend integration by adding a narrow Store Analysis data loader contract. The loader should support mock mode by default and explicit API mode through the existing typed reference client. Keep the current store-analysis demo stable and do not require a live backend in tests.
 
 ## Recommended Scope
 
 ```text
-connect DashboardPage to loadOverviewData through a small React state/effect boundary
-keep initial/default dashboard rendering on mockOverview and existing mock stores/alerts/floors
-add explicit loading, error, and recovered mock/default behavior tests where practical
-use injected or mocked loader/fetch in tests; do not call a live backend
-document how API mode should continue route by route after dashboard overview wiring
+add a frontend store-analysis data loader or state adapter that can choose mock or API mode
+use existing resolveFrontendDataMode, resolveApiBaseUrl, getStoreRanking, getStore, getStoreScore, and getStoreFlow where appropriate
+keep StoreAnalysisPage mock rendering unchanged by default
+add tests for mock default, API success, API error/fallback behavior, and no live network dependency
+document how later P5 work should wire StoreAnalysisPage state after the loader contract
 ```
 
 ## Non-goals
@@ -46,20 +46,22 @@ do not execute sudo
 AGENTS.md
 README.md
 PROGRESS.md
+frontend/src/api/apiMode.ts
+frontend/src/api/referenceClient.ts
 frontend/src/api/overviewDataLoader.ts
-frontend/src/api/overviewDataLoader.test.ts
+frontend/src/pages/StoreAnalysisPage.tsx
+frontend/src/pages/StoreAnalysisPage.test.ts
 frontend/src/pages/DashboardPage.tsx
-frontend/src/pages/DashboardPage.test.ts
-frontend/src/pages/dashboardModel.ts
-frontend/src/mock/mockOverview.ts
+frontend/src/pages/dashboardOverviewState.ts
+frontend/src/mock/mockStores.ts
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-DashboardPage uses the overview loader boundary or an equivalent injectable state adapter
-mock mode remains default and the existing dashboard demo remains stable
+store-analysis API-mode loader/adapter with offline tests
+mock mode remains default and the existing store-analysis demo remains stable
 API mode behavior is covered without live backend or real MySQL dependency
 updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
 no new dependency unless license/cost reviewed first
@@ -73,10 +75,10 @@ npm run quality
 npm run quality:audit
 ```
 
-P5-I2 completion should be searchable with:
+P5-I3 completion should be searchable with:
 
 ```bash
-rg -n "P5-I2|DashboardPage|API mode|mock mode|loadOverviewData|overview loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
+rg -n "P5-I3|StoreAnalysisPage|API mode|mock mode|getStoreRanking|getStoreScore|store analysis loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
@@ -93,4 +95,4 @@ before AI service or production deployment
 
 ## Next Handoff
 
-After P5-I2, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.
+After P5-I3, wire StoreAnalysisPage to the loader or continue API-mode integration route by route only if mock mode remains stable and quality gates pass.

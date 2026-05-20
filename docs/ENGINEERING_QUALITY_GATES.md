@@ -73,7 +73,8 @@ PROGRESS.md and context/TODO_NEXT.md are updated
 | P4-I15 | complete: trajectories API/client contract tests with anonymous synthetic aggregate fixture |
 | P4-I16 | complete: CP4 closure review, MySQL readiness checklist, quality gate and coverage alignment |
 | P5-I1 | complete: API mode overview data loader tests, mock mode remains default |
-| P5-I2 | dashboard API-mode state wiring tests, mock mode remains default |
+| P5-I2 | complete: dashboard API-mode state wiring tests, mock mode remains default |
+| P5-I3 | Store Analysis API-mode loader tests, mock mode remains default |
 | Real MySQL query | migration execution test, database config validation, no committed secrets |
 | AI service | synthetic video fixtures, model/data license audit, output schema tests |
 | Production-like deployment | Compose config check, health checks, backup/logging docs, security review |

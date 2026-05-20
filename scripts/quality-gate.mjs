@@ -110,6 +110,7 @@ const requiredFiles = [
   "frontend/src/types/domain.ts",
   "frontend/src/pages/DashboardPage.tsx",
   "frontend/src/pages/DashboardPage.test.ts",
+  "frontend/src/pages/dashboardOverviewState.ts",
   "frontend/src/pages/StoreAnalysisPage.tsx",
   "frontend/src/pages/StoreAnalysisPage.test.ts",
   "frontend/src/pages/StoreAlertsPage.tsx",
@@ -433,7 +434,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I2"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I3"]
     },
     {
       name: "hard rules",
@@ -484,8 +485,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P5-I2 dashboard API mode focus",
-      patterns: ["P5-I2", "API mode", "mock mode", "DashboardPage", "overview loader", "quality gate"]
+      name: "P5-I3 store analysis API mode focus",
+      patterns: ["P5-I3", "API mode", "mock mode", "StoreAnalysisPage", "getStoreRanking", "quality gate"]
     }
   ];
 

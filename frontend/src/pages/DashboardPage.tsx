@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { MotionSurface } from '../components/MotionSurface';
 import { SummaryStrip } from '../components/SummaryStrip';
@@ -14,9 +15,7 @@ import { TrendSparkline } from '../components/TrendSparkline';
 import { mockAlerts, mockFloors, mockMall, mockOverview, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildDashboardFloorTwinUrl, buildStoreAnalysisUrl, buildStoreAlertsUrl } from '../routes/demoFlow.ts';
 import { buildDashboardViewModel, getDashboardState } from './dashboardModel.ts';
-
-const dashboard = buildDashboardViewModel(mockOverview, mockStoresWithAlerts, mockAlerts, mockFloors);
-const dashboardState = getDashboardState(dashboard);
+import { createInitialDashboardOverviewState, resolveDashboardOverviewState } from './dashboardOverviewState.ts';
 
 const dashboardStateCopy = {
   normal: '运行正常',
@@ -40,22 +39,61 @@ function formatTimeRange(timeRange: string) {
 export function DashboardPage() {
   const [params] = useSearchParams();
   const location = useLocation();
+  const mallId = params.get('mallId') || mockOverview.mallId;
   const timeRange = params.get('timeRange') || 'today';
   const floorId = params.get('floorId') || 'all';
+  const dataMode = params.get('dataMode') ?? undefined;
+  const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
+  const [overviewState, setOverviewState] = useState(createInitialDashboardOverviewState);
+  const dashboard = useMemo(
+    () => buildDashboardViewModel(overviewState.result.overview, mockStoresWithAlerts, mockAlerts, mockFloors),
+    [overviewState.result.overview]
+  );
+  const dashboardState = getDashboardState(dashboard);
+  const dataSourceLabel = overviewState.result.source === 'api' ? 'API' : 'Mock';
+  const statusLabel =
+    overviewState.status === 'loading'
+      ? 'API 加载中'
+      : overviewState.status === 'error'
+        ? 'API 异常 / Mock 回退'
+        : `${dataSourceLabel} 模式`;
   const selectedFloor = floorId === 'all' ? undefined : mockFloors.find((floor) => floor.id === floorId);
   const openHighAlertCount = dashboard.alerts.filter((alert) => alert.level === 'high' && alert.status !== 'resolved').length;
+
+  useEffect(() => {
+    let active = true;
+
+    if (dataMode === 'api') {
+      setOverviewState((current) => ({ ...current, status: 'loading', errorMessage: undefined }));
+    }
+
+    void resolveDashboardOverviewState({
+      mode: dataMode,
+      apiBaseUrl,
+      mallId
+    }).then((nextState) => {
+      if (active) {
+        setOverviewState(nextState);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [apiBaseUrl, dataMode, mallId]);
 
   return (
     <MotionSurface as="section" className="page dashboard-page">
       <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
-          <p className="page-kicker">运营总览 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <p className="page-kicker">运营总览 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
           <h1>运营总览</h1>
           <p>
             聚合 {mockMall.name} 的客流、拥挤、低效店铺和告警状态，所有数据均为虚构 Mock 数据。
           </p>
         </div>
         <div className="dashboard-header__actions">
+          <StatusBadge label={statusLabel} tone={overviewState.status === 'error' ? 'warning' : 'info'} />
           <StatusBadge label={dashboardStateCopy[dashboardState]} tone={dashboardState === 'empty' ? 'neutral' : dashboardState} />
           <button className="primary-button" type="button">
             刷新总览
@@ -67,8 +105,9 @@ export function DashboardPage() {
         <span>商场：{mockMall.name}</span>
         <span>时间：{formatTimeRange(timeRange)}</span>
         <span>楼层：{selectedFloor?.name ?? '全部楼层'}</span>
-        <span>数据源：Mock</span>
-        <span>最近更新：{new Date(mockOverview.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</span>
+        <span>数据源：{dataSourceLabel}</span>
+        <span>最近更新：{new Date(overviewState.result.overview.generatedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</span>
+        {overviewState.errorMessage ? <span>API 回退：{overviewState.errorMessage}</span> : null}
       </MotionSurface>
 
       <MotionSurface as="section" className="operations-ribbon" aria-label="运营巡检摘要" delay={0.06}>
@@ -93,7 +132,7 @@ export function DashboardPage() {
               <h2 id="traffic-trend-title">客流趋势</h2>
               <p>小时粒度，展示当前场内人数与新增客流趋势。</p>
             </div>
-            <StatusBadge label="Mock / 小时" tone="info" />
+            <StatusBadge label={`${dataSourceLabel} / 小时`} tone="info" />
           </div>
           <TrendSparkline points={dashboard.trafficTrend} />
           <p className="chart-readable-summary">
