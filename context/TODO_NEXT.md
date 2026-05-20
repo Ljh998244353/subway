@@ -5,25 +5,25 @@ Updated: 2026-05-20
 ## Task Card
 
 ```text
-Increment: P5-I4 store analysis API-mode state wiring
+Increment: P5-I5 store alerts API-mode data loader contract
 Primary role: Frontend Integration Mode
 Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P5-I3 store analysis API-mode data loader contract
+Status: ready after P5-I4 store analysis API-mode state wiring
 ```
 
 ## Goal
 
-Wire the P5-I3 Store Analysis data loader into the StoreAnalysisPage state boundary so the page can render mock data by default and use API mode only when explicitly selected. Keep the existing demo stable and do not require a live backend in tests.
+Continue P5 frontend/backend integration by adding a narrow Store Alerts data loader contract. The loader should support mock mode by default and explicit API mode through the existing typed reference client. Keep the current store-alerts demo stable and do not require a live backend in tests.
 
 ## Recommended Scope
 
 ```text
-connect StoreAnalysisPage to loadStoreAnalysisData through a small React state/effect boundary
-keep initial/default StoreAnalysisPage rendering on mockStoresWithAlerts and existing mock alerts/floors
-add explicit mock default, API success, loading, and error/fallback tests where practical
-use injected or mocked loader/fetch in tests; do not call a live backend
-document how later P5 work should continue route by route
+add a frontend store-alerts data loader or state adapter that can choose mock or API mode
+use existing resolveFrontendDataMode, resolveApiBaseUrl, listStoreAlerts, and getStore where appropriate
+keep StoreAlertsPage mock rendering unchanged by default
+add tests for mock default, API success, API error/fallback behavior, and no live network dependency
+document how later P5 work should wire StoreAlertsPage state after the loader contract
 ```
 
 ## Non-goals
@@ -47,20 +47,20 @@ AGENTS.md
 README.md
 PROGRESS.md
 frontend/src/api/storeAnalysisDataLoader.ts
-frontend/src/api/storeAnalysisDataLoader.test.ts
-frontend/src/pages/StoreAnalysisPage.tsx
-frontend/src/pages/StoreAnalysisPage.test.ts
-frontend/src/pages/storeAnalysisModel.ts
-frontend/src/pages/dashboardOverviewState.ts
-frontend/src/mock/mockStores.ts
+frontend/src/pages/storeAnalysisState.ts
+frontend/src/pages/StoreAlertsPage.tsx
+frontend/src/pages/StoreAlertsPage.test.ts
+frontend/src/pages/storeAlertsModel.ts
+frontend/src/api/referenceClient.ts
+frontend/src/mock/mockAlerts.ts
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-StoreAnalysisPage uses the store-analysis loader boundary or an equivalent injectable state adapter
-mock mode remains default and the existing store-analysis demo remains stable
+store-alerts API-mode loader/adapter with offline tests
+mock mode remains default and the existing store-alerts demo remains stable
 API mode behavior is covered without live backend or real MySQL dependency
 updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
 no new dependency unless license/cost reviewed first
@@ -74,10 +74,10 @@ npm run quality
 npm run quality:audit
 ```
 
-P5-I4 completion should be searchable with:
+P5-I5 completion should be searchable with:
 
 ```bash
-rg -n "P5-I4|StoreAnalysisPage|API mode|mock mode|loadStoreAnalysisData|store analysis state|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
+rg -n "P5-I5|StoreAlertsPage|API mode|mock mode|listStoreAlerts|store alerts loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
@@ -94,4 +94,4 @@ before AI service or production deployment
 
 ## Next Handoff
 
-After P5-I4, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.
+After P5-I5, wire StoreAlertsPage to the loader or continue API-mode integration route by route only if mock mode remains stable and quality gates pass.

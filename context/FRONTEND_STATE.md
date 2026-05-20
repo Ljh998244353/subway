@@ -4,7 +4,7 @@ Updated: 2026-05-20
 
 ## Current Status
 
-The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary for all implemented synthetic backend read APIs. P5-I1 added the first overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to an overview state boundary while preserving mock defaults. P5-I3 added the Store Analysis data loader contract.
+The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary for all implemented synthetic backend read APIs. P5-I1 added the first overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to an overview state boundary while preserving mock defaults. P5-I3 added the Store Analysis data loader contract. P5-I4 wired StoreAnalysisPage to that boundary.
 
 Current frontend API files:
 
@@ -17,6 +17,7 @@ frontend/src/api/overviewDataLoader.test.ts
 frontend/src/api/storeAnalysisDataLoader.ts
 frontend/src/api/storeAnalysisDataLoader.test.ts
 frontend/src/pages/dashboardOverviewState.ts
+frontend/src/pages/storeAnalysisState.ts
 ```
 
 Implemented frontend API boundary:
@@ -41,13 +42,15 @@ loadStoreAnalysisData
 mapApiStoreToDomain
 createInitialDashboardOverviewState
 resolveDashboardOverviewState
+createInitialStoreAnalysisDataState
+resolveStoreAnalysisDataState
 ```
 
 ## Test State
 
 ```text
-npm --prefix frontend run test: 93 passed
-npm run quality: passed in P5-I3
+npm --prefix frontend run test: 96 passed
+npm run quality: passed in P5-I4
 ```
 
 ## Constraints
@@ -65,4 +68,4 @@ no new dependency
 
 ## Next Step
 
-P5-I4 should wire StoreAnalysisPage to the store-analysis loader state boundary. It must keep mock mode as the default and should use mocked loader/fetch tests rather than live backend calls.
+P5-I5 should add a Store Alerts API-mode loader contract. It must keep mock mode as the default and should use mocked client/fetch tests rather than live backend calls.

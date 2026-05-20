@@ -56,4 +56,4 @@ no personal trajectories returned to API clients
 
 ## Next Step
 
-P5-I4 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.
+P5-I5 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.

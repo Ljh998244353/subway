@@ -47,4 +47,4 @@ all assets, models, and dependencies must have traceable license records
 
 ## Current Handoff
 
-P4-I16 closes CP4 as a synthetic backend/API/client contract baseline. P5-I1 added the API mode overview data loader while keeping mock mode as the default. P5-I2 wired dashboard state to that loader without changing the default. P5-I3 added Store Analysis loader contract work. P5-I4 should wire StoreAnalysisPage to that loader. Real MySQL, credentials, Docker Compose, real video, real mall material, real brands, face images, and personal trajectories remain blocked.
+P4-I16 closes CP4 as a synthetic backend/API/client contract baseline. P5-I1 added the API mode overview data loader while keeping mock mode as the default. P5-I2 wired dashboard state to that loader without changing the default. P5-I3 added Store Analysis loader contract work. P5-I4 wired StoreAnalysisPage to that loader. P5-I5 should add Store Alerts loader contract work. Real MySQL, credentials, Docker Compose, real video, real mall material, real brands, face images, and personal trajectories remain blocked.

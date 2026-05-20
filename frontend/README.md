@@ -26,11 +26,12 @@ Minimal premium full-site refinement with audited Motion animations
 P5-I1 overview data loader contract with mock/API mode selection and offline tests
 P5-I2 DashboardPage overview state wiring with mock fallback and offline tests
 P5-I3 Store Analysis data loader contract with mock/API mode selection and offline tests
+P5-I4 StoreAnalysisPage state wiring with mock fallback and offline tests
 ```
 
 It does not implement real APIs, real video, real mall maps, brand logos, backend services, AI services, or deployment infrastructure.
 
-P5-I1 added the frontend loader boundary for explicit API mode. P5-I2 wired DashboardPage to that boundary. P5-I3 added the Store Analysis loader boundary. The default demo remains mock mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
+P5-I1 added the frontend loader boundary for explicit API mode. P5-I2 wired DashboardPage to that boundary. P5-I3 added the Store Analysis loader boundary. P5-I4 wired StoreAnalysisPage to that boundary. The default demo remains mock mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
 
 ## Visual Context
 

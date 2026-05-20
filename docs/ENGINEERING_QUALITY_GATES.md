@@ -75,7 +75,8 @@ PROGRESS.md and context/TODO_NEXT.md are updated
 | P5-I1 | complete: API mode overview data loader tests, mock mode remains default |
 | P5-I2 | complete: dashboard API-mode state wiring tests, mock mode remains default |
 | P5-I3 | complete: Store Analysis API-mode loader tests, mock mode remains default |
-| P5-I4 | StoreAnalysisPage API-mode state wiring tests, mock mode remains default |
+| P5-I4 | complete: StoreAnalysisPage API-mode state wiring tests, mock mode remains default |
+| P5-I5 | Store Alerts API-mode loader tests, mock mode remains default |
 | Real MySQL query | migration execution test, database config validation, no committed secrets |
 | AI service | synthetic video fixtures, model/data license audit, output schema tests |
 | Production-like deployment | Compose config check, health checks, backup/logging docs, security review |

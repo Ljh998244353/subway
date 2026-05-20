@@ -1,14 +1,16 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { MotionSurface } from '../components/MotionSurface';
 import { ScoreBreakdown } from '../components/ScoreBreakdown';
 import { getWeightedScore } from '../components/scoreBreakdownUtils.ts';
 import { StoreList } from '../components/StoreList';
 import { getAlertStatusLabel, getAlertStatusTone, getScoreLevelLabel, getScoreTone, StatusBadge } from '../components/StatusBadge';
-import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
+import { mockAlerts, mockFloors, mockMall } from '../mock/index.ts';
 import { buildStoreAlertsUrl, buildStoreAnalysisUrl, buildStoreScoreTwinUrl } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
 import type { ScoreLevel, StoreCategory } from '../types/index.ts';
 import { buildStoreAnalysisViewModel, type StoreAnalysisFilters } from './storeAnalysisModel.ts';
+import { createInitialStoreAnalysisDataState, resolveStoreAnalysisDataState } from './storeAnalysisState.ts';
 
 function parseFilters(params: URLSearchParams): StoreAnalysisFilters {
   return {
@@ -35,25 +37,63 @@ function formatTimeRange(timeRange: string) {
 export function StoreAnalysisPage() {
   const [params] = useSearchParams();
   const location = useLocation();
+  const mallId = params.get('mallId') || mockMall.id;
   const timeRange = params.get('timeRange') || 'today';
   const filters = parseFilters(params);
-  const viewModel = buildStoreAnalysisViewModel(mockStoresWithAlerts, mockAlerts, mockFloors, filters);
+  const dataMode = params.get('dataMode') ?? undefined;
+  const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
+  const [storeDataState, setStoreDataState] = useState(() => createInitialStoreAnalysisDataState(filters.storeId));
+  const viewModel = useMemo(
+    () => buildStoreAnalysisViewModel(storeDataState.result.stores, mockAlerts, mockFloors, filters),
+    [filters, storeDataState.result.stores]
+  );
   const selectedStore = viewModel.selectedStore;
 
   const buildStoreUrl = (storeId: string) => buildStoreAnalysisUrl({ storeId }, location.search);
   const selectedScore = selectedStore?.score;
+  const dataSourceLabel = storeDataState.result.source === 'api' ? 'API' : 'Mock';
+  const statusLabel =
+    storeDataState.status === 'loading'
+      ? 'API 加载中'
+      : storeDataState.status === 'error'
+        ? 'API 异常 / Mock 回退'
+        : `${dataSourceLabel} 模式`;
+
+  useEffect(() => {
+    let active = true;
+
+    if (dataMode === 'api') {
+      setStoreDataState((current) => ({ ...current, status: 'loading', errorMessage: undefined }));
+    }
+
+    void resolveStoreAnalysisDataState({
+      mode: dataMode,
+      apiBaseUrl,
+      mallId,
+      selectedStoreId: filters.storeId
+    }).then((nextState) => {
+      if (active) {
+        setStoreDataState(nextState);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [apiBaseUrl, dataMode, filters.storeId, mallId]);
 
   return (
     <MotionSurface as="section" className="page store-analysis-page">
       <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
-          <p className="page-kicker">店铺分析 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <p className="page-kicker">店铺分析 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
           <h1>店铺分析</h1>
           <p>
             解释 {mockMall.name} 的店铺表现、转化、停留和低效原因，所有店铺与指标均为虚构 Mock 数据。
           </p>
         </div>
         <div className="dashboard-header__actions">
+          <StatusBadge label={statusLabel} tone={storeDataState.status === 'error' ? 'warning' : 'info'} />
           <StatusBadge label={viewModel.hasRows ? '可分析' : '暂无匹配'} tone={viewModel.hasRows ? 'info' : 'neutral'} />
           <Link className="ghost-button link-button" to={buildRouteWithGlobalQuery('/store-analysis', location.search)}>
             重置筛选
@@ -69,6 +109,8 @@ export function StoreAnalysisPage() {
         <span>评分：{filters.scoreLevel ? getScoreLevelLabel(filters.scoreLevel) : '全部等级'}</span>
         <span>关键词：{filters.keyword ?? '无'}</span>
         <span>选中：{selectedStore?.name ?? '无'}</span>
+        <span>数据源：{dataSourceLabel}</span>
+        {storeDataState.errorMessage ? <span>API 回退：{storeDataState.errorMessage}</span> : null}
       </MotionSurface>
 
       <div className="store-analysis-layout">

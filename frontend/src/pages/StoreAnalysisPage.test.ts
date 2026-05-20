@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getWeightedScore } from '../components/scoreBreakdownUtils.ts';
+import type { StoreAnalysisDataResult } from '../api/storeAnalysisDataLoader.ts';
 import { mockAlerts, mockFloors, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig.ts';
 import { buildStoreAnalysisViewModel } from './storeAnalysisModel.ts';
+import { createInitialStoreAnalysisDataState, resolveStoreAnalysisDataState } from './storeAnalysisState.ts';
 
 test('builds store analysis rows from shared mock data', () => {
   const viewModel = buildStoreAnalysisViewModel(mockStoresWithAlerts, mockAlerts, mockFloors, {});
@@ -74,4 +76,66 @@ test('store analysis drill-down links preserve global query params', () => {
     buildRouteWithGlobalQuery('/digital-twin?floorId=F2&storeId=S001&mode=score', '?mallId=M_DEMO&timeRange=7d'),
     '/digital-twin?floorId=F2&storeId=S001&mode=score&mallId=M_DEMO&timeRange=7d'
   );
+});
+
+test('store analysis data state starts with mock mode without API data', () => {
+  const state = createInitialStoreAnalysisDataState('S008');
+
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.stores, mockStoresWithAlerts);
+  assert.equal(state.result.selectedStoreId, 'S008');
+});
+
+test('store analysis data state forwards explicit API mode to loader', async () => {
+  const apiResult: StoreAnalysisDataResult = {
+    mode: 'api',
+    source: 'api',
+    stores: [mockStoresWithAlerts[0]],
+    selectedStoreId: mockStoresWithAlerts[0]?.id,
+    traceIds: ['req_store_analysis_state'],
+    timestamp: '2026-05-20T08:30:00Z'
+  };
+  const calls: unknown[] = [];
+
+  const state = await resolveStoreAnalysisDataState({
+    mode: 'api',
+    mallId: 'mall demo/001',
+    selectedStoreId: 'store demo/101',
+    apiBaseUrl: 'http://backend.test',
+    loader: async (options) => {
+      calls.push(options);
+      return apiResult;
+    }
+  });
+
+  assert.deepEqual(calls, [
+    {
+      mode: 'api',
+      mallId: 'mall demo/001',
+      selectedStoreId: 'store demo/101',
+      apiBaseUrl: 'http://backend.test'
+    }
+  ]);
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.source, 'api');
+  assert.deepEqual(state.result.traceIds, ['req_store_analysis_state']);
+});
+
+test('store analysis data state falls back to mock on API loader failure', async () => {
+  const state = await resolveStoreAnalysisDataState({
+    mode: 'api',
+    selectedStoreId: 'S010',
+    loader: async () => {
+      throw new Error('store backend unavailable');
+    }
+  });
+
+  assert.equal(state.status, 'error');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.stores, mockStoresWithAlerts);
+  assert.equal(state.result.selectedStoreId, 'S010');
+  assert.equal(state.errorMessage, 'store backend unavailable');
 });

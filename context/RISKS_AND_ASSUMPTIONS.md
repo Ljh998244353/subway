@@ -21,8 +21,8 @@ Updated: 2026-05-20
 | Real MySQL migration execution is not tested | Medium | Follow `docs/MYSQL_READINESS_PLAN.md` before real query work |
 | Premature Docker Compose would create fake deployment | Medium | Keep deployment documentation-only for now |
 | Privacy and real-material misuse | High | Block real video, real mall material, face images, member IDs, phone numbers, and personal trajectories |
-| Coverage, E2E, and AI validation are still missing | Medium | Add later by risk, not inside P5-I4 Store Analysis wiring work |
+| Coverage, E2E, and AI validation are still missing | Medium | Add later by risk, not inside P5-I5 Store Alerts loader work |
 
 ## Next Step Risk Control
 
-P5-I3 completed the Store Analysis API-mode loader contract. P5-I4 may wire StoreAnalysisPage to that loader only. It must not change the frontend default away from mock mode, depend on a live backend in tests, connect real MySQL, create credentials, create Docker/infra, use real video or real floor plans, or expose personal/individual trajectories.
+P5-I4 completed StoreAnalysisPage API-mode state wiring. P5-I5 may add a Store Alerts API-mode loader contract only. It must not change the frontend default away from mock mode, depend on a live backend in tests, connect real MySQL, create credentials, create Docker/infra, use real video or real floor plans, or expose personal/individual trajectories.
