@@ -23,9 +23,12 @@ CP2 demo readiness checks for five core routes, presentation paths, and privacy 
 Responsive CSS checks for core demo layouts
 CP2 visual refinement with local CSS, OKLCH tokens, self-drawn SVG, and no paid assets
 Minimal premium full-site refinement with audited Motion animations
+P5-I1 overview data loader contract with mock/API mode selection and offline tests
 ```
 
 It does not implement real APIs, real video, real mall maps, brand logos, backend services, AI services, or deployment infrastructure.
+
+P5-I1 adds only the frontend loader boundary for explicit API mode. The default demo remains mock mode, and tests inject client/fetch implementations instead of calling a live backend.
 
 ## Visual Context
 

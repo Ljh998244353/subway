@@ -5,31 +5,31 @@ Updated: 2026-05-20
 ## Task Card
 
 ```text
-Increment: P5-I1 API mode overview data loader contract
+Increment: P5-I2 dashboard API-mode state wiring
 Primary role: Frontend Integration Mode
 Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P4-I16 CP4 closure review and MySQL readiness plan
+Status: ready after P5-I1 overview data loader contract
 ```
 
 ## Goal
 
-Start P5 frontend/backend integration with one narrow API mode path for overview/dashboard data loading. Keep mock mode as the default and do not connect real MySQL or replace the existing frontend demo behavior.
+Wire the P5-I1 overview data loader into the dashboard page state boundary so the dashboard can render mock data by default and use API mode only when explicitly selected. Keep the existing demo stable and do not require a live backend in tests.
 
 ## Recommended Scope
 
 ```text
-add a frontend data loader or adapter for overview data that can choose mock or API mode
-use existing resolveFrontendDataMode, resolveApiBaseUrl, createReferenceApiClient, and getOverview(mallId)
-keep dashboard mock data unchanged by default
-add tests for mock default, API success, API error fallback or propagation, URL/baseUrl boundaries
-document how P5 will expand API mode route by route
+connect DashboardPage to loadOverviewData through a small React state/effect boundary
+keep initial/default dashboard rendering on mockOverview and existing mock stores/alerts/floors
+add explicit loading, error, and recovered mock/default behavior tests where practical
+use injected or mocked loader/fetch in tests; do not call a live backend
+document how API mode should continue route by route after dashboard overview wiring
 ```
 
 ## Non-goals
 
 ```text
-do not replace the current frontend mock demo
+do not switch the frontend default from mock mode to API mode
 do not make live network calls in tests
 do not connect real MySQL
 do not create .env with credentials
@@ -46,23 +46,21 @@ do not execute sudo
 AGENTS.md
 README.md
 PROGRESS.md
-docs/CP4_CLOSURE_REVIEW.md
-docs/MYSQL_READINESS_PLAN.md
-frontend/src/api/apiMode.ts
-frontend/src/api/referenceClient.ts
-frontend/src/api/referenceClient.test.ts
-frontend/src/mock/mockOverview.ts
+frontend/src/api/overviewDataLoader.ts
+frontend/src/api/overviewDataLoader.test.ts
 frontend/src/pages/DashboardPage.tsx
 frontend/src/pages/DashboardPage.test.ts
+frontend/src/pages/dashboardModel.ts
+frontend/src/mock/mockOverview.ts
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-frontend overview API-mode loader/adapter with tests
-mock mode remains default and tested
-no live backend or real MySQL dependency in frontend tests
+DashboardPage uses the overview loader boundary or an equivalent injectable state adapter
+mock mode remains default and the existing dashboard demo remains stable
+API mode behavior is covered without live backend or real MySQL dependency
 updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
 no new dependency unless license/cost reviewed first
 ```
@@ -75,10 +73,10 @@ npm run quality
 npm run quality:audit
 ```
 
-P5-I1 completion should be searchable with:
+P5-I2 completion should be searchable with:
 
 ```bash
-rg -n "P5-I1|API mode|mock mode|getOverview|overview data loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/TEST_STATE.md frontend docs
+rg -n "P5-I2|DashboardPage|API mode|mock mode|loadOverviewData|overview loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
@@ -95,4 +93,4 @@ before AI service or production deployment
 
 ## Next Handoff
 
-After P5-I1, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.
+After P5-I2, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.

@@ -26,7 +26,7 @@ stop for human action when sudo is needed
 update PROGRESS.md, context/*.md, and context/TODO_NEXT.md after completion
 ```
 
-Current next increment: `P5-I1 API mode overview data loader contract`.
+Current next increment: `P5-I2 dashboard API-mode state wiring`.
 
 Normal continuation command:
 

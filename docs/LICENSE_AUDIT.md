@@ -146,3 +146,7 @@ P4-I15 reused existing backend/frontend dependencies and added only project-auth
 ## P4-I16 CP4 closure and MySQL readiness audit
 
 P4-I16 added project-authored documentation only: `docs/CP4_CLOSURE_REVIEW.md` and `docs/MYSQL_READINESS_PLAN.md`. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I1 overview data loader audit
+
+P5-I1 added project-authored frontend TypeScript only: `frontend/src/api/overviewDataLoader.ts` and `frontend/src/api/overviewDataLoader.test.ts`. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.

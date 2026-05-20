@@ -14,7 +14,7 @@ quality gate: root npm scripts + backend Pytest
 CI: GitHub Actions only
 ```
 
-P4-I4 through P4-I15 built the synthetic backend API and typed frontend client contract. P4-I16 added CP4 closure review and MySQL readiness planning. Real MySQL, Redis, AI service, external services, and Docker Compose remain out of scope unless explicitly confirmed.
+P4-I4 through P4-I15 built the synthetic backend API and typed frontend client contract. P4-I16 added CP4 closure review and MySQL readiness planning. P5-I1 added the overview data loader contract for explicit API mode. Real MySQL, Redis, AI service, external services, and Docker Compose remain out of scope unless explicitly confirmed.
 
 ## Implemented API Layer
 
@@ -36,4 +36,4 @@ P4-I4 through P4-I15 built the synthetic backend API and typed frontend client c
 
 ## Next Architecture Work
 
-P5-I1 starts frontend API mode integration through a narrow overview data loader. Mock mode remains the default and the API path should use the existing synthetic backend contract.
+P5-I2 wires the dashboard page state boundary to the overview data loader. Mock mode remains the default and the API path should use the existing synthetic backend contract.

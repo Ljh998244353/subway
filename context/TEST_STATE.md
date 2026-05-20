@@ -4,49 +4,47 @@ Updated: 2026-05-20
 
 ## Current Status
 
-P4-I16 is a documentation and readiness review increment. It relies on the existing executable P4 test suites:
+P5-I1 added executable frontend tests for the overview data loader contract:
 
 ```text
+frontend/src/api/overviewDataLoader.test.ts
+frontend/src/api/referenceClient.test.ts
 backend/tests/test_health.py
 backend/tests/test_migrations.py
 backend/tests/test_reference_api.py
 backend/tests/test_overview_api.py
-frontend/src/api/referenceClient.test.ts
 ```
 
-Latest completed P4-I15 results:
+Latest local P5-I1 frontend result:
 
 ```text
-backend pytest: 34 passed
-frontend tests: 78 passed
-npm run quality: passed
-npm run quality:audit: found 0 vulnerabilities
+npm --prefix frontend run test: 84 passed
 ```
 
-P4-I16 added these document-level checks:
+P5-I1 test coverage includes:
 
 ```text
-CP4 synthetic backend/API/client coverage review
-MySQL readiness checklist before real query work
-P5-I1 task card for API mode overview data loader
-quality-gate docs check now requires CP4 and MySQL readiness docs
+mock mode is default and does not touch the API client
+non-api mode resolves back to mock mode
+API mode can load overview through an injected client
+API mode normalizes base URL and encodes mallId when using injected fetch
+unknown API source/status values map to safe frontend domain values
+typed ApiClientError propagates without live backend dependency
 ```
 
 ## Required Final Checks
 
 ```bash
-backend\.venv\Scripts\python.exe -m pytest backend\tests
+npm --prefix frontend run test
 npm run quality
 npm run quality:audit
 ```
 
-Final P4-I16 result:
+Final P5-I1 result:
 
 ```text
-backend pytest: 34 passed
+npm --prefix frontend run test: 84 passed
 npm run quality: passed
-frontend tests in quality gate: 78 passed
-backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
 
@@ -55,6 +53,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Known Gaps
 
 ```text
+DashboardPage is not yet wired to the loader state boundary
 no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E

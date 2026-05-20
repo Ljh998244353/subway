@@ -93,6 +93,8 @@ const requiredFiles = [
   "frontend/package-lock.json",
   "frontend/src/App.tsx",
   "frontend/src/api/apiMode.ts",
+  "frontend/src/api/overviewDataLoader.ts",
+  "frontend/src/api/overviewDataLoader.test.ts",
   "frontend/src/api/referenceClient.ts",
   "frontend/src/api/referenceClient.test.ts",
   "frontend/src/components/AppShell.tsx",
@@ -431,7 +433,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I1"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I2"]
     },
     {
       name: "hard rules",
@@ -482,8 +484,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P5-I1 API mode focus",
-      patterns: ["P5-I1", "API mode", "mock mode", "overview", "quality gate"]
+      name: "P5-I2 dashboard API mode focus",
+      patterns: ["P5-I2", "API mode", "mock mode", "DashboardPage", "overview loader", "quality gate"]
     }
   ];
 

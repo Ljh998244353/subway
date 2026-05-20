@@ -4,15 +4,14 @@ Updated: 2026-05-20
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1.
 
-P4-I16 completed CP4 closure review and MySQL readiness planning:
+P5-I1 completed the first frontend API-mode overview data loader contract:
 
 ```text
-docs/CP4_CLOSURE_REVIEW.md
-docs/MYSQL_READINESS_PLAN.md
-docs/ENGINEERING_QUALITY_GATES.md
-docs/CI_PLAN.md
+frontend/src/api/overviewDataLoader.ts
+frontend/src/api/overviewDataLoader.test.ts
+frontend/package.json
 context/TODO_NEXT.md
 context/*.md
 ```
@@ -20,21 +19,23 @@ context/*.md
 Implemented:
 
 ```text
-CP4 synthetic backend/API/client coverage review
-explicit P4 gaps and go/no-go decisions
-MySQL readiness checklist before real query work
-confirmation gates for real MySQL, credentials, Docker, external services, real data, and production deployment
-P5-I1 handoff for API mode overview data loader contract
+loadOverviewData(options) selects mock mode by default and API mode only when explicitly requested
+mock mode returns the existing mockOverview without touching an API client
+API mode uses getOverview(mallId) through the existing typed reference client
+fetch/client injection keeps tests offline and independent from a live backend
+OverviewDto is mapped into the frontend OverviewSnapshot domain shape with safe source/status normalization
+P5-I2 handoff for dashboard API-mode state wiring
 ```
 
-CP4 is acceptable for a synthetic contract baseline. The project can move to P5 frontend API-mode integration using the existing synthetic backend and typed frontend client. It must keep mock mode as the default until a later human confirmation changes that boundary.
+P5 has started without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
 
 ## Current Status
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| Frontend demo | complete | React + TypeScript + Vite, still mock/synthetic data |
+| Frontend demo | complete | React + TypeScript + Vite, still mock/synthetic data by default |
 | Frontend API boundary | complete | typed reference API client, mock mode default |
+| Overview data loader | complete | P5-I1 `loadOverviewData` supports mock/API selection with offline tests |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -47,16 +48,16 @@ CP4 is acceptable for a synthetic contract baseline. The project can move to P5 
 | Customer profile API/client | complete | synthetic `/api/v1/customer-profile` + typed `getCustomerProfile(mallId)` |
 | Heatmap API/client | complete | synthetic `/api/v1/heatmap` + typed `getHeatmap(mallId)` |
 | Trajectories API/client | complete | synthetic `/api/v1/trajectories` + typed `getTrajectories(mallId)` |
-| CP4 closure | complete | synthetic contract baseline can move to P5 |
+| CP4 closure | complete | synthetic contract baseline can move through P5 |
 | MySQL readiness | planned | no real connection, credentials, Docker, or Compose |
 | Deployment | documentation only | not runnable Compose |
 
 ## Verification
 
-P4-I16 final verification:
+P5-I1 local verification:
 
 ```bash
-backend\.venv\Scripts\python.exe -m pytest backend\tests
+npm --prefix frontend run test
 npm run quality
 npm run quality:audit
 ```
@@ -64,10 +65,8 @@ npm run quality:audit
 Results:
 
 ```text
-backend pytest: 34 passed
+npm --prefix frontend run test: 84 passed
 npm run quality: passed
-frontend tests in quality gate: 78 passed
-backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
 
@@ -76,6 +75,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
+DashboardPage is not yet wired to the loader state boundary
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
@@ -87,18 +87,18 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P5-I1 API mode overview data loader contract`.
+Next increment: `P5-I2 dashboard API-mode state wiring`.
 
 Recommended scope:
 
 ```text
-add a frontend overview data loader or adapter that can choose mock or API mode
-use existing getOverview(mallId), resolveFrontendDataMode, and resolveApiBaseUrl
-keep mock mode as the default demo path
-add tests for mock default, API success, API error handling, and no live network dependency
+wire DashboardPage to loadOverviewData or an equivalent injectable state adapter
+keep mock mode and existing dashboard mock rendering as the default
+add tests for default mock behavior plus API-mode loading/error boundaries without live backend calls
+do not connect real MySQL or change backend fixture behavior
 ```
 
-P5-I1 must not switch the default frontend mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
+P5-I2 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
 
 ## Stage Log
 
@@ -120,7 +120,8 @@ P5-I1 must not switch the default frontend mode to API, must not depend on a liv
 | P4-I14 heatmap API stub and client contract | 2026-05-19 | Added synthetic aggregate heatmap endpoint, `MALL_NOT_FOUND`, OpenAPI test, typed `getHeatmap(mallId)`, and mocked fetch tests; quality/audit passed |
 | P4-I15 trajectories API stub and client contract | 2026-05-20 | Added anonymous aggregate trajectories endpoint, `MALL_NOT_FOUND`, OpenAPI test, typed `getTrajectories(mallId)`, and mocked fetch tests; quality/audit passed |
 | P4-I16 CP4 closure review and MySQL readiness plan | 2026-05-20 | Added CP4 review, MySQL readiness checklist, explicit no-go boundaries, and P5-I1 handoff |
+| P5-I1 API mode overview data loader contract | 2026-05-20 | Added `loadOverviewData`, offline loader tests, and P5-I2 dashboard wiring handoff |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `docs/CP4_CLOSURE_REVIEW.md`, `docs/MYSQL_READINESS_PLAN.md`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I1 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/api/overviewDataLoader.ts`, `frontend/src/pages/DashboardPage.tsx`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I2 task card.

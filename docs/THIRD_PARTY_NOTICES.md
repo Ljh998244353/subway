@@ -59,6 +59,8 @@ P4-I15 note: trajectories API/client work reuses existing dependencies and adds 
 
 P4-I16 note: CP4 closure review and MySQL readiness planning add project-authored documentation only. No new third-party package, model, media asset, Docker image, database service, external service, paid account, real mall material, personal trajectory, credential, or real MySQL access is added.
 
+P5-I1 note: overview data loader work adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
 ## Blocked Until Reviewed
 
 Do not use the following unless the source, permission, and license have been reviewed and recorded:

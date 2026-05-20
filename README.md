@@ -123,6 +123,7 @@ P2 前端 Demo MVP 与 CP2 收口
 P3 工程化骨架、根级质量门禁、GitHub Actions 和部署计划
 P4-I1 至 P4-I15 后端 API、MySQL 数据模型、迁移基线、合成 API stub、前端 typed client
 P4-I16 CP4 closure review and MySQL readiness plan
+P5-I1 API mode overview data loader contract
 ```
 
 当前已实现的后端 synthetic API：
@@ -158,12 +159,14 @@ GET /api/v1/overview?mallId=mall_demo_001
 ```text
 backend pytest: 34 passed
 npm run quality: passed
-frontend tests in quality gate: 78 passed
+frontend tests in quality gate: 84 passed after P5-I1 loader tests
 backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
 
-下一步增量是 `P5-I1 API mode overview data loader contract`：为运营总览增加第一条前端 API mode 数据加载路径，但 Mock mode 继续作为默认演示模式，测试不能依赖 live backend，也不能连接真实 MySQL。
+P5-I1 已完成：新增 `frontend/src/api/overviewDataLoader.ts` 和 `overviewDataLoader.test.ts`。现在前端已有第一条 overview API mode 数据加载契约；Mock mode 仍然是默认演示模式，测试通过注入 client/fetch 离线执行，不依赖 live backend，也不连接真实 MySQL。
+
+下一步增量是 `P5-I2 dashboard API-mode state wiring`：把 Dashboard 页面接到 overview loader 的状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
 
 给 AI 的指令：
 
