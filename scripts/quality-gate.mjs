@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 
 const rootDir = process.cwd();
 
-const modes = new Set(["all", "docs", "compliance", "boundary", "frontend", "audit"]);
+const modes = new Set(["all", "docs", "compliance", "boundary", "frontend", "backend", "audit"]);
 const mode = process.argv[2] ?? "all";
 
 if (!modes.has(mode)) {
@@ -24,6 +24,7 @@ const requiredFiles = [
   "DESIGN.md",
   "package.json",
   "scripts/quality-gate.mjs",
+  "pyproject.toml",
   ".github/workflows/ci.yml",
   "docs/THIRD_PARTY_NOTICES.md",
   "docs/LICENSE_AUDIT.md",
@@ -36,6 +37,10 @@ const requiredFiles = [
   "docs/ENGINEERING_QUALITY_GATES.md",
   "docs/CI_PLAN.md",
   "docs/DEPLOYMENT_PLAN.md",
+  "docs/CP4_CLOSURE_REVIEW.md",
+  "docs/MYSQL_READINESS_PLAN.md",
+  "docs/API_CONTRACT.md",
+  "docs/DATA_MODEL.md",
   "docs/design/SCREEN_LAYOUTS.md",
   "docs/design/DESIGN_TOKENS.md",
   "docs/design/UI_SPEC.md",
@@ -56,11 +61,40 @@ const requiredFiles = [
   "context/DECISIONS_LOG.md",
   "context/RISKS_AND_ASSUMPTIONS.md",
   "context/TODO_NEXT.md",
+  "backend/README.md",
+  "backend/requirements.txt",
+  "backend/requirements.lock.txt",
+  "backend/app/main.py",
+  "backend/app/api/routes/health.py",
+  "backend/app/api/routes/overview.py",
+  "backend/app/api/routes/reference.py",
+  "backend/app/core/config.py",
+  "backend/app/core/errors.py",
+  "backend/app/core/trace.py",
+  "backend/app/fixtures/overview.py",
+  "backend/app/fixtures/reference.py",
+  "backend/app/db/metadata.py",
+  "backend/app/schemas/common.py",
+  "backend/app/schemas/health.py",
+  "backend/app/schemas/overview.py",
+  "backend/app/schemas/reference.py",
+  "backend/alembic.ini",
+  "backend/migrations/README.md",
+  "backend/migrations/env.py",
+  "backend/migrations/script.py.mako",
+  "backend/migrations/versions/20260519_0001_initial_schema.py",
+  "backend/tests/test_health.py",
+  "backend/tests/test_migrations.py",
+  "backend/tests/test_overview_api.py",
+  "backend/tests/test_reference_api.py",
   "skills/mall-vision-ai-delivery/SKILL.md",
   "skills/mall-vision-ai-delivery/agents/openai.yaml",
   "frontend/package.json",
   "frontend/package-lock.json",
   "frontend/src/App.tsx",
+  "frontend/src/api/apiMode.ts",
+  "frontend/src/api/referenceClient.ts",
+  "frontend/src/api/referenceClient.test.ts",
   "frontend/src/components/AppShell.tsx",
   "frontend/src/components/MotionSurface.tsx",
   "frontend/src/components/FloorPlan.tsx",
@@ -114,6 +148,32 @@ const complianceChecks = [
   }
 ];
 
+const stableComplianceChecks = [
+  {
+    name: "privacy and material red lines",
+    pattern: "real monitoring|real video|real mall|face images|personal trajectories|paid",
+    targets: ["docs", "context", "IMPORTANT.md", "README.md"]
+  },
+  {
+    name: "engineering and handoff rules",
+    pattern:
+      "P3-I2|P3-I3|P3-I4|P4-I1|P4-I2|P4-I3|P4-I4|quality gate|CI|GitHub Actions|Gitee|Docker Compose|deployment documentation|health check|environment variables|MySQL|sudo|virtual environment|请进行下一步",
+    targets: [
+      "AGENT.md",
+      "README.md",
+      "PROGRESS.md",
+      "context/TODO_NEXT.md",
+      "docs/ENGINEERING_QUALITY_GATES.md",
+      "docs/CI_PLAN.md"
+    ]
+  },
+  {
+    name: "license and cost tracking",
+    pattern: "THIRD_PARTY_NOTICES|LICENSE_AUDIT|license|paid tool|real mall material|external service",
+    targets: ["AGENT.md", "README.md", "IMPORTANT.md", "docs", "context"]
+  }
+];
+
 function main() {
   if (mode === "docs") {
     runDocsCheck();
@@ -131,6 +191,10 @@ function main() {
     runFrontendGate();
     return;
   }
+  if (mode === "backend") {
+    runBackendGate();
+    return;
+  }
   if (mode === "audit") {
     runAuditGate();
     return;
@@ -140,6 +204,7 @@ function main() {
   runComplianceCheck();
   runBoundaryCheck();
   runFrontendGate();
+  runBackendGate();
 }
 
 function runDocsCheck() {
@@ -152,23 +217,24 @@ function runDocsCheck() {
   runAgentsEntryCheck();
   runTaskCardCheck();
   runDeploymentPlanCheck();
+  runP4BaselineCheck();
 }
 
 function runComplianceCheck() {
   heading("compliance");
-  for (const check of complianceChecks) {
+  for (const check of stableComplianceChecks) {
     assertPatternExists(check);
   }
 }
 
 function runBoundaryCheck() {
   heading("boundary");
-  const blockedDirs = ["backend", "ai-services", "infra"];
+  const blockedDirs = ["ai-services", "infra"];
   const found = blockedDirs.filter((dir) => existsSync(join(rootDir, dir)));
   if (found.length > 0) {
     fail(`Current increment must not create these root directories yet: ${found.join(", ")}`);
   }
-  ok("no backend/, ai-services/, or infra/ directory at the repository root");
+  ok("backend/ and backend/migrations/ are allowed for P4; no ai-services/ or infra/ directory at the repository root");
 }
 
 function runFrontendGate() {
@@ -194,13 +260,31 @@ function runAuditGate() {
 function runCommand(command, args, options = {}) {
   const label = options.label ?? [command, ...args].join(" ");
   console.log(`\n> ${label}`);
-  const result = spawnSync(command, args, {
-    cwd: rootDir,
-    stdio: "inherit"
-  });
+  const result =
+    process.platform === "win32"
+      ? spawnSync([command, ...args].join(" "), {
+          cwd: rootDir,
+          stdio: "inherit",
+          shell: true
+        })
+      : spawnSync(command, args, {
+          cwd: rootDir,
+          stdio: "inherit"
+        });
   if (result.status !== 0) {
     fail(`${label} failed with exit code ${result.status ?? "unknown"}`);
   }
+}
+
+function runBackendGate() {
+  heading("backend");
+  const python = process.platform === "win32" ? "backend\\.venv\\Scripts\\python.exe" : "backend/.venv/bin/python";
+  if (!existsSync(join(rootDir, python))) {
+    fail(`Missing backend virtual environment Python: ${python}`);
+  }
+  runCommand(python, ["-m", "pytest", "backend/tests"], {
+    label: "backend pytest"
+  });
 }
 
 function heading(name) {
@@ -231,6 +315,33 @@ function assertPatternExists(check) {
 function runDeploymentPlanCheck() {
   const file = "docs/DEPLOYMENT_PLAN.md";
   const text = readTextFile(join(rootDir, file));
+  const stableRequirements = [
+    {
+      name: "P3-I4 increment metadata",
+      patterns: ["P3-I4", "DevOps Mode", "Docker Compose"]
+    },
+    {
+      name: "future service boundaries",
+      patterns: ["frontend", "backend", "mysql", "redis", "ai-services", "worker"]
+    },
+    {
+      name: "configuration and health boundaries",
+      patterns: ["environment variables", "secrets", "health checks", "/api/v1/health"]
+    },
+    {
+      name: "compliance and platform boundaries",
+      patterns: ["MySQL", "sudo", "GitHub Actions", "Gitee", "real monitoring", "personal trajectories"]
+    },
+    {
+      name: "documentation-first decision",
+      patterns: ["do not create `docker-compose.yml`", "not a runnable Compose", "THIRD_PARTY_NOTICES"]
+    }
+  ];
+
+  assertTextRequirements("Deployment plan check", stableRequirements, text);
+  ok("deployment plan records service boundaries, health checks, compliance, and handoff");
+  return;
+
   const requirements = [
     {
       name: "P3-I4 increment metadata",
@@ -268,12 +379,78 @@ function runDeploymentPlanCheck() {
   ok("deployment plan records service boundaries, health checks, compliance, and handoff");
 }
 
+function runP4BaselineCheck() {
+  const apiText = readTextFile(join(rootDir, "docs/API_CONTRACT.md"));
+  const dataText = readTextFile(join(rootDir, "docs/DATA_MODEL.md"));
+
+  const apiRequirements = [
+    {
+      name: "P4-I1 metadata",
+      patterns: ["P4-I1", "Backend Mode", "baseline candidate"]
+    },
+    {
+      name: "API contract basics",
+      patterns: ["/api/v1", "/api/v1/health", "traceId", "Response Envelope", "Error Codes"]
+    },
+    {
+      name: "security and privacy boundaries",
+      patterns: ["RBAC", "admin", "operator", "leasing", "security", "readonly", "No endpoint may return face images"]
+    },
+    {
+      name: "contract test plan",
+      patterns: ["OpenAPI", "Pydantic", "contract tests", "Freeze Gate"]
+    }
+  ];
+
+  const dataRequirements = [
+    {
+      name: "P4-I1 data metadata",
+      patterns: ["P4-I1", "MySQL", "baseline candidate"]
+    },
+    {
+      name: "core tables",
+      patterns: ["mall", "floor", "store", "camera", "store_alert", "operation_log"]
+    },
+    {
+      name: "event and idempotency rules",
+      patterns: ["person_detection_event", "store_enter_event", "store_exit_event", "event_id", "idempotency"]
+    },
+    {
+      name: "data quality and privacy",
+      patterns: ["UTC", "Retention Policy", "no face images", "Migration And Test Plan", "Freeze Gate"]
+    }
+  ];
+
+  assertTextRequirements("P4 API baseline check", apiRequirements, apiText);
+  assertTextRequirements("P4 data model baseline check", dataRequirements, dataText);
+  ok("P4 baseline records API contract, MySQL data model, RBAC, privacy, and test gates");
+}
+
 function runAgentsEntryCheck() {
   const text = readTextFile(join(rootDir, "AGENTS.md"));
+  const stableRequirements = [
+    {
+      name: "standard agent entry",
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I1"]
+    },
+    {
+      name: "hard rules",
+      patterns: ["MySQL", "sudo", "license", "real video", "After every increment"]
+    },
+    {
+      name: "human workflow",
+      patterns: ["请进行下一步", "Human confirmation gates", "quality gate"]
+    }
+  ];
+
+  assertTextRequirements("AGENTS.md check", stableRequirements, text);
+  ok("AGENTS.md records standard entry rules, human workflow, and quality gates");
+  return;
+
   const requirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P4-I1"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P4-I3"]
     },
     {
       name: "hard rules",
@@ -291,6 +468,29 @@ function runAgentsEntryCheck() {
 
 function runTaskCardCheck() {
   const text = readTextFile(join(rootDir, "context/TODO_NEXT.md"));
+  const stableRequirements = [
+    {
+      name: "task card metadata",
+      patterns: ["Task Card", "Increment:", "Primary role:", "Human command:"]
+    },
+    {
+      name: "scope boundaries",
+      patterns: ["Goal", "Non-goals", "Required Reading", "Deliverables"]
+    },
+    {
+      name: "acceptance and confirmation",
+      patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
+    },
+    {
+      name: "P5-I1 API mode focus",
+      patterns: ["P5-I1", "API mode", "mock mode", "overview", "quality gate"]
+    }
+  ];
+
+  assertTextRequirements("TODO task card check", stableRequirements, text);
+  ok("context/TODO_NEXT.md records a complete executable task card");
+  return;
+
   const requirements = [
     {
       name: "task card metadata",
@@ -305,8 +505,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P4-I1 backend contract focus",
-      patterns: ["/api/v1/health", "MySQL", "RBAC", "OpenAPI", "契约检查"]
+      name: "P4-I3 backend migration focus",
+      patterns: ["P4-I3", "MySQL", "Alembic", "SQLAlchemy", "质量门禁"]
     }
   ];
 

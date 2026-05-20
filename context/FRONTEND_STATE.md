@@ -1,227 +1,57 @@
 # Frontend State
 
-更新时间：2026-05-13
+Updated: 2026-05-20
 
-## 当前状态
+## Current Status
 
-P2-I1 前端工程初始化、P2-I2 Mock 数据与共享类型、P2-I3 运营总览页面、P2-I4 店铺分析页面、P2-I5 低效预警页面、P2-I6 数字孪生 Demo 页面、P2-I7 E2E/响应式/演示打磨、P2-I8 客群画像页面、P2-I9 CP2 前端 Demo 收口和交接已完成。2026-05-13 已完成 CP2 后前端视觉重构：补齐 `PRODUCT.md` / `DESIGN.md`，升级 `tokens.css` 的 OKLCH 语义 token，打磨 AppShell、Dashboard 运营巡检摘要、Digital Twin 空间模式控制区、卡片/表格/告警/画像图表/数字孪生 SVG 和选中态。同日追加一次“极简高级版”全站五页精修：新增已审计 MIT `motion` 依赖和 `MotionSurface` 组件，用于克制的页面、面板和状态入场动效；进一步收敛色彩、阴影、留白、卡片、表格、列表、数字孪生和画像图表质感。当前 `frontend/` 是 React + TypeScript + Vite 工程，已有 5 个核心路由、AppShell、CSS token、共享领域类型、虚构 Mock 数据、Node 内置数据边界测试、核心演示流转测试、CP2 演示就绪测试、响应式 CSS 检查，以及 `/dashboard`、`/store-analysis`、`/store-alerts`、`/digital-twin`、`/customer-profile` 五个业务页面。
+The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary for all implemented synthetic backend read APIs.
 
-## 已完成文件
-
-```text
-frontend/README.md
-frontend/package.json
-frontend/package-lock.json
-frontend/index.html
-frontend/vite.config.ts
-frontend/tsconfig.json
-frontend/tsconfig.app.json
-frontend/tsconfig.node.json
-frontend/src/main.tsx
-frontend/src/App.tsx
-frontend/src/components/AppShell.tsx
-frontend/src/components/MetricCard.tsx
-frontend/src/components/MotionSurface.tsx
-frontend/src/components/SummaryStrip.tsx
-frontend/src/components/StatusBadge.tsx
-frontend/src/components/TrendSparkline.tsx
-frontend/src/components/ScoreBreakdown.tsx
-frontend/src/components/StoreList.tsx
-frontend/src/components/AlertList.tsx
-frontend/src/components/AlertDetail.tsx
-frontend/src/components/FloorPlan.tsx
-frontend/src/components/TwinInspector.tsx
-frontend/src/components/scoreBreakdownUtils.ts
-frontend/src/routes/routeConfig.ts
-frontend/src/routes/routeConfig.test.ts
-frontend/src/routes/demoFlow.ts
-frontend/src/routes/demoFlow.test.ts
-frontend/src/routes/demoReadiness.test.ts
-frontend/src/pages/PageScaffold.tsx
-frontend/src/pages/DashboardPage.tsx
-frontend/src/pages/DashboardPage.test.ts
-frontend/src/pages/dashboardModel.ts
-frontend/src/pages/DigitalTwinPage.tsx
-frontend/src/pages/DigitalTwinPage.test.ts
-frontend/src/pages/digitalTwinModel.ts
-frontend/src/pages/StoreAnalysisPage.tsx
-frontend/src/pages/StoreAnalysisPage.test.ts
-frontend/src/pages/storeAnalysisModel.ts
-frontend/src/pages/StoreAlertsPage.tsx
-frontend/src/pages/StoreAlertsPage.test.ts
-frontend/src/pages/storeAlertsModel.ts
-frontend/src/pages/CustomerProfilePage.tsx
-frontend/src/pages/CustomerProfilePage.test.ts
-frontend/src/pages/customerProfileModel.ts
-frontend/src/styles/tokens.css
-frontend/src/styles/global.css
-frontend/src/styles/responsiveChecks.test.ts
-frontend/src/types/domain.ts
-frontend/src/types/index.ts
-frontend/src/mock/mockMall.ts
-frontend/src/mock/mockFloors.ts
-frontend/src/mock/mockStores.ts
-frontend/src/mock/mockAlerts.ts
-frontend/src/mock/mockOverview.ts
-frontend/src/mock/mockCustomerProfile.ts
-frontend/src/mock/linkMockRelations.ts
-frontend/src/mock/index.ts
-frontend/src/mock/mockData.test.ts
-```
-
-## 当前 Mock 数据
+Current frontend API files:
 
 ```text
-1 个虚构商场：示范商业中心
-5 个虚构楼层
-100 家虚构店铺
-8 种通用业态
-20 条虚构预警
-运营总览 KPI、客流趋势、楼层摘要
-热力点和流向线
-匿名聚合客群画像
+frontend/src/api/apiMode.ts
+frontend/src/api/referenceClient.ts
+frontend/src/api/referenceClient.test.ts
 ```
 
-数据不包含真实商场、真实品牌、商户 Logo、真实地图、监控视频、人物图像、人脸、会员 ID 或个人轨迹。
-
-## 当前路由
+Implemented frontend API boundary:
 
 ```text
-/dashboard
-/digital-twin
-/store-analysis
-/customer-profile
-/store-alerts
+resolveFrontendDataMode: defaults to mock unless explicitly api
+resolveApiBaseUrl: configurable base URL normalization
+createReferenceApiClient: typed wrapper for P4 reference APIs
+getOverview
+getStore
+getStoreScore
+getStoreFlow
+getStoreRanking
+listStoreAlerts
+getCustomerProfile
+getHeatmap
+getTrajectories
+ApiClientError
 ```
 
-五个核心路由均已完成业务页面：
+## Test State
 
 ```text
-/dashboard          运营总览
-/digital-twin       数字孪生 Demo
-/store-analysis     店铺分析
-/customer-profile   客群画像
-/store-alerts       低效预警
+npm --prefix frontend run test: 78 passed
+npm run quality: passed in P4-I16
 ```
 
-## 前端约束
+## Constraints
 
 ```text
-React + TypeScript + Vite
-允许已审计 MIT `motion` 用于克制状态动效
-P2 当前不新增图表库、3D 库、图标库或字体文件
-Mock mode first, API mode later
-routes preserve mallId, timeRange, floorId, storeId, category, alertId when relevant
-no real mall floor plans, real brands, merchant logos, surveillance footage, or personal images
-light operational UI, 12-column desktop grid, fixed app shell, responsive fallbacks
-status and warning cannot rely on color alone
-components and charts must expose loading, empty, error, permission, partial, stale states
-charts must include unit, legend, metric definition, text summary or table fallback
-keyboard interaction, visible focus, aria-label, chart summaries, table fallback and reduced motion are required
+mock mode remains default
+no real API call in tests
+no real MySQL
+no real video
+no real mall material
+no face images
+no personal trajectories
+no new dependency
 ```
 
-## 最近检查
+## Next Step
 
-```bash
-cd frontend
-npm run lint
-npm run test
-npm run build
-```
-
-结果：2026-05-13 极简高级全站精修后 `npm run lint`、`npm run test`、`npm run build` 和 `npm audit --audit-level=high` 通过。新增 `motion@12.38.0` 及其传递依赖已记录许可证；`npm run build` 仅提示 React Router 和 Motion/Framer Motion 依赖内 `"use client"` 指令被忽略，JS gzip 约 132.53 kB。
-
-## CP2 后视觉重构
-
-```text
-新增 PRODUCT.md 和 DESIGN.md，供 impeccable 后续设计任务加载上下文
-tokens.css 使用 OKLCH 语义色、状态边框、hover shadow、数字孪生平面色和 tinted neutral
-AppShell 增加紧凑品牌标记、精细 topbar/sidebar 状态和完整边框选中态
-Dashboard 增加运营巡检摘要，强化高风险未闭环入口
-Digital Twin 增加空间模式控制摘要，提升楼层/模式切换层次
-global.css 打磨卡片、表格、告警、画像图表、数字孪生 SVG、选中态和响应式视觉层次
-不新增依赖，不使用真实商场图纸、品牌、图片、视频、图标库、字体文件或付费工具
-```
-
-## P2-I9 已完成
-
-```text
-前端 Demo 交接：新增 docs/FRONTEND_DEMO_HANDOFF.md，记录 5 个核心页面、推荐演示路径、页面检查清单、测试摘要、已知缺口和 P3 接力
-客群画像演示分支：demoFlow 增加 buildCustomerProfileUrl 和 buildDemoCustomerProfileFlow
-演示就绪测试：demoReadiness.test.ts 覆盖 5 个核心路由、主线演示路径、画像分支和匿名聚合隐私边界
-frontend README：补充 CP2 演示入口和交接文档链接
-依赖边界：未新增依赖、图标、字体、图片、视频、模型、数据集或外部服务
-```
-
-## P2-I3 已完成
-
-```text
-KPI 条：当前场内人数、今日累计客流、峰值客流、拥挤指数、未处理告警
-客流趋势：SVG 折线和文字摘要，不新增图表库
-楼层状态：按拥挤指数排序，保留跳转数字孪生的 floorId/mode 参数
-低效店铺榜：展示 C/D 店铺、评分、业态、楼层、转化和原因
-告警摘要：展示等级、处理状态、位置、持续时间和建议动作
-路由 helper 支持页面 query 与全局 mallId/timeRange 合并
-```
-
-## P2-I4 已完成
-
-```text
-筛选摘要：楼层、业态、评分等级、关键词和当前选中店铺
-店铺列表：店铺名、楼层、业态、评分、等级、转化率、告警数
-店铺详情：曝光、进店、转化、停留、店内人数、评分和趋势
-评分拆解：客流、转化、停留、趋势四个分项，显示权重和贡献
-低效原因：高曝光低进店、转化低、停留短、连续下滑、数据质量
-关联入口：空间位置跳转到 /digital-twin，相关告警跳转到 /store-alerts
-```
-
-## P2-I5 已完成
-
-```text
-告警列表：标题、等级、状态、店铺、楼层、持续时间和触发指标
-筛选摘要：等级、状态、楼层、店铺、关键词和当前选中告警
-告警详情：风险等级、处理状态、持续时间、触发指标、影响位置和 Mock 边界
-处理建议：运营巡检、转化优化、现场分流、采集配置和数据质量复核
-关联入口：店铺分析跳转到 /store-analysis，空间位置跳转到 /digital-twin
-```
-
-## P2-I6 已完成
-
-```text
-筛选摘要：商场、时间、楼层、模式、选中店铺、选中告警和 Mock geometry 边界
-楼层切换：按 mockFloors 切换 floorId，并保留当前 mode
-模式切换：heatmap、flow、alerts、score 四种 query mode
-自绘平面：SVG 绘制楼层边界、走廊、店铺几何和图例
-热力模式：展示当前楼层 mockHeatmapPoints 的位置和强度
-动线模式：展示当前楼层 mockFlowEdges 的方向、流量和箭头
-告警模式：展示当前楼层告警标记，跳转 /store-alerts
-评分模式：展示店铺评分和等级，支持选中店铺
-空间检查器：展示楼层状态、选中店铺、关联告警和跳转入口
-```
-
-## P2-I7 已完成
-
-```text
-演示流转 helper：统一构造 /dashboard、/digital-twin、/store-analysis、/store-alerts 核心路径
-Query 检查：覆盖 mallId、timeRange、floorId、storeId、alertId、mode 的保留和覆盖规则
-页面链接统一：Dashboard、Digital Twin、Store Analysis、Store Alerts 复用 demoFlow helper
-响应式防溢出：长文本、按钮、筛选标签、数字孪生平面和 SVG 容器补充约束
-响应式测试：覆盖 1199px、767px 断点、布局堆叠、表格横向滚动、SVG 高度和长文本控制
-依赖边界：未新增 Playwright/Vitest/浏览器依赖，继续使用 Node 内置测试
-```
-
-## P2-I8 已完成
-
-```text
-客群画像 view model：构建摘要指标、时段分布、楼层偏好、业态偏好、筛选摘要、隐私边界和状态
-画像摘要：活跃时段、热门业态、主要楼层、复访倾向
-时段分布：自绘轻量柱状图，标记峰值时段并提供文字摘要
-楼层偏好：按客流占比排序，点击跳转 /digital-twin?floorId=...&mode=flow
-业态偏好：按客流占比排序，点击跳转 /store-analysis?category=...
-隐私口径：匿名聚合、无会员 ID、无人脸、无个人轨迹、小样本隐藏
-测试覆盖：view model、排序/筛选、隐私文案、drill-down query、空态和小样本状态
-```
-
-## 下一步
-
-P4-I1 做后端 API 契约和 MySQL 数据模型基线。前端仍作为当前唯一可运行应用纳入 `npm run quality` 和 GitHub Actions `quality-gate`；不要创建 `ai-services/`，不要接真实 API，不要展示个人轨迹、会员身份、人脸、真实商场素材或真实品牌。P4-I1 需要保持现有 Mock mode，后续 API mode 应以 `/api/v1` 契约和 `/api/v1/health` 为基础逐步接入。
+P5-I1 should add the first API-mode data loader for overview/dashboard data. It must keep mock mode as the default and should use mocked client/fetch tests rather than live backend calls.

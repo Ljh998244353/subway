@@ -8,6 +8,7 @@
     "quality:docs": "node scripts/quality-gate.mjs docs",
     "quality:compliance": "node scripts/quality-gate.mjs compliance",
     "quality:boundary": "node scripts/quality-gate.mjs boundary",
+    "quality:backend": "node scripts/quality-gate.mjs backend",
     "quality:frontend": "node scripts/quality-gate.mjs frontend",
     "quality:audit": "node scripts/quality-gate.mjs audit"
   }

@@ -1,35 +1,42 @@
 # Backend State
 
-更新时间：2026-05-11
+Updated: 2026-05-20
 
-## 当前状态
+## Current Status
 
-尚未创建 `backend/` 工程。P3-I4 已完成部署计划文档，要求后续后端提供 `/api/v1/health`，并在创建 Compose 前明确 MySQL、Redis、健康检查、环境变量和 secrets 边界。
-
-## 后端计划
+Implemented backend endpoints:
 
 ```text
-Python 3.11+
-FastAPI
-Pydantic
-SQLAlchemy
-Alembic
-MySQL
-Redis
-Pytest
+GET /api/v1/health
+GET /api/v1/malls
+GET /api/v1/malls/{mallId}/floors
+GET /api/v1/floors/{floorId}/stores
+GET /api/v1/stores/{storeId}
+GET /api/v1/stores/{storeId}/score
+GET /api/v1/stores/{storeId}/flow
+GET /api/v1/stores/ranking?mallId=mall_demo_001
+GET /api/v1/alerts/stores?mallId=mall_demo_001
+GET /api/v1/customer-profile?mallId=mall_demo_001
+GET /api/v1/heatmap?mallId=mall_demo_001
+GET /api/v1/trajectories?mallId=mall_demo_001
+GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-## 后端约束
+P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration.
+
+## Constraints
 
 ```text
-MySQL is source of truth
-Redis is cache/transient only
-OpenAPI contract must match implementation
-RBAC and operation logs required before production-like use
-backend Python environment must be recreated when backend development starts
-AI must not execute sudo; human runs sudo or system-level setup commands
+MySQL is source of truth later
+current read APIs use synthetic fixture only
+no real MySQL connection
+no real video
+no real mall material
+no face images
+no personal trajectories
+no sudo
 ```
 
-## 下一步
+## Next Step
 
-P4-I1 开始后端 API 契约和 MySQL 数据模型基线，优先固化 `/api/v1`、`/api/v1/health`、响应 envelope、错误码、RBAC 占位、核心实体和测试策略。进入后端开发时必须重新创建 Python 虚拟环境，并继续使用 MySQL；如新增 Python 依赖或 MySQL driver，必须同步第三方声明和许可证审计。
+P5-I1 should not require backend changes unless a missing overview contract issue is found. Do not replace fixtures or add real MySQL queries.

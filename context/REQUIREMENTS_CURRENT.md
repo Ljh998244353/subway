@@ -1,65 +1,50 @@
 # Requirements Current
 
-更新时间：2026-05-13
+Updated: 2026-05-20
 
-## 当前范围
+## Current Scope
 
-一期目标是先完成可演示、可测试、可恢复的运营闭环：
-
-```text
-运营总览
-数字孪生
-店铺分析
-客群画像
-低效预警
-AI 事件模型草案
-权限与审计草案
-```
-
-## 当前非目标
+The first delivery remains an auditable course-project demo and engineering baseline:
 
 ```text
-真实商场上线
-真实监控流接入
-人脸识别或身份识别
-个人级轨迹展示
-高精 BIM
-复杂招商推荐
-多租户商业 SaaS
-付费云服务或付费 API
-真实品牌 Logo、商户 Logo、真实商场平面图
+operations overview
+digital twin view
+store analysis
+customer profile aggregates
+store alerts
+backend synthetic API contract
+typed frontend API client
+MySQL data-model baseline
+quality and handoff gates
 ```
 
-## 合规红线
+## Current Non-Goals
 
 ```text
-不使用真实监控画面
-不存储人脸原图
-不展示个人轨迹
-不使用未授权商场平面图
-不使用真实品牌或商户 Logo
-不使用来源不明模型、数据集、图片、视频、字体或代码
-不引入付费开发工具或付费云服务
-所有素材、模型、依赖必须可追溯并有许可证记录
+real mall production launch
+real monitoring stream access
+face recognition or identity recognition
+individual trajectory display
+high-precision BIM
+complex leasing recommendation
+multi-tenant SaaS
+paid cloud services or paid APIs
+real brand logos, merchant logos, real mall floor plans, real maps, or real BIM
 ```
 
-## 需求来源
+## Compliance Red Lines
 
-| 文档 | 作用 |
-| --- | --- |
-| `docs/PRD_v1.md` | 产品边界和一期范围 |
-| `docs/REQUIREMENTS_ANALYSIS.md` | 需求分层、功能和非功能需求 |
-| `docs/USER_STORIES.md` | 用户故事 |
-| `docs/METRICS_DEFINITION.md` | 指标口径 |
-| `docs/ACCEPTANCE_CRITERIA.md` | 验收标准 |
-| `docs/design/SCREEN_LAYOUTS.md` | P1-I1 页面范围、导航、状态和素材策略 |
-| `docs/design/DESIGN_TOKENS.md` | P1-I2 设计 token、状态色、图表色板和可访问性 token |
-| `docs/design/UI_SPEC.md` | P1-I2 App Shell、布局模板、栅格、响应式和状态布局 |
-| `docs/design/COMPONENT_SPEC.md` | P1-I3 核心组件、页面状态、领域组件和测试关注点 |
-| `docs/design/CHART_SPEC.md` | P1-I3 图表口径、图例、状态、可访问性和页面图表映射 |
-| `docs/design/INTERACTION_SPEC.md` | P1-I4 路由、筛选恢复、页面交互、键盘、响应式和可访问性 |
-| `docs/design/DESIGN_REVIEW_CHECKLIST.md` | P1-I4 设计评审清单和 P2 前端实现门禁 |
+```text
+no real monitoring footage
+no face image storage
+no personal trajectory display
+no unauthorized mall floor plan
+no real brands or merchant logos
+no unknown-source model, dataset, image, video, font, or copied code
+no paid development tool or paid cloud service without review
+all assets, models, and dependencies must have traceable license records
+```
 
-## 下一步需求工作
+## Current Handoff
 
-P2-I9 已完成 CP2 前端 Demo 收口和交接，覆盖五个核心页面演示路径、测试报告摘要、已知缺口和 P3 接力。P3-I1 已完成工程化骨架规划与质量门禁对齐，新增 `docs/ENGINEERING_QUALITY_GATES.md` 和 `docs/CI_PLAN.md`。P3-I2 已完成根级质量门禁脚本或统一命令入口，把文档结构检查、合规关键词检查、工程边界检查和 frontend lint/test/build 串成可重复本地命令。P3-I3 已完成 GitHub Actions 免费 CI 配置，GitHub 端运行根级质量门禁；同步到 Gitee 时 `.github/workflows/ci.yml` 不会自动运行。P3-I4 已完成 `docs/DEPLOYMENT_PLAN.md`，明确未来 Compose 服务、环境变量、健康检查和审计点，但不创建真实 Compose。下一步 P4-I1 做后端 API 契约和 MySQL 数据模型基线；不要创建 AI 服务，不接真实 API，不使用真实商场平面图、真实地图、真实 BIM、真实商场或真实品牌素材，不展示个人轨迹、会员身份、人脸或个人画像。
+P4-I16 closes CP4 as a synthetic backend/API/client contract baseline. P5-I1 starts API mode overview data loader work while keeping mock mode as the default. Real MySQL, credentials, Docker Compose, real video, real mall material, real brands, face images, and personal trajectories remain blocked.

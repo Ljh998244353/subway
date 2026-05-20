@@ -1,18 +1,18 @@
 # Data Model Current
 
-更新时间：2026-05-11
+Updated: 2026-05-20
 
-## 当前状态
+## Current Status
 
-P0 定义了数据实体草案。P2-I2 在前端创建了 TypeScript 共享类型和虚构 Mock 数据，尚未创建数据库、迁移或 ORM 模型。P3-I4 已在 `docs/DEPLOYMENT_PLAN.md` 中明确 MySQL 是事实源、Redis 只作为缓存或临时状态；未来 Compose 或后端实现前必须审计 MySQL/Redis 镜像、driver、许可证和备份策略。
+P4-I1 added `docs/DATA_MODEL.md` as the MySQL data-model baseline candidate. P4-I3 mapped that baseline into SQLAlchemy Core metadata and an Alembic initial migration. P4-I16 added `docs/MYSQL_READINESS_PLAN.md` to define gates before real MySQL query work.
 
-## 实体草案
+The current baseline contains 27 tables:
 
 ```text
 mall
 floor
-store
 store_category
+store
 camera
 camera_roi
 camera_line
@@ -38,21 +38,22 @@ user_role
 operation_log
 ```
 
-## 数据质量规则
+The migration baseline is `backend/migrations/versions/20260519_0001_initial_schema.py` and imports metadata from `backend/app/db/metadata.py`. P4 supports offline SQL generation only; it does not connect to real MySQL and does not add `.env`.
+
+## Data Quality And Privacy
 
 ```text
-进店人数不能为负
-出店人数不能大于合理累计值
-店内人数不能长期为负
-转化率必须在 0 到 100%
-评分必须在 0 到 100
-停留时长不能小于 0
-热力坐标必须在楼层范围内
-同一事件不能重复消费
-跨天统计必须正确
-营业时间边界必须可配置
+UTC internally
+event_id is idempotency key for event tables
+scores and conversion rates use bounded numeric columns
+no face images
+no phone
+no id_card
+no raw_frame
+no video_url
+no personal trajectories returned to API clients
 ```
 
-## 下一步
+## Next Step
 
-P4-I1 进入后端 API 契约和 MySQL 数据模型基线，优先创建正式实体、表边界、索引、幂等键、UTC 时间、字符集、数据保留策略和迁移测试计划。若 P4-I1 创建 `backend/` 或 Python 依赖，必须重新创建虚拟环境并同步许可证审计；数据库统一使用 MySQL。
+P5-I1 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.

@@ -79,3 +79,70 @@ P0 创建 Markdown 文档和 context 文件，未新增第三方依赖、模型�
 | P4 | Python 后端依赖、MySQL 服务或镜像、MySQL driver、缓存、迁移工具许可证 |
 | P6 | AI 模型、视频 fixture、检测/追踪库、数据集许可证 |
 | P11 | 部署平台、监控组件、日志组件和外部服务条款 |
+
+## P4-I2 backend dependency audit
+
+| Name | Source | Version | License | Use | Cost/account | Decision |
+| --- | --- | --- | --- | --- | --- | --- |
+| actions/setup-python | https://github.com/actions/setup-python | 6.2.0 | MIT | GitHub Actions Python 3.13 setup and pip cache | GitHub Actions account context only; no secrets or production data | Allowed |
+| FastAPI | https://github.com/fastapi/fastapi | 0.136.1 | MIT | Backend API framework for `/api/v1/health` and future `/api/v1` | No known paid account requirement | Allowed |
+| Starlette | https://github.com/Kludex/starlette | 1.0.0 | BSD-3-Clause | ASGI toolkit used by FastAPI | No known paid account requirement | Allowed |
+| Pydantic | https://github.com/pydantic/pydantic | 2.13.4 | MIT | Response schemas and settings model | No known paid account requirement | Allowed |
+| Uvicorn | https://github.com/encode/uvicorn | 0.47.0 | BSD-3-Clause | Local ASGI server for development | No known paid account requirement | Allowed |
+| Pytest | https://github.com/pytest-dev/pytest | 9.0.3 | MIT | Backend test runner | No known paid account requirement | Allowed |
+| HTTPX | https://github.com/encode/httpx | 0.28.1 | BSD-3-Clause | Test client dependency used by FastAPI/Starlette tests | No known paid account requirement | Allowed |
+
+P4-I2 does not add a MySQL driver, Docker image, AI model, video fixture, external API, paid service, real mall material, or personal data source. Transitive Python packages are locked in `backend/requirements.lock.txt` for review continuity.
+
+## P4-I3 migration dependency audit
+
+| Name | Source | Version | License | Use | Cost/account | Decision |
+| --- | --- | --- | --- | --- | --- | --- |
+| SQLAlchemy | https://www.sqlalchemy.org/ and https://github.com/sqlalchemy/sqlalchemy | 2.0.49 | MIT | SQL table metadata baseline for P4-I3 MySQL migration planning | No known paid account requirement | Allowed |
+| Alembic | https://alembic.sqlalchemy.org/ and https://github.com/sqlalchemy/alembic | 1.18.4 | MIT | Offline-first migration runner for P4-I3 MySQL schema baseline | No known paid account requirement | Allowed |
+| PyMySQL | https://github.com/PyMySQL/PyMySQL | 1.1.3 | MIT | Pure Python MySQL driver reserved for future MySQL connection; no real DB connection in P4-I3 | No known paid account requirement | Allowed |
+| Greenlet | https://greenlet.readthedocs.io/ | 3.5.0 | MIT AND PSF-2.0 | SQLAlchemy runtime dependency | No known paid account requirement | Allowed |
+| Mako | https://www.makotemplates.org/ | 1.3.12 | MIT | Alembic template dependency | No known paid account requirement | Allowed |
+| MarkupSafe | https://github.com/pallets/markupsafe | 3.0.3 | BSD-3-Clause | Mako transitive dependency | No known paid account requirement | Allowed |
+
+P4-I3 does not connect to a real MySQL server, create Docker images, add AI models, use video fixtures, call external APIs, or process real mall/personal data. Offline migration SQL is generated from project-authored SQLAlchemy metadata.
+
+## P4-I7 overview client audit
+
+P4-I7 added TypeScript DTOs, `getOverview(mallId)`, and mocked fetch tests only. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, or real MySQL access.
+
+## P4-I8 store detail contract audit
+
+P4-I8 reused existing synthetic fixture data and existing backend/frontend dependencies. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, or real MySQL access.
+
+## P4-I9 store score contract audit
+
+P4-I9 reused existing backend/frontend dependencies and added only project-authored synthetic score fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, or real MySQL access.
+
+## P4-I10 store flow contract audit
+
+P4-I10 reused existing backend/frontend dependencies and added only project-authored synthetic flow fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, or real MySQL access.
+
+## P4-I11 store ranking contract audit
+
+P4-I11 reused existing backend/frontend dependencies and derived ranking fixture values from existing project-authored synthetic store and score fixtures. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, or real MySQL access.
+
+## P4-I12 store alerts contract audit
+
+P4-I12 reused existing backend/frontend dependencies and added only project-authored synthetic store alert fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, personal trajectories, personal profiles, or real MySQL access.
+
+## P4-I13 customer profile contract audit
+
+P4-I13 reused existing backend/frontend dependencies and added only project-authored anonymous synthetic aggregate customer-profile fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real brands, face images, member identifiers, phone numbers, personal trajectories, personal profiles, or real MySQL access.
+
+## P4-I14 heatmap contract audit
+
+P4-I14 reused existing backend/frontend dependencies and added only project-authored synthetic aggregate heatmap fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, or real MySQL access.
+
+## P4-I15 trajectories contract audit
+
+P4-I15 reused existing backend/frontend dependencies and added only project-authored anonymous synthetic aggregate trajectory-flow fixture values. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, or real MySQL access.
+
+## P4-I16 CP4 closure and MySQL readiness audit
+
+P4-I16 added project-authored documentation only: `docs/CP4_CLOSURE_REVIEW.md` and `docs/MYSQL_READINESS_PLAN.md`. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.

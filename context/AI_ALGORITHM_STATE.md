@@ -1,12 +1,12 @@
 # AI Algorithm State
 
-更新时间：2026-05-11
+Updated: 2026-05-20
 
-## 当前状态
+## Current Status
 
-尚未创建 `ai-services/` 工程，尚未选择具体模型权重或数据集。
+`ai-services/` has not been created. No model weights, datasets, video ingestion, tracking pipeline, or AI validation fixture has been selected.
 
-## 计划能力
+## Planned Capabilities
 
 ```text
 video ingestion
@@ -18,17 +18,17 @@ event output
 synthetic fixture validation
 ```
 
-## 合规约束
+## Compliance Constraints
 
 ```text
-不使用真实监控画面
-不存储人脸原图
-不展示个人轨迹
-不使用来源不明模型权重
-不使用许可证不清晰数据集
+no real monitoring footage
+no face image storage
+no personal trajectory display
+no unknown-source model weights
+no unclear-license datasets
 ```
 
-## AI 输出审计字段
+## Audit Fields Required Later
 
 ```text
 model name
@@ -42,6 +42,6 @@ accuracy or validation notes
 limitations
 ```
 
-## 下一步
+## Next Step
 
-P3-I1 不创建 `ai-services/`，不选择模型权重或数据集。P6 前必须先完成模型和数据集许可证审计；P6 使用合成视频或确定性 fixture 验证。
+P5-I1 does not create AI services or select models. AI work remains blocked until a later P6 increment with synthetic fixtures and license review.

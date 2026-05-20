@@ -1,59 +1,47 @@
-# 质量门禁
+# Quality Gate
 
-更新时间：2026-05-10
+Updated: 2026-05-20
 
-## 1. 通用门禁
+## General Gate
 
-每个增量完成前必须满足：
-
-```text
-交付边界清晰
-功能可运行或文档可检查
-测试或检查已运行
-PROGRESS.md 已更新
-context/ 已更新
-风险已同步 IMPORTANT.md
-第三方内容已同步许可证记录
-下一步已写入 context/TODO_NEXT.md
-```
-
-## 2. 阶段门禁
-
-| 阶段 | 门禁 |
-| --- | --- |
-| CP0 | PRD、需求分析、系统设计、用户故事、指标、验收、测试策略、质量门禁、许可证审计和 context 完成 |
-| CP1 | 页面范围、信息架构、设计 token、组件状态、图表规格、交互、响应式、可访问性和设计评审完成 |
-| CP2 | 前端 Demo 5 个核心页面可访问，核心交互和响应式检查通过 |
-| CP3 | 工程骨架、CI、lint、format、测试命令和 Docker Compose 草案可运行 |
-| CP4 | 后端 API、数据模型、迁移、契约测试和覆盖率达到门禁 |
-| CP5 | 前后端 API 模式联调通过，Mock 模式仍可演示 |
-| CP6 | AI 事件输出 schema 稳定，合成视频验证通过 |
-| CP7 | 店铺评分和预警规则 100% 覆盖 |
-| CP8 | 聚合、热力、动线数据质量测试通过 |
-| CP9 | 3D/2.5D 数字孪生交互、性能和截图检查通过 |
-| CP10 | 工业级测试、安全、隐私和回归门禁通过 |
-| CP11 | 部署、监控、日志、备份和恢复演练完成 |
-| CP12 | 用户手册、测试报告、验收清单和交接材料完成 |
-
-## 3. 禁止交付条件
+Every increment must leave:
 
 ```text
-测试无法运行且没有说明
-核心路径没有测试计划或测试结果
-新增依赖许可证未知
-使用来源不明素材
-接口契约和实现不一致
-上下文恢复包缺失
-TODO_NEXT.md 没有下一步
-发现隐私或侵权风险但未记录
+clear delivery boundary
+runnable code or checkable documentation
+tests or documented checks executed
+PROGRESS.md updated
+context/ updated
+risks synchronized
+license/cost records updated when needed
+context/TODO_NEXT.md updated with the next task
 ```
 
-## 4. P0 门禁状态
+## Stage Gates
 
-| 项目 | 目标状态 |
+| Stage | Gate |
 | --- | --- |
-| 文档完整性 | P0 文档全部存在 |
-| 上下文恢复 | `context/TODO_NEXT.md` 已随阶段更新，当前指向 P2-I1 |
-| 合规红线 | PRD、需求、验收、风险文件均有记录 |
-| 测试 | 文档结构和关键词检查通过 |
-| 许可证 | 当前第三方内容已审计，未新增依赖 |
+| CP0 | PRD, requirements, design, acceptance, test strategy, license audit, and context complete |
+| CP1 | IA, design tokens, components, charts, interaction, responsive/accessibility review complete |
+| CP2 | Frontend demo core pages, interactions, and responsive checks pass |
+| CP3 | Engineering skeleton, CI, lint/test commands, and deployment plan complete |
+| CP4 | Backend API, data model, migration baseline, contract tests, and coverage review complete |
+| CP5 | Frontend API mode integration passes while mock mode remains demo-ready |
+| CP6 | AI event output schema is stable and synthetic video validation passes |
+
+## Current CP4 Status
+
+P4-I16 closes CP4 as a synthetic contract baseline. `docs/CP4_CLOSURE_REVIEW.md` records backend/API/client coverage and explicit gaps. `docs/MYSQL_READINESS_PLAN.md` records the readiness gates required before real MySQL query work.
+
+## Blockers
+
+```text
+tests cannot run and no reason is recorded
+core path lacks tests or check plan
+new dependency is not audited
+unknown-source assets are used
+API contract and implementation diverge
+context recovery package is incomplete
+TODO_NEXT.md has no next step
+privacy or infringement risk is found but not recorded
+```

@@ -1,40 +1,55 @@
 # API Contract Current
 
-更新时间：2026-05-11
+Updated: 2026-05-20
 
-## 当前状态
+## Current Status
 
-P0 只定义 API 草案，尚未实现后端服务或 OpenAPI 文件。P3-I4 已在 `docs/DEPLOYMENT_PLAN.md` 中要求后续后端提供 `/api/v1/health`，用于 Docker Compose 和 CI 的真实健康检查。
-
-## API 草案
+Implemented backend endpoints:
 
 ```text
-GET /api/v1/overview
 GET /api/v1/health
 GET /api/v1/malls
 GET /api/v1/malls/{mallId}/floors
 GET /api/v1/floors/{floorId}/stores
 GET /api/v1/stores/{storeId}
-GET /api/v1/stores/{storeId}/flow
 GET /api/v1/stores/{storeId}/score
-GET /api/v1/stores/ranking
-GET /api/v1/alerts/stores
-GET /api/v1/customer-profile
-GET /api/v1/heatmap
-GET /api/v1/trajectories
+GET /api/v1/stores/{storeId}/flow
+GET /api/v1/stores/ranking?mallId=mall_demo_001
+GET /api/v1/alerts/stores?mallId=mall_demo_001
+GET /api/v1/customer-profile?mallId=mall_demo_001
+GET /api/v1/heatmap?mallId=mall_demo_001
+GET /api/v1/trajectories?mallId=mall_demo_001
+GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-## 契约规则
+Implemented frontend client methods:
 
 ```text
-use /api/v1
-use Pydantic/OpenAPI as source of contract
-use ISO 8601 time
-use UTC internally
-standard error codes: 400, 401, 403, 404, 409, 422, 500
-RBAC required after auth implementation
+listMalls
+listFloors
+listStores
+getStore
+getStoreScore
+getStoreFlow
+getStoreRanking
+listStoreAlerts
+getCustomerProfile
+getHeatmap
+getTrajectories
+getOverview
 ```
 
-## 下一步
+P4-I16 reviewed CP4 coverage and confirmed the synthetic API/client contract baseline can move to P5. Unknown mall read requests return `MALL_NOT_FOUND`; unknown store read requests return `STORE_NOT_FOUND`; validation failures use `VALIDATION_ERROR`.
 
-P4-I1 创建后端 API 契约和 MySQL 数据模型基线，优先固化 `/api/v1/health`、响应 envelope、错误码、RBAC 占位、分页和核心业务查询接口；是否创建最小 `backend/` 骨架由 P4-I1 范围决定。路径继续使用 `/api/v1`，不接真实 API、真实视频、真实商场数据或个人轨迹。
+## Not Implemented
+
+```text
+auth/RBAC enforcement
+store alert detail/update APIs
+real MySQL queries
+committed OpenAPI artifact
+```
+
+## Next Step
+
+P5-I1 should add a frontend overview API-mode data loader using `getOverview(mallId)` while keeping mock mode as the default and avoiding live backend dependencies in tests.

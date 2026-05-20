@@ -1,30 +1,43 @@
 # TODO Next
 
-更新时间：2026-05-18
+Updated: 2026-05-20
 
 ## Task Card
 
 ```text
-Increment: P4-I1 backend API contract and data model baseline
-Primary role: Backend Mode
-Auxiliary reviews: Architect, QA, Security/License
+Increment: P5-I1 API mode overview data loader contract
+Primary role: Frontend Integration Mode
+Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
+Status: ready after P4-I16 CP4 closure review and MySQL readiness plan
 ```
 
 ## Goal
 
-固化后端 `/api/v1` 契约和 MySQL 数据模型基线，为后续 FastAPI 后端实现、前后端联调和部署健康检查提供稳定依据。
+Start P5 frontend/backend integration with one narrow API mode path for overview/dashboard data loading. Keep mock mode as the default and do not connect real MySQL or replace the existing frontend demo behavior.
+
+## Recommended Scope
+
+```text
+add a frontend data loader or adapter for overview data that can choose mock or API mode
+use existing resolveFrontendDataMode, resolveApiBaseUrl, createReferenceApiClient, and getOverview(mallId)
+keep dashboard mock data unchanged by default
+add tests for mock default, API success, API error fallback or propagation, URL/baseUrl boundaries
+document how P5 will expand API mode route by route
+```
 
 ## Non-goals
 
 ```text
-不创建 ai-services/
-不接真实 API、真实视频流、真实商场素材、真实地图、真实 BIM、真实品牌或个人轨迹
-不实现完整后端业务逻辑
-不创建生产部署或真实 Docker Compose
-不引入付费工具、付费服务、付费素材或需要账号绑定的云服务
-不使用 PostgreSQL；后续数据库统一使用 MySQL
-不执行 sudo；需要系统级命令时让人类执行
+do not replace the current frontend mock demo
+do not make live network calls in tests
+do not connect real MySQL
+do not create .env with credentials
+do not create ai-services/
+do not create infra/ or docker-compose.yml
+do not add Docker images, external services, paid tools, or account-bound cloud capability
+do not add real video, real mall material, real monitoring, face images, real brands, personal trajectories, member IDs, phone numbers, or individual profiles
+do not execute sudo
 ```
 
 ## Required Reading
@@ -33,60 +46,53 @@ Human command: 请进行下一步
 AGENTS.md
 README.md
 PROGRESS.md
-AI_Schedule.md
-IMPORTANT.md
-docs/PRD_v1.md
-docs/REQUIREMENTS_ANALYSIS.md
-docs/SYSTEM_DESIGN.md
-docs/FRONTEND_DEMO_HANDOFF.md
-docs/ENGINEERING_QUALITY_GATES.md
-docs/CI_PLAN.md
-docs/DEPLOYMENT_PLAN.md
-docs/THIRD_PARTY_NOTICES.md
-docs/LICENSE_AUDIT.md
-frontend/
+docs/CP4_CLOSURE_REVIEW.md
+docs/MYSQL_READINESS_PLAN.md
+frontend/src/api/apiMode.ts
+frontend/src/api/referenceClient.ts
+frontend/src/api/referenceClient.test.ts
+frontend/src/mock/mockOverview.ts
+frontend/src/pages/DashboardPage.tsx
+frontend/src/pages/DashboardPage.test.ts
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-docs/API_CONTRACT.md 或同等 API 契约文档
-docs/DATA_MODEL.md 或同等 MySQL 数据模型基线文档
-/api/v1/health 健康检查约定
-统一响应 envelope、错误码和 traceId 约定
-RBAC 占位：admin、operator、leasing、security、readonly
-核心实体和 MySQL 表边界、索引、唯一键、UTC 时间和数据保留策略
-后续 OpenAPI、迁移、契约测试和 Pytest 门禁计划
-README、PROGRESS.md、context/*.md 和 context/TODO_NEXT.md 接力更新
+frontend overview API-mode loader/adapter with tests
+mock mode remains default and tested
+no live backend or real MySQL dependency in frontend tests
+updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
+no new dependency unless license/cost reviewed first
 ```
 
 ## Acceptance Checks
 
 ```bash
+npm --prefix frontend run test
 npm run quality
 npm run quality:audit
 ```
 
-P4-I1 完成时还应能检索到：
+P5-I1 completion should be searchable with:
 
 ```bash
-rg -n "P4-I1|API 契约|/api/v1/health|MySQL|数据模型|RBAC|错误码|OpenAPI|契约检查|质量门禁|请进行下一步" AGENTS.md AGENT.md README.md PROGRESS.md context/TODO_NEXT.md docs/ENGINEERING_QUALITY_GATES.md docs/CI_PLAN.md context/API_CONTRACT_CURRENT.md context/DATA_MODEL_CURRENT.md context/BACKEND_STATE.md
+rg -n "P5-I1|API mode|mock mode|getOverview|overview data loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/TEST_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
 
-AI 必须在以下节点让人类确认后再继续扩大范围：
-
 ```text
-API 契约冻结前
-MySQL 核心表结构冻结前
-新增 Python 依赖、MySQL driver、Docker 镜像、扫描工具、Gitee Go、账号能力或外部服务前
-接入真实数据、真实视频、真实商场资料、真实品牌或个人信息前
-从文档基线进入真实后端实现、AI 服务实现或生产部署实现前
+before switching frontend default from mock mode to API mode
+before making tests depend on a live backend
+before switching from synthetic fixture API to real MySQL query
+before creating or committing credentials, .env, Docker images, Docker Compose, or deployment infrastructure
+before adding dependencies, external services, paid tools, or account-bound cloud capability
+before real data, real video, real mall material, real brands, or personal information
+before AI service or production deployment
 ```
 
 ## Next Handoff
 
-完成 P4-I1 后，下一张任务卡应明确指向 P4 的最小后端实现增量，通常是最小 FastAPI 工程骨架、`/api/v1/health` 实现、OpenAPI 输出和后端测试门禁。若 P4-I1 只完成文档基线，不得宣称后端、AI 服务或生产部署已经可用。
-
+After P5-I1, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.

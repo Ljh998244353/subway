@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "lint": "tsc -b --pretty false",
-    "test": "node --test src/routes/routeConfig.test.ts src/routes/demoFlow.test.ts src/routes/demoReadiness.test.ts src/mock/mockData.test.ts src/pages/DashboardPage.test.ts src/pages/StoreAnalysisPage.test.ts src/pages/StoreAlertsPage.test.ts src/pages/DigitalTwinPage.test.ts src/pages/CustomerProfilePage.test.ts src/styles/responsiveChecks.test.ts",
+    "test": "node --test --test-isolation=none src/api/referenceClient.test.ts src/routes/routeConfig.test.ts src/routes/demoFlow.test.ts src/routes/demoReadiness.test.ts src/mock/mockData.test.ts src/pages/DashboardPage.test.ts src/pages/StoreAnalysisPage.test.ts src/pages/StoreAlertsPage.test.ts src/pages/DigitalTwinPage.test.ts src/pages/CustomerProfilePage.test.ts src/styles/responsiveChecks.test.ts",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
