@@ -4,16 +4,15 @@ Updated: 2026-05-20
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I2.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I3.
 
-P5-I2 completed dashboard API-mode state wiring:
+P5-I3 completed the Store Analysis API-mode data loader contract:
 
 ```text
+frontend/src/api/storeAnalysisDataLoader.ts
+frontend/src/api/storeAnalysisDataLoader.test.ts
 frontend/src/api/overviewDataLoader.ts
 frontend/src/api/overviewDataLoader.test.ts
-frontend/src/pages/dashboardOverviewState.ts
-frontend/src/pages/DashboardPage.tsx
-frontend/src/pages/DashboardPage.test.ts
 frontend/package.json
 context/TODO_NEXT.md
 context/*.md
@@ -22,12 +21,12 @@ context/*.md
 Implemented:
 
 ```text
-DashboardPage now uses a React state/effect boundary for overview data
-initial/default dashboard state still renders mockOverview and existing mock stores/alerts/floors
-dataMode=api can trigger the overview loader explicitly
-API failure falls back to mock overview state and records an error message
-dashboardOverviewState tests cover mock default, API success, and API fallback without live backend
-P5-I3 handoff for Store Analysis API-mode data loader contract
+loadStoreAnalysisData(options) selects mock mode by default and API mode only when explicitly requested
+mock mode returns the existing mockStoresWithAlerts without touching an API client
+API mode uses getStoreRanking, getStore, getStoreScore, and getStoreFlow through the existing typed reference client
+API DTOs are mapped into frontend Store domain objects for StoreAnalysisPage compatibility
+fetch/client injection keeps tests offline and independent from a live backend
+P5-I4 handoff for StoreAnalysisPage API-mode state wiring
 ```
 
 P5 has started without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
@@ -40,6 +39,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 | Frontend API boundary | complete | typed reference API client, mock mode default |
 | Overview data loader | complete | P5-I1 `loadOverviewData` supports mock/API selection with offline tests |
 | Dashboard API-mode state | complete | P5-I2 wires DashboardPage to the overview loader boundary with mock fallback |
+| Store Analysis data loader | complete | P5-I3 `loadStoreAnalysisData` supports mock/API selection with offline tests |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -58,7 +58,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 
 ## Verification
 
-P5-I2 local verification:
+P5-I3 local verification:
 
 ```bash
 npm --prefix frontend run test
@@ -69,7 +69,7 @@ npm run quality:audit
 Results:
 
 ```text
-npm --prefix frontend run test: 87 passed
+npm --prefix frontend run test: 93 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -79,7 +79,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
-StoreAnalysisPage is not yet covered by an API-mode loader contract
+StoreAnalysisPage is not yet wired to the API-mode loader state boundary
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
@@ -91,18 +91,18 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P5-I3 store analysis API-mode data loader contract`.
+Next increment: `P5-I4 store analysis API-mode state wiring`.
 
 Recommended scope:
 
 ```text
-add a Store Analysis API-mode loader or adapter using existing typed client methods
+wire StoreAnalysisPage to loadStoreAnalysisData or an equivalent injectable state adapter
 keep mock mode and existing StoreAnalysisPage rendering as the default
-add tests for mock default, API success, and API error/fallback boundaries without live backend calls
+add tests for default mock behavior plus API-mode loading/error boundaries without live backend calls
 do not connect real MySQL or change backend fixture behavior
 ```
 
-P5-I3 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
+P5-I4 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
 
 ## Stage Log
 
@@ -126,7 +126,8 @@ P5-I3 must not switch the frontend default mode to API, must not depend on a liv
 | P4-I16 CP4 closure review and MySQL readiness plan | 2026-05-20 | Added CP4 review, MySQL readiness checklist, explicit no-go boundaries, and P5-I1 handoff |
 | P5-I1 API mode overview data loader contract | 2026-05-20 | Added `loadOverviewData`, offline loader tests, and P5-I2 dashboard wiring handoff |
 | P5-I2 dashboard API-mode state wiring | 2026-05-20 | Wired DashboardPage to overview state boundary, added mock/API/fallback state tests, and prepared P5-I3 Store Analysis loader handoff |
+| P5-I3 store analysis API-mode data loader contract | 2026-05-20 | Added `loadStoreAnalysisData`, API DTO mapping, offline loader tests, and P5-I4 StoreAnalysisPage wiring handoff |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/pages/StoreAnalysisPage.tsx`, `frontend/src/api/referenceClient.ts`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I3 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/api/storeAnalysisDataLoader.ts`, `frontend/src/pages/StoreAnalysisPage.tsx`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I4 task card.

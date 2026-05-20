@@ -4,32 +4,35 @@ Updated: 2026-05-20
 
 ## Current Status
 
-P5-I2 added executable frontend tests for the dashboard overview state wiring:
+P5-I3 added executable frontend tests for the Store Analysis data loader contract:
 
 ```text
+frontend/src/api/storeAnalysisDataLoader.test.ts
+frontend/src/api/storeAnalysisDataLoader.ts
 frontend/src/api/overviewDataLoader.test.ts
 frontend/src/pages/DashboardPage.test.ts
 frontend/src/pages/dashboardOverviewState.ts
-frontend/src/api/referenceClient.test.ts
 backend/tests/test_health.py
 backend/tests/test_migrations.py
 backend/tests/test_reference_api.py
 backend/tests/test_overview_api.py
 ```
 
-Latest local P5-I2 frontend result:
+Latest local P5-I3 frontend result:
 
 ```text
-npm --prefix frontend run test: 87 passed
+npm --prefix frontend run test: 93 passed
 ```
 
-P5-I2 test coverage includes:
+P5-I3 test coverage includes:
 
 ```text
-dashboard overview state starts in mock mode
-explicit API mode forwards mallId/apiBaseUrl to the injected loader
-API loader failure falls back to mock overview state
-overview loader tests still cover mock default, API success, URL boundaries, and typed errors
+store-analysis loader defaults to mock data and does not touch API client
+explicit API mode loads ranking plus store detail, score, and flow through injected client
+selected store is preserved even when outside ranking limit
+API base URL and store/mall IDs are encoded through mocked fetch
+API Store/Score/Flow DTOs map into frontend Store domain objects
+typed ApiClientError propagates without live backend dependency
 ```
 
 ## Required Final Checks
@@ -40,10 +43,10 @@ npm run quality
 npm run quality:audit
 ```
 
-Final P5-I2 result:
+Final P5-I3 result:
 
 ```text
-npm --prefix frontend run test: 87 passed
+npm --prefix frontend run test: 93 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -53,7 +56,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Known Gaps
 
 ```text
-StoreAnalysisPage is not yet covered by an API-mode loader contract
+StoreAnalysisPage is not yet wired to the loader state boundary
 no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E

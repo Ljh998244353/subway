@@ -63,6 +63,8 @@ P5-I1 note: overview data loader work adds project-authored frontend TypeScript 
 
 P5-I2 note: dashboard API-mode state wiring adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
 
+P5-I3 note: Store Analysis data loader work adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
 ## Blocked Until Reviewed
 
 Do not use the following unless the source, permission, and license have been reviewed and recorded:

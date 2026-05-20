@@ -22,7 +22,7 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration. P5-I1 and P5-I2 did not require backend changes; the frontend overview loader uses the existing `/api/v1/overview` contract.
+P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration. P5-I1 through P5-I3 did not require backend changes; the frontend overview and Store Analysis loaders use existing `/api/v1` contracts.
 
 ## Constraints
 
@@ -39,4 +39,4 @@ no sudo
 
 ## Next Step
 
-P5-I3 should not require backend changes unless Store Analysis loader work exposes a missing contract issue. Do not replace fixtures or add real MySQL queries.
+P5-I4 should not require backend changes unless StoreAnalysisPage wiring exposes a missing contract issue. Do not replace fixtures or add real MySQL queries.

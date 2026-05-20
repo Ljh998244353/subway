@@ -45,6 +45,8 @@ P5-I1 added `frontend/src/api/overviewDataLoader.ts`, which consumes `getOvervie
 
 P5-I2 wired DashboardPage state to the overview loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
 
+P5-I3 added `frontend/src/api/storeAnalysisDataLoader.ts`, which consumes `getStoreRanking(mallId)`, `getStore(storeId)`, `getStoreScore(storeId)`, and `getStoreFlow(storeId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
+
 ## Not Implemented
 
 ```text
@@ -56,4 +58,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P5-I3 should add a Store Analysis API-mode loader contract using existing typed client methods while keeping mock mode as the default and avoiding live backend dependencies in tests.
+P5-I4 should wire StoreAnalysisPage state to the Store Analysis loader while keeping mock mode as the default and avoiding live backend dependencies in tests.

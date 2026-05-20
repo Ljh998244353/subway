@@ -154,3 +154,7 @@ P5-I1 added project-authored frontend TypeScript only: `frontend/src/api/overvie
 ## P5-I2 dashboard state wiring audit
 
 P5-I2 added project-authored frontend TypeScript only: `frontend/src/pages/dashboardOverviewState.ts`, DashboardPage wiring, and DashboardPage tests. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I3 Store Analysis loader audit
+
+P5-I3 added project-authored frontend TypeScript only: `frontend/src/api/storeAnalysisDataLoader.ts` and `frontend/src/api/storeAnalysisDataLoader.test.ts`. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.

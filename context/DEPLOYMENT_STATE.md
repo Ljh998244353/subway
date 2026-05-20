@@ -20,4 +20,4 @@ no uploaded build artifacts
 
 ## Next Step
 
-P5-I3 Store Analysis API-mode loader work must not enter real deployment. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.
+P5-I4 Store Analysis API-mode state wiring must not enter real deployment. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.
