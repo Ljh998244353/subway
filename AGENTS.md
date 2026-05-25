@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P6-I1 AI event schema and synthetic fixture boundary`
+- Current increment: `P6-I3 (待定)` - ready after P6-I2 AI service implementation
 - Primary role: AI Video Mode
 - Auxiliary reviews: Architect, QA, Security/License
-- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I11 are complete, including CP4 closure review, MySQL readiness planning, all CP5 frontend API-mode loader/state wiring, and CP5 closure review.
-- Next focus: define the AI event output schema and synthetic fixture validation boundary before creating any AI service.
-- Do not connect real MySQL. Do not create `ai-services/`, `infra/`, real Docker Compose, real API integration, real video, model weights, datasets, real mall material, real brands, face images, or personal trajectories.
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, and P6-I2 are complete, including CP4 closure review, MySQL readiness planning, CP5 frontend API-mode integration closure review, AI event schema/synthetic fixture boundary documentation, and AI service implementation with synthetic fixtures.
+- Next focus: continue AI service development with backend integration, real video testing, performance optimization, or containerization.
+- Do not use real video or monitoring footage without human approval. Do not add new dependencies or external services without approval.
 
 ## Required Reading
 

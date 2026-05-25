@@ -74,4 +74,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P6-I1 may define a future AI event output schema in documentation only. It must not add backend endpoints, create AI services, connect real MySQL, or require live backend dependencies in tests.
+P6-I1 completed AI event schema documentation. Future AI event endpoints may be added after AI service implementation and human confirmation of service boundaries. No backend endpoints were added or changed in P6-I1.

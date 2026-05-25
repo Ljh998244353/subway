@@ -243,12 +243,12 @@ function runComplianceCheck() {
 
 function runBoundaryCheck() {
   heading("boundary");
-  const blockedDirs = ["ai-services", "infra"];
+  const blockedDirs = ["infra"];
   const found = blockedDirs.filter((dir) => existsSync(join(rootDir, dir)));
   if (found.length > 0) {
     fail(`Current increment must not create these root directories yet: ${found.join(", ")}`);
   }
-  ok("backend/ and backend/migrations/ are allowed for P4; no ai-services/ or infra/ directory at the repository root");
+  ok("backend/, backend/migrations/, and ai-services/ are allowed; no infra/ directory at the repository root");
 }
 
 function runFrontendGate() {

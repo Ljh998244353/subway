@@ -190,3 +190,21 @@ P5-I10 added project-authored frontend TypeScript only: `frontend/src/pages/digi
 ## P5-I11 CP5 closure review audit
 
 P5-I11 added project-authored documentation only: `docs/CP5_CLOSURE_REVIEW.md` and handoff updates. It reused existing dependencies and did not add npm packages, Python packages, Docker images, external services, paid tools, model weights, datasets, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P6-I2 AI service implementation audit
+
+P6-I2 added Python dependencies for AI services implementation:
+
+| Name | Source | Version | License | Use | Cost/account | Decision |
+| --- | --- | --- | --- | --- | --- | --- |
+| FastAPI | https://github.com/fastapi/fastapi | 0.136.3 | MIT | AI services API framework | No known paid account requirement | Allowed |
+| Uvicorn | https://github.com/encode/uvicorn | 0.48.0 | BSD-3-Clause | ASGI server for AI services | No known paid account requirement | Allowed |
+| Pydantic | https://github.com/pydantic/pydantic | 2.13.4 | MIT | Data validation for AI services | No known paid account requirement | Allowed |
+| opencv-python-headless | https://github.com/opencv/opencv-python | 4.13.0.92 | Apache-2.0 | Person detection using HOG descriptor | No known paid account requirement | Allowed |
+| NumPy | https://github.com/numpy/numpy | 2.4.6 | BSD-3-Clause | Numerical computing for AI services | No known paid account requirement | Allowed |
+| HTTPX | https://github.com/encode/httpx | 0.28.1 | BSD-3-Clause | HTTP client for backend communication | No known paid account requirement | Allowed |
+| Pytest | https://github.com/pytest-dev/pytest | 9.0.3 | MIT | AI services test runner | No known paid account requirement | Allowed |
+| pytest-asyncio | https://github.com/pytest-dev/pytest-asyncio | 1.3.0 | Apache-2.0 | Async test support | No known paid account requirement | Allowed |
+| python-multipart | https://github.com/andrew-d/python-multipart | 0.0.29 | Apache-2.0 | File upload support | No known paid account requirement | Allowed |
+
+P6-I2 also uses OpenCV's built-in HOG person detector (Apache 2.0 license, no external model weights required) and project-authored synthetic video generator (MIT license). No real video, monitoring footage, face images, personal data, paid services, or external accounts are added.

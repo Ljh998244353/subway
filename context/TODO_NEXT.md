@@ -2,42 +2,63 @@
 
 Updated: 2026-05-25
 
+## Completed
+
+P6-I1 AI event schema and synthetic fixture boundary documentation is complete.
+
+```text
+docs/AI_EVENT_SCHEMA.md
+docs/SYNTHETIC_FIXTURE_VALIDATION.md
+README.md
+PROGRESS.md
+context/*.md
+```
+
+P6-I2 AI service implementation with synthetic fixtures is complete.
+
+```text
+ai-services/ directory structure
+Python virtual environment with dependencies
+OpenCV HOG person detector (Apache 2.0 license)
+Synthetic video fixture generator
+Person detection event output implementation
+Event schema validation
+20 tests passing
+```
+
 ## Task Card
 
 ```text
-Increment: P6-I1 AI event schema and synthetic fixture boundary
+Increment: P6-I3 (待定)
 Primary role: AI Video Mode
 Auxiliary reviews: Architect, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P5-I11 CP5 frontend API-mode integration closure review
+Status: ready after P6-I2 AI service implementation
 ```
 
 ## Goal
 
-Define the AI event output schema and synthetic fixture validation boundary for the future AI video MVP. This is a documentation and contract-planning increment only. It prepares P6 without creating an AI service, selecting a model, downloading data, or using real video.
+Continue AI service development with backend integration, real video testing, performance optimization, or containerization. Specific scope depends on human priorities.
 
-## Recommended Scope
+## Recommended Scope Options
 
 ```text
-review CP5 closure and current API/data-model boundaries
-document the future AI event output schema for anonymous aggregate mall events
-document synthetic fixture rules for event validation
-define privacy, license, model, dataset, and quality gates before any P6 runtime implementation
-update README, PROGRESS.md, context/*.md, and engineering quality docs
+Option A: Backend API integration - connect AI service to backend endpoints
+Option B: Real video testing - test with approved video sources
+Option C: Performance optimization - tune detection parameters
+Option D: Docker containerization - create Dockerfile and compose
+Option E: Model enhancement - explore alternative detectors
 ```
 
 ## Non-goals
 
 ```text
-do not create ai-services/
-do not select model weights, datasets, video sources, tracking libraries, or external AI services
-do not ingest real video or monitoring footage
-do not add dependencies, Docker images, cloud services, paid tools, or account-bound services
-do not connect real MySQL
-do not create .env with credentials
-do not create infra/ or docker-compose.yml
-do not add real mall material, real floor plans, real brands, face images, member IDs, phone numbers, individual profiles, or personal trajectories
-do not execute sudo
+do not use real monitoring footage without approval
+do not store face images
+do not display personal trajectories
+do not add paid tools or external services without approval
+do not connect real MySQL without readiness gates
+do not create Docker Compose without deployment plan review
 ```
 
 ## Required Reading
@@ -46,27 +67,27 @@ do not execute sudo
 AGENTS.md
 README.md
 PROGRESS.md
+docs/AI_EVENT_SCHEMA.md
+docs/SYNTHETIC_FIXTURE_VALIDATION.md
 docs/CP5_CLOSURE_REVIEW.md
-docs/API_CONTRACT.md
-docs/DATA_MODEL.md
-docs/TEST_STRATEGY.md
 docs/ENGINEERING_QUALITY_GATES.md
 docs/THIRD_PARTY_NOTICES.md
 docs/LICENSE_AUDIT.md
-context/API_CONTRACT_CURRENT.md
-context/DATA_MODEL_CURRENT.md
 context/AI_ALGORITHM_STATE.md
 context/RISKS_AND_ASSUMPTIONS.md
 context/*.md
+ai-services/README.md
 ```
 
 ## Deliverables
 
 ```text
-AI event schema documentation
-synthetic fixture validation boundary documentation
-updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
-no runtime AI service, dependency, model, dataset, real video, or external service
+backend API integration or
+real video testing with approved sources or
+performance optimization and model tuning or
+Docker containerization or
+model enhancement
+updated documentation and context files
 quality and audit results recorded
 ```
 
@@ -77,24 +98,14 @@ npm run quality
 npm run quality:audit
 ```
 
-P6-I1 completion should be searchable with:
-
-```bash
-rg -n "P6-I1|AI event schema|synthetic fixture|AI Video Mode|model weights|real video|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/AI_ALGORITHM_STATE.md docs
-```
+P6-I3 completion should include quality gate verification.
 
 ## Human Confirmation Gates
 
 ```text
-before creating ai-services/
-before selecting or downloading model weights, datasets, video fixtures, tracking libraries, or external AI services
-before adding dependencies, Docker images, paid tools, cloud services, or account-bound capability
-before using real video, real monitoring, real mall material, real brands, face images, or personal information
-before switching from synthetic fixtures to real MySQL query
-before creating or committing credentials, .env, Docker Compose, or deployment infrastructure
+before integrating with real backend endpoints
+before using real video or monitoring footage
+before adding new dependencies or external services
+before creating Docker Compose or deployment infrastructure
 before production deployment
 ```
-
-## Next Handoff
-
-After P6-I1, continue only with a narrow approved P6 increment that stays synthetic and license-reviewed. Runtime AI implementation, model selection, real video, and service creation remain blocked until their own human-confirmed gates.

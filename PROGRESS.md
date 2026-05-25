@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I11.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, and P6-I2.
 
 P5-I11 completed CP5 frontend API-mode integration closure review:
 
@@ -29,6 +29,53 @@ prepared P6-I1 handoff for AI event schema and synthetic fixture boundary planni
 
 P5 is closed without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
 
+P6-I1 completed AI event schema and synthetic fixture boundary documentation:
+
+```text
+docs/AI_EVENT_SCHEMA.md
+docs/SYNTHETIC_FIXTURE_VALIDATION.md
+README.md
+PROGRESS.md
+context/*.md
+```
+
+Implemented:
+
+```text
+defined AI event output schema for anonymous aggregate mall events
+documented synthetic fixture validation rules and privacy boundaries
+prepared P6 without creating ai-services/, selecting models, ingesting video, or adding dependencies
+updated quality gate and context files for P6-I1 completion
+```
+
+P6-I1 is documentation-only. No AI service, model, dataset, video ingestion, or runtime implementation was created. Real AI service work, model selection, real video, and service creation remain blocked until their own human-confirmed gates.
+
+P6-I2 completed AI service implementation with synthetic fixtures:
+
+```text
+ai-services/ directory structure
+Python virtual environment with dependencies
+OpenCV HOG person detector (Apache 2.0 license)
+Synthetic video fixture generator
+Person detection event output implementation
+Event schema validation
+20 tests passing
+```
+
+Implemented:
+
+```text
+created ai-services/ with FastAPI application structure
+integrated OpenCV HOG person detector (Apache 2.0, no external weights)
+implemented synthetic video fixture generator for testing
+added person detection event output matching AI_EVENT_SCHEMA.md
+created event processing and validation services
+added comprehensive tests for all components
+updated documentation and context files
+```
+
+P6-I2 uses synthetic data only. No real video, monitoring footage, face images, or personal data is used. The AI service runs locally with OpenCV's built-in HOG descriptor.
+
 ## Current Status
 
 | Item | Status | Notes |
@@ -46,6 +93,10 @@ P5 is closed without changing the default demo behavior. The frontend still defa
 | Digital Twin data loader | complete | P5-I9 `loadDigitalTwinData` supports mock/API selection with offline tests |
 | Digital Twin API-mode state | complete | P5-I10 wires DigitalTwinPage to the digital-twin loader boundary with mock fallback |
 | CP5 closure review | complete | P5-I11 documents frontend API-mode integration coverage, gaps, and P6 handoff |
+| AI event schema | complete | P6-I1 defines AI event output schema and synthetic fixture validation boundary |
+| AI service skeleton | complete | P6-I2 FastAPI application with OpenCV HOG detector, synthetic fixtures, 20 tests |
+| Person detector | complete | OpenCV HOG person detector (Apache 2.0), no external weights required |
+| Synthetic video fixtures | complete | Geometric shape video generator for testing, MIT license |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -64,10 +115,10 @@ P5 is closed without changing the default demo behavior. The frontend still defa
 
 ## Verification
 
-P5-I11 local verification:
+P6-I2 local verification:
 
 ```bash
-npm --prefix frontend run test
+ai-services/.venv/Scripts/python -m pytest ai-services/tests/ -v
 npm run quality
 npm run quality:audit
 ```
@@ -75,7 +126,7 @@ npm run quality:audit
 Results:
 
 ```text
-npm --prefix frontend run test: 124 passed
+ai-services pytest: 20 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -85,11 +136,10 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
-P6 AI event schema and synthetic fixture boundary is not yet documented
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
-no AI service, model, dataset, or video ingestion
+no real video or monitoring footage integration
 no Docker Compose startup test
 ```
 
@@ -97,17 +147,13 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P6-I1 AI event schema and synthetic fixture boundary`.
+Next increment: `P6-I3` (待定). AI service foundation is complete with synthetic fixtures. Next steps could include:
+- Integration with backend API endpoints
+- Real video fixture testing (with approved sources)
+- Performance optimization and model tuning
+- Docker containerization
 
-Recommended scope:
-
-```text
-define the future AI event output schema
-document synthetic fixture validation rules and privacy/license boundaries
-prepare P6 without creating ai-services/, selecting models, ingesting video, or adding dependencies
-```
-
-P6-I1 must not create `ai-services/`, select model weights or datasets, ingest real video, add dependencies, depend on external services, or connect real MySQL.
+P6-I2 implementation is complete. Real video integration, model optimization, and production deployment require their own human-confirmed gates.
 
 ## Stage Log
 
@@ -140,7 +186,9 @@ P6-I1 must not create `ai-services/`, select model weights or datasets, ingest r
 | P5-I9 digital twin API-mode data loader contract | 2026-05-25 | Added `loadDigitalTwinData`, heatmap/trajectory DTO mapping, offline loader tests, and prepared P5-I10 DigitalTwinPage wiring handoff |
 | P5-I10 digital twin API-mode state wiring | 2026-05-25 | Wired DigitalTwinPage to digital-twin state boundary, added mock/API/fallback state tests, and prepared P5-I11 CP5 closure handoff |
 | P5-I11 CP5 frontend API-mode integration closure review | 2026-05-25 | Added CP5 closure review, documented API-mode coverage and gaps, updated quality gate, and prepared P6-I1 AI event schema handoff |
+| P6-I1 AI event schema and synthetic fixture boundary | 2026-05-25 | Added AI event schema documentation, synthetic fixture validation boundary, updated README, PROGRESS.md, and context files; quality/audit passed |
+| P6-I2 AI service implementation with synthetic fixtures | 2026-05-25 | Added ai-services/ with FastAPI, OpenCV HOG detector, synthetic video generator, event processing, 20 tests; quality/audit passed |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/CP5_CLOSURE_REVIEW.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the P6-I1 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/CP5_CLOSURE_REVIEW.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the next P6 task card after human confirmation of AI service boundaries.

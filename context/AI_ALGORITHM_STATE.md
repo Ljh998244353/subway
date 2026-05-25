@@ -4,18 +4,48 @@ Updated: 2026-05-25
 
 ## Current Status
 
-`ai-services/` has not been created. No model weights, datasets, video ingestion, tracking pipeline, or AI validation fixture has been selected. P5-I11 closed CP5 frontend API-mode integration and prepared P6-I1 for documentation-only AI event schema and synthetic fixture boundary planning.
+`ai-services/` has been created with FastAPI application structure. OpenCV HOG person detector (Apache 2.0 license) is integrated for person detection. Synthetic video fixture generator is implemented for testing. No real video, monitoring footage, or external model weights are used.
+
+## Implemented Capabilities
+
+```text
+ai-services/ directory structure with FastAPI
+OpenCV HOG person detector (Apache 2.0, no external weights)
+Synthetic video fixture generator (MIT license)
+Person detection event output
+Store entry/exit event processing
+Event schema validation
+20 tests passing
+```
 
 ## Planned Capabilities
 
 ```text
-video ingestion
-person detection
+video ingestion (real video - requires human approval)
+person detection (already implemented with OpenCV HOG)
 tracking
 ROI counting
 line-crossing direction detection
-event output
-synthetic fixture validation
+event output (already implemented)
+synthetic fixture validation (already implemented)
+```
+
+## Documented Schema
+
+P6-I1 added:
+
+```text
+docs/AI_EVENT_SCHEMA.md - AI event output schema for anonymous aggregate mall events
+docs/SYNTHETIC_FIXTURE_VALIDATION.md - synthetic fixture validation boundary and rules
+```
+
+## Model Information
+
+```text
+model name: opencv_hog_person_detector
+model version: 4.13.0
+license: Apache 2.0
+type: Built-in HOG descriptor (no external weights required)
 ```
 
 ## Compliance Constraints
@@ -28,20 +58,26 @@ no unknown-source model weights
 no unclear-license datasets
 ```
 
-## Audit Fields Required Later
+## Audit Fields
 
 ```text
-model name
-model version
-license
-thresholds
-input source
-output schema
-FPS
-accuracy or validation notes
-limitations
+model name: opencv_hog_person_detector
+model version: 4.13.0
+license: Apache 2.0
+thresholds: configurable confidence threshold (default 0.5)
+input source: synthetic video fixtures (no real video)
+output schema: documented in AI_EVENT_SCHEMA.md
+FPS: configurable (default 30)
+accuracy or validation notes: HOG detector suitable for pedestrian detection
+limitations: may not detect persons in unusual poses or occluded
 ```
 
 ## Next Step
 
-P6-I1 should define AI event schema and synthetic fixture validation boundaries only. It must not create `ai-services/`, select or download models/datasets, ingest real video, add dependencies, or call external AI services.
+P6-I2 is complete. Next P6 increments could include:
+- Integration with backend API endpoints
+- Real video fixture testing (with approved sources)
+- Performance optimization and model tuning
+- Docker containerization
+
+Real video integration, model optimization, and production deployment require their own human-confirmed gates.

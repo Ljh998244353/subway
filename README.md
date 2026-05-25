@@ -135,7 +135,8 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P5-I9 | 已完成 | Digital Twin API-mode data loader contract |
 | P5-I10 | 已完成 | DigitalTwinPage API-mode state wiring |
 | P5-I11 | 已完成 | CP5 frontend API-mode integration closure review |
-| P6-I1 | 下一步 | AI event schema and synthetic fixture boundary |
+| P6-I1 | 已完成 | AI event schema and synthetic fixture boundary |
+| P6-I2 | 已完成 | AI service implementation with synthetic fixtures |
 | P6-I* | 规划中 | AI video MVP remaining increments; runtime service/model/video work requires later human-confirmed gates |
 | P7-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
 | P8-I* | 规划中 | 客群、热力、动线分析，需后续拆分 |
@@ -229,6 +230,8 @@ P5-I8 customer profile API-mode state wiring
 P5-I9 digital twin API-mode data loader contract
 P5-I10 digital twin API-mode state wiring
 P5-I11 CP5 frontend API-mode integration closure review
+P6-I1 AI event schema and synthetic fixture boundary
+P6-I2 AI service implementation with synthetic fixtures
 ```
 
 当前已实现的后端 synthetic API：
@@ -249,27 +252,39 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
+当前已实现的 AI 服务：
+
+```text
+ai-services/ 目录结构
+OpenCV HOG 人物检测器 (Apache 2.0 许可证)
+合成视频 fixture 生成器
+人物检测事件输出
+事件 schema 验证
+20 个测试通过
+```
+
 当前边界：
 
 ```text
 不连接真实 MySQL
 不提交 .env 或真实凭据
 不创建 docker-compose.yml、infra/ 或生产部署
-不创建 ai-services/
-不接真实视频、真实商场资料、真实品牌、人脸图像或个人轨迹
+AI 服务仅使用合成数据，不接真实视频
+不接真实商场资料、真实品牌、人脸图像或个人轨迹
 ```
 
 最近一次验证结果：
 
 ```text
 backend pytest: 34 passed
+ai-services pytest: 20 passed
 npm run quality: passed
-frontend tests in quality gate: 124 passed after P5-I11 CP5 closure review
+frontend tests in quality gate: 124 passed
 backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
 
-P5-I11 已完成：新增 [docs/CP5_CLOSURE_REVIEW.md](docs/CP5_CLOSURE_REVIEW.md)，确认 CP5 frontend API-mode integration baseline 可作为 synthetic/mock-default 基线进入下一阶段。API mode 仍只显式启用，测试不依赖 live backend，不连接真实 MySQL。
+P6-I2 已完成：新增 `ai-services/` 目录，包含 FastAPI 应用、OpenCV HOG 人物检测器（Apache 2.0 许可证，无需外部权重）、合成视频 fixture 生成器、人物检测事件输出和事件 schema 验证。20 个测试通过，质量门禁通过。
 
 P5-I4 已完成：`StoreAnalysisPage` 已接入 store-analysis loader 状态边界，新增 `frontend/src/pages/storeAnalysisState.ts`。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store analysis 数据，测试不依赖 live backend，也不连接真实 MySQL。
 
@@ -295,7 +310,9 @@ P5-I9 已完成：新增 `frontend/src/api/digitalTwinDataLoader.ts`。Digital T
 
 P5-I10 已完成：新增 `frontend/src/pages/digitalTwinState.ts`，并把 `DigitalTwinPage` 接到 digital-twin loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock heatmap/flow 数据，测试不依赖 live backend，也不连接真实 MySQL。
 
-下一步增量是 `P6-I1 AI event schema and synthetic fixture boundary`：先定义 AI event schema 和 synthetic fixture validation boundary，不创建 `ai-services/`，不选择模型权重，不导入数据集或真实视频。
+P6-I1 已完成：新增 [docs/AI_EVENT_SCHEMA.md](docs/AI_EVENT_SCHEMA.md) 和 [docs/SYNTHETIC_FIXTURE_VALIDATION.md](docs/SYNTHETIC_FIXTURE_VALIDATION.md)，定义 AI event schema 和 synthetic fixture validation boundary。不创建 `ai-services/`，不选择模型权重，不导入数据集或真实视频。
+
+下一步增量是 `P6-I2`（待定）：需要人类确认 AI 服务边界、模型选择、数据集、视频 fixture 和依赖后才能继续。
 
 给 AI 的指令：
 

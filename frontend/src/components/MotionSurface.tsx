@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
+import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
 import type { PropsWithChildren } from 'react';
 
 type MotionSurfaceProps = PropsWithChildren<{
