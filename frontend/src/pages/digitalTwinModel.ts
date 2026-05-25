@@ -56,9 +56,9 @@ export type DigitalTwinViewModel = {
 export const digitalTwinCockpitLayout = {
   shell: 'premium light fullscreen three-column cockpit',
   left: 'macro flow, selected object, conversion funnel, merchant grading',
-  center: 'minimal WebGL/Three.js scene shell with SVG/2.5D FloorPlan fallback/reference',
+  center: 'typed scene adapter layer with WebGL/Three.js and SVG/2.5D FloorPlan fallback/reference',
   right: 'heat metrics, operational health, alert stream and inspector',
-  protectedBoundary: 'mock/API data mode preserved; no Drei, no BlenderMCP, no GLB/GLTF, no external assets, no real MySQL, no real mall material, or personal data in P7-I3'
+  protectedBoundary: 'mock/API data mode preserved; no Drei, no BlenderMCP, no GLB/GLTF, no external assets, no real MySQL, no real mall material, or personal data in P7-I4'
 } as const;
 
 const validModes: TwinMode[] = ['heatmap', 'flow', 'alerts', 'score'];

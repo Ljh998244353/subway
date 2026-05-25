@@ -4,6 +4,7 @@ import { FloorPlan } from '../components/FloorPlan';
 import { StatusBadge } from '../components/StatusBadge';
 import { TwinInspector } from '../components/TwinInspector';
 import { DigitalTwinScene } from '../twin/scene/DigitalTwinScene.tsx';
+import type { SceneInteractionEvent } from '../twin/adapter/sceneAdapter.ts';
 import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
@@ -85,6 +86,12 @@ export function DigitalTwinPage() {
   const buildStoreAnalysisRoute = (storeId: string) => buildStoreAnalysisUrl({ storeId }, location.search);
   const buildStoreAlertsRoute = (alertId?: string, storeId?: string) =>
     buildStoreAlertsUrl({ alertId, storeId, floorId: viewModel.floor.id }, location.search);
+
+  const handleSceneInteraction = (event: SceneInteractionEvent) => {
+    if (event.type === 'store-click' && event.storeId) {
+      window.location.href = buildTwinUrl({ floorId: event.floorId, mode: viewModel.mode, storeId: event.storeId });
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -250,7 +257,7 @@ export function DigitalTwinPage() {
                 </div>
                 <StatusBadge label="WebGL P7-I3" tone="info" />
               </div>
-              <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} />
+              <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} onInteraction={handleSceneInteraction} />
             </div>
             <details className="digital-twin-cockpit__fallback-shell">
               <summary>SVG/2.5D 参考与回退视图</summary>

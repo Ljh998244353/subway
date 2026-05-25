@@ -1,76 +1,82 @@
 import { Canvas } from '@react-three/fiber';
 import type { DigitalTwinRouteParams } from '../../routes/demoFlow.ts';
 import type { DigitalTwinViewModel } from '../../pages/digitalTwinModel.ts';
+import { buildSceneAdapterState, type SceneAdapterState, type SceneStore, type SceneInteractionEvent } from '../adapter/sceneAdapter.ts';
 
 type DigitalTwinSceneProps = {
   viewModel: DigitalTwinViewModel;
   buildTwinUrl: (params: DigitalTwinRouteParams) => string;
+  onInteraction?: (event: SceneInteractionEvent) => void;
 };
 
-function normalize(value: number, size: number, span: number) {
-  return (value / size - 0.5) * span;
+function StoreMesh({ store, onClick }: { store: SceneStore; onClick: (storeId: string) => void }) {
+  return (
+    <mesh
+      position={store.position}
+      onClick={() => onClick(store.storeId)}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        document.body.style.cursor = 'pointer';
+      }}
+      onPointerOut={() => {
+        document.body.style.cursor = 'auto';
+      }}
+    >
+      <boxGeometry args={store.size} />
+      <meshStandardMaterial
+        color={store.color}
+        emissive={store.emissive}
+        emissiveIntensity={store.emissiveIntensity}
+        metalness={0.08}
+        roughness={0.48}
+      />
+    </mesh>
+  );
 }
 
-function getStoreTone(level: string, selected: boolean) {
-  if (selected) return '#2f54eb';
-  if (level === 'A' || level === 'B') return '#14b8a6';
-  if (level === 'C') return '#f59e0b';
-  return '#f43f5e';
-}
-
-function SceneContent({ viewModel }: { viewModel: DigitalTwinViewModel }) {
-  const { floor, selectedStore, stores } = viewModel;
-  const floorSpan = 12;
-  const floorDepth = 7;
-
+function SceneContent({ adapterState, onStoreClick }: { adapterState: SceneAdapterState; onStoreClick: (storeId: string) => void }) {
   return (
     <>
       <color args={['#f7f9fc']} attach="background" />
       <ambientLight intensity={0.72} />
       <directionalLight intensity={1.85} position={[4, 8, 5]} />
       <group rotation={[-0.18, -0.34, 0]}>
-        <mesh position={[0, -0.08, 0]} receiveShadow>
-          <boxGeometry args={[floorSpan, 0.12, floorDepth]} />
-          <meshStandardMaterial color="#eef3f8" roughness={0.72} />
-        </mesh>
-        <mesh position={[0, 0.02, 0]}>
-          <boxGeometry args={[floorSpan * 0.86, 0.05, 0.8]} />
-          <meshStandardMaterial color="#dbe7f2" roughness={0.66} />
-        </mesh>
-        <mesh position={[0, 0.03, 0]} rotation={[0, Math.PI / 2, 0]}>
-          <boxGeometry args={[floorDepth * 0.68, 0.05, 0.72]} />
-          <meshStandardMaterial color="#e5edf6" roughness={0.68} />
-        </mesh>
-        {stores.map((store) => {
-          const width = Math.max(0.46, (store.geometry.width / floor.width) * floorSpan);
-          const depth = Math.max(0.46, (store.geometry.height / floor.height) * floorDepth);
-          const x = normalize(store.geometry.x + store.geometry.width / 2, floor.width, floorSpan);
-          const z = normalize(store.geometry.y + store.geometry.height / 2, floor.height, floorDepth);
-          const selected = store.id === selectedStore?.id;
-          const height = 0.26 + store.currentOccupancy / 220;
-
-          return (
-            <mesh key={store.id} position={[x, height / 2, z]}>
-              <boxGeometry args={[width, height, depth]} />
-              <meshStandardMaterial
-                color={getStoreTone(store.level, selected)}
-                emissive={selected ? '#183b8f' : '#000000'}
-                emissiveIntensity={selected ? 0.18 : 0}
-                metalness={0.08}
-                roughness={0.48}
-              />
-            </mesh>
-          );
-        })}
+        {adapterState.floor && (
+          <mesh position={[0, adapterState.floor.elevation, 0]} receiveShadow>
+            <boxGeometry args={[adapterState.floor.width, 0.12, adapterState.floor.depth]} />
+            <meshStandardMaterial color="#eef3f8" roughness={0.72} />
+          </mesh>
+        )}
+        {adapterState.corridors.map((corridor) => (
+          <mesh key={corridor.id} position={corridor.position}>
+            <boxGeometry args={corridor.size} />
+            <meshStandardMaterial color={corridor.direction === 'horizontal' ? '#dbe7f2' : '#e5edf6'} roughness={0.66} />
+          </mesh>
+        ))}
+        {adapterState.stores.map((store) => (
+          <StoreMesh key={store.id} store={store} onClick={onStoreClick} />
+        ))}
       </group>
     </>
   );
 }
 
-export function DigitalTwinScene({ viewModel, buildTwinUrl }: DigitalTwinSceneProps) {
+export function DigitalTwinScene({ viewModel, buildTwinUrl, onInteraction }: DigitalTwinSceneProps) {
+  const adapterState = buildSceneAdapterState(viewModel);
   const selectedStore = viewModel.selectedStore;
 
-  if (!viewModel.hasSpatialData) {
+  const handleStoreClick = (storeId: string) => {
+    if (onInteraction) {
+      onInteraction({
+        type: 'store-click',
+        objectId: `store-${storeId}`,
+        storeId,
+        floorId: viewModel.floor.id
+      });
+    }
+  };
+
+  if (!adapterState.hasSpatialData) {
     return (
       <div className="state-panel" role="status">
         当前楼层没有可展示的 WebGL 空间数据
@@ -81,11 +87,11 @@ export function DigitalTwinScene({ viewModel, buildTwinUrl }: DigitalTwinScenePr
   return (
     <div className="digital-twin-scene" aria-label={`${viewModel.floor.name} WebGL 合成数字孪生场景`}>
       <Canvas camera={{ fov: 43, position: [0, 7.2, 8.4] }} dpr={[1, 1.5]}>
-        <SceneContent viewModel={viewModel} />
+        <SceneContent adapterState={adapterState} onStoreClick={handleStoreClick} />
       </Canvas>
       <div className="digital-twin-scene__overlay" aria-hidden="true">
-        <span>WebGL synthetic scene · Three.js / R3F baseline</span>
-        <strong>{viewModel.floor.code} · {viewModel.stores.length} self-authored store blocks</strong>
+        <span>WebGL synthetic scene · Three.js / R3F · P7-I4 adapter</span>
+        <strong>{adapterState.floor?.code} · {adapterState.stores.length} store blocks · {adapterState.alerts.length} alerts</strong>
       </div>
       {selectedStore ? (
         <a className="digital-twin-scene__focus" href={buildTwinUrl({ floorId: viewModel.floor.id, mode: viewModel.mode, storeId: selectedStore.id })}>

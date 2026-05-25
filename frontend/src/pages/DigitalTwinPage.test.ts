@@ -6,9 +6,10 @@ import type { DigitalTwinDataResult } from '../api/digitalTwinDataLoader.ts';
 import { buildDigitalTwinViewModel, digitalTwinCockpitLayout } from './digitalTwinModel.ts';
 import { createInitialDigitalTwinDataState, resolveDigitalTwinDataState } from './digitalTwinState.ts';
 
-test('P7-I3 productizes a minimal WebGL scene while keeping the protected data boundary', () => {
+test('P7-I4 productizes a typed scene adapter layer while keeping the protected data boundary', () => {
   assert.equal(digitalTwinCockpitLayout.shell, 'premium light fullscreen three-column cockpit');
-  assert.match(digitalTwinCockpitLayout.center, /WebGL\/Three\.js scene shell/);
+  assert.match(digitalTwinCockpitLayout.center, /typed scene adapter layer/);
+  assert.match(digitalTwinCockpitLayout.center, /WebGL\/Three\.js/);
   assert.match(digitalTwinCockpitLayout.center, /SVG\/2\.5D FloorPlan fallback/);
   assert.match(digitalTwinCockpitLayout.protectedBoundary, /mock\/API data mode preserved/);
   assert.match(digitalTwinCockpitLayout.protectedBoundary, /no Drei/);
