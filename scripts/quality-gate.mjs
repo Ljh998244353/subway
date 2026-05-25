@@ -49,6 +49,7 @@ const requiredFiles = [
   "docs/design/CHART_SPEC.md",
   "docs/design/INTERACTION_SPEC.md",
   "docs/design/DESIGN_REVIEW_CHECKLIST.md",
+  "docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md",
   "context/PROJECT_STATE.md",
   "context/REQUIREMENTS_CURRENT.md",
   "context/ARCHITECTURE_CURRENT.md",
@@ -445,7 +446,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P6-I1"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P7-I1"]
     },
     {
       name: "hard rules",
@@ -496,8 +497,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P6-I1 AI event schema focus",
-      patterns: ["P6-I1", "AI event schema", "synthetic fixture", "AI Video Mode", "quality gate"]
+      name: "P7-I1 3D synthetic twin focus",
+      patterns: ["P7-I1", "3D", "license", "synthetic", "Architect Mode", "quality gate"]
     }
   ];
 

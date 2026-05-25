@@ -17,10 +17,10 @@ function getParams(path: string) {
   return new URLSearchParams(search);
 }
 
-test('CP2 demo exposes exactly the five core business routes', () => {
+test('CP2 demo exposes the five core business routes plus optional preview routes', () => {
   const routePaths = new Set(appRoutes.map((route) => route.path));
 
-  assert.equal(routePaths.size, requiredRoutePaths.size);
+  assert.equal(routePaths.has('/style-preview'), true, 'P7 style preview should be available for visual review');
   requiredRoutePaths.forEach((path) => {
     assert.equal(routePaths.has(path), true, `${path} should be available in the app shell`);
   });

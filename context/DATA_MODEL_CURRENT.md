@@ -38,14 +38,34 @@ user_role
 operation_log
 ```
 
-The migration baseline is `backend/migrations/versions/20260519_0001_initial_schema.py` and imports metadata from `backend/app/db/metadata.py`. P4 supports offline SQL generation only; it does not connect to real MySQL and does not add `.env`.
+The migration baseline is `backend/migrations/versions/20260519_0001_initial_schema.py` and imports metadata from `backend/app/db/metadata.py`. The current project still supports offline SQL generation only; it does not connect to real MySQL and does not add `.env`.
+
+## P7 Synthetic 3D Demo Data Direction
+
+The roadmap now prioritizes MySQL-backed fake/demo data before real production data. Future increments should decide whether the existing event tables are enough or whether additional synthetic-demo tables are needed.
+
+Candidate synthetic demo entities:
+
+```text
+synthetic_scenario: demo preset, seed, time range, crowd density, incident level, active flag
+synthetic_agent_config: anonymous virtual person/group config, behavior profile, destination rules
+synthetic_visit_event: fake enter/exit/dwell/store destination event, idempotent event id
+synthetic_agent_snapshot: replay frame position/velocity/floor/store/zone aggregate, no real identity
+synthetic_heatmap_snapshot: aggregate heat intensity for 3D overlay and replay
+synthetic_flow_snapshot: aggregate flow edges and node counts for animated paths
+synthetic_demo_control: current scenario parameters for demo UI controls
+```
+
+These are synthetic/demo-only concepts. They must not be confused with real customer records.
 
 ## Data Quality And Privacy
 
 ```text
 UTC internally
+stable IDs for synthetic scenarios, virtual agents, stores, events, and replay frames
 event_id is idempotency key for event tables
 scores and conversion rates use bounded numeric columns
+synthetic virtual agents are anonymous visual/demo entities only
 no face images
 no phone
 no id_card
@@ -56,4 +76,4 @@ no personal trajectories returned to API clients
 
 ## Next Step
 
-P6-I1 completed AI event schema documentation, defining future AI event fields as a schema boundary. The MySQL data model was not changed. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.
+P7-I1 should not change the data model yet. It should confirm architecture and dependency boundaries for the 3D demo. P7-I3 should later define the exact synthetic scenario/event persistence contract before migrations or API implementation.

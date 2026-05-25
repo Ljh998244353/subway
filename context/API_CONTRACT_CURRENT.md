@@ -39,29 +39,7 @@ getTrajectories
 getOverview
 ```
 
-P4-I16 reviewed CP4 coverage and confirmed the synthetic API/client contract baseline can move to P5. Unknown mall read requests return `MALL_NOT_FOUND`; unknown store read requests return `STORE_NOT_FOUND`; validation failures use `VALIDATION_ERROR`.
-
-P5-I1 added `frontend/src/api/overviewDataLoader.ts`, which consumes `getOverview(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
-
-P5-I2 wired DashboardPage state to the overview loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
-
-P5-I3 added `frontend/src/api/storeAnalysisDataLoader.ts`, which consumes `getStoreRanking(mallId)`, `getStore(storeId)`, `getStoreScore(storeId)`, and `getStoreFlow(storeId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
-
-P5-I4 wired StoreAnalysisPage state to the Store Analysis loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
-
-P5-I5 added `frontend/src/api/storeAlertsDataLoader.ts`, which consumes `listStoreAlerts(mallId)` and `getStore(storeId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
-
-P5-I6 wired StoreAlertsPage state to the Store Alerts loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
-
-P5-I7 added `frontend/src/api/customerProfileDataLoader.ts`, which consumes `getCustomerProfile(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
-
-P5-I8 wired CustomerProfilePage state to the Customer Profile loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
-
-P5-I9 added `frontend/src/api/digitalTwinDataLoader.ts`, which consumes `getHeatmap(mallId)` and `getTrajectories(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
-
-P5-I10 wired DigitalTwinPage state to the Digital Twin loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
-
-P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. No API endpoint was added or changed.
+P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. P6-I1 documented AI event schema. P6-I2 implemented a local synthetic AI service. P6-R1 reprioritized the next API direction toward synthetic 3D demo controls and fake-data persistence.
 
 ## Not Implemented
 
@@ -70,8 +48,42 @@ auth/RBAC enforcement
 store alert detail/update APIs
 real MySQL queries
 committed OpenAPI artifact
+synthetic scenario control APIs
+persisted fake-event generation APIs
+3D scene layout read API
+replay frame API
+real-data adapter APIs
+```
+
+## P7 Synthetic 3D Demo API Direction
+
+Future P7 API work should stay under `/api/v1` and preserve the current mock/API-mode boundary. Candidate contracts for later increments:
+
+```text
+GET /api/v1/twin/scene?mallId=...
+GET /api/v1/twin/scenarios?mallId=...
+POST /api/v1/twin/scenarios/{scenarioId}/seed
+POST /api/v1/twin/scenarios/{scenarioId}/reset
+POST /api/v1/twin/scenarios/{scenarioId}/generate
+POST /api/v1/twin/scenarios/{scenarioId}/events
+PATCH /api/v1/twin/scenarios/{scenarioId}/controls
+GET /api/v1/twin/scenarios/{scenarioId}/replay
+GET /api/v1/twin/scenarios/{scenarioId}/heatmap
+GET /api/v1/twin/scenarios/{scenarioId}/agent-counts
+```
+
+These endpoints are not implemented yet. They should be designed in a later architecture/API increment before backend code is changed.
+
+## Contract Boundaries
+
+```text
+synthetic demo APIs must be clearly labeled synthetic/demo-only
+real-data adapter endpoints are deferred
+real video/camera/BIM/floor-plan/brand material must not be required for the 3D demo
+API responses must keep stable IDs and ISO 8601 timestamps
+fake event generation must be idempotent where applicable
 ```
 
 ## Next Step
 
-P6-I1 completed AI event schema documentation. Future AI event endpoints may be added after AI service implementation and human confirmation of service boundaries. No backend endpoints were added or changed in P6-I1.
+P7-I1 should confirm the 3D frontend stack and module boundary. Do not add API endpoints in P7-I1 unless the task card is changed.

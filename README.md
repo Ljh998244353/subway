@@ -2,7 +2,7 @@
 
 本项目是面向商业综合体运营场景的视觉 AI 数字孪生系统。目标是把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中，辅助招商、调铺、营销、安保和现场运营决策。
 
-本仓库采用“先演示、再工程化、再接入真实后端和 AI”的增量路线。当前仍使用 Mock / synthetic 数据，不接真实商场数据、不接真实监控视频、不展示个人轨迹。
+本仓库采用“先演示、再工程化、再接入真实后端和 AI”的增量路线。当前优先级已调整为先交付精美、高级、现代的 3D 合成数字孪生演示：使用完全免费的 Blender 作为当前主线建模工具，自绘虚构商场模型、可操控虚拟人群、动态假数据生成/追加/回放和 MySQL 持久化规划优先；真实商场数据、真实监控视频和真实数据处理后置。当前仍使用 Mock / synthetic 数据，不接真实商场数据、不接真实监控视频、不展示个人轨迹。
 
 ## 文档入口
 
@@ -37,7 +37,8 @@
 一期目标是先做可演示、可测试、可恢复的系统闭环：
 
 - 运营总览：场内人数、累计客流、楼层状态、趋势和拥挤预警。
-- 数字孪生：楼层、店铺、热力、预警和历史回放联动展示。
+- 数字孪生：近期优先升级为精美 3D 合成商场演示，包含楼层、店铺、热力、预警、虚拟人群、动态假数据控制和历史回放联动。
+- 前端体验：P7 纳入大幅前端重构，使整体界面更大气、精致、优雅、现代，同时保持运营看板的可读性和可演示性。
 - 店铺分析：进店、停留、转化、评分、趋势和低效原因解释。
 - 客群画像：匿名聚合的时间段、楼层、业态偏好和画像统计。
 - 低效预警：C/D 级店铺、高客流低转化、连续下滑和异常数据提示。
@@ -71,12 +72,13 @@
 | P3 | DevOps Mode | 工程化骨架 |
 | P4 | Backend Mode | 后端 API 与数据模型 |
 | P5 | Frontend Mode | 前后端联调，Mock/API 模式共存 |
-| P6 | AI Video Mode | AI 视频识别 MVP |
-| P7 | Backend Mode | 店铺经营评分 MVP |
-| P8 | Data Mode | 客群、热力、动线分析 |
-| P9 | Frontend Mode | 3D / 2.5D 数字孪生可交付版 |
-| P10 | QA Mode | 工业级测试与安全加固 |
-| P11 | DevOps Mode | 部署与观测 |
+| P6 | AI Video Mode | AI 合成事件基础，已完成到 P6-I2；真实视频后置 |
+| P6-R1 | Product Mode | 路线图重排为精美 3D 合成数字孪生演示优先 |
+| P7 | Frontend / Architect Mode | 精美 3D 合成数字孪生演示：3D 商场、虚拟人群、假数据控制、MySQL 持久化规划 |
+| P8 | Backend Mode | 店铺经营评分 MVP，优先消费合成事件 |
+| P9 | Data Mode | 客群、热力、动线分析增强，并接入 3D 演示和回放 |
+| P10 | Architect Mode | 真实 AI/数据接入准备，需授权、隐私、许可证和回滚方案 |
+| P11 | QA / DevOps Mode | 工业级测试、安全、部署与观测 |
 | P12 | Product Mode | 验收与移交 |
 
 完整路线图、默认增量拆分和门禁见 [AI_Schedule.md](AI_Schedule.md)。
@@ -137,11 +139,18 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P5-I11 | 已完成 | CP5 frontend API-mode integration closure review |
 | P6-I1 | 已完成 | AI event schema and synthetic fixture boundary |
 | P6-I2 | 已完成 | AI service implementation with synthetic fixtures |
-| P6-I* | 规划中 | AI video MVP remaining increments; runtime service/model/video work requires later human-confirmed gates |
-| P7-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
-| P8-I* | 规划中 | 客群、热力、动线分析，需后续拆分 |
-| P9-I* | 规划中 | 3D / 2.5D 数字孪生可交付版，需后续拆分 |
-| P10-I* | 规划中 | 工业级测试与安全加固，需后续拆分 |
+| P6-R1 | 已完成 | 路线图重排为精美 3D 合成数字孪生演示优先 |
+| P7-I1 | 下一步 | 3D 技术栈、许可证审计、前端依赖基线和高级前端重构方向确认 |
+| P7-I2 | 规划中 | 合成商场空间模型规范：楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区 |
+| P7-I3 | 规划中 | 合成事件与 MySQL 持久化数据模型/API 契约 |
+| P7-I4 | 规划中 | 后端合成场景 seed/reset/generate API |
+| P7-I5 | 规划中 | Three.js/WebGL 3D 场景基础壳 |
+| P7-I6 | 规划中 | 虚拟人群、动线粒子、热力和拥挤告警可视化 |
+| P7-I7 | 规划中 | 演示控制台：人数、时间、目的地、事件频率、异常强度、场景预设 |
+| P7-I8 | 规划中 | 前端整体大气精致现代化验收、高级视觉精修、4K/大屏演示、性能门禁和 demo script |
+| P8-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
+| P9-I* | 规划中 | 客群、热力、动线分析增强，需后续拆分 |
+| P10-I* | 规划中 | 真实 AI/数据接入准备，需授权和合规评审 |
 | P11-I* | 规划中 | 部署与观测，需后续拆分 |
 | P12-I* | 规划中 | 验收与移交，需后续拆分 |
 
@@ -286,33 +295,9 @@ npm run quality:audit: found 0 vulnerabilities
 
 P6-I2 已完成：新增 `ai-services/` 目录，包含 FastAPI 应用、OpenCV HOG 人物检测器（Apache 2.0 许可证，无需外部权重）、合成视频 fixture 生成器、人物检测事件输出和事件 schema 验证。20 个测试通过，质量门禁通过。
 
-P5-I4 已完成：`StoreAnalysisPage` 已接入 store-analysis loader 状态边界，新增 `frontend/src/pages/storeAnalysisState.ts`。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store analysis 数据，测试不依赖 live backend，也不连接真实 MySQL。
+P6-R1 已完成：路线图和 context 已调整为“精美 3D 合成数字孪生演示优先”。下一步是 `P7-I1 3D 技术栈、许可证审计和前端依赖基线确认`；真实视频、真实商场资料、真实数据处理和生产部署后置。
 
-P5-I5 已完成：新增 `frontend/src/api/storeAlertsDataLoader.ts`。Store Alerts loader 默认返回 Mock mode 数据；只有显式 API mode 才通过 typed client 调用 `listStoreAlerts(mallId)`，并用 `getStore(storeId)` 补齐相关店铺引用。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
-
-下一步增量是 `P5-I6 store alerts API-mode state wiring`：把 `StoreAlertsPage` 接到 store-alerts loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
-
-P5-I6 已完成：新增 `frontend/src/pages/storeAlertsState.ts`，并把 `StoreAlertsPage` 接到 store-alerts loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store alerts 数据，测试不依赖 live backend，也不连接真实 MySQL。
-
-下一步增量是 `P5-I7 customer profile API-mode data loader contract`：为 Customer Profile 增加 API mode 数据加载契约，但仍保持 Mock mode 默认，不切换到真实 API。
-
-P5-I7 已完成：新增 `frontend/src/api/customerProfileDataLoader.ts`。Customer Profile loader 默认返回 Mock mode 数据；只有显式 API mode 才通过 typed client 调用 `getCustomerProfile(mallId)`，并把 API 的 `cat_*` 业态 ID、比例小数和 synthetic source 映射到前端领域模型。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
-
-下一步增量是 `P5-I8 customer profile API-mode state wiring`：把 `CustomerProfilePage` 接到 customer-profile loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
-
-P5-I8 已完成：新增 `frontend/src/pages/customerProfileState.ts`，并把 `CustomerProfilePage` 接到 customer-profile loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock customer profile 数据，测试不依赖 live backend，也不连接真实 MySQL。
-
-P5-I9 接力增量是 `P5-I9 digital twin API-mode data loader contract`：为 Digital Twin 增加热力/动线 API mode 数据加载契约，但仍保持 Mock mode 默认，不切换到真实 API。
-
-P5-I9 已完成：新增 `frontend/src/api/digitalTwinDataLoader.ts`。Digital Twin loader 默认返回 Mock heatmap/flow 数据；只有显式 API mode 才通过 typed client 调用 `getHeatmap(mallId)` 和 `getTrajectories(mallId)`，并把 API DTO 映射到前端 `HeatmapPoint` 与 `FlowEdge`。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
-
-下一步增量是 `P5-I10 digital twin API-mode state wiring`：把 `DigitalTwinPage` 接到 digital-twin loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
-
-P5-I10 已完成：新增 `frontend/src/pages/digitalTwinState.ts`，并把 `DigitalTwinPage` 接到 digital-twin loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock heatmap/flow 数据，测试不依赖 live backend，也不连接真实 MySQL。
-
-P6-I1 已完成：新增 [docs/AI_EVENT_SCHEMA.md](docs/AI_EVENT_SCHEMA.md) 和 [docs/SYNTHETIC_FIXTURE_VALIDATION.md](docs/SYNTHETIC_FIXTURE_VALIDATION.md)，定义 AI event schema 和 synthetic fixture validation boundary。不创建 `ai-services/`，不选择模型权重，不导入数据集或真实视频。
-
-下一步增量是 `P6-I2`（待定）：需要人类确认 AI 服务边界、模型选择、数据集、视频 fixture 和依赖后才能继续。
+历史 P5/P6 接力记录已归档到 `PROGRESS.md` 和 git 历史；当前续作以 `context/TODO_NEXT.md` 为准。
 
 给 AI 的指令：
 

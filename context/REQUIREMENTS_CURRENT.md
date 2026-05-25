@@ -2,19 +2,47 @@
 
 Updated: 2026-05-25
 
-## Current Scope
+## Current Priority
 
-The first delivery remains an auditable course-project demo and engineering baseline:
+The project priority is now a polished, modern, demo-ready synthetic 3D mall digital twin before real video/data integrations. P7 must also include a major frontend redesign/refactor so the whole demo feels more grand, refined, elegant, and modern, not only the 3D canvas.
+
+The system should first prove a premium digital twin demo using synthetic/self-authored data:
+
+```text
+3D mall model with refined visual quality
+major frontend visual refactor for a grand, refined, elegant, modern dashboard experience
+virtual people and crowd simulation
+human-adjustable fake-data controls
+synthetic events that can be seeded, reset, appended, generated, persisted, and replayed
+MySQL as the target persistence layer for synthetic demo data
+clear extension boundary for later real-data adapters
+```
+
+## Required 3D Demo Capabilities
+
+```text
+self-authored synthetic mall with multiple floors, stores, corridors, atrium, escalators, elevators, entrances, kiosks, and hotspot zones
+modern 3D/WebGL visual quality suitable for live demonstration and large-screen review
+large-scale frontend redesign/refactor with elevated layout, visual hierarchy, typography, spacing, motion restraint, glass/depth effects where appropriate, and operational-dashboard readability
+store/floor interaction including floor switching, store picking, labels, highlights, heatmap, flow, alerts, and score overlays
+virtual people with configurable count, time, destination store, entry/exit, dwell, group movement, congestion, and anomaly behavior
+scenario controls for crowd density, store popularity, event frequency, incident level, time range, replay speed, seed/reset, and append fake events
+synthetic data persistence in MySQL-backed tables or clearly planned MySQL schema before real data is introduced
+demo mode can be disabled and must not block later real-data integration
+```
+
+## Existing Baseline Scope
 
 ```text
 operations overview
-digital twin view
+digital twin view, currently SVG/2.5D
 store analysis
 customer profile aggregates
 store alerts
 backend synthetic API contract
 typed frontend API client
 MySQL data-model baseline
+AI event schema and local synthetic AI service fixture baseline
 quality and handoff gates
 ```
 
@@ -23,13 +51,14 @@ quality and handoff gates
 ```text
 real mall production launch
 real monitoring stream access
+real video integration by default
+real MySQL production query path
 face recognition or identity recognition
 individual trajectory display
-high-precision BIM
+use of real mall floor plans, real maps, BIM/CAD, real brand logos, merchant logos, or shop signs
+paid cloud services, paid APIs, paid model services, paid assets, or account-bound external tools without approval
 complex leasing recommendation
 multi-tenant SaaS
-paid cloud services or paid APIs
-real brand logos, merchant logos, real mall floor plans, real maps, or real BIM
 ```
 
 ## Compliance Red Lines
@@ -40,11 +69,11 @@ no face image storage
 no personal trajectory display
 no unauthorized mall floor plan
 no real brands or merchant logos
-no unknown-source model, dataset, image, video, font, or copied code
+no unknown-source model, dataset, image, video, font, model file, texture, copied code, or 3D asset
 no paid development tool or paid cloud service without review
 all assets, models, and dependencies must have traceable license records
 ```
 
 ## Current Handoff
 
-P4-I16 closes CP4 as a synthetic backend/API/client contract baseline. P5-I1 added the API mode overview data loader while keeping mock mode as the default. P5-I2 wired dashboard state to that loader without changing the default. P5-I3 added Store Analysis loader contract work. P5-I4 wired StoreAnalysisPage to that loader. P5-I5 added Store Alerts loader contract work. P5-I6 wired StoreAlertsPage to that loader without changing the default. P5-I7 added Customer Profile loader contract work. P5-I8 wired CustomerProfilePage to that loader without changing the default. P5-I9 added Digital Twin loader contract work. P5-I10 wired DigitalTwinPage to that loader without changing the default. P5-I11 reviewed and closed CP5. P6-I1 should define AI event schema and synthetic fixture boundaries only. Real MySQL, credentials, Docker Compose, AI services, model weights, datasets, real video, real mall material, real brands, face images, and personal trajectories remain blocked.
+P6-R1 updated the roadmap and context so the next workstream is P7 premium synthetic 3D digital twin demo. P7-I1 should confirm the 3D stack, license/cost/account status, frontend dependency baseline, and module boundaries before implementation. Real data processing remains deferred.

@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, and P6-I2.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, and P6-R1.
 
 P5-I11 completed CP5 frontend API-mode integration closure review:
 
@@ -76,6 +76,29 @@ updated documentation and context files
 
 P6-I2 uses synthetic data only. No real video, monitoring footage, face images, or personal data is used. The AI service runs locally with OpenCV's built-in HOG descriptor.
 
+P6-R1 completed roadmap reprioritization to a premium synthetic 3D digital twin demo-first track:
+
+```text
+AI_Schedule.md
+AGENTS.md / AGENT.md
+README.md
+PROGRESS.md
+IMPORTANT.md
+context/*.md
+```
+
+Implemented:
+
+```text
+moved the next major project priority from AI service continuation to a polished 3D synthetic mall digital twin demo
+kept P6-I2 as the completed synthetic AI service baseline
+planned P7-I1 through P7-I8 for 3D stack audit, synthetic mall modeling, MySQL-backed fake events, 3D scene work, virtual people, demo controls, and polish
+explicitly deferred real video, real mall/BIM/floor-plan/brand material, production data, and real-data adapters
+preserved MySQL, free/open-source/license-clear tooling, short continuation command, and small-increment workflow
+```
+
+P6-R1 is documentation-only. No frontend, backend, AI service source code, dependency, Docker, real database connection, or real data integration was added.
+
 ## Current Status
 
 | Item | Status | Notes |
@@ -112,13 +135,14 @@ P6-I2 uses synthetic data only. No real video, monitoring footage, face images, 
 | CP4 closure | complete | synthetic contract baseline can move through P5 |
 | MySQL readiness | planned | no real connection, credentials, Docker, or Compose |
 | Deployment | documentation only | not runnable Compose |
+| Roadmap priority | updated | P6-R1 sets premium synthetic 3D digital twin demo as the next major workstream |
+| 3D modeling tool decision | confirmed | Blender is the free mainline modeling tool; Unity/UE are not current mainline choices |
 
 ## Verification
 
-P6-I2 local verification:
+Latest local verification after recording the Blender decision:
 
 ```bash
-ai-services/.venv/Scripts/python -m pytest ai-services/tests/ -v
 npm run quality
 npm run quality:audit
 ```
@@ -126,12 +150,26 @@ npm run quality:audit
 Results:
 
 ```text
+npm run quality: passed
+frontend tests: 124 passed
+backend pytest: 34 passed
+npm run quality:audit: found 0 vulnerabilities
+```
+
+Notes:
+
+```text
+backend/.venv was recreated locally because the Linux quality gate requires backend/.venv/bin/python
+Vite still prints React Router/Motion "use client" warnings during build; these are existing non-blocking dependency warnings
+```
+
+Prior P6-I2 local verification:
+
+```text
 ai-services pytest: 20 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
-
-Vite still prints React Router/Motion `"use client"` warnings during build; these are existing non-blocking dependency warnings.
 
 ## Current Risks
 
@@ -141,19 +179,31 @@ no browser E2E or live frontend/backend integration test
 no coverage report
 no real video or monitoring footage integration
 no Docker Compose startup test
+3D dependency and asset licenses must be audited before adoption
+synthetic demo data must remain clearly separated from real customer or mall data
 ```
 
-Continue to block real video, real mall material, real monitoring, face images, personal trajectories, paid tool, and external service unless reviewed and confirmed.
+Continue to block real video, real mall material, real monitoring, face images, personal trajectories, paid tool, and external service unless reviewed and confirmed. For the 3D demo track, also block unauthorized mall floor plans, BIM/CAD files, tenant logos, brand signs, scraped media, unknown-license models, and Non-Commercial assets.
 
 ## Next Step
 
-Next increment: `P6-I3` (待定). AI service foundation is complete with synthetic fixtures. Next steps could include:
-- Integration with backend API endpoints
-- Real video fixture testing (with approved sources)
-- Performance optimization and model tuning
-- Docker containerization
+Next increment: `P7-I1 3D 技术栈、许可证审计和前端依赖基线确认`.
 
-P6-I2 implementation is complete. Real video integration, model optimization, and production deployment require their own human-confirmed gates.
+Goal:
+- Record Blender as the confirmed free mainline 3D modeling tool.
+- Confirm the free/open-source/license-clear 3D Web rendering stack before implementation.
+- Review whether to use `three`, `@react-three/fiber`, and `@react-three/drei`.
+- Confirm or fix the current frontend animation dependency baseline around `motion` / `framer-motion`.
+- Define the future `frontend/src/twin/` module boundary and how it will coexist with the current SVG `/digital-twin` page.
+- Use `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md` as the local complete UI/UX redesign strategy baseline.
+- Include a major P7 frontend redesign/refactor goal so the application becomes more grand, refined, elegant, modern, and still operationally readable.
+
+Non-goals for P7-I1:
+- do not implement the 3D scene yet
+- do not install unaudited dependencies
+- do not connect real MySQL
+- do not use real mall plans, BIM, logos, surveillance footage, or personal data
+- do not resume real video integration by default
 
 ## Stage Log
 
@@ -188,7 +238,8 @@ P6-I2 implementation is complete. Real video integration, model optimization, an
 | P5-I11 CP5 frontend API-mode integration closure review | 2026-05-25 | Added CP5 closure review, documented API-mode coverage and gaps, updated quality gate, and prepared P6-I1 AI event schema handoff |
 | P6-I1 AI event schema and synthetic fixture boundary | 2026-05-25 | Added AI event schema documentation, synthetic fixture validation boundary, updated README, PROGRESS.md, and context files; quality/audit passed |
 | P6-I2 AI service implementation with synthetic fixtures | 2026-05-25 | Added ai-services/ with FastAPI, OpenCV HOG detector, synthetic video generator, event processing, 20 tests; quality/audit passed |
+| P6-R1 roadmap reprioritization to premium synthetic 3D digital twin | 2026-05-25 | Updated schedule/context so the next major workstream is a polished 3D synthetic mall demo with fake-data controls and MySQL persistence planning; real data/video integration deferred |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/CP5_CLOSURE_REVIEW.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the next P6 task card after human confirmation of AI service boundaries.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P7-I1 3D 技术栈、许可证审计和前端依赖基线确认`; do not continue real video or real-data integration unless a later task card explicitly changes that boundary.

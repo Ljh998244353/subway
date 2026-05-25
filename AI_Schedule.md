@@ -4,9 +4,9 @@
 
 核心策略：
 
-1. 先做前端 Demo，尽快形成可演示价值。
-2. 再补工程化、后端 API、数据库、测试和部署。
-3. 再接入 AI 视频识别、经营评分、热力动线和 3D 数字孪生。
+1. 先做可演示价值，当前优先级已调整为“精美 3D 合成数字孪生演示优先”，并在 P7 纳入大幅前端重构，使整体界面更大气、精致、优雅、现代。
+2. 在真实数据接入前，先用 Blender 免费建模工具自建 3D 商场、虚构店铺、可操控虚拟人群、可动态追加的合成事件和 MySQL 持久化假数据形成高级演示闭环；Unity/UE 不进入当前主线。
+3. 后续再补真实视频识别、真实数据接口适配、经营评分、热力动线深度分析和生产部署。
 4. 每个增量都更新 `/context` 恢复包或明确还未创建的原因。
 5. 所有代码都必须经过自动化测试、许可证检查和交付门禁。
 6. 人类只负责检查结果和输入“请进行下一步”；AI 自动从 `PROGRESS.md` 和 `context/TODO_NEXT.md` 找到下一任务，并完成开发、测试、文档、context 和风险记录。
@@ -113,6 +113,8 @@ P2-I3  运营总览页面
 
 ### 2.1 总路线图
 
+当前已完成到 P6-I2。自 2026-05-25 起，路线图重排为“精美 3D 合成数字孪生演示优先”：先交付可演示、高级、现代的 3D 商场数字孪生，再继续真实视频、真实数据和生产部署接入。
+
 | 阶段 | 周期 | 名称 | 主要目标 | 阶段门禁 |
 | --- | --- | --- | --- | --- |
 | P0 | 2 天 | 项目基线与上下文恢复 | 固化需求、范围、架构草案、测试策略 | CP0 |
@@ -120,13 +122,14 @@ P2-I3  运营总览页面
 | P2 | 2 周 | 前端 Demo MVP | Mock 数据驱动 5 个核心页面 | CP2 |
 | P3 | 1 周 | 工程化骨架 | Monorepo、CI、lint、格式化、基础测试 | CP3 |
 | P4 | 2 周 | 后端 API 与数据模型 | FastAPI、MySQL、核心接口 | CP4 |
-| P5 | 1 周 | 前后端联调 | 用真实 API 替换 Mock，处理状态和错误 | CP5 |
-| P6 | 3 周 | AI 视频识别 MVP | 视频接入、人体检测、ROI/进出计数 | CP6 |
-| P7 | 2 周 | 店铺经营评分 MVP | 停留、转化、评分、评级、预警 | CP7 |
-| P8 | 3 周 | 客群、热力、动线分析 | 聚合画像、热力图、路径和节点流量 | CP8 |
-| P9 | 3 周 | 3D 数字孪生可交付版 | Three.js 场景、数据联动、历史回放 | CP9 |
-| P10 | 3 周 | 工业级测试与安全加固 | 覆盖率、E2E、压测、安全、隐私 | CP10 |
-| P11 | 1 周 | 部署与观测 | Docker Compose、监控、日志、备份恢复 | CP11 |
+| P5 | 1 周 | 前后端联调 | Mock/API 模式共存，保持演示降级 | CP5 |
+| P6 | 已完成到 I2 | AI 合成事件基础 | AI event schema、合成 fixture、OpenCV HOG 本地检测服务 | CP6 partial |
+| P6-R1 | 1 个增量 | 路线图重排 | 将下一主线切换为精美 3D 合成数字孪生演示 | CP6R |
+| P7 | 3 周 | 精美 3D 合成数字孪生演示 | Blender 自建模型、Three.js/WebGL 场景、虚拟人群、动态假数据、MySQL 合成事件持久化、演示控制台、大气精致现代的前端重构 | CP7 |
+| P8 | 2 周 | 店铺经营评分 MVP | 停留、转化、评分、评级、预警，优先消费合成事件 | CP8 |
+| P9 | 3 周 | 客群、热力、动线分析增强 | 聚合画像、热力图、路径和节点流量，接入 3D 演示与回放 | CP9 |
+| P10 | 3 周 | 真实 AI/数据接入准备 | 真实视频、真实 MySQL、真实数据 adapter 的授权、隐私、契约和测试准备 | CP10 |
+| P11 | 3 周 | 工业级测试、安全和部署观测 | 覆盖率、E2E、压测、安全、隐私、Docker Compose、监控、备份恢复 | CP11 |
 | P12 | 1 周 | 验收与移交 | 用户手册、测试报告、验收清单 | CP12 |
 
 ### 2.2 默认增量拆分
@@ -164,6 +167,25 @@ P2 前端 Demo 按以下增量执行：
 | P2-I9 | QA Mode | CP2 前端 Demo 收口和交接 | 五页演示路径、测试报告摘要、P3 接力 |
 
 P3-P12 也必须按同样原则拆成小增量：一次只完成一个可运行或可检查的小闭环。
+
+P6-I2 后路线图重排增量：
+
+| 增量 | 主角色 | 目标 | 输出 |
+| --- | --- | --- | --- |
+| P6-R1 | Product Mode | 将 schedule/context 重排为 3D 合成数字孪生演示优先 | `AI_Schedule.md`、`PROGRESS.md`、`context/TODO_NEXT.md`、相关 context 与风险文件 |
+
+P7 精美 3D 合成数字孪生演示按以下增量执行：
+
+| 增量 | 主角色 | 目标 | 输出 |
+| --- | --- | --- | --- |
+| P7-I1 | Architect Mode | 3D 技术栈、许可证审计和前端依赖基线确认 | Blender 免费建模主线、Three.js/R3F/Drei 渲染选型结论、依赖风险记录、3D twin 模块边界 |
+| P7-I2 | Design Mode | 合成商场空间模型规范 | 自绘楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区规范 |
+| P7-I3 | Architect Mode | 合成事件与 MySQL 持久化契约 | scenario、agent、visit/event、heatmap snapshot、replay frame 数据/API 草案 |
+| P7-I4 | Backend Mode | 合成场景 seed/reset/generate API | 可追加和重置假数据的 `/api/v1` 合成演示接口、测试和文档 |
+| P7-I5 | Frontend Mode | 3D 场景基础壳 | `/digital-twin` WebGL 场景、楼层/店铺块、灯光、相机、店铺 picking |
+| P7-I6 | Frontend Mode | 虚拟人群与空间 overlay | 虚拟人/粒子动线、热力、拥挤、告警高亮、基础动画 |
+| P7-I7 | Frontend Mode | 演示控制台 | 人数、时间、目的地、店铺热度、事件频率、异常强度、场景预设控制 |
+| P7-I8 | QA Mode | 高级视觉精修和演示门禁 | 前端整体大气精致现代化验收、4K/大屏检查、性能预算、demo script、质量门禁和接力文档 |
 
 ### 2.3 前端 Demo 快速路径
 
@@ -532,6 +554,8 @@ Mock 模式和 API 模式均可启动
 
 ### P6 AI 视频识别 MVP
 
+状态：P6-I1 和 P6-I2 已完成到合成 fixture 与本地 OpenCV HOG 检测服务。由于当前优先级改为 3D 合成数字孪生演示，P6 后续真实视频、真实 RTSP、模型优化、容器化和后端事件接入默认后置，除非后续增量明确恢复。
+
 目标：完成视频输入到事件输出的最小闭环。
 
 模块：
@@ -583,9 +607,39 @@ ROI 计数测试集准确率 >= 95%
 事件进入队列延迟 < 3s
 ```
 
-### P7 店铺经营评分 MVP
+### P7 精美 3D 合成数字孪生演示
 
-目标：实现可解释的店铺经营判断。
+目标：先做出高级、现代、可演示的 3D 商场数字孪生系统。所有商场空间、店铺、虚拟人和事件均使用自绘或合成数据；真实数据处理、真实视频接入、真实商场 BIM/CAD/平面图、真实品牌和个人数据后置。
+
+核心交付：
+
+```text
+Three.js/WebGL 3D 场景
+自绘虚构商场模型：多楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区
+虚拟人群模拟：人数、时间、目的地店铺、进入/离开、停留、拥挤、异常事件
+合成数据控制：seed、reset、append、generate、scenario preset、replay timeline
+MySQL 合成演示数据持久化：fake events、agent config、scenario、heatmap snapshot、replay frame
+演示接口开关：默认可关闭，不影响后续真实数据 adapter
+高级前端设计：现代光照、相机、动效、店铺 picking、热力/动线/告警 overlay、大屏演示模式
+```
+
+测试门禁：
+
+```text
+3D 首屏 < 5s
+主流机器 >= 30 FPS
+店铺点击准确
+楼层切换无状态错乱
+合成数据 seed/reset/generate 可重复验证
+假事件追加和回放结果可追溯
+MySQL 持久化测试覆盖核心合成事件
+4K 显示正常
+新增 3D 依赖、模型、纹理、字体、图标全部完成许可证审计
+```
+
+### P8 店铺经营评分 MVP
+
+目标：实现可解释的店铺经营判断，优先基于 P7 合成事件流验证。
 
 评分模型：
 
@@ -630,9 +684,9 @@ C/D 级店铺
 同一事件流重复计算结果一致
 ```
 
-### P8 客群、热力、动线分析
+### P9 客群、热力、动线分析增强
 
-目标：提供匿名聚合分析，不展示个人轨迹。
+目标：提供匿名聚合分析，不展示个人轨迹，并把热力、动线、画像聚合与 P7 3D 演示和回放能力联动。
 
 任务：
 
@@ -670,37 +724,30 @@ ReID 特征向量必须过期
 数据保留策略可验证
 ```
 
-### P9 3D 数字孪生可交付版
+### P10 真实 AI/数据接入准备
 
-目标：把 Demo 级 2.5D 升级为可交付 3D 展示。
+目标：在 3D 合成演示稳定后，再评估真实视频、真实 MySQL、真实商场数据、真实事件流和生产 adapter。该阶段必须先完成授权、隐私、许可证、数据保留、接口契约、测试和回滚准备，不能直接接入真实资料。
 
 任务：
 
 ```text
-Three.js 3D 场景
-楼层切换
-店铺模型绑定
-店铺点击拾取
-热力叠加
-客流粒子动画
-拥挤区域高亮
-预警店铺闪烁
-历史回放时间轴
-大屏演示模式
+真实视频/RTSP 接入准入清单
+真实商场资料授权清单
+真实 MySQL 连接、密钥、迁移和回滚计划
+真实数据 adapter 契约
+AI 服务后端事件写入链路
+隐私脱敏、日志脱敏和数据保留策略
 ```
 
-测试门禁：
+门禁：
 
 ```text
-3D 首屏 < 5s
-主流机器 >= 30 FPS
-连续运行 8 小时无明显内存增长
-店铺点击准确
-楼层切换无状态错乱
-4K 显示正常
+未授权真实视频、BIM/CAD、平面图、品牌素材、个人数据仍然禁止
+真实数据 adapter 必须不破坏 P7 合成演示模式
+真实数据接入必须有人工确认和可回滚方案
 ```
 
-### P10 工业级测试与安全加固
+### P11 工业级测试、安全和部署观测
 
 目标：从能运行提升到可验收。
 
@@ -733,7 +780,7 @@ E2E 核心路径通过率 100%
 大屏连续运行 8 小时稳定
 ```
 
-### P11 部署与观测
+### P11 部署、观测与恢复
 
 目标：形成可部署、可回滚、可观测版本。
 
@@ -1054,12 +1101,13 @@ docs/LICENSE_AUDIT.md
 | P3 工程化骨架 | DevOps Mode | Frontend、Backend、QA、Security/License |
 | P4 后端 API | Backend Mode | Architect、Data、QA、Security/License |
 | P5 前后端联调 | Frontend Mode | Backend、QA |
-| P6 AI 视频 MVP | AI Video Mode | Data、Backend、QA、Security/License |
-| P7 店铺评分 | Backend Mode | Data、Product、QA |
-| P8 客群热力动线 | Data Mode | AI Video、Frontend、QA、Security/License |
-| P9 3D 数字孪生 | Frontend Mode | Design、Data、QA |
-| P10 测试与安全 | QA Mode | Security/License、DevOps |
-| P11 部署观测 | DevOps Mode | Backend、Frontend、QA |
+| P6 AI 合成事件基础 | AI Video Mode | Data、Backend、QA、Security/License |
+| P6-R1 路线图重排 | Product Mode | Architect、Design、Frontend、Backend、QA、Security/License |
+| P7 精美 3D 合成数字孪生演示 | Frontend Mode | Architect、Design、Backend、QA、Security/License |
+| P8 店铺评分 | Backend Mode | Data、Product、QA |
+| P9 客群热力动线增强 | Data Mode | Frontend、QA、Security/License |
+| P10 真实 AI/数据接入准备 | Architect Mode | AI Video、Backend、Security/License、QA |
+| P11 测试、安全、部署观测 | QA Mode | Security/License、DevOps |
 | P12 验收移交 | Product Mode | QA、DevOps、Security/License |
 
 ### 5.4 每个增量的固定流程

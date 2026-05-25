@@ -7,6 +7,7 @@ export type AppRoute = {
 export const appRoutes: AppRoute[] = [
   { path: '/dashboard', label: '运营总览', badge: '高危 3' },
   { path: '/digital-twin', label: '数字孪生', badge: '拥挤 2' },
+  { path: '/style-preview', label: '高级风格预览', badge: 'P7' },
   { path: '/store-analysis', label: '店铺分析', badge: 'C/D 18' },
   { path: '/customer-profile', label: '客群画像' },
   { path: '/store-alerts', label: '低效预警', badge: '未处理 12' }

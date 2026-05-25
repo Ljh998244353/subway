@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P6-I3 (待定)` - ready after P6-I2 AI service implementation
-- Primary role: AI Video Mode
-- Auxiliary reviews: Architect, QA, Security/License
-- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, and P6-I2 are complete, including CP4 closure review, MySQL readiness planning, CP5 frontend API-mode integration closure review, AI event schema/synthetic fixture boundary documentation, and AI service implementation with synthetic fixtures.
-- Next focus: continue AI service development with backend integration, real video testing, performance optimization, or containerization.
-- Do not use real video or monitoring footage without human approval. Do not add new dependencies or external services without approval.
+- Current increment: `P7-I1 3D 技术栈、许可证审计和前端依赖基线确认` - ready after P6-R1 roadmap reprioritization.
+- Primary role: Architect Mode
+- Auxiliary reviews: Frontend, Security/License, QA, Design
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, and P6-R1 are complete, including CP4 closure review, MySQL readiness planning, CP5 frontend API-mode integration closure review, AI event schema/synthetic fixture boundary documentation, AI service implementation with synthetic fixtures, and roadmap reprioritization to a premium synthetic 3D digital twin demo-first track.
+- Next focus: confirm 3D stack, license/cost/account status, frontend dependency baseline, and future `frontend/src/twin/` module boundary before implementation.
+- Do not implement the 3D scene, install unaudited dependencies, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I1.
 
 ## Required Reading
 

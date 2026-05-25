@@ -22,14 +22,31 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration. P5-I1 through P5-I11 did not require backend changes; the frontend overview, Store Analysis, Store Alerts, Customer Profile, and Digital Twin integrations use existing `/api/v1` contracts. P5-I11 documented CP5 closure in `docs/CP5_CLOSURE_REVIEW.md`.
+The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented.
+
+## P7 Backend Direction
+
+The next backend-related priority is no longer generic AI service expansion. It is synthetic demo data persistence and scenario generation for the premium 3D digital twin.
+
+Future backend work should support:
+
+```text
+synthetic scenario seed/reset/generate
+append fake events for demo scenarios
+read synthetic 3D scene layout data
+read replay frames, heatmap snapshots, flow snapshots, and agent-count aggregates
+persist fake/demo data to MySQL after schema/API design is approved
+keep demo controls clearly synthetic and disable-able
+preserve later real-data adapter boundary
+```
 
 ## Constraints
 
 ```text
 MySQL is source of truth later
-current read APIs use synthetic fixture only
-no real MySQL connection
+current read APIs use synthetic fixtures only
+no real MySQL connection yet
+no production credentials or .env
 no real video
 no real mall material
 no face images
@@ -37,6 +54,16 @@ no personal trajectories
 no sudo
 ```
 
+## Deferred Backend Work
+
+```text
+real MySQL production query path
+real AI event ingestion into backend
+real video/camera adapter
+real mall/BIM/floor-plan data ingestion
+production deployment or Docker Compose
+```
+
 ## Next Step
 
-P6-I1 should not require backend changes. Do not add AI endpoints, replace fixtures, create AI services, or add real MySQL queries.
+P7-I1 is architecture/dependency planning and should not require backend code changes. P7-I3 should later define the synthetic scenario/event persistence contract before migrations or API implementation.

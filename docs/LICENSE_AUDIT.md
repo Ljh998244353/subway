@@ -59,6 +59,7 @@ Non-Commercial 素材
 | @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | React DOM TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | Node API TypeScript 类型定义，用于测试和配置 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 | Unlicense OR MIT | P3-I2 根级质量门禁中的本地关键词扫描工具，不进入前端运行包 | Unlicense/MIT 通常允许商用 | 如重新分发需保留许可证记录；CI 安装来源需在 P3-I3 复核 | 当前本机已有；无项目新增付费或账号要求 | 允许用于本地检查 |
+| Blender | https://www.blender.org/ | 工具决策，不随项目打包 | GPL-3.0-or-later | P7 当前主线 3D 建模工具，用于自建合成商场模型并可导出 GLB/GLTF | Blender 可用于商业创作；仅用 Blender 生成的项目自有资产不自动变成 GPL | 若重新分发 Blender 二进制需遵守 GPL；任何插件、模型、纹理或外部资产必须另行审计 | 免费开源工具；不需要付费账号 | 允许作为当前免费建模工具 |
 | GitHub Actions | https://docs.github.com/actions | Hosted CI service | GitHub service terms | P3-I3 GitHub 端 CI runner，运行根级质量门禁和高危 npm audit | 公开仓库通常有免费 hosted runner 使用；私有仓库或超额使用可能受账号和计费规则限制 | 遵守 GitHub 服务条款；不在日志写入 secrets、个人数据或真实监控数据 | 需要 GitHub 账号；当前不使用付费部署或 secrets | 允许用于 GitHub 端 CI |
 | actions/checkout | https://github.com/actions/checkout | 6.0.2 | MIT | CI 中检出仓库代码 | MIT 通常允许商用 | 保留许可证声明 | GitHub Actions 运行环境中使用；无项目新增 npm 依赖 | 允许 |
 | actions/setup-node | https://github.com/actions/setup-node | 6.4.0 | MIT | CI 中安装 Node 24 并配置 npm cache | MIT 通常允许商用 | 保留许可证声明 | GitHub Actions 运行环境中使用；无项目新增 npm 依赖 | 允许 |

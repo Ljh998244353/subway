@@ -6,6 +6,8 @@ Updated: 2026-05-25
 
 `ai-services/` has been created with FastAPI application structure. OpenCV HOG person detector (Apache 2.0 license) is integrated for person detection. Synthetic video fixture generator is implemented for testing. No real video, monitoring footage, or external model weights are used.
 
+P6-R1 changed the roadmap priority: further real video, RTSP, model tuning, backend ingestion, and containerization are no longer the default next step. The next major workstream is the premium synthetic 3D digital twin demo.
+
 ## Implemented Capabilities
 
 ```text
@@ -18,17 +20,19 @@ Event schema validation
 20 tests passing
 ```
 
-## Planned Capabilities
+## Planned Capabilities, Deferred
 
 ```text
-video ingestion (real video - requires human approval)
-person detection (already implemented with OpenCV HOG)
+video ingestion with real video - requires human approval
 tracking
 ROI counting
 line-crossing direction detection
-event output (already implemented)
-synthetic fixture validation (already implemented)
+backend event ingestion
+containerization
+model optimization
 ```
+
+These are deferred while P7 builds the synthetic 3D digital twin demo.
 
 ## Documented Schema
 
@@ -74,10 +78,4 @@ limitations: may not detect persons in unusual poses or occluded
 
 ## Next Step
 
-P6-I2 is complete. Next P6 increments could include:
-- Integration with backend API endpoints
-- Real video fixture testing (with approved sources)
-- Performance optimization and model tuning
-- Docker containerization
-
-Real video integration, model optimization, and production deployment require their own human-confirmed gates.
+P7-I1 should focus on 3D frontend stack and license/dependency architecture. Do not resume real video integration unless a future task card explicitly changes the priority and confirms required gates.
