@@ -40,12 +40,12 @@ const floorLevels: FloorLevel[] = ['L1', 'L2', 'L3'];
 
 const stores: StoreNode[] = [
   { id: 's101', name: 'Blue Harbor 旗舰店', shortName: 'Blue Harbor', category: '国际时装', floor: 'L1', grade: 'A+', score: 96, occupancy: 182, conversion: 21.8, dwell: 64, flow: 1680, payment: 8.4, risk: 'normal', x: 8, y: 19, w: 18, h: 15 },
-  { id: 's102', name: 'Sephora Beauty Lab', shortName: 'Sephora', category: '美妆集合', floor: 'L1', grade: 'A+', score: 94, occupancy: 156, conversion: 19.6, dwell: 58, flow: 1460, payment: 7.9, risk: 'normal', x: 30, y: 15, w: 16, h: 14 },
-  { id: 's103', name: 'Apple Experience', shortName: 'Apple', category: '数码体验', floor: 'L1', grade: 'A', score: 91, occupancy: 211, conversion: 18.9, dwell: 72, flow: 1720, payment: 6.8, risk: 'normal', x: 55, y: 16, w: 18, h: 15 },
+  { id: 's102', name: 'Aurora Beauty Lab', shortName: 'Aurora', category: '美妆集合', floor: 'L1', grade: 'A+', score: 94, occupancy: 156, conversion: 19.6, dwell: 58, flow: 1460, payment: 7.9, risk: 'normal', x: 30, y: 15, w: 16, h: 14 },
+  { id: 's103', name: 'Nova Digital Studio', shortName: 'Nova', category: '数码体验', floor: 'L1', grade: 'A', score: 91, occupancy: 211, conversion: 18.9, dwell: 72, flow: 1720, payment: 6.8, risk: 'normal', x: 55, y: 16, w: 18, h: 15 },
   { id: 's104', name: '基础铺位 #104', shortName: '#104', category: '生活方式', floor: 'L1', grade: 'C-', score: 54, occupancy: 38, conversion: 5.4, dwell: 19, flow: 910, payment: 1.7, risk: 'critical', x: 78, y: 22, w: 13, h: 18 },
   { id: 's201', name: 'Crown Atrium Café', shortName: 'Crown Café', category: '餐饮轻食', floor: 'L2', grade: 'B+', score: 82, occupancy: 124, conversion: 15.2, dwell: 46, flow: 1190, payment: 5.1, risk: 'warning', x: 20, y: 57, w: 18, h: 15 },
-  { id: 's202', name: 'ZARA Urban', shortName: 'ZARA', category: '快时尚', floor: 'L2', grade: 'A', score: 89, occupancy: 176, conversion: 17.8, dwell: 51, flow: 1510, payment: 6.2, risk: 'normal', x: 43, y: 61, w: 20, h: 15 },
-  { id: 's203', name: 'MUJI Home Select', shortName: 'MUJI', category: '家居生活', floor: 'L2', grade: 'B', score: 76, occupancy: 92, conversion: 12.6, dwell: 43, flow: 1020, payment: 4.3, risk: 'normal', x: 68, y: 58, w: 18, h: 15 },
+  { id: 's202', name: 'Aster Urban', shortName: 'Aster', category: '快时尚', floor: 'L2', grade: 'A', score: 89, occupancy: 176, conversion: 17.8, dwell: 51, flow: 1510, payment: 6.2, risk: 'normal', x: 43, y: 61, w: 20, h: 15 },
+  { id: 's203', name: 'Hearth Home Select', shortName: 'Hearth', category: '家居生活', floor: 'L2', grade: 'B', score: 76, occupancy: 92, conversion: 12.6, dwell: 43, flow: 1020, payment: 4.3, risk: 'normal', x: 68, y: 58, w: 18, h: 15 },
   { id: 's301', name: 'Kids Planet', shortName: 'Kids', category: '亲子体验', floor: 'L3', grade: 'B+', score: 80, occupancy: 118, conversion: 14.2, dwell: 67, flow: 860, payment: 4.8, risk: 'warning', x: 16, y: 35, w: 18, h: 16 },
   { id: 's302', name: 'Cinema Plus', shortName: 'Cinema', category: '影院娱乐', floor: 'L3', grade: 'A', score: 88, occupancy: 248, conversion: 16.4, dwell: 91, flow: 1120, payment: 7.2, risk: 'normal', x: 42, y: 33, w: 24, h: 18 },
   { id: 's303', name: 'Pop-up #317', shortName: '#317', category: '临展快闪', floor: 'L3', grade: 'D', score: 49, occupancy: 24, conversion: 4.8, dwell: 16, flow: 620, payment: 1.2, risk: 'critical', x: 74, y: 37, w: 14, h: 14 }

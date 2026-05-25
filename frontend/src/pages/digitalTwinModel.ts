@@ -53,6 +53,14 @@ export type DigitalTwinViewModel = {
   hasSpatialData: boolean;
 };
 
+export const digitalTwinCockpitLayout = {
+  shell: 'premium light fullscreen three-column cockpit',
+  left: 'macro flow, selected object, conversion funnel, merchant grading',
+  center: 'current SVG/2.5D FloorPlan placeholder inside flagship twin workspace',
+  right: 'heat metrics, operational health, alert stream and inspector',
+  protectedBoundary: 'mock/API data mode preserved; no WebGL dependency installed in P7-I2'
+} as const;
+
 const validModes: TwinMode[] = ['heatmap', 'flow', 'alerts', 'score'];
 
 export const twinModeLabel: Record<TwinMode, string> = {

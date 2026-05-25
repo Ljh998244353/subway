@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P7-I1 3D 技术栈、许可证审计和前端依赖基线确认` - ready after P6-R1 roadmap reprioritization.
-- Primary role: Architect Mode
-- Auxiliary reviews: Frontend, Security/License, QA, Design
-- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, and P6-R1 are complete, including CP4 closure review, MySQL readiness planning, CP5 frontend API-mode integration closure review, AI event schema/synthetic fixture boundary documentation, AI service implementation with synthetic fixtures, and roadmap reprioritization to a premium synthetic 3D digital twin demo-first track.
-- Next focus: confirm 3D stack, license/cost/account status, frontend dependency baseline, and future `frontend/src/twin/` module boundary before implementation.
-- Do not implement the 3D scene, install unaudited dependencies, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I1.
+- Current increment: `P7-I3 audited minimal WebGL/Three.js scene shell for /digital-twin` - ready after P7-I2 cockpit productization.
+- Primary role: Frontend Mode
+- Auxiliary reviews: Design, Architect, QA, Security/License
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack audit, and P7-I2 premium `/digital-twin` cockpit productization are complete.
+- Next focus: add the smallest audited local WebGL/Three.js scene shell inside `/digital-twin` while preserving SVG/2.5D fallback/reference, mock/API data mode, and synthetic-only boundaries.
+- Do not use BlenderMCP, add GLB/GLTF files, download models/textures/assets, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I3.
 
 ## Required Reading
 

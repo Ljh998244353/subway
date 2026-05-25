@@ -49,4 +49,4 @@ backup/restore implementation
 
 ## Next Step
 
-P7-I1 should not create deployment infrastructure. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, AI runtime deployment, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.
+P7-I3 should not create deployment infrastructure. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, AI runtime deployment, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.

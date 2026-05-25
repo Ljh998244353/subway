@@ -10,6 +10,7 @@ The system should first prove a premium digital twin demo using synthetic/self-a
 
 ```text
 3D mall model with refined visual quality
+approved premium light fullscreen three-column cockpit based on /style-preview: 64px command header, 400px left macro/merchant panel, central 3D twin workspace, 400px right heat/alert panel, bottom timeline scrubber
 major frontend visual refactor for a grand, refined, elegant, modern dashboard experience
 virtual people and crowd simulation
 human-adjustable fake-data controls
@@ -35,7 +36,7 @@ demo mode can be disabled and must not block later real-data integration
 
 ```text
 operations overview
-digital twin view, currently SVG/2.5D
+digital twin view, currently premium cockpit shell with SVG/2.5D spatial placeholder
 store analysis
 customer profile aggregates
 store alerts
@@ -76,4 +77,4 @@ all assets, models, and dependencies must have traceable license records
 
 ## Current Handoff
 
-P6-R1 updated the roadmap and context so the next workstream is P7 premium synthetic 3D digital twin demo. P7-I1 should confirm the 3D stack, license/cost/account status, frontend dependency baseline, and module boundaries before implementation. Real data processing remains deferred.
+P6-R1 updated the roadmap and context so the next workstream is P7 premium synthetic 3D digital twin demo. The `/style-preview` checkpoint confirmed the premium light three-column cockpit as the UI/UX target and archived the reusable prompt in `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`. P7-I1 confirmed the 3D stack audit, and P7-I2 productized the premium cockpit shell into `/digital-twin` while preserving SVG/2.5D and mock/API behavior. P7-I3 should introduce only the smallest audited WebGL/Three.js scene shell. Real data processing remains deferred.

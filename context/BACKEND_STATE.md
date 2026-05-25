@@ -66,4 +66,4 @@ production deployment or Docker Compose
 
 ## Next Step
 
-P7-I1 is architecture/dependency planning and should not require backend code changes. P7-I3 should later define the synthetic scenario/event persistence contract before migrations or API implementation.
+P7-I3 is a frontend WebGL/Three.js scene-shell increment and should not require backend code changes. A later backend/data increment should define the synthetic scenario/event persistence contract before migrations or API implementation.

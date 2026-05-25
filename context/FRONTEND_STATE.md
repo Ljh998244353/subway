@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Status
 
-The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary. P5-I1 through P5-I11 added explicit API-mode data loaders and state adapters across the demo pages while preserving mock defaults.
+The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary. P5-I1 through P5-I11 added explicit API-mode data loaders and state adapters across the demo pages while preserving mock defaults. The P7 premium UI/UX preview checkpoint added `/style-preview` as the confirmed visual/layout target, and P7-I2 productized that premium light cockpit shell into `/digital-twin` without adding WebGL dependencies.
 
 Current digital twin implementation:
 
@@ -14,7 +14,10 @@ page: frontend/src/pages/DigitalTwinPage.tsx
 current spatial renderer: frontend/src/components/FloorPlan.tsx
 model helpers: frontend/src/pages/digitalTwinModel.ts
 API-mode data loader: frontend/src/api/digitalTwinDataLoader.ts
-rendering style: SVG/2.5D self-drawn mock geometry, not final 3D/WebGL
+rendering style: premium light fullscreen cockpit shell with SVG/2.5D self-drawn mock geometry, not final 3D/WebGL
+preview route: /style-preview
+preview page: frontend/src/pages/PremiumStylePreviewPage.tsx
+preview status: confirmed premium light three-column cockpit reference preserved after /digital-twin productization
 ```
 
 Current frontend API files:
@@ -39,11 +42,12 @@ frontend/src/pages/digitalTwinState.ts
 The next major frontend workstream is a premium synthetic 3D mall digital twin demo plus a major frontend redesign/refactor. The goal is a grand, refined, elegant, modern operational dashboard experience, not only a 3D canvas upgrade:
 
 ```text
+productize the approved /style-preview premium light fullscreen three-column cockpit into /digital-twin
 Blender-authored free 3D mall model exported to GLB/GLTF where needed
 Three.js/WebGL scene inside /digital-twin
 self-authored mall model with floors, stores, corridors, atrium, escalators, elevators, entrances, kiosks, and hotspot zones
 modern lighting, camera, shadows/materials where performance allows, labels, and presentation polish
-major visual-system refactor: elevated layout, typography, spacing, panel depth, restrained motion, premium dark dashboard language, and 1920/2K/4K readability
+major visual-system refactor: elevated layout, typography, spacing, panel depth, restrained motion, premium light dashboard language, and 1920/2K/4K readability
 store picking, floor switching, heatmap, flow, alerts, and score overlays
 virtual people and crowd-flow animation
 scenario/demo controls for crowd density, destinations, incidents, time, replay, seed/reset/append/generate
@@ -67,15 +71,17 @@ frontend/src/twin/controls/
 ```text
 Blender is the confirmed free modeling tool for the current mainline; Unity and UE are not current mainline dependencies
 three, @react-three/fiber, and @react-three/drei are not currently installed
-any 3D dependency must be license/cost/account audited before adoption
-MotionSurface.tsx imports framer-motion while frontend/package.json lists motion; P7-I1 should confirm whether this dependency baseline is valid before adding 3D packages
+three + @react-three/fiber are the preferred future Web 3D candidates; @react-three/drei remains optional
+any 3D dependency must be license/cost/account/version/bundle audited before adoption
+MotionSurface.tsx imports framer-motion while frontend/package.json lists motion; this remains a dependency-baseline item to verify before adding 3D packages
 ```
 
 ## Test State
 
 ```text
-npm --prefix frontend run test: 124 passed in previous quality gate
-npm run quality: passed in P6-I2
+npm --prefix frontend run test: 125 passed after P7-I2
+npm run quality: passed after P7-I2
+npm run quality:audit: found 0 vulnerabilities after P7-I2
 ```
 
 ## Constraints
@@ -93,4 +99,4 @@ no unaudited new dependency or asset
 
 ## Next Step
 
-P7-I1 should audit/confirm the 3D stack, dependency baseline, module boundary, and premium UI/UX redesign implementation sequence. `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md` is the local complete redesign strategy baseline. It should not implement the scene yet unless a later task card explicitly scopes that work.
+P7-I3 should introduce the smallest audited WebGL/Three.js scene shell inside the productized `/digital-twin` cockpit. `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md` and `/style-preview` remain the local design baseline and prompt archive. The implementation should keep current mock/API data-mode behavior, preserve the SVG/2.5D floor plan as fallback/reference, and add dependency/route/build/state/scene checks. It should not use BlenderMCP, import GLB/GLTF files, download assets, connect real MySQL, or use real data unless a later task card explicitly scopes and approves that work.

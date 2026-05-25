@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Stage
 
-Completed P0/P1/P2/P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, and P6-R1.
+Completed P0/P1/P2/P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1, and P7-I2.
 
 The current project priority is now:
 
@@ -34,6 +34,9 @@ P5 frontend API-mode loaders and state adapters, mock mode remains default
 P6-I1 anonymous aggregate AI event schema and synthetic fixture boundary docs
 P6-I2 ai-services/ with FastAPI, OpenCV HOG detector, synthetic video fixtures, event output, and 20 tests
 P6-R1 roadmap/context reprioritization to premium synthetic 3D digital twin demo-first track
+P7 premium UI/UX preview checkpoint: confirmed `/style-preview` premium light three-column cockpit and archived prompt/design rules
+P7-I1 3D stack audit: documented BlenderMCP as a controlled local automation candidate and `three`/R3F/Drei as Web 3D candidates without installing them
+P7-I2 premium `/digital-twin` cockpit productization: migrated the real route into the approved premium light shell while preserving SVG/2.5D FloorPlan and mock/API boundaries
 ```
 
 ## New Product Priority
@@ -54,8 +57,9 @@ future real-data adapter boundary preserved but not implemented now
 ## Current Gaps
 
 ```text
-current /digital-twin is SVG/2.5D, not final Three.js/WebGL
-frontend has no audited 3D dependency installed yet
+current /digital-twin uses the premium light cockpit shell but still renders SVG/2.5D, not final Three.js/WebGL
+/style-preview remains the reference prototype and prompt archive
+frontend has no 3D dependency installed yet; `three`, `@react-three/fiber`, and `@react-three/drei` are audited candidates only
 backend uses synthetic fixtures, not persisted synthetic scenario/event generation
 no real MySQL connection or migration execution
 no browser E2E or 3D performance test
@@ -74,4 +78,4 @@ real mall floor plans, BIM/CAD, maps, brand logos, store logos, shop signs, moni
 
 ## Next Target
 
-P7-I1 3D 技术栈、许可证审计和前端依赖基线确认. Do not implement the 3D scene, install unaudited dependencies, connect real MySQL, or use real mall/video/personal data in this increment.
+P7-I3 should introduce the smallest audited WebGL/Three.js scene shell for `/digital-twin`. Keep `/style-preview` as the reference prototype, preserve the current SVG/2.5D view as fallback/reference, and preserve mock/synthetic defaults. Do not use BlenderMCP, import GLB/GLTF assets, connect real MySQL, or use real mall/video/personal data in the next increment.

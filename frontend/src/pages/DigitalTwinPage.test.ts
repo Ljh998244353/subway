@@ -3,8 +3,15 @@ import test from 'node:test';
 import { mockAlerts, mockFloors, mockFlowEdges, mockHeatmapPoints, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig.ts';
 import type { DigitalTwinDataResult } from '../api/digitalTwinDataLoader.ts';
-import { buildDigitalTwinViewModel } from './digitalTwinModel.ts';
+import { buildDigitalTwinViewModel, digitalTwinCockpitLayout } from './digitalTwinModel.ts';
 import { createInitialDigitalTwinDataState, resolveDigitalTwinDataState } from './digitalTwinState.ts';
+
+test('P7-I2 productizes premium cockpit shell without changing the protected data boundary', () => {
+  assert.equal(digitalTwinCockpitLayout.shell, 'premium light fullscreen three-column cockpit');
+  assert.match(digitalTwinCockpitLayout.center, /SVG\/2\.5D FloorPlan/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /mock\/API data mode preserved/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no WebGL dependency/);
+});
 
 test('builds a digital twin view model from shared mock geometry', () => {
   const viewModel = buildDigitalTwinViewModel(mockFloors, mockStoresWithAlerts, mockAlerts, mockHeatmapPoints, mockFlowEdges, {});

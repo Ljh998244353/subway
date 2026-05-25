@@ -21,6 +21,7 @@ Updated: 2026-05-25
 | 3D mall model could accidentally use unauthorized real floor plans, BIM/CAD, maps, brand assets, or store signs | High | Use only self-authored synthetic geometry, fictional store names, generic categories, and documented assets |
 | 3D dependencies/assets may introduce license, redistribution, account, or cost risk | High | Audit before adoption; update `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, and `IMPORTANT.md` as needed |
 | Blender add-ons, imported models, materials, or texture packs may have separate licenses from Blender itself | Medium | Blender is allowed as a tool, but every external asset/add-on remains blocked until reviewed |
+| BlenderMCP can execute Blender Python and optionally use telemetry or external asset/generation APIs | High | Candidate only, not installed; use only after explicit approval, disable telemetry, keep localhost-only, and block Sketchfab/Poly Haven/Hyper3D/Hunyuan3D/Rodin/Fal/downloaded assets until separate audit |
 | Synthetic demo data may be confused with real customer data | Medium | Label scenario/events as synthetic/demo-only and keep real-data adapters deferred |
 | API contract and MySQL schema may need later adjustment for synthetic scenarios | Medium | Define scenario/event contracts before backend implementation |
 | Real MySQL migration execution is not tested | Medium | Follow `docs/MYSQL_READINESS_PLAN.md` before real query work |
@@ -31,4 +32,4 @@ Updated: 2026-05-25
 
 ## Next Step Risk Control
 
-P7-I1 should review the 3D dependency and asset boundary before implementation. It must not install unaudited packages, import real mall assets, connect real MySQL, or resume real video integration by default.
+P7-I2 productized the premium `/digital-twin` shell without adding dependencies or assets. The next implementation increment may introduce an audited minimal WebGL dependency baseline, but it must still record exact package/license/cost/account/audit details, avoid BlenderMCP, avoid imported/downloaded assets, avoid real mall material, avoid external model/texture APIs, avoid real MySQL, and avoid real video integration by default.

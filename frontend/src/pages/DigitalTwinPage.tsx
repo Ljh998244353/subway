@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { FloorPlan } from '../components/FloorPlan';
-import { MotionSurface } from '../components/MotionSurface';
 import { StatusBadge } from '../components/StatusBadge';
 import { TwinInspector } from '../components/TwinInspector';
 import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
 import type { TwinMode } from '../types/index.ts';
-import { buildDigitalTwinViewModel, twinModeLabel, type DigitalTwinFilters } from './digitalTwinModel.ts';
+import { buildDigitalTwinViewModel, twinModeLabel, type DigitalTwinFilters, type TwinAlertMarker } from './digitalTwinModel.ts';
 import { createInitialDigitalTwinDataState, resolveDigitalTwinDataState } from './digitalTwinState.ts';
 
 const twinModes: TwinMode[] = ['heatmap', 'flow', 'alerts', 'score'];
@@ -32,6 +31,17 @@ function formatTimeRange(timeRange: string) {
   }
 
   return timeRange;
+}
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat('zh-CN').format(Math.round(value));
+}
+
+function getAlertTone(alert?: TwinAlertMarker) {
+  if (!alert) return 'info';
+  if (alert.level === 'high') return 'danger';
+  if (alert.level === 'medium') return 'warning';
+  return 'info';
 }
 
 export function DigitalTwinPage() {
@@ -62,6 +72,12 @@ export function DigitalTwinPage() {
       : twinDataState.status === 'error'
         ? 'API 异常 / Mock 回退'
         : `${dataSourceLabel} 模式`;
+  const totalOccupancy = mockFloors.reduce((sum, floor) => sum + floor.currentOccupancy, 0);
+  const totalTraffic = viewModel.flowEdges.reduce((sum, edge) => sum + edge.traffic, 0);
+  const selectedStore = viewModel.selectedStore;
+  const selectedAlert = viewModel.selectedAlert ?? viewModel.alertMarkers[0];
+  const riskAlerts = viewModel.alertMarkers.filter((alert) => alert.level !== 'low');
+  const rankedStores = [...viewModel.stores].sort((a, b) => b.score - a.score);
 
   const buildTwinUrl = (routeParams: { floorId?: string; mode?: TwinMode; storeId?: string; alertId?: string }) =>
     buildDigitalTwinUrl(routeParams, location.search);
@@ -92,100 +108,240 @@ export function DigitalTwinPage() {
   }, [apiBaseUrl, dataMode, mallId]);
 
   return (
-    <MotionSurface as="section" className="page digital-twin-page">
-      <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
-        <div>
-          <p className="page-kicker">数字孪生 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
-          <h1>数字孪生</h1>
-          <p>
-            使用 {mockMall.name} 的虚构楼层、店铺、热力、动线和告警 Mock 数据绘制空间联动视图，不包含真实平面图或 BIM。
-          </p>
+    <section className="premium-os digital-twin-cockpit" aria-labelledby="digital-twin-title">
+      <header className="premium-os__header">
+        <div className="premium-os__brand">
+          <span className="premium-os__logo" aria-hidden="true">V</span>
+          <div>
+            <h1 id="digital-twin-title">商业综合体视觉 AI 数字孪生运营系统</h1>
+            <p><i aria-hidden="true" /> {mockMall.name} · {statusLabel} · Synthetic Demo</p>
+          </div>
         </div>
-        <div className="dashboard-header__actions">
-          <StatusBadge label={statusLabel} tone={twinDataState.status === 'error' ? 'warning' : 'info'} />
-          <StatusBadge label={`${viewModel.floor.code} · ${twinModeLabel[viewModel.mode]}`} tone="info" />
-          <Link className="ghost-button link-button" to={buildRouteWithGlobalQuery('/digital-twin', location.search)}>
-            重置视图
-          </Link>
-        </div>
-      </MotionSurface>
 
-      <MotionSurface className="filter-bar" aria-label="数字孪生筛选摘要" delay={0.04}>
-        <span>商场：{mockMall.name}</span>
-        <span>时间：{formatTimeRange(timeRange)}</span>
-        <span>楼层：{viewModel.floor.name}</span>
-        <span>模式：{twinModeLabel[viewModel.mode]}</span>
-        <span>店铺：{viewModel.selectedStore?.name ?? '无'}</span>
-        <span>告警：{viewModel.selectedAlert?.id ?? '无'}</span>
-        <span>数据源：{dataSourceLabel} spatial aggregate</span>
-        {twinDataState.errorMessage ? <span>API 回退：{twinDataState.errorMessage}</span> : null}
-      </MotionSurface>
-
-      <MotionSurface className="twin-control-row" aria-label="数字孪生控制" delay={0.06}>
-        <div className="twin-control-copy">
-          <span>空间模式</span>
-          <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]}</strong>
-        </div>
-        <div className="twin-control-group" aria-label="楼层切换">
-          {mockFloors.map((floor) => (
-            <Link
-              className={`ghost-button link-button${floor.id === viewModel.floor.id ? ' is-active' : ''}`}
-              key={floor.id}
-              to={buildTwinUrl({ floorId: floor.id, mode: viewModel.mode })}
-            >
-              {floor.code}
-            </Link>
-          ))}
-        </div>
-        <div className="twin-control-group" aria-label="模式切换">
+        <nav className="premium-os__tabs" aria-label="数字孪生模式切换">
           {twinModes.map((mode) => (
             <Link
-              className={`ghost-button link-button${mode === viewModel.mode ? ' is-active' : ''}`}
+              className={mode === viewModel.mode ? 'is-active' : ''}
               key={mode}
               to={buildTwinUrl({ floorId: viewModel.floor.id, mode })}
             >
               {twinModeLabel[mode]}
             </Link>
           ))}
+        </nav>
+
+        <div className="premium-os__status" aria-label="系统状态">
+          <span>{formatTimeRange(timeRange)}</span>
+          <strong>{viewModel.floor.code} · {twinModeLabel[viewModel.mode]}</strong>
+          <b>{dataSourceLabel} spatial aggregate</b>
         </div>
-      </MotionSurface>
+      </header>
 
-      <MotionSurface className="alert-summary-grid twin-metric-grid" aria-label="数字孪生指标" delay={0.08}>
-        {viewModel.metrics.map((metric) => (
-          <article className="alert-summary-card" key={metric.label}>
-            <span>{metric.label}</span>
-            <strong>{metric.value}</strong>
-            <p>{metric.hint}</p>
-          </article>
-        ))}
-      </MotionSurface>
-
-      <div className="digital-twin-layout">
-        <MotionSurface as="section" className="dashboard-panel digital-twin-map-panel" aria-labelledby="floor-plan-heading" delay={0.1}>
-          <div className="panel-heading">
-            <div>
-              <h2 id="floor-plan-heading">自绘楼层平面</h2>
-              <p>基于 Mock geometry 绘制店铺、热力、流向和告警，不使用真实商场图纸。</p>
+      <div className="premium-os__body">
+        <aside className="premium-os__left" aria-label="客流与店铺资产面板">
+          <section className="ops-card ops-card--hero">
+            <div className="ops-card__title-row">
+              <span>当前场内实时客流</span>
+              <b className="delta-badge">Synthetic</b>
             </div>
-            <StatusBadge label={`${viewModel.stores.length} 店铺`} tone="neutral" />
-          </div>
-          <FloorPlan viewModel={viewModel} buildTwinUrl={buildTwinUrl} buildAlertUrl={(alertId) => buildStoreAlertsRoute(alertId)} />
-        </MotionSurface>
+            <strong className="hero-number">{formatNumber(totalOccupancy)}</strong>
+            <div className="hero-subgrid">
+              <span><b>{formatNumber(viewModel.floor.todayTraffic)}</b>{viewModel.floor.name} 今日客流</span>
+              <span><b>{viewModel.floor.crowdingIndex.toFixed(2)}</b>楼层拥挤指数</span>
+            </div>
+            <div className="sparkline" aria-label="楼层趋势占位">
+              {viewModel.metrics.map((metric, index) => <i key={metric.label} style={{ height: `${44 + index * 9}%` }} />)}
+              {Array.from({ length: 7 }, (_, index) => <i key={`stub-${index}`} style={{ height: `${42 + ((index * 13) % 48)}%` }} />)}
+            </div>
+          </section>
 
-        <MotionSurface as="section" className="dashboard-panel digital-twin-inspector-panel" aria-labelledby="twin-inspector-heading" delay={0.12}>
-          <div className="panel-heading">
+          <section className="ops-card">
+            <div className="ops-card__title-row">
+              <span>层次化选中对象</span>
+              <small>{viewModel.floor.code} / {selectedStore?.id ?? '无'}</small>
+            </div>
+            {selectedStore ? (
+              <div className="selected-store-detail">
+                <div>
+                  <strong>{selectedStore.name}</strong>
+                  <span>{selectedStore.category} · 综合资产评分 {selectedStore.score}</span>
+                </div>
+                <div className="selected-store-detail__grid">
+                  <span><b>{formatNumber(selectedStore.currentOccupancy)}</b>店内人数</span>
+                  <span><b>{selectedStore.conversionRate}%</b>进店转化</span>
+                  <span><b>{selectedStore.level}</b>评分等级</span>
+                  <span><b>{selectedStore.alertCount}</b>关联告警</span>
+                </div>
+                <ol className="drill-path" aria-label="层次化钻取路径">
+                  <li>商场全局</li>
+                  <li>{viewModel.floor.code} 楼层</li>
+                  <li>{selectedStore.name}</li>
+                </ol>
+              </div>
+            ) : (
+              <div className="state-panel" role="status">当前楼层没有选中店铺</div>
+            )}
+          </section>
+
+          <section className="ops-card">
+            <div className="ops-card__title-row">
+              <span>进出店转化漏斗</span>
+              <small>Mock aggregate</small>
+            </div>
+            <div className="funnel-stack">
+              {[
+                ['楼层客流', '100%', 100],
+                ['店前过客', '42%', 72],
+                ['进店客流', selectedStore ? `${selectedStore.conversionRate}%` : '18%', 48],
+                ['最终付款', '4.5%', 26]
+              ].map(([label, value, width]) => (
+                <div className="funnel-row" key={label}>
+                  <span>{label}</span>
+                  <i style={{ width: `${width}%` }}><b>{value}</b></i>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="ops-card ops-card--leaderboard">
+            <div className="ops-card__title-row">
+              <span>店铺综合资产评分</span>
+              <small>{viewModel.floor.code} ranking</small>
+            </div>
+            <div className="merchant-table">
+              {rankedStores.map((store, index) => (
+                <Link
+                  className={store.id === selectedStore?.id ? 'is-selected' : ''}
+                  key={store.id}
+                  to={buildTwinUrl({ floorId: viewModel.floor.id, mode: viewModel.mode, storeId: store.id })}
+                >
+                  <em>{index + 1}</em>
+                  <span><b>{store.name}</b><small>{store.category}</small></span>
+                  <strong className={`premium-grade premium-grade--${store.level === 'A' || store.level === 'B' ? 'a' : store.level === 'C' ? 'b' : 'c'}`}>{store.level}</strong>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </aside>
+
+        <main className="premium-os__stage" aria-label="交互式数字孪生工作区">
+          <div className="stage-toolbar">
             <div>
-              <h2 id="twin-inspector-heading">空间检查器</h2>
-              <p>查看当前楼层、选中店铺和关联告警。</p>
+              <span>Interactive Digital Twin Workspace</span>
+              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · SVG/2.5D 占位</strong>
+            </div>
+            <div className="floor-switcher" aria-label="楼层切换">
+              {mockFloors.map((floor) => (
+                <Link className={floor.id === viewModel.floor.id ? 'is-active' : ''} key={floor.id} to={buildTwinUrl({ floorId: floor.id, mode: viewModel.mode })}>
+                  {floor.code}
+                </Link>
+              ))}
             </div>
           </div>
-          <TwinInspector
-            viewModel={viewModel}
-            buildStoreAnalysisUrl={buildStoreAnalysisRoute}
-            buildStoreAlertsUrl={buildStoreAlertsRoute}
-          />
-        </MotionSurface>
+
+          <section className="twin-viewport digital-twin-cockpit__viewport">
+            <div className="viewport-grid" aria-hidden="true" />
+            <div className="digital-twin-cockpit__floor-shell">
+              <div className="panel-heading">
+                <div>
+                  <h2 id="floor-plan-heading">自绘楼层平面</h2>
+                  <p>当前保留 SVG/2.5D FloorPlan，P7-I3 才进入 WebGL/Three.js 依赖安装。</p>
+                </div>
+                <StatusBadge label={`${viewModel.stores.length} 店铺`} tone="neutral" />
+              </div>
+              <FloorPlan viewModel={viewModel} buildTwinUrl={buildTwinUrl} buildAlertUrl={(alertId) => buildStoreAlertsRoute(alertId)} />
+            </div>
+            <div className="viewport-legend">
+              <span><i className="legend-dot legend-dot--flow" />客流轨迹</span>
+              <span><i className="legend-dot legend-dot--heat" />空间热力</span>
+              <span><i className="legend-dot legend-dot--alert" />低效告警</span>
+            </div>
+          </section>
+
+          <section className="time-scrubber" aria-label="24 小时回放时间轴占位">
+            <div className="time-scrubber__badge">当前分析窗口：{formatTimeRange(timeRange)} · 合成数据 · WebGL 未启用</div>
+            <input aria-label="P7-I2 时间轴占位" max={780} min={0} readOnly type="range" value={330} />
+            <div className="time-marks"><span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span><span>17:00</span><span>19:00</span><span>22:00</span></div>
+          </section>
+        </main>
+
+        <aside className="premium-os__right" aria-label="热力统计与预警动态流">
+          <section className="ops-card">
+            <div className="ops-card__title-row">
+              <span>Live Heatmap Metrics</span>
+              <small>{formatNumber(totalTraffic)} Flow</small>
+            </div>
+            <div className="saturation-list">
+              {viewModel.metrics.map((metric, index) => (
+                <div className="saturation-row" key={metric.label}>
+                  <span><b>{metric.label}</b><em>{metric.value}</em></span>
+                  <i className={index <= 1 ? 'is-hot' : ''}><b style={{ width: `${Math.min(94, 42 + index * 11)}%` }} /></i>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="ops-card ops-card--decision">
+            <div className="decision-score">
+              <span>运营健康指数</span>
+              <strong>{Math.max(60, Math.round(100 - viewModel.floor.crowdingIndex * 18))}</strong>
+              <small>{selectedAlert ? `${selectedAlert.title} 需要关注` : '当前空间状态平稳'}</small>
+            </div>
+            <div className="decision-grid">
+              <span><b>{riskAlerts.length}</b>中高风险</span>
+              <span><b>{viewModel.alertMarkers.length}</b>空间告警</span>
+              <span><b>{dataSourceLabel}</b>数据模式</span>
+              <span><b>2.5D</b>当前渲染</span>
+            </div>
+          </section>
+
+          <section className="ops-card ops-card--alerts">
+            <div className="ops-card__title-row">
+              <span>低效预警动态流</span>
+              <small>Actionable</small>
+            </div>
+            <div className="alert-feed">
+              {viewModel.alertMarkers.map((alert) => (
+                <article className={`alert-card alert-card--${getAlertTone(alert)}`} key={alert.id}>
+                  <div>
+                    <span>{alert.id}</span>
+                    <strong>{alert.title}</strong>
+                    <small>{alert.storeName}</small>
+                    <p>持续 {alert.durationMinutes} 分钟 · {alert.status} · 由合成 Mock 告警驱动。</p>
+                  </div>
+                  <Link to={buildStoreAlertsRoute(alert.id, alert.storeId)}>查看处置</Link>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="ops-card digital-twin-cockpit__inspector">
+            <div className="ops-card__title-row">
+              <span>空间检查器</span>
+              <small>Context</small>
+            </div>
+            <TwinInspector
+              viewModel={viewModel}
+              buildStoreAnalysisUrl={buildStoreAnalysisRoute}
+              buildStoreAlertsUrl={buildStoreAlertsRoute}
+            />
+          </section>
+
+          {twinDataState.errorMessage ? (
+            <section className="ops-card" aria-label="API 回退状态">
+              <div className="ops-card__title-row">
+                <span>API 回退</span>
+                <small>{statusLabel}</small>
+              </div>
+              <p className="digital-twin-cockpit__note">{twinDataState.errorMessage}</p>
+            </section>
+          ) : null}
+        </aside>
       </div>
-    </MotionSurface>
+
+      <Link className="ops-toast digital-twin-cockpit__reset" to={buildRouteWithGlobalQuery('/digital-twin', location.search)}>
+        重置视图
+      </Link>
+    </section>
   );
 }

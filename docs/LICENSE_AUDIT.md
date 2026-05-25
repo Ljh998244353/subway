@@ -1,6 +1,6 @@
 # License Audit
 
-更新时间：2026-05-10
+更新时间：2026-05-25
 
 ## 1. 审计原则
 
@@ -60,6 +60,7 @@ Non-Commercial 素材
 | @types/node | https://github.com/DefinitelyTyped/DefinitelyTyped | 24.12.3 | MIT | Node API TypeScript 类型定义，用于测试和配置 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | ripgrep | https://github.com/BurntSushi/ripgrep | 15.1.0 | Unlicense OR MIT | P3-I2 根级质量门禁中的本地关键词扫描工具，不进入前端运行包 | Unlicense/MIT 通常允许商用 | 如重新分发需保留许可证记录；CI 安装来源需在 P3-I3 复核 | 当前本机已有；无项目新增付费或账号要求 | 允许用于本地检查 |
 | Blender | https://www.blender.org/ | 工具决策，不随项目打包 | GPL-3.0-or-later | P7 当前主线 3D 建模工具，用于自建合成商场模型并可导出 GLB/GLTF | Blender 可用于商业创作；仅用 Blender 生成的项目自有资产不自动变成 GPL | 若重新分发 Blender 二进制需遵守 GPL；任何插件、模型、纹理或外部资产必须另行审计 | 免费开源工具；不需要付费账号 | 允许作为当前免费建模工具 |
+| BlenderMCP / blender-mcp | https://github.com/ahujasid/blender-mcp | README label 1.5.5, candidate only | MIT License per GitHub metadata | P7 候选本地 Blender 自动化 MCP：连接 Claude 与 Blender add-on，用于生成自绘合成商场几何、材质、相机、灯光和 GLB/GLTF 导出辅助 | MIT 通常允许商用，但该工具能在 Blender 中运行 Python，需要按代码执行工具管理 | 保留 MIT 许可证声明；安装/使用前禁用 telemetry；不使用 Sketchfab、Poly Haven、Hyper3D、Hunyuan3D、Rodin、Fal 或下载资产，除非另行审计 | 工具本身无已知付费要求；需要本地 Blender 3.0+、Python 3.10+、uv/uvx；外部资产/API 可能需要账号或付费，默认禁用 | 候选，未安装；需要用户明确批准后才可使用 |
 | GitHub Actions | https://docs.github.com/actions | Hosted CI service | GitHub service terms | P3-I3 GitHub 端 CI runner，运行根级质量门禁和高危 npm audit | 公开仓库通常有免费 hosted runner 使用；私有仓库或超额使用可能受账号和计费规则限制 | 遵守 GitHub 服务条款；不在日志写入 secrets、个人数据或真实监控数据 | 需要 GitHub 账号；当前不使用付费部署或 secrets | 允许用于 GitHub 端 CI |
 | actions/checkout | https://github.com/actions/checkout | 6.0.2 | MIT | CI 中检出仓库代码 | MIT 通常允许商用 | 保留许可证声明 | GitHub Actions 运行环境中使用；无项目新增 npm 依赖 | 允许 |
 | actions/setup-node | https://github.com/actions/setup-node | 6.4.0 | MIT | CI 中安装 Node 24 并配置 npm cache | MIT 通常允许商用 | 保留许可证声明 | GitHub Actions 运行环境中使用；无项目新增 npm 依赖 | 允许 |
@@ -209,3 +210,11 @@ P6-I2 added Python dependencies for AI services implementation:
 | python-multipart | https://github.com/andrew-d/python-multipart | 0.0.29 | Apache-2.0 | File upload support | No known paid account requirement | Allowed |
 
 P6-I2 also uses OpenCV's built-in HOG person detector (Apache 2.0 license, no external model weights required) and project-authored synthetic video generator (MIT license). No real video, monitoring footage, face images, personal data, paid services, or external accounts are added.
+
+## P7-I1 3D stack and Blender MCP audit
+
+P7-I1 added documentation only in `docs/P7_3D_STACK_AUDIT.md`. It did not install BlenderMCP, `three`, `@react-three/fiber`, `@react-three/drei`, model files, texture files, fonts, icons, datasets, external services, or paid APIs.
+
+BlenderMCP / `ahujasid/blender-mcp` is recorded as a candidate local automation bridge, not an adopted runtime dependency. GitHub metadata checked on 2026-05-25 reports MIT License. The README describes a Blender add-on socket server plus MCP server and explicitly includes arbitrary Blender Python execution, telemetry controls, and optional external asset/generation integrations. Therefore the project decision is: candidate accepted for controlled local use only after explicit user approval; telemetry must be disabled; external asset APIs and downloaded models remain blocked until separate audit.
+
+Web 3D candidates remain `three`, `@react-three/fiber`, and optional `@react-three/drei`, but they are not installed in P7-I1. Exact npm versions, license fields, transitive dependency risk, bundle impact, and quality-gate behavior must be verified before adoption.

@@ -86,4 +86,4 @@ fake event generation must be idempotent where applicable
 
 ## Next Step
 
-P7-I1 should confirm the 3D frontend stack and module boundary. Do not add API endpoints in P7-I1 unless the task card is changed.
+P7-I3 should focus on a minimal audited frontend WebGL/Three.js scene shell. Do not add API endpoints in P7-I3 unless the task card is changed.

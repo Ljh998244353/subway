@@ -78,4 +78,4 @@ limitations: may not detect persons in unusual poses or occluded
 
 ## Next Step
 
-P7-I1 should focus on 3D frontend stack and license/dependency architecture. Do not resume real video integration unless a future task card explicitly changes the priority and confirms required gates.
+P7-I3 should focus on a minimal audited frontend WebGL/Three.js scene shell. Do not resume real video integration unless a future task card explicitly changes the priority and confirms required gates.
