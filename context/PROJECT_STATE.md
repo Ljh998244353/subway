@@ -1,10 +1,10 @@
 # Project State
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Stage
 
-Completed P0/P1/P2/P3, P4-I1 through P4-I16, and P5-I1 through P5-I4.
+Completed P0/P1/P2/P3, P4-I1 through P4-I16, and P5-I1 through P5-I9.
 
 The repository currently has:
 
@@ -13,8 +13,13 @@ frontend/
 frontend/src/api/
 frontend/src/api/overviewDataLoader.ts
 frontend/src/api/storeAnalysisDataLoader.ts
+frontend/src/api/storeAlertsDataLoader.ts
+frontend/src/api/customerProfileDataLoader.ts
+frontend/src/api/digitalTwinDataLoader.ts
 frontend/src/pages/dashboardOverviewState.ts
 frontend/src/pages/storeAnalysisState.ts
+frontend/src/pages/storeAlertsState.ts
+frontend/src/pages/customerProfileState.ts
 backend/
 backend/app/api/routes/reference.py
 backend/app/api/routes/overview.py
@@ -34,7 +39,7 @@ scripts/quality-gate.mjs
 
 P4 has a synthetic backend/API/client contract baseline that is ready for P5 frontend API-mode integration. Real MySQL, credentials, Docker Compose, AI services, real video, and real mall data remain out of scope.
 
-P5-I1 added the overview data loader contract. P5-I2 wired DashboardPage to the loader state boundary. P5-I3 added the Store Analysis data loader contract. P5-I4 wired StoreAnalysisPage to that loader state boundary. Mock mode remains the frontend default; API mode is available only through explicit query/options.
+P5-I1 added the overview data loader contract. P5-I2 wired DashboardPage to the loader state boundary. P5-I3 added the Store Analysis data loader contract. P5-I4 wired StoreAnalysisPage to that loader state boundary. P5-I5 added the Store Alerts data loader contract. P5-I6 wired StoreAlertsPage to that loader state boundary. P5-I7 added the Customer Profile data loader contract. P5-I8 wired CustomerProfilePage to that loader state boundary. P5-I9 added the Digital Twin data loader contract. Mock mode remains the frontend default; API mode is available only through explicit query/options.
 
 ## Not Started
 
@@ -51,4 +56,4 @@ production deployment
 
 ## Next Target
 
-P5-I5 store alerts API-mode data loader contract. Keep mock mode as the default and use the existing typed backend client only.
+P5-I10 digital twin API-mode state wiring. Keep mock mode as the default and use the existing Digital Twin loader only.

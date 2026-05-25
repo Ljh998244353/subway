@@ -162,3 +162,23 @@ P5-I3 added project-authored frontend TypeScript only: `frontend/src/api/storeAn
 ## P5-I4 StoreAnalysisPage state wiring audit
 
 P5-I4 added project-authored frontend TypeScript only: `frontend/src/pages/storeAnalysisState.ts`, StoreAnalysisPage wiring, and StoreAnalysisPage tests. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I5 Store Alerts loader audit
+
+P5-I5 added project-authored frontend TypeScript only: `frontend/src/api/storeAlertsDataLoader.ts` and `frontend/src/api/storeAlertsDataLoader.test.ts`. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I6 StoreAlertsPage state wiring audit
+
+P5-I6 added project-authored frontend TypeScript only: `frontend/src/pages/storeAlertsState.ts`, StoreAlertsPage wiring, and StoreAlertsPage tests. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I7 Customer Profile loader audit
+
+P5-I7 added project-authored frontend TypeScript only: `frontend/src/api/customerProfileDataLoader.ts` and `frontend/src/api/customerProfileDataLoader.test.ts`. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I8 CustomerProfilePage state wiring audit
+
+P5-I8 added project-authored frontend TypeScript only: `frontend/src/pages/customerProfileState.ts`, CustomerProfilePage wiring, and CustomerProfilePage tests. It reused existing dependencies and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.
+
+## P5-I9 Digital Twin loader audit
+
+P5-I9 added project-authored frontend TypeScript only: `frontend/src/api/digitalTwinDataLoader.ts` and `frontend/src/api/digitalTwinDataLoader.test.ts`. It reused existing dependencies, existing synthetic API contracts, and Node built-in tests. It did not add npm packages, Python packages, Docker images, external services, paid tools, real video, real mall material, real maps, real floor plans, face images, member identifiers, phone numbers, personal trajectories, personal profiles, credentials, or real MySQL access.

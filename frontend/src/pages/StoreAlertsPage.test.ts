@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import type { StoreAlertsDataResult } from '../api/storeAlertsDataLoader.ts';
 import { mockAlerts, mockFloors, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig.ts';
 import { buildStoreAlertsViewModel } from './storeAlertsModel.ts';
+import { createInitialStoreAlertsDataState, resolveStoreAlertsDataState } from './storeAlertsState.ts';
 
 test('builds store alert rows from shared mock data', () => {
   const viewModel = buildStoreAlertsViewModel(mockAlerts, mockFloors, mockStoresWithAlerts, {});
@@ -87,4 +89,92 @@ test('store alert drill-down links preserve global query params', () => {
     buildRouteWithGlobalQuery('/digital-twin?floorId=F2&mode=alerts&storeId=S001&alertId=A0001', '?mallId=M_DEMO&timeRange=7d'),
     '/digital-twin?floorId=F2&mode=alerts&storeId=S001&alertId=A0001&mallId=M_DEMO&timeRange=7d'
   );
+});
+
+test('store alerts data state starts with mock mode without API data', () => {
+  const state = createInitialStoreAlertsDataState();
+
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.alerts, mockAlerts);
+  assert.equal(state.result.floors, mockFloors);
+  assert.equal(state.result.stores, mockStoresWithAlerts);
+});
+
+test('store alerts data state forwards explicit API mode to loader', async () => {
+  const apiResult: StoreAlertsDataResult = {
+    mode: 'api',
+    source: 'api',
+    alerts: [mockAlerts[0]],
+    floors: mockFloors,
+    stores: [mockStoresWithAlerts[0]],
+    traceIds: ['req_store_alerts_state'],
+    timestamp: '2026-05-25T08:30:00Z'
+  };
+  const calls: unknown[] = [];
+
+  const state = await resolveStoreAlertsDataState({
+    mode: 'api',
+    mallId: 'mall demo/001',
+    apiBaseUrl: 'http://backend.test',
+    loader: async (options) => {
+      calls.push(options);
+      return apiResult;
+    }
+  });
+
+  assert.deepEqual(calls, [
+    {
+      mode: 'api',
+      mallId: 'mall demo/001',
+      apiBaseUrl: 'http://backend.test'
+    }
+  ]);
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.source, 'api');
+  assert.deepEqual(state.result.traceIds, ['req_store_alerts_state']);
+});
+
+test('store alerts API result can drive the existing alert view model', async () => {
+  const selectedAlert = mockAlerts.find((alert) => alert.storeId === mockStoresWithAlerts[0]?.id);
+  assert.ok(selectedAlert);
+  const apiResult: StoreAlertsDataResult = {
+    mode: 'api',
+    source: 'api',
+    alerts: [selectedAlert],
+    floors: mockFloors,
+    stores: [mockStoresWithAlerts[0]],
+    traceIds: ['req_store_alerts_state'],
+    timestamp: '2026-05-25T08:30:00Z'
+  };
+  const state = await resolveStoreAlertsDataState({
+    mode: 'api',
+    loader: async () => apiResult
+  });
+  const viewModel = buildStoreAlertsViewModel(state.result.alerts, state.result.floors, state.result.stores, {
+    alertId: selectedAlert.id
+  });
+
+  assert.equal(state.result.source, 'api');
+  assert.equal(viewModel.selectedAlert?.id, selectedAlert.id);
+  assert.equal(viewModel.selectedAlert?.storeName, mockStoresWithAlerts[0]?.name);
+  assert.equal(viewModel.summary.total, 1);
+});
+
+test('store alerts data state falls back to mock on API loader failure', async () => {
+  const state = await resolveStoreAlertsDataState({
+    mode: 'api',
+    loader: async () => {
+      throw new Error('store alerts backend unavailable');
+    }
+  });
+
+  assert.equal(state.status, 'error');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.alerts, mockAlerts);
+  assert.equal(state.result.floors, mockFloors);
+  assert.equal(state.result.stores, mockStoresWithAlerts);
+  assert.equal(state.errorMessage, 'store alerts backend unavailable');
 });

@@ -1,21 +1,16 @@
 # Progress
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I4.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I9.
 
-P5-I4 completed Store Analysis API-mode state wiring:
+P5-I9 completed Digital Twin API-mode data loader contract:
 
 ```text
-frontend/src/api/storeAnalysisDataLoader.ts
-frontend/src/api/storeAnalysisDataLoader.test.ts
-frontend/src/pages/storeAnalysisState.ts
-frontend/src/pages/StoreAnalysisPage.tsx
-frontend/src/pages/StoreAnalysisPage.test.ts
-frontend/src/api/overviewDataLoader.ts
-frontend/src/api/overviewDataLoader.test.ts
+frontend/src/api/digitalTwinDataLoader.ts
+frontend/src/api/digitalTwinDataLoader.test.ts
 frontend/package.json
 context/TODO_NEXT.md
 context/*.md
@@ -24,12 +19,12 @@ context/*.md
 Implemented:
 
 ```text
-StoreAnalysisPage now uses a React state/effect boundary for store-analysis data
-initial/default StoreAnalysisPage state still renders mockStoresWithAlerts and existing mock alerts/floors
-dataMode=api can trigger the Store Analysis loader explicitly
-API failure falls back to mock Store Analysis state and records an error message
-storeAnalysisState tests cover mock default, API success, and API fallback without live backend
-P5-I5 handoff for Store Alerts API-mode data loader contract
+loadDigitalTwinData now supports mock mode by default and explicit API mode
+API mode calls getHeatmap(mallId) and getTrajectories(mallId) through the typed reference client
+API heatmap DTOs map to frontend HeatmapPoint values with bounded intensity
+API trajectory DTOs map to frontend FlowEdge values with safe direction and traffic defaults
+digitalTwinDataLoader tests cover mock default, injected client API success, fetch URL/request headers, DTO safety mapping, and typed API error propagation without live backend
+P5-I10 handoff for DigitalTwinPage API-mode state wiring
 ```
 
 P5 has started without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
@@ -44,6 +39,11 @@ P5 has started without changing the default demo behavior. The frontend still de
 | Dashboard API-mode state | complete | P5-I2 wires DashboardPage to the overview loader boundary with mock fallback |
 | Store Analysis data loader | complete | P5-I3 `loadStoreAnalysisData` supports mock/API selection with offline tests |
 | Store Analysis API-mode state | complete | P5-I4 wires StoreAnalysisPage to the store-analysis loader boundary with mock fallback |
+| Store Alerts data loader | complete | P5-I5 `loadStoreAlertsData` supports mock/API selection with offline tests |
+| Store Alerts API-mode state | complete | P5-I6 wires StoreAlertsPage to the store-alerts loader boundary with mock fallback |
+| Customer Profile data loader | complete | P5-I7 `loadCustomerProfileData` supports mock/API selection with offline tests |
+| Customer Profile API-mode state | complete | P5-I8 wires CustomerProfilePage to the customer-profile loader boundary with mock fallback |
+| Digital Twin data loader | complete | P5-I9 `loadDigitalTwinData` supports mock/API selection with offline tests |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -62,7 +62,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 
 ## Verification
 
-P5-I4 local verification:
+P5-I9 local verification:
 
 ```bash
 npm --prefix frontend run test
@@ -73,7 +73,7 @@ npm run quality:audit
 Results:
 
 ```text
-npm --prefix frontend run test: 96 passed
+npm --prefix frontend run test: 120 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -83,7 +83,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
-StoreAlertsPage is not yet covered by an API-mode loader contract
+DigitalTwinPage is not yet wired to the Digital Twin loader state boundary
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
@@ -95,18 +95,19 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P5-I5 store alerts API-mode data loader contract`.
+Next increment: `P5-I10 digital twin API-mode state wiring`.
 
 Recommended scope:
 
 ```text
-add a Store Alerts API-mode loader or adapter using existing typed client methods
-keep mock mode and existing StoreAlertsPage rendering as the default
-add tests for mock default, API success, and API error/fallback boundaries without live backend calls
+add a Digital Twin state adapter using the existing `loadDigitalTwinData`
+wire DigitalTwinPage to use loader-provided heatmap and flow data
+keep mock mode and existing DigitalTwinPage rendering as the default
+add tests for mock default, API option forwarding, API result view-model inputs, and API error/fallback boundaries without live backend calls
 do not connect real MySQL or change backend fixture behavior
 ```
 
-P5-I5 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
+P5-I10 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
 
 ## Stage Log
 
@@ -132,7 +133,12 @@ P5-I5 must not switch the frontend default mode to API, must not depend on a liv
 | P5-I2 dashboard API-mode state wiring | 2026-05-20 | Wired DashboardPage to overview state boundary, added mock/API/fallback state tests, and prepared P5-I3 Store Analysis loader handoff |
 | P5-I3 store analysis API-mode data loader contract | 2026-05-20 | Added `loadStoreAnalysisData`, API DTO mapping, offline loader tests, and P5-I4 StoreAnalysisPage wiring handoff |
 | P5-I4 store analysis API-mode state wiring | 2026-05-20 | Wired StoreAnalysisPage to store-analysis state boundary, added mock/API/fallback state tests, and prepared P5-I5 Store Alerts loader handoff |
+| P5-I5 store alerts API-mode data loader contract | 2026-05-25 | Added `loadStoreAlertsData`, API DTO mapping, offline loader tests, and prepared P5-I6 StoreAlertsPage wiring handoff |
+| P5-I6 store alerts API-mode state wiring | 2026-05-25 | Wired StoreAlertsPage to store-alerts state boundary, added mock/API/fallback state tests, and prepared P5-I7 Customer Profile loader handoff |
+| P5-I7 customer profile API-mode data loader contract | 2026-05-25 | Added `loadCustomerProfileData`, API DTO mapping, offline loader tests, and prepared P5-I8 CustomerProfilePage wiring handoff |
+| P5-I8 customer profile API-mode state wiring | 2026-05-25 | Wired CustomerProfilePage to customer-profile state boundary, added mock/API/fallback state tests, and prepared P5-I9 Digital Twin loader handoff |
+| P5-I9 digital twin API-mode data loader contract | 2026-05-25 | Added `loadDigitalTwinData`, heatmap/trajectory DTO mapping, offline loader tests, and prepared P5-I10 DigitalTwinPage wiring handoff |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/pages/StoreAlertsPage.tsx`, `frontend/src/api/referenceClient.ts`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I5 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/pages/DigitalTwinPage.tsx`, `frontend/src/pages/digitalTwinModel.ts`, `frontend/src/api/digitalTwinDataLoader.ts`, `frontend/src/api/referenceClient.ts`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I10 task card.

@@ -1,7 +1,8 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { MotionSurface } from '../components/MotionSurface';
 import { StatusBadge } from '../components/StatusBadge';
-import { mockCustomerProfile, mockFloors, mockMall } from '../mock/index.ts';
+import { mockFloors, mockMall } from '../mock/index.ts';
 import {
   buildCustomerProfileCategoryUrl,
   buildCustomerProfileFloorTwinUrl
@@ -15,6 +16,7 @@ import {
   type FloorPreferenceRow,
   type TimeDistributionRow
 } from './customerProfileModel.ts';
+import { createInitialCustomerProfileDataState, resolveCustomerProfileDataState } from './customerProfileState.ts';
 
 function parseFilters(params: URLSearchParams): CustomerProfileFilters {
   return {
@@ -159,23 +161,61 @@ function CategoryPreferenceList({
 export function CustomerProfilePage() {
   const [params] = useSearchParams();
   const location = useLocation();
+  const mallId = params.get('mallId') || mockMall.id;
   const timeRange = params.get('timeRange') || 'today';
   const filters = parseFilters(params);
-  const viewModel = buildCustomerProfileViewModel(mockCustomerProfile, mockFloors, filters);
+  const dataMode = params.get('dataMode') ?? undefined;
+  const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
+  const [profileDataState, setProfileDataState] = useState(() => createInitialCustomerProfileDataState());
+  const profile = profileDataState.result.profile;
+  const dataSourceLabel = profileDataState.result.source === 'api' ? 'API' : 'Mock';
+  const viewModel = useMemo(
+    () => buildCustomerProfileViewModel(profile, mockFloors, { ...filters, dataSourceLabel }),
+    [dataSourceLabel, filters, profile]
+  );
   const profileState = getCustomerProfileState(viewModel);
   const stateCopy = profileStateCopy[profileState];
+  const statusLabel =
+    profileDataState.status === 'loading'
+      ? 'API 加载中'
+      : profileDataState.status === 'error'
+        ? 'API 异常 / Mock 回退'
+        : `${dataSourceLabel} 模式`;
+
+  useEffect(() => {
+    let active = true;
+
+    if (dataMode === 'api') {
+      setProfileDataState((current) => ({ ...current, status: 'loading', errorMessage: undefined }));
+    }
+
+    void resolveCustomerProfileDataState({
+      mode: dataMode,
+      apiBaseUrl,
+      mallId
+    }).then((nextState) => {
+      if (active) {
+        setProfileDataState(nextState);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [apiBaseUrl, dataMode, mallId]);
 
   return (
     <MotionSurface as="section" className="page customer-profile-page">
       <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
-          <p className="page-kicker">客群画像 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <p className="page-kicker">客群画像 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
           <h1>客群画像</h1>
           <p>
             展示 {mockMall.name} 的匿名聚合时段、楼层和业态偏好，用于活动评估和运营分析，不包含个人轨迹、会员身份或人脸数据。
           </p>
         </div>
         <div className="dashboard-header__actions">
+          <StatusBadge label={statusLabel} tone={profileDataState.status === 'error' ? 'warning' : 'info'} />
           <StatusBadge label={stateCopy.label} tone={stateCopy.tone} />
           <a className="ghost-button link-button" href="#privacy-boundary-title">
             查看口径
@@ -189,7 +229,8 @@ export function CustomerProfilePage() {
         {viewModel.filterSummary.map((item) => (
           <span key={item}>{item}</span>
         ))}
-        <span>最近生成：{formatGeneratedAt(mockCustomerProfile.generatedAt)}</span>
+        <span>最近生成：{formatGeneratedAt(profile.generatedAt)}</span>
+        {profileDataState.errorMessage ? <span>API 回退：{profileDataState.errorMessage}</span> : null}
       </MotionSurface>
 
       <SummaryCards metrics={viewModel.summaryMetrics} />
@@ -211,7 +252,7 @@ export function CustomerProfilePage() {
           </div>
           <TimeDistributionChart rows={viewModel.timeDistribution} />
           <p className="chart-readable-summary">
-            活跃时段为 {mockCustomerProfile.activeTimeRange}；当前峰值为 {viewModel.peakTime?.label ?? '暂无'}，
+            活跃时段为 {profile.activeTimeRange}；当前峰值为 {viewModel.peakTime?.label ?? '暂无'}，
             不提供个人路径回放。
           </p>
         </MotionSurface>

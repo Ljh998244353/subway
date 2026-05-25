@@ -1,29 +1,30 @@
 # TODO Next
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Task Card
 
 ```text
-Increment: P5-I5 store alerts API-mode data loader contract
+Increment: P5-I10 digital twin API-mode state wiring
 Primary role: Frontend Integration Mode
 Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P5-I4 store analysis API-mode state wiring
+Status: ready after P5-I9 digital twin API-mode data loader contract
 ```
 
 ## Goal
 
-Continue P5 frontend/backend integration by adding a narrow Store Alerts data loader contract. The loader should support mock mode by default and explicit API mode through the existing typed reference client. Keep the current store-alerts demo stable and do not require a live backend in tests.
+Continue P5 frontend/backend integration by wiring DigitalTwinPage through a narrow state boundary that uses the existing Digital Twin data loader. The page should keep mock mode as the default and only trigger API mode when explicitly requested. Keep tests offline and do not require a live backend.
 
 ## Recommended Scope
 
 ```text
-add a frontend store-alerts data loader or state adapter that can choose mock or API mode
-use existing resolveFrontendDataMode, resolveApiBaseUrl, listStoreAlerts, and getStore where appropriate
-keep StoreAlertsPage mock rendering unchanged by default
-add tests for mock default, API success, API error/fallback behavior, and no live network dependency
-document how later P5 work should wire StoreAlertsPage state after the loader contract
+add a frontend Digital Twin state adapter similar to existing dashboard/store/customer state adapters
+use existing loadDigitalTwinData and preserve mock data as the initial/default state
+wire DigitalTwinPage to use state result heatmapPoints and flowEdges instead of direct mock spatial arrays
+read mallId, dataMode, and apiBaseUrl from query params/options as existing API-mode pages do
+show a small data-source/status indicator and fallback error text without changing the default demo
+add tests for mock default, API option forwarding, API result view-model inputs, and API error/fallback behavior without live backend calls
 ```
 
 ## Non-goals
@@ -46,22 +47,21 @@ do not execute sudo
 AGENTS.md
 README.md
 PROGRESS.md
-frontend/src/api/storeAnalysisDataLoader.ts
-frontend/src/pages/storeAnalysisState.ts
-frontend/src/pages/StoreAlertsPage.tsx
-frontend/src/pages/StoreAlertsPage.test.ts
-frontend/src/pages/storeAlertsModel.ts
+frontend/src/pages/DigitalTwinPage.tsx
+frontend/src/pages/DigitalTwinPage.test.ts
+frontend/src/pages/digitalTwinModel.ts
+frontend/src/api/digitalTwinDataLoader.ts
 frontend/src/api/referenceClient.ts
-frontend/src/mock/mockAlerts.ts
+frontend/src/api/apiMode.ts
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-store-alerts API-mode loader/adapter with offline tests
-mock mode remains default and the existing store-alerts demo remains stable
-API mode behavior is covered without live backend or real MySQL dependency
+DigitalTwinPage state adapter and page wiring with offline tests
+mock mode remains default and the existing digital-twin demo remains stable
+API mode state behavior is covered without live backend or real MySQL dependency
 updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
 no new dependency unless license/cost reviewed first
 ```
@@ -74,10 +74,10 @@ npm run quality
 npm run quality:audit
 ```
 
-P5-I5 completion should be searchable with:
+P5-I10 completion should be searchable with:
 
 ```bash
-rg -n "P5-I5|StoreAlertsPage|API mode|mock mode|listStoreAlerts|store alerts loader|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
+rg -n "P5-I10|DigitalTwinPage|API mode|mock mode|loadDigitalTwinData|digital twin state|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
@@ -94,4 +94,4 @@ before AI service or production deployment
 
 ## Next Handoff
 
-After P5-I5, wire StoreAlertsPage to the loader or continue API-mode integration route by route only if mock mode remains stable and quality gates pass.
+After P5-I10, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.

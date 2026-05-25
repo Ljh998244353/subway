@@ -97,6 +97,12 @@ const requiredFiles = [
   "frontend/src/api/overviewDataLoader.test.ts",
   "frontend/src/api/storeAnalysisDataLoader.ts",
   "frontend/src/api/storeAnalysisDataLoader.test.ts",
+  "frontend/src/api/storeAlertsDataLoader.ts",
+  "frontend/src/api/storeAlertsDataLoader.test.ts",
+  "frontend/src/api/customerProfileDataLoader.ts",
+  "frontend/src/api/customerProfileDataLoader.test.ts",
+  "frontend/src/api/digitalTwinDataLoader.ts",
+  "frontend/src/api/digitalTwinDataLoader.test.ts",
   "frontend/src/api/referenceClient.ts",
   "frontend/src/api/referenceClient.test.ts",
   "frontend/src/components/AppShell.tsx",
@@ -437,7 +443,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I5"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I10"]
     },
     {
       name: "hard rules",
@@ -488,8 +494,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P5-I5 store alerts API mode focus",
-      patterns: ["P5-I5", "API mode", "mock mode", "StoreAlertsPage", "listStoreAlerts", "quality gate"]
+      name: "P5-I10 digital twin state wiring focus",
+      patterns: ["P5-I10", "API mode", "mock mode", "DigitalTwinPage", "loadDigitalTwinData", "quality gate"]
     }
   ];
 

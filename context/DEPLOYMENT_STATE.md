@@ -1,6 +1,6 @@
 # Deployment State
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Status
 
@@ -20,4 +20,4 @@ no uploaded build artifacts
 
 ## Next Step
 
-P5-I5 Store Alerts API-mode loader work must not enter real deployment. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.
+P5-I10 DigitalTwinPage API-mode state wiring must not enter real deployment. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.

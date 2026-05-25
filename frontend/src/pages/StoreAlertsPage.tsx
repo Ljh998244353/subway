@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { AlertDetail } from '../components/AlertDetail';
 import { AlertList } from '../components/AlertList';
@@ -9,7 +10,7 @@ import {
   getAlertTone,
   StatusBadge
 } from '../components/StatusBadge';
-import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
+import { mockMall } from '../mock/index.ts';
 import {
   buildAlertTwinUrl,
   buildStoreAlertsUrl as buildStoreAlertsRouteUrl,
@@ -18,6 +19,7 @@ import {
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
 import type { AlertLevel, AlertStatus } from '../types/index.ts';
 import { buildStoreAlertsViewModel, type StoreAlertsFilters } from './storeAlertsModel.ts';
+import { createInitialStoreAlertsDataState, resolveStoreAlertsDataState } from './storeAlertsState.ts';
 
 function parseFilters(params: URLSearchParams): StoreAlertsFilters {
   return {
@@ -53,9 +55,22 @@ function getSelectedFloorName(floorId: string | undefined, fallback: string) {
 export function StoreAlertsPage() {
   const [params] = useSearchParams();
   const location = useLocation();
+  const mallId = params.get('mallId') || mockMall.id;
   const timeRange = params.get('timeRange') || 'today';
   const filters = parseFilters(params);
-  const viewModel = buildStoreAlertsViewModel(mockAlerts, mockFloors, mockStoresWithAlerts, filters);
+  const dataMode = params.get('dataMode') ?? undefined;
+  const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
+  const [alertsDataState, setAlertsDataState] = useState(() => createInitialStoreAlertsDataState());
+  const viewModel = useMemo(
+    () =>
+      buildStoreAlertsViewModel(
+        alertsDataState.result.alerts,
+        alertsDataState.result.floors,
+        alertsDataState.result.stores,
+        filters
+      ),
+    [alertsDataState.result.alerts, alertsDataState.result.floors, alertsDataState.result.stores, filters]
+  );
   const selectedAlert = viewModel.selectedAlert;
 
   const buildAlertUrl = (alertId: string) => buildStoreAlertsRouteUrl({ alertId }, location.search);
@@ -63,18 +78,48 @@ export function StoreAlertsPage() {
     buildStoreAnalysisRouteUrl({ storeId, alertId }, location.search);
   const buildDigitalTwinUrl = (floorId: string, storeId?: string, alertId?: string) =>
     buildAlertTwinUrl({ floorId, storeId, alertId }, location.search);
+  const dataSourceLabel = alertsDataState.result.source === 'api' ? 'API' : 'Mock';
+  const statusLabel =
+    alertsDataState.status === 'loading'
+      ? 'API 加载中'
+      : alertsDataState.status === 'error'
+        ? 'API 异常 / Mock 回退'
+        : `${dataSourceLabel} 模式`;
+
+  useEffect(() => {
+    let active = true;
+
+    if (dataMode === 'api') {
+      setAlertsDataState((current) => ({ ...current, status: 'loading', errorMessage: undefined }));
+    }
+
+    void resolveStoreAlertsDataState({
+      mode: dataMode,
+      apiBaseUrl,
+      mallId
+    }).then((nextState) => {
+      if (active) {
+        setAlertsDataState(nextState);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [apiBaseUrl, dataMode, mallId]);
 
   return (
     <MotionSurface as="section" className="page store-alerts-page">
       <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
-          <p className="page-kicker">低效预警 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <p className="page-kicker">低效预警 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
           <h1>低效预警</h1>
           <p>
             聚合 {mockMall.name} 的低评分、低转化、拥挤和数据异常预警，所有告警与处理建议均为虚构 Mock 数据。
           </p>
         </div>
         <div className="dashboard-header__actions">
+          <StatusBadge label={statusLabel} tone={alertsDataState.status === 'error' ? 'warning' : 'info'} />
           <StatusBadge label={viewModel.hasRows ? '可处理' : '暂无匹配'} tone={viewModel.hasRows ? 'info' : 'neutral'} />
           <Link className="ghost-button link-button" to={buildRouteWithGlobalQuery('/store-alerts', location.search)}>
             重置筛选
@@ -91,6 +136,8 @@ export function StoreAlertsPage() {
         <span>店铺：{filters.storeId ? viewModel.selectedStoreName : '全部店铺'}</span>
         <span>关键词：{filters.keyword ?? '无'}</span>
         <span>选中：{selectedAlert?.id ?? '无'}</span>
+        <span>数据源：{dataSourceLabel}</span>
+        {alertsDataState.errorMessage ? <span>API 回退：{alertsDataState.errorMessage}</span> : null}
       </MotionSurface>
 
       <MotionSurface className="alert-summary-grid" aria-label="低效预警统计" delay={0.06}>

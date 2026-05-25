@@ -67,6 +67,16 @@ P5-I3 note: Store Analysis data loader work adds project-authored frontend TypeS
 
 P5-I4 note: StoreAnalysisPage API-mode state wiring adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
 
+P5-I5 note: Store Alerts API-mode loader contract adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
+P5-I6 note: StoreAlertsPage API-mode state wiring adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
+P5-I7 note: Customer Profile API-mode loader contract adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
+P5-I8 note: CustomerProfilePage API-mode state wiring adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and does not add third-party packages, models, media assets, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
+P5-I9 note: Digital Twin API-mode loader contract adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and existing synthetic heatmap/trajectory contracts. It does not add third-party packages, models, media assets, maps, floor plans, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
 ## Blocked Until Reviewed
 
 Do not use the following unless the source, permission, and license have been reviewed and recorded:

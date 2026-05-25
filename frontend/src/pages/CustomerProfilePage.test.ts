@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import type { CustomerProfileDataResult } from '../api/customerProfileDataLoader.ts';
 import { mockCustomerProfile, mockFloors } from '../mock/index.ts';
 import {
   buildCustomerProfileCategoryUrl,
@@ -7,6 +8,7 @@ import {
 } from '../routes/demoFlow.ts';
 import type { CustomerProfile } from '../types/index.ts';
 import { buildCustomerProfileViewModel, getCustomerProfileState } from './customerProfileModel.ts';
+import { createInitialCustomerProfileDataState, resolveCustomerProfileDataState } from './customerProfileState.ts';
 
 const viewModel = buildCustomerProfileViewModel(mockCustomerProfile, mockFloors);
 
@@ -24,6 +26,15 @@ test('builds customer profile summary from anonymous aggregate mock data', () =>
   assert.ok(viewModel.topCategory);
   assert.ok(viewModel.filterSummary.includes('数据源：Mock'));
   assert.ok(viewModel.filterSummary.includes('边界：匿名聚合'));
+});
+
+test('can label customer profile view model as API data without changing defaults', () => {
+  const apiViewModel = buildCustomerProfileViewModel(mockCustomerProfile, mockFloors, {
+    dataSourceLabel: 'API'
+  });
+
+  assert.ok(viewModel.filterSummary.includes('数据源：Mock'));
+  assert.ok(apiViewModel.filterSummary.includes('数据源：API'));
 });
 
 test('sorts and filters floor and category preference rows', () => {
@@ -92,4 +103,93 @@ test('returns empty or partial states without exposing small-sample details', ()
   assert.ok(
     smallSampleViewModel.summaryMetrics.some((metric) => metric.description.includes('小样本将隐藏明细'))
   );
+});
+
+test('customer profile data state starts with mock mode without API data', () => {
+  const state = createInitialCustomerProfileDataState();
+
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.profile, mockCustomerProfile);
+});
+
+test('customer profile data state forwards explicit API mode to loader', async () => {
+  const apiResult: CustomerProfileDataResult = {
+    mode: 'api',
+    source: 'api',
+    profile: {
+      ...mockCustomerProfile,
+      source: 'api',
+      mallId: 'mall demo/001'
+    },
+    traceId: 'req_customer_profile_state',
+    timestamp: '2026-05-25T08:30:00Z'
+  };
+  const calls: unknown[] = [];
+
+  const state = await resolveCustomerProfileDataState({
+    mode: 'api',
+    mallId: 'mall demo/001',
+    apiBaseUrl: 'http://backend.test',
+    loader: async (options) => {
+      calls.push(options);
+      return apiResult;
+    }
+  });
+
+  assert.deepEqual(calls, [
+    {
+      mode: 'api',
+      mallId: 'mall demo/001',
+      apiBaseUrl: 'http://backend.test'
+    }
+  ]);
+  assert.equal(state.status, 'ready');
+  assert.equal(state.result.source, 'api');
+  assert.equal(state.result.profile.mallId, 'mall demo/001');
+  assert.equal(state.result.traceId, 'req_customer_profile_state');
+});
+
+test('customer profile API result can drive the existing profile view model', async () => {
+  const apiProfile: CustomerProfile = {
+    ...mockCustomerProfile,
+    source: 'api',
+    topCategories: ['餐饮'],
+    categoryPreferences: [mockCustomerProfile.categoryPreferences[0]],
+    floorPreferences: mockCustomerProfile.floorPreferences.slice(0, 2)
+  };
+  const state = await resolveCustomerProfileDataState({
+    mode: 'api',
+    loader: async () => ({
+      mode: 'api',
+      source: 'api',
+      profile: apiProfile,
+      traceId: 'req_customer_profile_state'
+    })
+  });
+  const apiViewModel = buildCustomerProfileViewModel(state.result.profile, mockFloors, {
+    category: '餐饮',
+    dataSourceLabel: 'API'
+  });
+
+  assert.equal(state.result.source, 'api');
+  assert.equal(apiViewModel.categoryPreferences.length, 1);
+  assert.equal(apiViewModel.topCategory?.category, '餐饮');
+  assert.ok(apiViewModel.filterSummary.includes('数据源：API'));
+});
+
+test('customer profile data state falls back to mock on API loader failure', async () => {
+  const state = await resolveCustomerProfileDataState({
+    mode: 'api',
+    loader: async () => {
+      throw new Error('customer profile backend unavailable');
+    }
+  });
+
+  assert.equal(state.status, 'error');
+  assert.equal(state.result.mode, 'mock');
+  assert.equal(state.result.source, 'mock');
+  assert.equal(state.result.profile, mockCustomerProfile);
+  assert.equal(state.errorMessage, 'customer profile backend unavailable');
 });

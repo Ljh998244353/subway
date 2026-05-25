@@ -1,6 +1,6 @@
 # API Contract Current
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Status
 
@@ -49,6 +49,16 @@ P5-I3 added `frontend/src/api/storeAnalysisDataLoader.ts`, which consumes `getSt
 
 P5-I4 wired StoreAnalysisPage state to the Store Analysis loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
 
+P5-I5 added `frontend/src/api/storeAlertsDataLoader.ts`, which consumes `listStoreAlerts(mallId)` and `getStore(storeId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
+
+P5-I6 wired StoreAlertsPage state to the Store Alerts loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
+
+P5-I7 added `frontend/src/api/customerProfileDataLoader.ts`, which consumes `getCustomerProfile(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
+
+P5-I8 wired CustomerProfilePage state to the Customer Profile loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
+
+P5-I9 added `frontend/src/api/digitalTwinDataLoader.ts`, which consumes `getHeatmap(mallId)` and `getTrajectories(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
+
 ## Not Implemented
 
 ```text
@@ -60,4 +70,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P5-I5 should add a Store Alerts API-mode loader contract using existing typed client methods while keeping mock mode as the default and avoiding live backend dependencies in tests.
+P5-I10 should wire DigitalTwinPage state to the Digital Twin loader while keeping mock mode as the default and avoiding live backend dependencies in tests.

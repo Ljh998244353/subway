@@ -80,6 +80,67 @@
 
 完整路线图、默认增量拆分和门禁见 [AI_Schedule.md](AI_Schedule.md)。
 
+## 小阶段明细
+
+README 保留可直接检索的小阶段编号；更完整的角色、门禁和上下文恢复规则见 [AI_Schedule.md](AI_Schedule.md)，当前执行结果见 [PROGRESS.md](PROGRESS.md)。
+
+| 小阶段 | 状态 | 交付重点 |
+| --- | --- | --- |
+| P0-I1 | 已完成 | 项目边界、目标用户、非目标范围、合规红线 |
+| P0-I2 | 已完成 | 用户故事、核心指标、验收标准 |
+| P0-I3 | 已完成 | 测试策略、质量门禁、许可证审计模板 |
+| P0-I4 | 已完成 | context 恢复包初始化与 P1 接力 |
+| P1-I1 | 已完成 | 信息架构和页面范围 |
+| P1-I2 | 已完成 | 设计 token 和布局规则 |
+| P1-I3 | 已完成 | 图表、组件和状态规范 |
+| P1-I4 | 已完成 | 交互、响应式、可访问性和设计评审 |
+| P2-I1 | 已完成 | 前端工程初始化 |
+| P2-I2 | 已完成 | Mock 数据和共享类型 |
+| P2-I3 | 已完成 | 运营总览页面 |
+| P2-I4 | 已完成 | 店铺分析页面 |
+| P2-I5 | 已完成 | 低效预警页面 |
+| P2-I6 | 已完成 | 数字孪生 Demo 页面 |
+| P2-I7 | 已完成 | E2E、响应式和演示打磨 |
+| P2-I8 | 已完成 | 客群画像页面 |
+| P2-I9 | 已完成 | CP2 前端 Demo 收口和交接 |
+| P3-I1 | 已完成 | 工程化入口与项目规则收口 |
+| P3-I2 | 已完成 | 根级质量门禁和本地检查脚本 |
+| P3-I3 | 已完成 | GitHub Actions CI 配置和 Gitee 边界说明 |
+| P3-I4 | 已完成 | 部署计划文档；不创建可运行 Compose |
+| P4-I1 | 已完成 | 后端 API 契约和 MySQL 数据模型基线 |
+| P4-I2 | 已完成 | 最小 FastAPI backend skeleton 和 health endpoint |
+| P4-I3 | 已完成 | MySQL/Alembic 迁移基线 |
+| P4-I4 | 已完成 | mall/floor/store 核心读取 API stub 和契约测试 |
+| P4-I5 | 已完成 | 前端 typed reference API client 准备 |
+| P4-I6 | 已完成 | overview API stub 和后端契约测试 |
+| P4-I7 | 已完成 | overview API client 扩展 |
+| P4-I8 | 已完成 | store detail API stub 和 client contract |
+| P4-I9 | 已完成 | store score API stub 和 client contract |
+| P4-I10 | 已完成 | store flow API stub 和 client contract |
+| P4-I11 | 已完成 | store ranking API stub 和 client contract |
+| P4-I12 | 已完成 | store alerts list API stub 和 client contract |
+| P4-I13 | 已完成 | customer profile API stub 和 client contract |
+| P4-I14 | 已完成 | heatmap API stub 和 client contract |
+| P4-I15 | 已完成 | trajectories API stub 和 client contract |
+| P4-I16 | 已完成 | CP4 closure review 和 MySQL readiness plan |
+| P5-I1 | 已完成 | overview API-mode data loader contract |
+| P5-I2 | 已完成 | DashboardPage API-mode state wiring |
+| P5-I3 | 已完成 | Store Analysis API-mode data loader contract |
+| P5-I4 | 已完成 | StoreAnalysisPage API-mode state wiring |
+| P5-I5 | 已完成 | Store Alerts API-mode data loader contract |
+| P5-I6 | 已完成 | StoreAlertsPage API-mode state wiring |
+| P5-I7 | 已完成 | Customer Profile API-mode data loader contract |
+| P5-I8 | 已完成 | CustomerProfilePage API-mode state wiring |
+| P5-I9 | 已完成 | Digital Twin API-mode data loader contract |
+| P5-I10 | 下一步 | DigitalTwinPage API-mode state wiring |
+| P6-I* | 规划中 | AI 视频识别 MVP，需后续拆分并人工确认关键边界 |
+| P7-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
+| P8-I* | 规划中 | 客群、热力、动线分析，需后续拆分 |
+| P9-I* | 规划中 | 3D / 2.5D 数字孪生可交付版，需后续拆分 |
+| P10-I* | 规划中 | 工业级测试与安全加固，需后续拆分 |
+| P11-I* | 规划中 | 部署与观测，需后续拆分 |
+| P12-I* | 规划中 | 验收与移交，需后续拆分 |
+
 ## 免费与合规原则
 
 本项目当前用于课程设计、学习和项目规划，但仍按可审计和低侵权风险标准执行：
@@ -114,19 +175,55 @@ GitHub 端 CI 配置位于 `.github/workflows/ci.yml`。如果仓库同步到 Gi
 
 ## 当前状态
 
-截至 2026-05-20，已完成：
+截至 2026-05-25，已完成：
 
 ```text
-P0 项目基线与上下文恢复
-P1 设计规范阶段
-P2 前端 Demo MVP 与 CP2 收口
-P3 工程化骨架、根级质量门禁、GitHub Actions 和部署计划
-P4-I1 至 P4-I15 后端 API、MySQL 数据模型、迁移基线、合成 API stub、前端 typed client
+P0-I1 项目边界与合规基线
+P0-I2 指标、用户故事与验收标准
+P0-I3 测试策略、质量门禁与许可证审计模板
+P0-I4 context 恢复包初始化与下一阶段计划
+P1-I1 信息架构与页面范围
+P1-I2 设计 token 和布局规则
+P1-I3 图表、组件和状态规范
+P1-I4 交互、响应式和可访问性检查
+P2-I1 前端工程初始化
+P2-I2 Mock 数据和共享类型
+P2-I3 运营总览页面
+P2-I4 店铺分析页面
+P2-I5 低效预警页面
+P2-I6 数字孪生 Demo 页面
+P2-I7 E2E、响应式和演示打磨
+P2-I8 客群画像页面
+P2-I9 CP2 前端 Demo 收口和交接
+P3-I1 工程化入口与项目规则收口
+P3-I2 根级质量门禁和本地检查脚本
+P3-I3 GitHub Actions CI 配置和 Gitee 边界说明
+P3-I4 部署计划文档
+P4-I1 backend API contract and data model baseline
+P4-I2 minimal FastAPI backend skeleton and health endpoint
+P4-I3 MySQL/Alembic migration baseline
+P4-I4 core read API stubs and contract tests
+P4-I5 API/client integration preparation
+P4-I6 overview API stub and contract tests
+P4-I7 overview API client extension
+P4-I8 store detail API stub and client contract
+P4-I9 store score API stub and client contract
+P4-I10 store flow API stub and client contract
+P4-I11 store ranking API stub and client contract
+P4-I12 store alerts list API stub and client contract
+P4-I13 customer profile API stub and client contract
+P4-I14 heatmap API stub and client contract
+P4-I15 trajectories API stub and client contract
 P4-I16 CP4 closure review and MySQL readiness plan
 P5-I1 API mode overview data loader contract
 P5-I2 dashboard API-mode state wiring
 P5-I3 store analysis API-mode data loader contract
 P5-I4 store analysis API-mode state wiring
+P5-I5 store alerts API-mode data loader contract
+P5-I6 store alerts API-mode state wiring
+P5-I7 customer profile API-mode data loader contract
+P5-I8 customer profile API-mode state wiring
+P5-I9 digital twin API-mode data loader contract
 ```
 
 当前已实现的后端 synthetic API：
@@ -162,14 +259,32 @@ GET /api/v1/overview?mallId=mall_demo_001
 ```text
 backend pytest: 34 passed
 npm run quality: passed
-frontend tests in quality gate: 96 passed after P5-I4 store-analysis state tests
+frontend tests in quality gate: 120 passed after P5-I9 Digital Twin loader tests
 backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
 
 P5-I4 已完成：`StoreAnalysisPage` 已接入 store-analysis loader 状态边界，新增 `frontend/src/pages/storeAnalysisState.ts`。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store analysis 数据，测试不依赖 live backend，也不连接真实 MySQL。
 
-下一步增量是 `P5-I5 store alerts API-mode data loader contract`：为 Store Alerts 增加 API mode 数据加载契约，但仍保持 Mock mode 默认，不切换到真实 API。
+P5-I5 已完成：新增 `frontend/src/api/storeAlertsDataLoader.ts`。Store Alerts loader 默认返回 Mock mode 数据；只有显式 API mode 才通过 typed client 调用 `listStoreAlerts(mallId)`，并用 `getStore(storeId)` 补齐相关店铺引用。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
+
+下一步增量是 `P5-I6 store alerts API-mode state wiring`：把 `StoreAlertsPage` 接到 store-alerts loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
+
+P5-I6 已完成：新增 `frontend/src/pages/storeAlertsState.ts`，并把 `StoreAlertsPage` 接到 store-alerts loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store alerts 数据，测试不依赖 live backend，也不连接真实 MySQL。
+
+下一步增量是 `P5-I7 customer profile API-mode data loader contract`：为 Customer Profile 增加 API mode 数据加载契约，但仍保持 Mock mode 默认，不切换到真实 API。
+
+P5-I7 已完成：新增 `frontend/src/api/customerProfileDataLoader.ts`。Customer Profile loader 默认返回 Mock mode 数据；只有显式 API mode 才通过 typed client 调用 `getCustomerProfile(mallId)`，并把 API 的 `cat_*` 业态 ID、比例小数和 synthetic source 映射到前端领域模型。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
+
+下一步增量是 `P5-I8 customer profile API-mode state wiring`：把 `CustomerProfilePage` 接到 customer-profile loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
+
+P5-I8 已完成：新增 `frontend/src/pages/customerProfileState.ts`，并把 `CustomerProfilePage` 接到 customer-profile loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock customer profile 数据，测试不依赖 live backend，也不连接真实 MySQL。
+
+P5-I9 接力增量是 `P5-I9 digital twin API-mode data loader contract`：为 Digital Twin 增加热力/动线 API mode 数据加载契约，但仍保持 Mock mode 默认，不切换到真实 API。
+
+P5-I9 已完成：新增 `frontend/src/api/digitalTwinDataLoader.ts`。Digital Twin loader 默认返回 Mock heatmap/flow 数据；只有显式 API mode 才通过 typed client 调用 `getHeatmap(mallId)` 和 `getTrajectories(mallId)`，并把 API DTO 映射到前端 `HeatmapPoint` 与 `FlowEdge`。测试使用注入 client/fetch，不依赖 live backend，也不连接真实 MySQL。
+
+下一步增量是 `P5-I10 digital twin API-mode state wiring`：把 `DigitalTwinPage` 接到 digital-twin loader 状态边界，但仍保持 Mock mode 默认，不切换到真实 API。
 
 给 AI 的指令：
 

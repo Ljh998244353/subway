@@ -1,6 +1,6 @@
 # Data Model Current
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Status
 
@@ -56,4 +56,4 @@ no personal trajectories returned to API clients
 
 ## Next Step
 
-P5-I5 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.
+P5-I10 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.

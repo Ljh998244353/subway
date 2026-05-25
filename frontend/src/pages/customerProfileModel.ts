@@ -12,6 +12,7 @@ import type {
 export type CustomerProfileFilters = {
   floorId?: string;
   category?: StoreCategory | 'all';
+  dataSourceLabel?: 'Mock' | 'API';
 };
 
 export type CustomerProfileSummaryMetric = OverviewMetric & {
@@ -171,11 +172,11 @@ function buildSummaryMetrics(
   const primaryFloor =
     floorPreferences.find((floor) => floor.isPrimary) ??
     floorPreferences[0] ??
-    buildFloorPreferenceRows(profile, floors, { floorId: 'all', category: 'all' })[0];
+    buildFloorPreferenceRows(profile, floors, { floorId: 'all', category: 'all', dataSourceLabel: 'Mock' })[0];
   const topCategory =
     categoryPreferences.find((category) => category.isTopCategory) ??
     categoryPreferences[0] ??
-    buildCategoryPreferenceRows(profile, { floorId: 'all', category: 'all' })[0];
+    buildCategoryPreferenceRows(profile, { floorId: 'all', category: 'all', dataSourceLabel: 'Mock' })[0];
   const sampleStatus = smallSampleHidden ? '聚合不足' : '样本充足';
   const status = getSummaryStatus(hasData, smallSampleHidden);
 
@@ -234,7 +235,8 @@ export function buildCustomerProfileViewModel(
 ): CustomerProfileViewModel {
   const normalizedFilters: Required<CustomerProfileFilters> = {
     floorId: filters.floorId || 'all',
-    category: filters.category || 'all'
+    category: filters.category || 'all',
+    dataSourceLabel: filters.dataSourceLabel || 'Mock'
   };
   const timeDistribution = buildTimeDistribution(profile);
   const floorPreferences = buildFloorPreferenceRows(profile, floors, normalizedFilters);
@@ -273,7 +275,7 @@ export function buildCustomerProfileViewModel(
     filterSummary: [
       `楼层：${normalizedFilters.floorId === 'all' ? '全部楼层' : floorById.get(normalizedFilters.floorId)?.name ?? normalizedFilters.floorId}`,
       `业态：${normalizedFilters.category === 'all' ? '全部业态' : normalizedFilters.category}`,
-      `数据源：Mock`,
+      `数据源：${normalizedFilters.dataSourceLabel}`,
       `边界：匿名聚合`
     ],
     privacyBoundaries: customerProfilePrivacyBoundaries,
