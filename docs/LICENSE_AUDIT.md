@@ -218,3 +218,32 @@ P7-I1 added documentation only in `docs/P7_3D_STACK_AUDIT.md`. It did not instal
 BlenderMCP / `ahujasid/blender-mcp` is recorded as a candidate local automation bridge, not an adopted runtime dependency. GitHub metadata checked on 2026-05-25 reports MIT License. The README describes a Blender add-on socket server plus MCP server and explicitly includes arbitrary Blender Python execution, telemetry controls, and optional external asset/generation integrations. Therefore the project decision is: candidate accepted for controlled local use only after explicit user approval; telemetry must be disabled; external asset APIs and downloaded models remain blocked until separate audit.
 
 Web 3D candidates remain `three`, `@react-three/fiber`, and optional `@react-three/drei`, but they are not installed in P7-I1. Exact npm versions, license fields, transitive dependency risk, bundle impact, and quality-gate behavior must be verified before adoption.
+
+## P7-I3 minimal WebGL/Three.js scene shell audit
+
+P7-I3 installed the minimum frontend 3D baseline needed for a local synthetic WebGL scene shell in `/digital-twin`:
+
+| Name | Source | Version | License | Use | Cost/account | Decision |
+| --- | --- | --- | --- | --- | --- | --- |
+| three | https://github.com/mrdoob/three.js | 0.184.0 | MIT | Core WebGL renderer used through R3F for the synthetic scene shell | No known paid account requirement | Allowed |
+| @react-three/fiber | https://github.com/pmndrs/react-three-fiber | 9.6.1 | MIT | React renderer binding for Three.js inside `/digital-twin` | No known paid account requirement | Allowed |
+| @types/three | https://github.com/DefinitelyTyped/DefinitelyTyped | 0.184.1 | MIT | Type declarations required for TypeScript build with R3F | No known paid account requirement | Allowed as dev dependency |
+| @babel/runtime | https://github.com/babel/babel | 7.29.7 | MIT | R3F transitive runtime dependency | No known paid account requirement | Allowed |
+| @types/webxr | https://github.com/DefinitelyTyped/DefinitelyTyped | 0.5.24 | MIT | Transitive type dependency for WebXR/Three.js typings | No known paid account requirement | Allowed |
+| base64-js | https://github.com/beatgammit/base64-js | 1.5.1 | MIT | R3F transitive dependency through buffer support | No known paid account requirement | Allowed |
+| buffer | https://github.com/feross/buffer | 6.0.3 | MIT | R3F transitive browser buffer dependency | No known paid account requirement | Allowed |
+| ieee754 | https://github.com/feross/ieee754 | 1.2.1 | BSD-3-Clause | Transitive dependency of buffer | No known paid account requirement | Allowed |
+| its-fine | https://github.com/pmndrs/its-fine | 2.0.0 | MIT | R3F transitive React utility dependency | No known paid account requirement | Allowed |
+| @types/react-reconciler | https://github.com/DefinitelyTyped/DefinitelyTyped | 0.28.9 | MIT | Transitive type dependency used by R3F utilities | No known paid account requirement | Allowed |
+| react-use-measure | https://github.com/pmndrs/react-use-measure | 2.1.7 | MIT | R3F transitive measurement hook dependency | No known paid account requirement | Allowed |
+| scheduler | https://github.com/facebook/react | 0.27.0 | MIT | R3F transitive scheduling dependency | No known paid account requirement | Allowed |
+| suspend-react | https://github.com/pmndrs/suspend-react | 0.1.3 | MIT | R3F transitive suspense utility dependency | No known paid account requirement | Allowed |
+| use-sync-external-store | https://github.com/facebook/react | 1.6.0 | MIT | R3F transitive external-store compatibility dependency | No known paid account requirement | Allowed |
+| zustand | https://github.com/pmndrs/zustand | 5.0.13 | MIT | R3F transitive state-store dependency | No known paid account requirement | Allowed |
+| @dimforge/rapier3d-compat | https://github.com/dimforge/rapier.js | 0.12.0 | Apache-2.0 | Transitive dev/type dependency of @types/three; not used for physics features in P7-I3 | No known paid account requirement | Allowed as transitive dev dependency |
+| @tweenjs/tween.js | https://github.com/tweenjs/tween.js | 23.1.3 | MIT | Transitive dependency of @types/three example typings | No known paid account requirement | Allowed as transitive dev dependency |
+| @types/stats.js | https://github.com/DefinitelyTyped/DefinitelyTyped | 0.17.4 | MIT | Transitive type dependency of @types/three | No known paid account requirement | Allowed as transitive dev dependency |
+| fflate | https://github.com/101arrowz/fflate | 0.8.3 | MIT | Transitive dependency of @types/three example typings | No known paid account requirement | Allowed as transitive dev dependency |
+| meshoptimizer | https://github.com/zeux/meshoptimizer | 1.1.1 | MIT | Transitive dependency of @types/three example typings; no model optimizer feature used in P7-I3 | No known paid account requirement | Allowed as transitive dev dependency |
+
+P7-I3 deliberately did not install `@react-three/drei`, BlenderMCP, model loaders beyond the package baseline, GLB/GLTF files, textures, fonts, icons, external asset APIs, paid services, real mall material, real video, real MySQL, or personal data. The first build after adding R3F failed because `@types/three` was missing; adding the audited MIT `@types/three@0.184.1` fixed the TypeScript build. Production build succeeds and emits a large-chunk warning for the frontend bundle (`index-DbKbbT8q.js` about 1,347 kB / 385.56 kB gzip), which should be handled by a later performance/code-splitting increment.

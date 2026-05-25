@@ -140,11 +140,11 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P6-I1 | 已完成 | AI event schema and synthetic fixture boundary |
 | P6-I2 | 已完成 | AI service implementation with synthetic fixtures |
 | P6-R1 | 已完成 | 路线图重排为精美 3D 合成数字孪生演示优先 |
-| P7-I1 | 下一步 | 3D 技术栈、许可证审计、前端依赖基线和高级前端重构方向确认 |
-| P7-I2 | 规划中 | 合成商场空间模型规范：楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区 |
-| P7-I3 | 规划中 | 合成事件与 MySQL 持久化数据模型/API 契约 |
-| P7-I4 | 规划中 | 后端合成场景 seed/reset/generate API |
-| P7-I5 | 规划中 | Three.js/WebGL 3D 场景基础壳 |
+| P7-I1 | 已完成 | 3D 技术栈、许可证审计、前端依赖基线和高级前端重构方向确认 |
+| P7-I2 | 已完成 | premium `/digital-twin` cockpit shell productization |
+| P7-I3 | 已完成 | audited minimal WebGL/Three.js scene shell for `/digital-twin` |
+| P7-I4 | 下一步 | 3D scene adapter and store/floor interaction baseline |
+| P7-I5 | 规划中 | 合成商场空间模型规范：楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区 |
 | P7-I6 | 规划中 | 虚拟人群、动线粒子、热力和拥挤告警可视化 |
 | P7-I7 | 规划中 | 演示控制台：人数、时间、目的地、事件频率、异常强度、场景预设 |
 | P7-I8 | 规划中 | 前端整体大气精致现代化验收、高级视觉精修、4K/大屏演示、性能门禁和 demo script |

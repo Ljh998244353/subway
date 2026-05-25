@@ -66,4 +66,4 @@ production deployment or Docker Compose
 
 ## Next Step
 
-P7-I3 is a frontend WebGL/Three.js scene-shell increment and should not require backend code changes. A later backend/data increment should define the synthetic scenario/event persistence contract before migrations or API implementation.
+P7-I3 completed as a frontend WebGL/Three.js scene-shell increment and did not require backend code changes. P7-I4 should remain frontend-local unless the task card changes. A later backend/data increment should define the synthetic scenario/event persistence contract before migrations or API implementation.

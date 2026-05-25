@@ -28,7 +28,7 @@ stop for human action when sudo is needed
 update PROGRESS.md, context/*.md, and context/TODO_NEXT.md after completion
 ```
 
-Current next increment: `P7-I3 audited minimal WebGL/Three.js scene shell for /digital-twin`.
+Current next increment: `P7-I4 3D scene adapter and store/floor interaction baseline`.
 
 Normal continuation command:
 

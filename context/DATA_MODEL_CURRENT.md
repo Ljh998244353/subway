@@ -76,4 +76,4 @@ no personal trajectories returned to API clients
 
 ## Next Step
 
-P7-I3 should not change the data model unless the task card is changed. It should focus on a minimal audited frontend WebGL/Three.js scene shell; a later backend/data increment should define the exact synthetic scenario/event persistence contract before migrations or API implementation.
+P7-I3 did not change the data model. P7-I4 should not change the data model unless the task card is changed; a later backend/data increment should define the exact synthetic scenario/event persistence contract before migrations or API implementation.

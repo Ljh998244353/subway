@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P7-I3 audited minimal WebGL/Three.js scene shell for /digital-twin` - ready after P7-I2 cockpit productization.
+- Current increment: `P7-I4 3D scene adapter and store/floor interaction baseline` - ready after P7-I3 minimal WebGL scene shell.
 - Primary role: Frontend Mode
 - Auxiliary reviews: Design, Architect, QA, Security/License
-- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack audit, and P7-I2 premium `/digital-twin` cockpit productization are complete.
-- Next focus: add the smallest audited local WebGL/Three.js scene shell inside `/digital-twin` while preserving SVG/2.5D fallback/reference, mock/API data mode, and synthetic-only boundaries.
-- Do not use BlenderMCP, add GLB/GLTF files, download models/textures/assets, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I3.
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack audit, P7-I2 premium `/digital-twin` cockpit productization, and P7-I3 minimal audited WebGL/Three.js scene shell are complete.
+- Next focus: deepen the local synthetic 3D scene adapter and store/floor interaction baseline inside `/digital-twin` while preserving SVG/2.5D fallback/reference, mock/API data mode, and synthetic-only boundaries.
+- Do not use BlenderMCP, add GLB/GLTF files, download models/textures/assets, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I4.
 
 ## Required Reading
 

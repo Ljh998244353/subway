@@ -3,6 +3,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { FloorPlan } from '../components/FloorPlan';
 import { StatusBadge } from '../components/StatusBadge';
 import { TwinInspector } from '../components/TwinInspector';
+import { DigitalTwinScene } from '../twin/scene/DigitalTwinScene.tsx';
 import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
@@ -228,7 +229,7 @@ export function DigitalTwinPage() {
           <div className="stage-toolbar">
             <div>
               <span>Interactive Digital Twin Workspace</span>
-              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · SVG/2.5D 占位</strong>
+              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · WebGL + SVG 参考</strong>
             </div>
             <div className="floor-switcher" aria-label="楼层切换">
               {mockFloors.map((floor) => (
@@ -241,26 +242,30 @@ export function DigitalTwinPage() {
 
           <section className="twin-viewport digital-twin-cockpit__viewport">
             <div className="viewport-grid" aria-hidden="true" />
-            <div className="digital-twin-cockpit__floor-shell">
+            <div className="digital-twin-cockpit__scene-shell">
               <div className="panel-heading">
                 <div>
-                  <h2 id="floor-plan-heading">自绘楼层平面</h2>
-                  <p>当前保留 SVG/2.5D FloorPlan，P7-I3 才进入 WebGL/Three.js 依赖安装。</p>
+                  <h2 id="webgl-scene-heading">WebGL 合成场景壳</h2>
+                  <p>Three.js/R3F 最小基线：项目自绘店铺块、楼层底板和走廊，无模型、纹理或真实素材。</p>
                 </div>
-                <StatusBadge label={`${viewModel.stores.length} 店铺`} tone="neutral" />
+                <StatusBadge label="WebGL P7-I3" tone="info" />
               </div>
-              <FloorPlan viewModel={viewModel} buildTwinUrl={buildTwinUrl} buildAlertUrl={(alertId) => buildStoreAlertsRoute(alertId)} />
+              <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} />
             </div>
+            <details className="digital-twin-cockpit__fallback-shell">
+              <summary>SVG/2.5D 参考与回退视图</summary>
+              <FloorPlan viewModel={viewModel} buildTwinUrl={buildTwinUrl} buildAlertUrl={(alertId) => buildStoreAlertsRoute(alertId)} />
+            </details>
             <div className="viewport-legend">
-              <span><i className="legend-dot legend-dot--flow" />客流轨迹</span>
-              <span><i className="legend-dot legend-dot--heat" />空间热力</span>
-              <span><i className="legend-dot legend-dot--alert" />低效告警</span>
+              <span><i className="legend-dot legend-dot--flow" />WebGL 楼层块</span>
+              <span><i className="legend-dot legend-dot--heat" />SVG 回退</span>
+              <span><i className="legend-dot legend-dot--alert" />合成边界</span>
             </div>
           </section>
 
           <section className="time-scrubber" aria-label="24 小时回放时间轴占位">
-            <div className="time-scrubber__badge">当前分析窗口：{formatTimeRange(timeRange)} · 合成数据 · WebGL 未启用</div>
-            <input aria-label="P7-I2 时间轴占位" max={780} min={0} readOnly type="range" value={330} />
+            <div className="time-scrubber__badge">当前分析窗口：{formatTimeRange(timeRange)} · 合成数据 · WebGL 最小场景壳</div>
+            <input aria-label="P7-I3 时间轴占位" max={780} min={0} readOnly type="range" value={330} />
             <div className="time-marks"><span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span><span>17:00</span><span>19:00</span><span>22:00</span></div>
           </section>
         </main>
@@ -291,7 +296,7 @@ export function DigitalTwinPage() {
               <span><b>{riskAlerts.length}</b>中高风险</span>
               <span><b>{viewModel.alertMarkers.length}</b>空间告警</span>
               <span><b>{dataSourceLabel}</b>数据模式</span>
-              <span><b>2.5D</b>当前渲染</span>
+              <span><b>WebGL</b>当前渲染</span>
             </div>
           </section>
 

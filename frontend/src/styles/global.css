@@ -3902,7 +3902,7 @@ main:focus-visible {
   padding: 18px;
 }
 
-.digital-twin-cockpit__floor-shell {
+.digital-twin-cockpit__scene-shell {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(229, 231, 235, 0.92);
   border-radius: 22px;
@@ -3916,11 +3916,96 @@ main:focus-visible {
   z-index: 2;
 }
 
-.digital-twin-cockpit__floor-shell .floor-plan__svg {
+.digital-twin-cockpit__scene-shell .floor-plan__svg {
   background:
     radial-gradient(circle at 50% 45%, rgba(47, 84, 235, 0.1), transparent 30%),
     linear-gradient(135deg, #f8fbff, #eef5f8);
   min-height: 0;
+}
+
+.digital-twin-cockpit__fallback-shell {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(203, 213, 225, 0.76);
+  border-radius: 18px;
+  bottom: 76px;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12);
+  max-height: min(38%, 260px);
+  overflow: auto;
+  padding: 12px;
+  position: absolute;
+  right: 30px;
+  width: min(46%, 430px);
+  z-index: 4;
+}
+
+.digital-twin-cockpit__fallback-shell summary {
+  color: #334155;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  list-style-position: inside;
+}
+
+.digital-twin-cockpit__fallback-shell .floor-plan {
+  margin-top: 10px;
+}
+
+.digital-twin-cockpit__fallback-shell .floor-plan__svg {
+  min-height: 190px;
+}
+
+.digital-twin-scene {
+  border-radius: 18px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.digital-twin-scene canvas {
+  border-radius: 18px;
+  display: block;
+}
+
+.digital-twin-scene__overlay,
+.digital-twin-scene__focus {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  border-radius: 999px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1);
+  color: #1f2937;
+  position: absolute;
+  z-index: 2;
+}
+
+.digital-twin-scene__overlay {
+  display: grid;
+  gap: 2px;
+  left: 18px;
+  padding: 10px 14px;
+  top: 18px;
+}
+
+.digital-twin-scene__overlay span {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.digital-twin-scene__overlay strong {
+  font-size: 13px;
+}
+
+.digital-twin-scene__focus {
+  bottom: 18px;
+  font-size: 13px;
+  font-weight: 800;
+  left: 18px;
+  padding: 10px 14px;
+  text-decoration: none;
 }
 
 .digital-twin-cockpit__inspector .twin-inspector {

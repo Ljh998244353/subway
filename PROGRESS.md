@@ -4,9 +4,9 @@ Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, and P7-I2 premium `/digital-twin` cockpit productization.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, P7-I2 premium `/digital-twin` cockpit productization, and P7-I3 audited minimal WebGL/Three.js scene shell.
 
-Current project state in one sentence: the project has a working synthetic frontend/backend/AI-service baseline, `/digital-twin` now uses the confirmed premium light three-column cockpit shell with the existing SVG/2.5D spatial placeholder, and the next main product direction is an audited WebGL/Three.js scene increment.
+Current project state in one sentence: the project has a working synthetic frontend/backend/AI-service baseline, `/digital-twin` now uses the confirmed premium light three-column cockpit shell with a minimal local WebGL/Three.js scene and SVG/2.5D fallback/reference, and the next main product direction is a typed 3D scene adapter plus store/floor interaction baseline.
 
 P5-I11 completed CP5 frontend API-mode integration closure review:
 
@@ -177,6 +177,37 @@ updated premium CSS so route links render correctly inside tabs, floor switcher,
 
 P7-I2 did not install `three`, R3F, Drei, BlenderMCP, model files, textures, fonts, icons, external services, real MySQL, real video, real mall material, or personal data.
 
+P7-I3 completed the audited minimal WebGL/Three.js scene shell for `/digital-twin`:
+
+```text
+frontend/package.json
+frontend/package-lock.json
+frontend/src/pages/DigitalTwinPage.tsx
+frontend/src/pages/digitalTwinModel.ts
+frontend/src/pages/DigitalTwinPage.test.ts
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/twin/scene/DigitalTwinScene.test.ts
+frontend/src/styles/global.css
+docs/THIRD_PARTY_NOTICES.md
+docs/LICENSE_AUDIT.md
+IMPORTANT.md
+context/*.md
+```
+
+Implemented:
+
+```text
+installed audited `three@0.184.0`, `@react-three/fiber@9.6.1`, and build-required `@types/three@0.184.1`
+added a local synthetic WebGL floor/store block scene inside the `/digital-twin` center workspace
+kept SVG/2.5D FloorPlan available as fallback/reference in the same viewport
+preserved `/style-preview`, mock mode default, explicit API mode, and API-error mock fallback behavior
+kept route query state for mode, floor, selected store, selected alert, mallId, and timeRange
+added P7-I3 scene-boundary tests for fallback, blocked 3D features, and stable synthetic scene inputs
+updated license, third-party, risk, progress, and context records for the adopted 3D dependencies
+```
+
+P7-I3 did not install Drei, use BlenderMCP, import GLB/GLTF files, add models, textures, fonts, icons, copied code, external services, real MySQL, real video, real mall material, or personal data.
+
 ## Current Status
 
 | Item | Status | Notes |
@@ -220,11 +251,35 @@ P7-I2 did not install `three`, R3F, Drei, BlenderMCP, model files, textures, fon
 | 3D modeling tool decision | confirmed | Blender is the free mainline modeling tool; Unity/UE are not current mainline choices |
 | BlenderMCP candidate | audited candidate | MIT per GitHub metadata; not installed; needs explicit approval and telemetry disabled before use |
 | Premium `/digital-twin` cockpit | complete | P7-I2 productized the approved premium light three-column shell while keeping SVG/2.5D and mock/API boundaries |
-| Real 3D model integration | planned | No `three`/R3F/Drei installed yet; next step can introduce an audited minimal WebGL scene shell |
+| Minimal WebGL scene shell | complete | P7-I3 installed audited Three.js/R3F baseline and renders local synthetic floor/store blocks with SVG fallback/reference |
+| Real 3D model integration | planned | No Drei, BlenderMCP, GLB/GLTF, models, textures, or external assets added yet; next step should deepen local scene adapters/interactions |
 
 ## Verification
 
-Latest local verification after P7-I2 cockpit productization:
+Latest local verification after P7-I3 minimal WebGL scene shell:
+
+```bash
+npm --prefix frontend run test
+npm --prefix frontend run build
+npm run quality
+npm run quality:audit
+```
+
+Results:
+
+```text
+npm --prefix frontend run test: passed, 127 frontend tests
+npm --prefix frontend run build: passed
+npm run quality: passed
+frontend tests inside quality gate: 127 passed
+backend pytest: 34 passed
+frontend build: passed
+npm run quality:audit: found 0 vulnerabilities
+Vite printed existing React Router / Motion "use client" dependency warnings; they remain non-blocking
+Vite also printed a new large-chunk warning after Three.js/R3F adoption: frontend JS bundle about 1,347 kB / 385.56 kB gzip; monitor for later code-splitting/performance increment
+```
+
+Previous local verification after P7-I2 cockpit productization:
 
 ```bash
 npm --prefix frontend run test
@@ -315,9 +370,10 @@ no coverage report
 no real video or monitoring footage integration
 no Docker Compose startup test
 BlenderMCP is audited as a candidate but not installed; future use requires explicit approval and telemetry disabled
-3D frontend dependency exact versions, transitive licenses, bundle impact, and build behavior must still be audited before installation
-`/style-preview` remains a polished reference prototype while `/digital-twin` now carries the productized cockpit shell
-real WebGL/Three.js model integration is not implemented yet
+P7-I3 audited and installed only `three@0.184.0`, `@react-three/fiber@9.6.1`, and `@types/three@0.184.1`; future 3D dependencies/assets still require audit
+`/style-preview` remains a polished reference prototype while `/digital-twin` now carries the productized cockpit shell plus minimal WebGL scene
+full 3D model integration, Drei helpers, GLB/GLTF import, virtual people, and browser-level 3D performance tests are not implemented yet
+P7-I3 introduced a large frontend chunk warning that should be handled in a later code-splitting/performance increment
 synthetic demo data must remain clearly separated from real customer or mall data
 ```
 
@@ -325,23 +381,27 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P7-I3 audited minimal WebGL/Three.js scene shell for /digital-twin`.
+Next increment: `P7-I4 3D scene adapter and store/floor interaction baseline`.
 
 Goal:
-- Introduce the smallest audited frontend 3D rendering baseline for the productized `/digital-twin` cockpit.
-- Confirm exact `three` and `@react-three/fiber` versions, licenses, bundle impact, and npm audit result before adoption.
-- Add a minimal local synthetic scene shell inside the existing center workspace, with SVG/2.5D fallback preserved if the dependency or build gate fails.
+- Deepen the local `/digital-twin` WebGL path from a minimal scene shell into a typed scene-adapter layer.
+- Map the existing DigitalTwinViewModel into stable renderable floor/store/corridor objects without changing backend/API/data contracts.
+- Preserve route query state for floor, mode, selected store, selected alert, mallId, and timeRange.
+- Prepare or implement simple WebGL store focus/click interaction that links back to existing `/digital-twin` query state.
+- Keep SVG/2.5D FloorPlan available as fallback/reference.
 - Keep `/style-preview` as the reference prototype route.
 - Preserve mock/synthetic default, explicit API mode, route query state, and API fallback behavior.
-- Add/update tests for dependency boundary, scene adapter shape, route/build state, and no-real-asset usage.
+- Add/update tests for adapter shape, stable IDs, route/state, scene boundary, and no-real-asset usage.
 
-Non-goals for P7-I3:
+Non-goals for P7-I4:
 - do not use BlenderMCP yet
+- do not install Drei unless a separate audit and clear need is recorded
 - do not import GLB/GLTF model files yet
 - do not download models, textures, fonts, icons, or external assets
 - do not connect real MySQL
 - do not use real mall plans, BIM, logos, surveillance footage, or personal data
-- do not resume real video integration by default
+- do not add backend API endpoints or migrations
+- do not create deployment infrastructure
 
 ## Stage Log
 
@@ -380,7 +440,8 @@ Non-goals for P7-I3:
 | P7 premium UI/UX preview checkpoint | 2026-05-25 | Built and confirmed `/style-preview` premium light three-column cockpit, archived the reusable UI/UX prompt, and kept the preview synthetic-only with fictional store names |
 | P7-I1 3D stack, license, and BlenderMCP audit | 2026-05-25 | Added `docs/P7_3D_STACK_AUDIT.md`, recorded BlenderMCP as a controlled candidate only, confirmed Web 3D candidates, updated license/risk/context docs, and prepared P7-I2 cockpit productization handoff |
 | P7-I2 premium `/digital-twin` cockpit productization | 2026-05-25 | Migrated `/digital-twin` to the premium light fullscreen three-column cockpit, preserved SVG/2.5D FloorPlan and mock/API behavior, added P7-I2 boundary test, and passed quality/audit gates |
+| P7-I3 audited minimal WebGL/Three.js scene shell | 2026-05-25 | Installed audited Three.js/R3F baseline, added a local synthetic WebGL floor/store block scene with SVG fallback/reference, updated dependency/license/risk records, and passed quality/audit gates |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P7-I3 audited minimal WebGL/Three.js scene shell for /digital-twin`; the `/digital-twin` route already uses the premium light three-column cockpit and should next gain only the smallest audited local WebGL scene shell while preserving SVG/2.5D fallback, mock/API behavior, and synthetic-only boundaries. Do not use BlenderMCP, import GLB/GLTF assets, connect real MySQL, or continue real video/real-data integration unless a later task card explicitly changes that boundary.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P7-I4 3D scene adapter and store/floor interaction baseline`; the `/digital-twin` route already uses the premium light three-column cockpit and minimal audited local WebGL scene shell, and should next gain a typed local scene adapter plus stable store/floor interaction baseline while preserving SVG/2.5D fallback, mock/API behavior, and synthetic-only boundaries. Do not use BlenderMCP, import GLB/GLTF assets, connect real MySQL, or continue real video/real-data integration unless a later task card explicitly changes that boundary.
