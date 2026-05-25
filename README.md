@@ -17,6 +17,7 @@
 | [docs/API_CONTRACT.md](docs/API_CONTRACT.md) | AI / 人类 | P4 后端 `/api/v1` 契约基线 |
 | [docs/DATA_MODEL.md](docs/DATA_MODEL.md) | AI / 人类 | MySQL 数据模型基线 |
 | [docs/CP4_CLOSURE_REVIEW.md](docs/CP4_CLOSURE_REVIEW.md) | AI / 人类 | CP4 后端/API/客户端覆盖评审和缺口 |
+| [docs/CP5_CLOSURE_REVIEW.md](docs/CP5_CLOSURE_REVIEW.md) | AI / 人类 | CP5 frontend API-mode integration closure review、go/no-go、缺口和 P6 接力 |
 | [docs/MYSQL_READINESS_PLAN.md](docs/MYSQL_READINESS_PLAN.md) | AI / 人类 | 真实 MySQL 前的配置、密钥、迁移、回滚和隐私准入清单 |
 | [docs/DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md) | AI / 人类 | 部署计划、未来服务边界、环境变量、健康检查和审计点 |
 | [docs/ENGINEERING_QUALITY_GATES.md](docs/ENGINEERING_QUALITY_GATES.md) | AI / 人类 | 工程质量门禁、可执行检查、阻断规则和后续阶段门禁 |
@@ -133,8 +134,9 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P5-I8 | 已完成 | CustomerProfilePage API-mode state wiring |
 | P5-I9 | 已完成 | Digital Twin API-mode data loader contract |
 | P5-I10 | 已完成 | DigitalTwinPage API-mode state wiring |
-| P5-I11 | 下一步 | CP5 frontend API-mode integration closure review |
-| P6-I* | 规划中 | AI 视频识别 MVP，需后续拆分并人工确认关键边界 |
+| P5-I11 | 已完成 | CP5 frontend API-mode integration closure review |
+| P6-I1 | 下一步 | AI event schema and synthetic fixture boundary |
+| P6-I* | 规划中 | AI video MVP remaining increments; runtime service/model/video work requires later human-confirmed gates |
 | P7-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
 | P8-I* | 规划中 | 客群、热力、动线分析，需后续拆分 |
 | P9-I* | 规划中 | 3D / 2.5D 数字孪生可交付版，需后续拆分 |
@@ -226,6 +228,7 @@ P5-I7 customer profile API-mode data loader contract
 P5-I8 customer profile API-mode state wiring
 P5-I9 digital twin API-mode data loader contract
 P5-I10 digital twin API-mode state wiring
+P5-I11 CP5 frontend API-mode integration closure review
 ```
 
 当前已实现的后端 synthetic API：
@@ -261,10 +264,12 @@ GET /api/v1/overview?mallId=mall_demo_001
 ```text
 backend pytest: 34 passed
 npm run quality: passed
-frontend tests in quality gate: 124 passed after P5-I10 DigitalTwinPage state tests
+frontend tests in quality gate: 124 passed after P5-I11 CP5 closure review
 backend tests in quality gate: 34 passed
 npm run quality:audit: found 0 vulnerabilities
 ```
+
+P5-I11 已完成：新增 [docs/CP5_CLOSURE_REVIEW.md](docs/CP5_CLOSURE_REVIEW.md)，确认 CP5 frontend API-mode integration baseline 可作为 synthetic/mock-default 基线进入下一阶段。API mode 仍只显式启用，测试不依赖 live backend，不连接真实 MySQL。
 
 P5-I4 已完成：`StoreAnalysisPage` 已接入 store-analysis loader 状态边界，新增 `frontend/src/pages/storeAnalysisState.ts`。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock store analysis 数据，测试不依赖 live backend，也不连接真实 MySQL。
 
@@ -290,7 +295,7 @@ P5-I9 已完成：新增 `frontend/src/api/digitalTwinDataLoader.ts`。Digital T
 
 P5-I10 已完成：新增 `frontend/src/pages/digitalTwinState.ts`，并把 `DigitalTwinPage` 接到 digital-twin loader 状态边界。默认仍先渲染 Mock mode；只有显式 `dataMode=api` 才触发 API mode，API 失败会回退到 mock heatmap/flow 数据，测试不依赖 live backend，也不连接真实 MySQL。
 
-下一步增量是 `P5-I11 CP5 frontend API-mode integration closure review`：整理 P5 API-mode 集成覆盖、质量门禁、剩余缺口和下一阶段接力，不切换真实后端或真实 MySQL。
+下一步增量是 `P6-I1 AI event schema and synthetic fixture boundary`：先定义 AI event schema 和 synthetic fixture validation boundary，不创建 `ai-services/`，不选择模型权重，不导入数据集或真实视频。
 
 给 AI 的指令：
 

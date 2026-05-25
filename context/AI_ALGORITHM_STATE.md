@@ -1,10 +1,10 @@
 # AI Algorithm State
 
-Updated: 2026-05-20
+Updated: 2026-05-25
 
 ## Current Status
 
-`ai-services/` has not been created. No model weights, datasets, video ingestion, tracking pipeline, or AI validation fixture has been selected.
+`ai-services/` has not been created. No model weights, datasets, video ingestion, tracking pipeline, or AI validation fixture has been selected. P5-I11 closed CP5 frontend API-mode integration and prepared P6-I1 for documentation-only AI event schema and synthetic fixture boundary planning.
 
 ## Planned Capabilities
 
@@ -44,4 +44,4 @@ limitations
 
 ## Next Step
 
-P5-I11 does not create AI services or select models. AI work remains blocked until a later P6 increment with synthetic fixtures and license review.
+P6-I1 should define AI event schema and synthetic fixture validation boundaries only. It must not create `ai-services/`, select or download models/datasets, ingest real video, add dependencies, or call external AI services.

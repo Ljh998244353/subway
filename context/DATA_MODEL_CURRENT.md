@@ -56,4 +56,4 @@ no personal trajectories returned to API clients
 
 ## Next Step
 
-P5-I11 should not change the data model. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.
+P6-I1 should not change the MySQL data model. It may document future AI event fields only as a schema boundary. Real MySQL configuration or query work requires the readiness gates in `docs/MYSQL_READINESS_PLAN.md`.

@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Status
 
-P5-I10 added executable frontend tests for DigitalTwinPage data state wiring:
+P5-I11 added a CP5 closure review without changing runtime behavior. The executable test baseline remains the P5-I10 DigitalTwinPage data state wiring and earlier P5 loader/state tests:
 
 ```text
 frontend/src/pages/storeAnalysisState.ts
@@ -31,7 +31,7 @@ backend/tests/test_reference_api.py
 backend/tests/test_overview_api.py
 ```
 
-Latest local P5-I10 frontend result:
+Latest local P5-I11 frontend result:
 
 ```text
 npm --prefix frontend run test: 124 passed
@@ -55,7 +55,7 @@ npm run quality
 npm run quality:audit
 ```
 
-Final P5-I10 result:
+Final P5-I11 result:
 
 ```text
 npm --prefix frontend run test: 124 passed
@@ -68,7 +68,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Known Gaps
 
 ```text
-CP5 frontend API-mode integration closure review is not yet documented
+P6 AI event schema and synthetic fixture tests are not yet documented or implemented
 no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E

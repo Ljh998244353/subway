@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P5-I11 CP5 frontend API-mode integration closure review`
-- Primary role: Frontend Integration Mode
-- Auxiliary reviews: Backend, QA, Security/License
-- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I10 are complete, including CP4 closure review, MySQL readiness planning, overview API-mode integration, Store Analysis API-mode wiring, Store Alerts API-mode wiring, Customer Profile API-mode wiring, and Digital Twin API-mode wiring.
-- Next focus: review and close the CP5 frontend API-mode integration baseline while keeping mock mode as the default demo path.
-- Do not connect real MySQL. Do not create `ai-services/`, `infra/`, real Docker Compose, real API integration, real video, real mall material, real brands, face images, or personal trajectories.
+- Current increment: `P6-I1 AI event schema and synthetic fixture boundary`
+- Primary role: AI Video Mode
+- Auxiliary reviews: Architect, QA, Security/License
+- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I11 are complete, including CP4 closure review, MySQL readiness planning, all CP5 frontend API-mode loader/state wiring, and CP5 closure review.
+- Next focus: define the AI event output schema and synthetic fixture validation boundary before creating any AI service.
+- Do not connect real MySQL. Do not create `ai-services/`, `infra/`, real Docker Compose, real API integration, real video, model weights, datasets, real mall material, real brands, face images, or personal trajectories.
 
 ## Required Reading
 

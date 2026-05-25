@@ -38,6 +38,7 @@ const requiredFiles = [
   "docs/CI_PLAN.md",
   "docs/DEPLOYMENT_PLAN.md",
   "docs/CP4_CLOSURE_REVIEW.md",
+  "docs/CP5_CLOSURE_REVIEW.md",
   "docs/MYSQL_READINESS_PLAN.md",
   "docs/API_CONTRACT.md",
   "docs/DATA_MODEL.md",
@@ -444,7 +445,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I11"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P6-I1"]
     },
     {
       name: "hard rules",
@@ -495,8 +496,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P5-I11 CP5 closure focus",
-      patterns: ["P5-I11", "CP5", "API mode", "mock mode", "closure review", "quality gate"]
+      name: "P6-I1 AI event schema focus",
+      patterns: ["P6-I1", "AI event schema", "synthetic fixture", "AI Video Mode", "quality gate"]
     }
   ];
 

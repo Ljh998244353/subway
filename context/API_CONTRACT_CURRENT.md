@@ -61,6 +61,8 @@ P5-I9 added `frontend/src/api/digitalTwinDataLoader.ts`, which consumes `getHeat
 
 P5-I10 wired DigitalTwinPage state to the Digital Twin loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
 
+P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. No API endpoint was added or changed.
+
 ## Not Implemented
 
 ```text
@@ -72,4 +74,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P5-I11 should review CP5 frontend API-mode integration coverage while keeping mock mode as the default and avoiding live backend dependencies in tests.
+P6-I1 may define a future AI event output schema in documentation only. It must not add backend endpoints, create AI services, connect real MySQL, or require live backend dependencies in tests.

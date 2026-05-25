@@ -79,6 +79,8 @@ P5-I9 note: Digital Twin API-mode loader contract adds project-authored frontend
 
 P5-I10 note: DigitalTwinPage API-mode state wiring adds project-authored frontend TypeScript and Node built-in tests only. It reuses existing dependencies and existing synthetic heatmap/trajectory contracts. It does not add third-party packages, models, media assets, maps, floor plans, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
 
+P5-I11 note: CP5 closure review adds project-authored documentation only. It reuses existing dependencies and does not add third-party packages, models, datasets, media assets, maps, floor plans, Docker images, database services, external services, paid accounts, real mall material, personal trajectories, credentials, or real MySQL access.
+
 ## Blocked Until Reviewed
 
 Do not use the following unless the source, permission, and license have been reviewed and recorded:

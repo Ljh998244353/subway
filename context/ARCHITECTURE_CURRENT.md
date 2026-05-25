@@ -14,7 +14,7 @@ quality gate: root npm scripts + backend Pytest
 CI: GitHub Actions only
 ```
 
-P4-I4 through P4-I15 built the synthetic backend API and typed frontend client contract. P4-I16 added CP4 closure review and MySQL readiness planning. P5-I1 added the overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to the overview loader state boundary. P5-I3 added the Store Analysis loader contract. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts loader contract. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile loader contract. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin loader contract. P5-I10 wired DigitalTwinPage to that boundary. Real MySQL, Redis, AI service, external services, and Docker Compose remain out of scope unless explicitly confirmed.
+P4-I4 through P4-I15 built the synthetic backend API and typed frontend client contract. P4-I16 added CP4 closure review and MySQL readiness planning. P5-I1 added the overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to the overview loader state boundary. P5-I3 added the Store Analysis loader contract. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts loader contract. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile loader contract. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin loader contract. P5-I10 wired DigitalTwinPage to that boundary. P5-I11 closed CP5 with a frontend API-mode integration review. Real MySQL, Redis, AI service, external services, and Docker Compose remain out of scope unless explicitly confirmed.
 
 ## Implemented API Layer
 
@@ -36,4 +36,4 @@ P4-I4 through P4-I15 built the synthetic backend API and typed frontend client c
 
 ## Next Architecture Work
 
-P5-I11 reviews and closes the CP5 frontend API-mode integration baseline. Mock mode remains the default and API paths should use the existing synthetic backend contract only.
+P6-I1 documents AI event schema and synthetic fixture boundaries only. It must not create a runtime AI service or change backend/frontend architecture.

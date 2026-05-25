@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Status
 
-The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary for all implemented synthetic backend read APIs. P5-I1 added the first overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to an overview state boundary while preserving mock defaults. P5-I3 added the Store Analysis data loader contract. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts data loader contract. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile data loader contract. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin data loader contract for heatmap and trajectory API data. P5-I10 wired DigitalTwinPage to that boundary.
+The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary for all implemented synthetic backend read APIs. P5-I1 added the first overview data loader contract for explicit API mode. P5-I2 wired DashboardPage to an overview state boundary while preserving mock defaults. P5-I3 added the Store Analysis data loader contract. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts data loader contract. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile data loader contract. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin data loader contract for heatmap and trajectory API data. P5-I10 wired DigitalTwinPage to that boundary. P5-I11 closed CP5 with a frontend API-mode integration review.
 
 Current frontend API files:
 
@@ -72,7 +72,7 @@ resolveDigitalTwinDataState
 
 ```text
 npm --prefix frontend run test: 124 passed
-npm run quality: passed in P5-I10
+npm run quality: passed in P5-I11
 ```
 
 ## Constraints
@@ -90,4 +90,4 @@ no new dependency
 
 ## Next Step
 
-P5-I11 should review and close the CP5 frontend API-mode integration baseline. It must keep mock mode as the default and should document remaining gaps rather than adding new live backend behavior.
+P6-I1 should define the AI event schema and synthetic fixture boundary. There is no next frontend API-mode wiring task until a later explicitly scoped increment.

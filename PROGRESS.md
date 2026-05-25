@@ -4,17 +4,15 @@ Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I10.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I11.
 
-P5-I10 completed Digital Twin API-mode state wiring:
+P5-I11 completed CP5 frontend API-mode integration closure review:
 
 ```text
-frontend/src/api/digitalTwinDataLoader.ts
-frontend/src/api/digitalTwinDataLoader.test.ts
-frontend/src/pages/digitalTwinState.ts
-frontend/src/pages/DigitalTwinPage.tsx
-frontend/src/pages/DigitalTwinPage.test.ts
-frontend/package.json
+docs/CP5_CLOSURE_REVIEW.md
+scripts/quality-gate.mjs
+README.md
+PROGRESS.md
 context/TODO_NEXT.md
 context/*.md
 ```
@@ -22,15 +20,14 @@ context/*.md
 Implemented:
 
 ```text
-DigitalTwinPage now uses a React state/effect boundary for digital-twin spatial data
-initial/default DigitalTwinPage state still renders mock heatmap and flow data
-dataMode=api can trigger the Digital Twin loader explicitly
-API failure falls back to mock Digital Twin state and records an error message
-DigitalTwinPage tests cover mock default, API option forwarding, API result view-model inputs, and API fallback without live backend
-P5-I11 handoff for CP5 frontend API-mode integration closure review
+documented CP5 API-mode loader and state wiring coverage across all P5 routes
+confirmed mock mode remains the frontend default and API mode stays explicit
+recorded go/no-go result, remaining gaps, and blocked boundaries
+updated the quality gate to require the CP5 closure review document
+prepared P6-I1 handoff for AI event schema and synthetic fixture boundary planning
 ```
 
-P5 has started without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
+P5 is closed without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
 
 ## Current Status
 
@@ -48,6 +45,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 | Customer Profile API-mode state | complete | P5-I8 wires CustomerProfilePage to the customer-profile loader boundary with mock fallback |
 | Digital Twin data loader | complete | P5-I9 `loadDigitalTwinData` supports mock/API selection with offline tests |
 | Digital Twin API-mode state | complete | P5-I10 wires DigitalTwinPage to the digital-twin loader boundary with mock fallback |
+| CP5 closure review | complete | P5-I11 documents frontend API-mode integration coverage, gaps, and P6 handoff |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -66,7 +64,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 
 ## Verification
 
-P5-I10 local verification:
+P5-I11 local verification:
 
 ```bash
 npm --prefix frontend run test
@@ -87,11 +85,11 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
-P5 frontend API-mode integration needs a closure review before moving to later phases
+P6 AI event schema and synthetic fixture boundary is not yet documented
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
-no AI service
+no AI service, model, dataset, or video ingestion
 no Docker Compose startup test
 ```
 
@@ -99,17 +97,17 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P5-I11 CP5 frontend API-mode integration closure review`.
+Next increment: `P6-I1 AI event schema and synthetic fixture boundary`.
 
 Recommended scope:
 
 ```text
-review P5 API-mode loader and state wiring coverage across Dashboard, Store Analysis, Store Alerts, Customer Profile, and Digital Twin
-document remaining gaps, quality gate results, and CP5 go/no-go status
-prepare the next-stage handoff without switching mock mode or connecting real MySQL
+define the future AI event output schema
+document synthetic fixture validation rules and privacy/license boundaries
+prepare P6 without creating ai-services/, selecting models, ingesting video, or adding dependencies
 ```
 
-P5-I11 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
+P6-I1 must not create `ai-services/`, select model weights or datasets, ingest real video, add dependencies, depend on external services, or connect real MySQL.
 
 ## Stage Log
 
@@ -141,7 +139,8 @@ P5-I11 must not switch the frontend default mode to API, must not depend on a li
 | P5-I8 customer profile API-mode state wiring | 2026-05-25 | Wired CustomerProfilePage to customer-profile state boundary, added mock/API/fallback state tests, and prepared P5-I9 Digital Twin loader handoff |
 | P5-I9 digital twin API-mode data loader contract | 2026-05-25 | Added `loadDigitalTwinData`, heatmap/trajectory DTO mapping, offline loader tests, and prepared P5-I10 DigitalTwinPage wiring handoff |
 | P5-I10 digital twin API-mode state wiring | 2026-05-25 | Wired DigitalTwinPage to digital-twin state boundary, added mock/API/fallback state tests, and prepared P5-I11 CP5 closure handoff |
+| P5-I11 CP5 frontend API-mode integration closure review | 2026-05-25 | Added CP5 closure review, documented API-mode coverage and gaps, updated quality gate, and prepared P6-I1 AI event schema handoff |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the P5-I11 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/CP5_CLOSURE_REVIEW.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the P6-I1 task card.
