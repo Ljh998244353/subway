@@ -44,4 +44,4 @@ limitations
 
 ## Next Step
 
-P5-I10 does not create AI services or select models. AI work remains blocked until a later P6 increment with synthetic fixtures and license review.
+P5-I11 does not create AI services or select models. AI work remains blocked until a later P6 increment with synthetic fixtures and license review.

@@ -126,6 +126,7 @@ const requiredFiles = [
   "frontend/src/pages/StoreAlertsPage.test.ts",
   "frontend/src/pages/DigitalTwinPage.tsx",
   "frontend/src/pages/DigitalTwinPage.test.ts",
+  "frontend/src/pages/digitalTwinState.ts",
   "frontend/src/pages/CustomerProfilePage.tsx",
   "frontend/src/pages/CustomerProfilePage.test.ts",
   "frontend/src/styles/responsiveChecks.test.ts",
@@ -443,7 +444,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I10"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P5-I11"]
     },
     {
       name: "hard rules",
@@ -494,8 +495,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P5-I10 digital twin state wiring focus",
-      patterns: ["P5-I10", "API mode", "mock mode", "DigitalTwinPage", "loadDigitalTwinData", "quality gate"]
+      name: "P5-I11 CP5 closure focus",
+      patterns: ["P5-I11", "CP5", "API mode", "mock mode", "closure review", "quality gate"]
     }
   ];
 

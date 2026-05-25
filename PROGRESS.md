@@ -4,13 +4,16 @@ Updated: 2026-05-25
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I9.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, and P5-I1 through P5-I10.
 
-P5-I9 completed Digital Twin API-mode data loader contract:
+P5-I10 completed Digital Twin API-mode state wiring:
 
 ```text
 frontend/src/api/digitalTwinDataLoader.ts
 frontend/src/api/digitalTwinDataLoader.test.ts
+frontend/src/pages/digitalTwinState.ts
+frontend/src/pages/DigitalTwinPage.tsx
+frontend/src/pages/DigitalTwinPage.test.ts
 frontend/package.json
 context/TODO_NEXT.md
 context/*.md
@@ -19,12 +22,12 @@ context/*.md
 Implemented:
 
 ```text
-loadDigitalTwinData now supports mock mode by default and explicit API mode
-API mode calls getHeatmap(mallId) and getTrajectories(mallId) through the typed reference client
-API heatmap DTOs map to frontend HeatmapPoint values with bounded intensity
-API trajectory DTOs map to frontend FlowEdge values with safe direction and traffic defaults
-digitalTwinDataLoader tests cover mock default, injected client API success, fetch URL/request headers, DTO safety mapping, and typed API error propagation without live backend
-P5-I10 handoff for DigitalTwinPage API-mode state wiring
+DigitalTwinPage now uses a React state/effect boundary for digital-twin spatial data
+initial/default DigitalTwinPage state still renders mock heatmap and flow data
+dataMode=api can trigger the Digital Twin loader explicitly
+API failure falls back to mock Digital Twin state and records an error message
+DigitalTwinPage tests cover mock default, API option forwarding, API result view-model inputs, and API fallback without live backend
+P5-I11 handoff for CP5 frontend API-mode integration closure review
 ```
 
 P5 has started without changing the default demo behavior. The frontend still defaults to mock/synthetic data. Real MySQL, credentials, Docker Compose, AI services, real video, real mall data, and personal data remain blocked.
@@ -44,6 +47,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 | Customer Profile data loader | complete | P5-I7 `loadCustomerProfileData` supports mock/API selection with offline tests |
 | Customer Profile API-mode state | complete | P5-I8 wires CustomerProfilePage to the customer-profile loader boundary with mock fallback |
 | Digital Twin data loader | complete | P5-I9 `loadDigitalTwinData` supports mock/API selection with offline tests |
+| Digital Twin API-mode state | complete | P5-I10 wires DigitalTwinPage to the digital-twin loader boundary with mock fallback |
 | Backend health skeleton | complete | `/api/v1/health`, traceId, error envelope, OpenAPI, Pytest |
 | Migration baseline | complete | SQLAlchemy Core metadata + Alembic initial migration |
 | Core read API stubs | complete | mall/floor/store fixture APIs + contract tests |
@@ -62,7 +66,7 @@ P5 has started without changing the default demo behavior. The frontend still de
 
 ## Verification
 
-P5-I9 local verification:
+P5-I10 local verification:
 
 ```bash
 npm --prefix frontend run test
@@ -73,7 +77,7 @@ npm run quality:audit
 Results:
 
 ```text
-npm --prefix frontend run test: 120 passed
+npm --prefix frontend run test: 124 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -83,7 +87,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Current Risks
 
 ```text
-DigitalTwinPage is not yet wired to the Digital Twin loader state boundary
+P5 frontend API-mode integration needs a closure review before moving to later phases
 no real MySQL connection or migration execution
 no browser E2E or live frontend/backend integration test
 no coverage report
@@ -95,19 +99,17 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P5-I10 digital twin API-mode state wiring`.
+Next increment: `P5-I11 CP5 frontend API-mode integration closure review`.
 
 Recommended scope:
 
 ```text
-add a Digital Twin state adapter using the existing `loadDigitalTwinData`
-wire DigitalTwinPage to use loader-provided heatmap and flow data
-keep mock mode and existing DigitalTwinPage rendering as the default
-add tests for mock default, API option forwarding, API result view-model inputs, and API error/fallback boundaries without live backend calls
-do not connect real MySQL or change backend fixture behavior
+review P5 API-mode loader and state wiring coverage across Dashboard, Store Analysis, Store Alerts, Customer Profile, and Digital Twin
+document remaining gaps, quality gate results, and CP5 go/no-go status
+prepare the next-stage handoff without switching mock mode or connecting real MySQL
 ```
 
-P5-I10 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
+P5-I11 must not switch the frontend default mode to API, must not depend on a live backend in tests, and must not connect real MySQL.
 
 ## Stage Log
 
@@ -138,7 +140,8 @@ P5-I10 must not switch the frontend default mode to API, must not depend on a li
 | P5-I7 customer profile API-mode data loader contract | 2026-05-25 | Added `loadCustomerProfileData`, API DTO mapping, offline loader tests, and prepared P5-I8 CustomerProfilePage wiring handoff |
 | P5-I8 customer profile API-mode state wiring | 2026-05-25 | Wired CustomerProfilePage to customer-profile state boundary, added mock/API/fallback state tests, and prepared P5-I9 Digital Twin loader handoff |
 | P5-I9 digital twin API-mode data loader contract | 2026-05-25 | Added `loadDigitalTwinData`, heatmap/trajectory DTO mapping, offline loader tests, and prepared P5-I10 DigitalTwinPage wiring handoff |
+| P5-I10 digital twin API-mode state wiring | 2026-05-25 | Wired DigitalTwinPage to digital-twin state boundary, added mock/API/fallback state tests, and prepared P5-I11 CP5 closure handoff |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `frontend/src/pages/DigitalTwinPage.tsx`, `frontend/src/pages/digitalTwinModel.ts`, `frontend/src/api/digitalTwinDataLoader.ts`, `frontend/src/api/referenceClient.ts`, `frontend/`, `backend/`, and relevant context files, then execute the P5-I10 task card.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `PROGRESS.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute the P5-I11 task card.

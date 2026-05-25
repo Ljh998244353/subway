@@ -5,26 +5,25 @@ Updated: 2026-05-25
 ## Task Card
 
 ```text
-Increment: P5-I10 digital twin API-mode state wiring
-Primary role: Frontend Integration Mode
+Increment: P5-I11 CP5 frontend API-mode integration closure review
+Primary role: QA Mode
 Auxiliary reviews: Backend, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P5-I9 digital twin API-mode data loader contract
+Status: ready after P5-I10 digital twin API-mode state wiring
 ```
 
 ## Goal
 
-Continue P5 frontend/backend integration by wiring DigitalTwinPage through a narrow state boundary that uses the existing Digital Twin data loader. The page should keep mock mode as the default and only trigger API mode when explicitly requested. Keep tests offline and do not require a live backend.
+Review and close the CP5 frontend API-mode integration baseline. Confirm each P5 route has explicit API mode boundaries, mock mode remains the default, tests stay offline, and remaining gaps are documented before later phases.
 
 ## Recommended Scope
 
 ```text
-add a frontend Digital Twin state adapter similar to existing dashboard/store/customer state adapters
-use existing loadDigitalTwinData and preserve mock data as the initial/default state
-wire DigitalTwinPage to use state result heatmapPoints and flowEdges instead of direct mock spatial arrays
-read mallId, dataMode, and apiBaseUrl from query params/options as existing API-mode pages do
-show a small data-source/status indicator and fallback error text without changing the default demo
-add tests for mock default, API option forwarding, API result view-model inputs, and API error/fallback behavior without live backend calls
+review P5-I1 through P5-I10 loader and state wiring coverage
+confirm DashboardPage, StoreAnalysisPage, StoreAlertsPage, CustomerProfilePage, and DigitalTwinPage retain mock mode by default
+document API-mode test coverage, remaining gaps, and CP5 go/no-go status
+update README, PROGRESS.md, context/*.md, and engineering quality docs
+do not add new runtime behavior unless a documentation inconsistency requires a narrow correction
 ```
 
 ## Non-goals
@@ -49,19 +48,21 @@ README.md
 PROGRESS.md
 frontend/src/pages/DigitalTwinPage.tsx
 frontend/src/pages/DigitalTwinPage.test.ts
-frontend/src/pages/digitalTwinModel.ts
+frontend/src/pages/digitalTwinState.ts
 frontend/src/api/digitalTwinDataLoader.ts
-frontend/src/api/referenceClient.ts
-frontend/src/api/apiMode.ts
+frontend/src/api/*.ts
+frontend/src/pages/*State.ts
+docs/ENGINEERING_QUALITY_GATES.md
+docs/CI_PLAN.md
 context/*.md
 ```
 
 ## Deliverables
 
 ```text
-DigitalTwinPage state adapter and page wiring with offline tests
-mock mode remains default and the existing digital-twin demo remains stable
-API mode state behavior is covered without live backend or real MySQL dependency
+CP5 closure review and handoff documentation
+mock mode remains default and all API-mode behavior remains explicit
+quality and audit results are recorded
 updated README, PROGRESS.md, context/*.md, and context/TODO_NEXT.md
 no new dependency unless license/cost reviewed first
 ```
@@ -74,10 +75,10 @@ npm run quality
 npm run quality:audit
 ```
 
-P5-I10 completion should be searchable with:
+P5-I11 completion should be searchable with:
 
 ```bash
-rg -n "P5-I10|DigitalTwinPage|API mode|mock mode|loadDigitalTwinData|digital twin state|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
+rg -n "P5-I11|CP5|API mode|mock mode|frontend API-mode integration|closure review|quality gate|请进行下一步" README.md PROGRESS.md AGENTS.md context/TODO_NEXT.md context/FRONTEND_STATE.md frontend docs
 ```
 
 ## Human Confirmation Gates
@@ -94,4 +95,4 @@ before AI service or production deployment
 
 ## Next Handoff
 
-After P5-I10, continue API-mode integration route by route only if mock mode remains stable and quality gates pass.
+After P5-I11, move to the next approved phase only if mock mode remains stable, CP5 gaps are documented, and quality gates pass.

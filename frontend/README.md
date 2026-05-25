@@ -32,11 +32,12 @@ P5-I6 StoreAlertsPage state wiring with mock fallback and offline tests
 P5-I7 Customer Profile data loader contract with mock/API mode selection and offline tests
 P5-I8 CustomerProfilePage state wiring with mock fallback and offline tests
 P5-I9 Digital Twin data loader contract with mock/API mode selection and offline tests
+P5-I10 DigitalTwinPage state wiring with mock fallback and offline tests
 ```
 
 It does not implement real APIs, real video, real mall maps, brand logos, backend services, AI services, or deployment infrastructure.
 
-P5-I1 added the frontend loader boundary for explicit API mode. P5-I2 wired DashboardPage to that boundary. P5-I3 added the Store Analysis loader boundary. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts loader boundary. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile loader boundary. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin loader boundary for heatmap and trajectory data. The default demo remains mock mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
+P5-I1 added the frontend loader boundary for explicit API mode. P5-I2 wired DashboardPage to that boundary. P5-I3 added the Store Analysis loader boundary. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts loader boundary. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile loader boundary. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin loader boundary for heatmap and trajectory data. P5-I10 wired DigitalTwinPage to that boundary. The default demo remains mock mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
 
 ## Visual Context
 

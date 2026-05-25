@@ -4,11 +4,11 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P5-I10 digital twin API-mode state wiring`
+- Current increment: `P5-I11 CP5 frontend API-mode integration closure review`
 - Primary role: Frontend Integration Mode
 - Auxiliary reviews: Backend, QA, Security/License
-- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I9 are complete, including CP4 closure review, MySQL readiness planning, overview API-mode integration, Store Analysis API-mode wiring, Store Alerts API-mode wiring, Customer Profile API-mode wiring, and Digital Twin loader coverage.
-- Next focus: wire DigitalTwinPage through the Digital Twin loader state boundary while keeping mock mode as the default demo path.
+- Current base: P4-I1 through P4-I16 and P5-I1 through P5-I10 are complete, including CP4 closure review, MySQL readiness planning, overview API-mode integration, Store Analysis API-mode wiring, Store Alerts API-mode wiring, Customer Profile API-mode wiring, and Digital Twin API-mode wiring.
+- Next focus: review and close the CP5 frontend API-mode integration baseline while keeping mock mode as the default demo path.
 - Do not connect real MySQL. Do not create `ai-services/`, `infra/`, real Docker Compose, real API integration, real video, real mall material, real brands, face images, or personal trajectories.
 
 ## Required Reading

@@ -4,7 +4,7 @@ Updated: 2026-05-25
 
 ## Current Status
 
-P5-I9 added executable frontend tests for the Digital Twin data loader contract:
+P5-I10 added executable frontend tests for DigitalTwinPage data state wiring:
 
 ```text
 frontend/src/pages/storeAnalysisState.ts
@@ -19,6 +19,8 @@ frontend/src/api/customerProfileDataLoader.test.ts
 frontend/src/api/customerProfileDataLoader.ts
 frontend/src/api/digitalTwinDataLoader.test.ts
 frontend/src/api/digitalTwinDataLoader.ts
+frontend/src/pages/digitalTwinState.ts
+frontend/src/pages/DigitalTwinPage.test.ts
 frontend/src/pages/customerProfileState.ts
 frontend/src/pages/CustomerProfilePage.test.ts
 frontend/src/api/overviewDataLoader.test.ts
@@ -29,20 +31,20 @@ backend/tests/test_reference_api.py
 backend/tests/test_overview_api.py
 ```
 
-Latest local P5-I9 frontend result:
+Latest local P5-I10 frontend result:
 
 ```text
-npm --prefix frontend run test: 120 passed
+npm --prefix frontend run test: 124 passed
 ```
 
-P5-I9 test coverage includes:
+P5-I10 test coverage includes:
 
 ```text
-Digital Twin loader starts in mock mode without calling API client
-explicit API mode calls getHeatmap and getTrajectories through injected client
-fetch-based API mode normalizes apiBaseUrl, encodes mallId, and sends request id headers
-API heatmap and trajectory DTOs map into safe frontend spatial models
-typed API errors propagate without live backend fallback
+DigitalTwinPage state starts in mock mode without API data
+explicit API mode forwards mallId and apiBaseUrl to the injected loader
+API result data can drive the existing Digital Twin view model
+API loader failure falls back to mock Digital Twin state
+Digital Twin loader tests still cover mock default, API success, URL boundaries, DTO mapping, and typed errors
 ```
 
 ## Required Final Checks
@@ -53,10 +55,10 @@ npm run quality
 npm run quality:audit
 ```
 
-Final P5-I9 result:
+Final P5-I10 result:
 
 ```text
-npm --prefix frontend run test: 120 passed
+npm --prefix frontend run test: 124 passed
 npm run quality: passed
 npm run quality:audit: found 0 vulnerabilities
 ```
@@ -66,7 +68,7 @@ Vite still prints React Router/Motion `"use client"` warnings during build; thes
 ## Known Gaps
 
 ```text
-DigitalTwinPage is not yet wired to the Digital Twin loader state boundary
+CP5 frontend API-mode integration closure review is not yet documented
 no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E

@@ -22,7 +22,7 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration. P5-I1 through P5-I9 did not require backend changes; the frontend overview, Store Analysis, Store Alerts, Customer Profile, and Digital Twin integrations use existing `/api/v1` contracts.
+P4-I16 CP4 review confirms the backend is acceptable as a synthetic contract baseline for P5 API-mode frontend integration. P5-I1 through P5-I10 did not require backend changes; the frontend overview, Store Analysis, Store Alerts, Customer Profile, and Digital Twin integrations use existing `/api/v1` contracts.
 
 ## Constraints
 
@@ -39,4 +39,4 @@ no sudo
 
 ## Next Step
 
-P5-I10 should not require backend changes unless DigitalTwinPage state wiring exposes a missing contract issue. Do not replace fixtures or add real MySQL queries.
+P5-I11 should not require backend changes. Do not replace fixtures or add real MySQL queries.

@@ -81,7 +81,8 @@ PROGRESS.md and context/TODO_NEXT.md are updated
 | P5-I7 | complete: Customer Profile API-mode loader tests, mock mode remains default |
 | P5-I8 | complete: CustomerProfilePage API-mode state wiring tests, mock mode remains default |
 | P5-I9 | complete: Digital Twin API-mode loader tests, mock mode remains default |
-| P5-I10 | DigitalTwinPage API-mode state wiring tests, mock mode remains default |
+| P5-I10 | complete: DigitalTwinPage API-mode state wiring tests, mock mode remains default |
+| P5-I11 | CP5 frontend API-mode integration closure review and handoff |
 | Real MySQL query | migration execution test, database config validation, no committed secrets |
 | AI service | synthetic video fixtures, model/data license audit, output schema tests |
 | Production-like deployment | Compose config check, health checks, backup/logging docs, security review |

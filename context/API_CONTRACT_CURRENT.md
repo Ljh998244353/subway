@@ -59,6 +59,8 @@ P5-I8 wired CustomerProfilePage state to the Customer Profile loader. The page c
 
 P5-I9 added `frontend/src/api/digitalTwinDataLoader.ts`, which consumes `getHeatmap(mallId)` and `getTrajectories(mallId)` only when API mode is explicitly selected. Mock mode remains the default frontend path.
 
+P5-I10 wired DigitalTwinPage state to the Digital Twin loader. The page can use API mode only when explicitly requested and falls back to mock state on loader failure.
+
 ## Not Implemented
 
 ```text
@@ -70,4 +72,4 @@ committed OpenAPI artifact
 
 ## Next Step
 
-P5-I10 should wire DigitalTwinPage state to the Digital Twin loader while keeping mock mode as the default and avoiding live backend dependencies in tests.
+P5-I11 should review CP5 frontend API-mode integration coverage while keeping mock mode as the default and avoiding live backend dependencies in tests.

@@ -1,13 +1,15 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { FloorPlan } from '../components/FloorPlan';
 import { MotionSurface } from '../components/MotionSurface';
 import { StatusBadge } from '../components/StatusBadge';
 import { TwinInspector } from '../components/TwinInspector';
-import { mockAlerts, mockFloors, mockFlowEdges, mockHeatmapPoints, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
+import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
 import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
 import type { TwinMode } from '../types/index.ts';
 import { buildDigitalTwinViewModel, twinModeLabel, type DigitalTwinFilters } from './digitalTwinModel.ts';
+import { createInitialDigitalTwinDataState, resolveDigitalTwinDataState } from './digitalTwinState.ts';
 
 const twinModes: TwinMode[] = ['heatmap', 'flow', 'alerts', 'score'];
 
@@ -35,16 +37,31 @@ function formatTimeRange(timeRange: string) {
 export function DigitalTwinPage() {
   const [params] = useSearchParams();
   const location = useLocation();
+  const mallId = params.get('mallId') || mockMall.id;
   const timeRange = params.get('timeRange') || 'today';
   const filters = parseFilters(params);
-  const viewModel = buildDigitalTwinViewModel(
-    mockFloors,
-    mockStoresWithAlerts,
-    mockAlerts,
-    mockHeatmapPoints,
-    mockFlowEdges,
-    filters
+  const dataMode = params.get('dataMode') ?? undefined;
+  const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
+  const [twinDataState, setTwinDataState] = useState(() => createInitialDigitalTwinDataState());
+  const viewModel = useMemo(
+    () =>
+      buildDigitalTwinViewModel(
+        mockFloors,
+        mockStoresWithAlerts,
+        mockAlerts,
+        twinDataState.result.heatmapPoints,
+        twinDataState.result.flowEdges,
+        filters
+      ),
+    [filters, twinDataState.result.flowEdges, twinDataState.result.heatmapPoints]
   );
+  const dataSourceLabel = twinDataState.result.source === 'api' ? 'API' : 'Mock';
+  const statusLabel =
+    twinDataState.status === 'loading'
+      ? 'API 加载中'
+      : twinDataState.status === 'error'
+        ? 'API 异常 / Mock 回退'
+        : `${dataSourceLabel} 模式`;
 
   const buildTwinUrl = (routeParams: { floorId?: string; mode?: TwinMode; storeId?: string; alertId?: string }) =>
     buildDigitalTwinUrl(routeParams, location.search);
@@ -52,17 +69,40 @@ export function DigitalTwinPage() {
   const buildStoreAlertsRoute = (alertId?: string, storeId?: string) =>
     buildStoreAlertsUrl({ alertId, storeId, floorId: viewModel.floor.id }, location.search);
 
+  useEffect(() => {
+    let active = true;
+
+    if (dataMode === 'api') {
+      setTwinDataState((current) => ({ ...current, status: 'loading', errorMessage: undefined }));
+    }
+
+    void resolveDigitalTwinDataState({
+      mode: dataMode,
+      apiBaseUrl,
+      mallId
+    }).then((nextState) => {
+      if (active) {
+        setTwinDataState(nextState);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [apiBaseUrl, dataMode, mallId]);
+
   return (
     <MotionSurface as="section" className="page digital-twin-page">
       <MotionSurface as="section" className="page-header dashboard-header" delay={0.02}>
         <div>
-          <p className="page-kicker">数字孪生 / {formatTimeRange(timeRange)} / Mock 数据</p>
+          <p className="page-kicker">数字孪生 / {formatTimeRange(timeRange)} / {dataSourceLabel} 数据</p>
           <h1>数字孪生</h1>
           <p>
             使用 {mockMall.name} 的虚构楼层、店铺、热力、动线和告警 Mock 数据绘制空间联动视图，不包含真实平面图或 BIM。
           </p>
         </div>
         <div className="dashboard-header__actions">
+          <StatusBadge label={statusLabel} tone={twinDataState.status === 'error' ? 'warning' : 'info'} />
           <StatusBadge label={`${viewModel.floor.code} · ${twinModeLabel[viewModel.mode]}`} tone="info" />
           <Link className="ghost-button link-button" to={buildRouteWithGlobalQuery('/digital-twin', location.search)}>
             重置视图
@@ -77,7 +117,8 @@ export function DigitalTwinPage() {
         <span>模式：{twinModeLabel[viewModel.mode]}</span>
         <span>店铺：{viewModel.selectedStore?.name ?? '无'}</span>
         <span>告警：{viewModel.selectedAlert?.id ?? '无'}</span>
-        <span>数据源：自绘 Mock geometry</span>
+        <span>数据源：{dataSourceLabel} spatial aggregate</span>
+        {twinDataState.errorMessage ? <span>API 回退：{twinDataState.errorMessage}</span> : null}
       </MotionSurface>
 
       <MotionSurface className="twin-control-row" aria-label="数字孪生控制" delay={0.06}>
