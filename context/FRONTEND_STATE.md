@@ -4,7 +4,7 @@ Updated: 2026-05-26
 
 ## Current Status
 
-The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary. P5-I1 through P5-I11 added explicit API-mode data loaders and state adapters across the demo pages while preserving mock defaults. P7 completed the premium `/digital-twin` cockpit, GLB-backed Three.js scene, labels, lighting, camera/hover/alert effects, heatmap animation, and score visualization. P8-I1 prepared the frontend for production delivery with route-level lazy loading, chunk splitting, loading/error fallbacks, and lower per-frame React churn in the 3D scene.
+The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary. P5-I1 through P5-I11 added explicit API-mode data loaders and state adapters across the demo pages while preserving mock defaults. P7 completed the premium `/digital-twin` cockpit, GLB-backed Three.js scene, labels, lighting, camera/hover/alert effects, heatmap animation, and score visualization. P7-R2 corrected GLB model mode visibility and diagnostics, defaulting the digital twin to URL-preserved GLB mode on F2 with clear procedural fallback on other floors, and replaced the simple F2 GLB with a richer self-authored synthetic mall model. P8-I1 prepared the frontend for production delivery with route-level lazy loading, chunk splitting, loading/error fallbacks, and lower per-frame React churn in the 3D scene.
 
 Current digital twin implementation:
 
@@ -15,6 +15,9 @@ WebGL scene: frontend/src/twin/scene/DigitalTwinScene.tsx
 production chunking: frontend/src/performance/buildChunks.ts
 SVG fallback/reference: frontend/src/components/FloorPlan.tsx
 model helpers: frontend/src/pages/digitalTwinModel.ts
+GLB asset: frontend/public/models/mall_floor_f2.glb
+Blender source: assets/blender/mall_floor_f2.blend
+Blender export script: scripts/blender/export_mall_floor_f2.py
 API-mode data loader: frontend/src/api/digitalTwinDataLoader.ts
 rendering style: premium light fullscreen cockpit shell with GLB model loading, synthetic overlays, and SVG/2.5D fallback/reference
 preview route: /style-preview
@@ -129,4 +132,4 @@ no unaudited new dependency or asset
 
 ## Next Step
 
-P8-I3 should keep frontend mock defaults while backend ranking filters are refined. Only update frontend API client types/tests if the ranking filter contract requires typed coverage; do not add frontend dependencies or external assets unless a later task card explicitly scopes and approves that work.
+P7-R2 should finish validation of the recovered GLB path and documentation consistency, then return to P8-I3. P8-I3 should keep frontend mock defaults while backend ranking filters are refined. Only update frontend API client types/tests if the ranking filter contract requires typed coverage; do not add frontend dependencies or external assets unless a later task card explicitly scopes and approves that work.

@@ -4,12 +4,13 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P8-I3 Store score ranking filters and synthetic score readiness` - ready after P8-I2 store score formula contract.
+- Current increment: `P8-I3 Store score ranking filters and synthetic score readiness`.
 - Primary role: Backend Mode
 - Auxiliary reviews: Design, Architect, QA, Security/License
-- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 through P7-I8, P8-I1, and P8-I2 store score formula contract are complete.
-- Next focus: extend the synthetic store ranking contract with narrow filters and document synthetic score persistence readiness.
-- Do not connect real MySQL, create deployment infrastructure, use real video, real mall material, BIM/CAD, real brands, face images, personal trajectories, external asset APIs, or production data in P8-I3.
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 through P7-I8, P7-R2, P8-I1, and P8-I2 store score formula contract are complete.
+- P7-R2 status: closed; Windows Blender 5.1.1 and local blender-mcp 1.5.5 paths were verified, `/digital-twin` now has URL-preserved diagnostic GLB mode, and the richer self-authored F2 GLB/source/export script passed quality gates. Full BlenderMCP server startup still needs future local dependency setup because WSL lacks `uv`/`uvx` and Python `mcp`/`supabase`.
+- Next focus: extend `GET /api/v1/stores/ranking` with narrow synthetic score filters if still scoped, add fixture-backed backend tests, and document synthetic persistence readiness without real MySQL.
+- Do not connect real MySQL, create deployment infrastructure, use real video, real mall material, BIM/CAD, real brands, face images, personal trajectories, external asset APIs, downloaded models/textures, or production data.
 
 ## Required Reading
 

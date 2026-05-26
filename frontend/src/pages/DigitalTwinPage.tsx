@@ -6,7 +6,7 @@ import { TwinInspector } from '../components/TwinInspector';
 import { DigitalTwinScene } from '../twin/scene/DigitalTwinScene.tsx';
 import type { SceneInteractionEvent } from '../twin/adapter/sceneAdapter.ts';
 import { mockAlerts, mockFloors, mockMall, mockStoresWithAlerts } from '../mock/index.ts';
-import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl } from '../routes/demoFlow.ts';
+import { buildDigitalTwinUrl, buildStoreAlertsUrl, buildStoreAnalysisUrl, type DigitalTwinModelMode, type DigitalTwinRouteParams } from '../routes/demoFlow.ts';
 import { buildRouteWithGlobalQuery } from '../routes/routeConfig';
 import type { TwinMode } from '../types/index.ts';
 import { buildDigitalTwinViewModel, twinModeLabel, type DigitalTwinFilters, type TwinAlertMarker } from './digitalTwinModel.ts';
@@ -46,6 +46,10 @@ function getAlertTone(alert?: TwinAlertMarker) {
   return 'info';
 }
 
+function getModelMode(params: URLSearchParams): DigitalTwinModelMode {
+  return params.get('model') === 'procedural' ? 'procedural' : 'glb';
+}
+
 export function DigitalTwinPage() {
   const [params] = useSearchParams();
   const location = useLocation();
@@ -55,7 +59,7 @@ export function DigitalTwinPage() {
   const dataMode = params.get('dataMode') ?? undefined;
   const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
   const [twinDataState, setTwinDataState] = useState(() => createInitialDigitalTwinDataState());
-  const [useGLBModel, setUseGLBModel] = useState(params.get('model') === 'glb');
+  const modelMode = getModelMode(params);
   const viewModel = useMemo(
     () =>
       buildDigitalTwinViewModel(
@@ -68,6 +72,8 @@ export function DigitalTwinPage() {
       ),
     [filters, twinDataState.result.flowEdges, twinDataState.result.heatmapPoints]
   );
+  const useGLBModel = modelMode === 'glb' && viewModel.floor.id === 'F2';
+  const modelStatusLabel = modelMode === 'glb' && viewModel.floor.id !== 'F2' ? 'F2-only GLB fallback' : useGLBModel ? 'GLB Model' : 'Procedural Model';
   const dataSourceLabel = twinDataState.result.source === 'api' ? 'API' : 'Mock';
   const statusLabel =
     twinDataState.status === 'loading'
@@ -82,8 +88,8 @@ export function DigitalTwinPage() {
   const riskAlerts = viewModel.alertMarkers.filter((alert) => alert.level !== 'low');
   const rankedStores = [...viewModel.stores].sort((a, b) => b.score - a.score);
 
-  const buildTwinUrl = (routeParams: { floorId?: string; mode?: TwinMode; storeId?: string; alertId?: string }) =>
-    buildDigitalTwinUrl(routeParams, location.search);
+  const buildTwinUrl = (routeParams: DigitalTwinRouteParams) =>
+    buildDigitalTwinUrl({ model: modelMode, ...routeParams }, location.search);
   const buildStoreAnalysisRoute = (storeId: string) => buildStoreAnalysisUrl({ storeId }, location.search);
   const buildStoreAlertsRoute = (alertId?: string, storeId?: string) =>
     buildStoreAlertsUrl({ alertId, storeId, floorId: viewModel.floor.id }, location.search);
@@ -93,6 +99,9 @@ export function DigitalTwinPage() {
       window.location.href = buildTwinUrl({ floorId: event.floorId, mode: viewModel.mode, storeId: event.storeId });
     }
   };
+
+  const buildModelModeUrl = (nextModelMode: DigitalTwinModelMode) =>
+    buildTwinUrl({ floorId: viewModel.floor.id, mode: viewModel.mode, storeId: selectedStore?.id, alertId: selectedAlert?.id, model: nextModelMode });
 
   useEffect(() => {
     let active = true;
@@ -237,7 +246,7 @@ export function DigitalTwinPage() {
           <div className="stage-toolbar">
             <div>
               <span>Interactive Digital Twin Workspace</span>
-              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · {useGLBModel ? 'GLB Model' : 'WebGL + SVG 参考'}</strong>
+              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · {modelStatusLabel}</strong>
             </div>
             <div className="floor-switcher" aria-label="楼层切换">
               {mockFloors.map((floor) => (
@@ -245,13 +254,13 @@ export function DigitalTwinPage() {
                   {floor.code}
                 </Link>
               ))}
-              <button
-                className={`model-toggle ${useGLBModel ? 'is-active' : ''}`}
-                onClick={() => setUseGLBModel(!useGLBModel)}
-                aria-label={useGLBModel ? '切换到程序化几何体' : '切换到 GLB 模型'}
+              <Link
+                className={`model-toggle ${modelMode === 'glb' ? 'is-active' : ''}`}
+                to={buildModelModeUrl(modelMode === 'glb' ? 'procedural' : 'glb')}
+                aria-label={modelMode === 'glb' ? '切换到程序化几何体' : '切换到 GLB 模型'}
               >
-                {useGLBModel ? 'GLB' : 'Procedural'}
-              </button>
+                {modelMode === 'glb' ? 'GLB' : 'Procedural'}
+              </Link>
             </div>
           </div>
 
@@ -261,9 +270,9 @@ export function DigitalTwinPage() {
               <div className="panel-heading">
                 <div>
                   <h2 id="webgl-scene-heading">WebGL 合成场景壳</h2>
-                  <p>{useGLBModel ? 'BlenderMCP 生成的 GLB 模型：合成商场楼层几何体' : 'Three.js/R3F 最小基线：项目自绘店铺块、楼层底板和走廊，无模型、纹理或真实素材。'}</p>
+                  <p>{modelMode === 'glb' ? (useGLBModel ? '本地 Blender/BlenderMCP 自建 GLB：/models/mall_floor_f2.glb，当前仅覆盖 F2。' : '当前楼层暂无 GLB 模型，已自动回退到程序化几何体。') : 'Three.js/R3F 程序化基线：项目自绘店铺块、楼层底板和走廊。'}</p>
                 </div>
-                <StatusBadge label={useGLBModel ? 'GLB Model' : 'WebGL P7-I4'} tone="info" />
+                <StatusBadge label={modelStatusLabel} tone="info" />
               </div>
               <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} onInteraction={handleSceneInteraction} useGLBModel={useGLBModel} />
             </div>

@@ -6,13 +6,15 @@ import type { DigitalTwinDataResult } from '../api/digitalTwinDataLoader.ts';
 import { buildDigitalTwinViewModel, digitalTwinCockpitLayout } from './digitalTwinModel.ts';
 import { createInitialDigitalTwinDataState, resolveDigitalTwinDataState } from './digitalTwinState.ts';
 
-test('P7-I4 productizes a typed scene adapter layer while keeping the protected data boundary', () => {
+test('P7-R2 productizes GLB recovery while keeping the protected data boundary', () => {
   assert.equal(digitalTwinCockpitLayout.shell, 'premium light fullscreen three-column cockpit');
   assert.match(digitalTwinCockpitLayout.center, /typed scene adapter layer/);
   assert.match(digitalTwinCockpitLayout.center, /WebGL\/Three\.js/);
   assert.match(digitalTwinCockpitLayout.center, /SVG\/2\.5D FloorPlan fallback/);
   assert.match(digitalTwinCockpitLayout.protectedBoundary, /mock\/API data mode preserved/);
-  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no Drei/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /audited Drei/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /self-authored synthetic GLB/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no external 3D assets/);
 });
 
 test('builds a digital twin view model from shared mock geometry', () => {

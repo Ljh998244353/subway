@@ -4,7 +4,7 @@ Updated: 2026-05-26
 
 ## Current Status
 
-P5-I11 closed frontend API-mode integration. P6-I2 added AI service synthetic fixture tests. P7 completed the premium synthetic 3D digital twin demo track. P8-I1 added frontend production preparation and performance optimization checks.
+P5-I11 closed frontend API-mode integration. P6-I2 added AI service synthetic fixture tests. P7 completed the premium synthetic 3D digital twin demo track. P7-R2 closed GLB visibility/model quality and BlenderMCP documentation recovery. P8-I1 added frontend production preparation and performance optimization checks.
 
 Latest recorded executable results:
 
@@ -33,6 +33,14 @@ P8-I2 backend tests: 35 passed
 P8-I2 frontend tests: 134 passed
 P8-I2 npm run quality: passed; frontend tests 134 passed; backend pytest 35 passed
 P8-I2 npm run quality:audit: found 0 vulnerabilities
+P7-R2 `npm --prefix frontend run lint`: passed after GLB URL/diagnostic changes
+P7-R2 `npm --prefix frontend run test`: passed; 134 frontend tests
+P7-R2 `npm --prefix frontend run build`: passed; existing React Router/Motion use-client warnings remain non-blocking; DigitalTwinPage chunk about 31.25 kB and vendor-three-core chunk about 732.16 kB
+P7-R2 `npm run quality:docs`: passed
+P7-R2 `npm run quality:compliance`: passed
+P7-R2 `npm run quality:boundary`: passed
+P7-R2 `npm run quality:audit`: passed; found 0 vulnerabilities
+P7-R2 `npm run quality`: passed; frontend lint passed, frontend tests 134 passed, frontend build passed, backend pytest 35 passed
 ```
 
 P6-R1 note: `backend/.venv` was recreated locally because the Linux quality gate requires `backend/.venv/bin/python`.

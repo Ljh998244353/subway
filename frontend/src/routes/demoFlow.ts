@@ -3,11 +3,14 @@ import { buildRouteWithGlobalQuery } from './routeConfig.ts';
 
 type OptionalRouteParams = Record<string, string | undefined>;
 
+export type DigitalTwinModelMode = 'glb' | 'procedural';
+
 export type DigitalTwinRouteParams = {
   floorId?: string;
   mode?: TwinMode;
   storeId?: string;
   alertId?: string;
+  model?: DigitalTwinModelMode;
 };
 
 export type StoreAnalysisRouteParams = {
@@ -68,7 +71,8 @@ export function buildDigitalTwinUrl(params: DigitalTwinRouteParams, search: stri
       floorId: params.floorId,
       mode: params.mode,
       storeId: params.storeId,
-      alertId: params.alertId
+      alertId: params.alertId,
+      model: params.model
     }),
     search
   );

@@ -42,6 +42,7 @@ P7-I1 3D stack audit: documented BlenderMCP as a controlled local automation can
 P7-I2 premium `/digital-twin` cockpit productization: migrated the real route into the approved premium light shell while preserving SVG/2.5D FloorPlan and mock/API boundaries
 P7-I3 minimal audited WebGL scene shell: installed `three@0.184.0`, `@react-three/fiber@9.6.1`, and `@types/three@0.184.1`; added a local synthetic floor/store block scene and kept SVG fallback/reference
 P7-I4 through P7-I8: added typed scene adapter, GLB loading through approved Drei, labels, lighting, camera animation, hover/alert effects, OrbitControls, heatmap animation, score coloring, floor transition controls, and demo polish
+P7-R2: inserted a GLB recovery increment after user feedback; verified Windows Blender 5.1.1 at `L:\\Software\\blender`, verified local blender-mcp 1.5.5 at `L:\\Software\\blender-mcp`, made GLB mode URL-preserved/default-diagnostic, and generated a richer self-authored F2 GLB with reproducible Blender source/export script
 P8-I1 production preparation: added route-level lazy loading, React route error/loading fallback, Vite manual chunks for React/Router/Motion/Three/R3F/Drei, and reduced per-frame React state churn in the 3D scene
 P8-I2 store score MVP contract: refined the score response with synthetic aggregate inputs, formulaVersion, weights, deterministic score calculation, and frontend DTO coverage
 ```
@@ -64,6 +65,7 @@ future real-data adapter boundary preserved but not implemented now
 ## Current Gaps
 
 ```text
+full BlenderMCP server startup is not complete yet because WSL lacks `uv`/`uvx` and `mcp`/`supabase` Python dependencies for the local blender-mcp package
 browser-level 3D rendering/performance tests are not implemented yet
 SVG/2.5D fallback remains available and should not be removed yet
 backend uses synthetic fixtures, not persisted synthetic scenario/event generation
@@ -85,4 +87,4 @@ P7-I3 already audited the installed minimal `three`/R3F baseline and @types depe
 
 ## Next Target
 
-P8-I3 should extend the store ranking contract with narrow synthetic filters and document score persistence readiness. Do not connect real MySQL, create deployment infrastructure, or use real mall/video/personal data in the next increment.
+Proceed to P8-I3 to extend the store ranking contract with narrow synthetic filters and document score persistence readiness. P7-R2 GLB recovery is closed with quality gates passed; manual browser/network checks and full BlenderMCP server dependency setup remain future gaps. Do not connect real MySQL, create deployment infrastructure, or use real mall/video/personal data.

@@ -4,9 +4,44 @@ Updated: 2026-05-26
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, P7-I2 premium `/digital-twin` cockpit productization, P7-I3 audited minimal WebGL/Three.js scene shell, P7-I4 typed 3D scene adapter with store/floor interaction baseline, P7-I5 BlenderMCP integration with GLB model loading, P7-I6 3D scene visual polish with labels and enhanced lighting, P7-I7 3D scene interaction deepening with camera animation and visual effects, and P7-I8 3D scene final polish with heatmap animation and score visualization.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, P7-I2 premium `/digital-twin` cockpit productization, P7-I3 audited minimal WebGL/Three.js scene shell, P7-I4 typed 3D scene adapter with store/floor interaction baseline, P7-I5 GLB model loading baseline, P7-I6 3D scene visual polish with labels and enhanced lighting, P7-I7 3D scene interaction deepening with camera animation and visual effects, P7-I8 3D scene final polish with heatmap animation and score visualization, P8-I1 production preparation, and P8-I2 store score formula contract.
 
-Current project state in one sentence: the project has a working synthetic frontend/backend/AI-service baseline, `/digital-twin` now uses the confirmed premium light three-column cockpit shell with a typed local scene adapter layer, BlenderMCP-generated GLB model loading, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation, ready for demo presentation.
+Current project state in one sentence: P7-R2 is closed and P8-I3 is next: `/digital-twin` now defaults to a URL-preserved GLB model mode with visible loading/error diagnostics, non-F2 floors fall back clearly to procedural geometry, Windows Blender 5.1.1 was verified at `L:\\Software\\blender`, local `blender-mcp` 1.5.5 was found at `L:\\Software\\blender-mcp`, and a richer self-authored F2 GLB plus Blender source/export script were generated without external assets and passed quality gates.
+
+P7-R2 completed 3D GLB recovery and Blender MCP correction after user feedback:
+
+```text
+frontend/src/pages/DigitalTwinPage.tsx
+frontend/src/routes/demoFlow.ts
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/pages/digitalTwinModel.ts
+frontend/src/styles/global.css
+frontend/public/models/mall_floor_f2.glb
+assets/blender/mall_floor_f2.blend
+scripts/blender/export_mall_floor_f2.py
+AGENT.md / AGENTS.md
+PROGRESS.md
+context/*.md
+docs/THIRD_PARTY_NOTICES.md
+docs/LICENSE_AUDIT.md
+IMPORTANT.md
+```
+
+Implemented so far:
+
+```text
+verified `/mnt/l/Software/blender/blender.exe` as Windows Blender 5.1.1
+verified local `/mnt/l/Software/blender-mcp` as blender-mcp 1.5.5 with localhost:9876 defaults and telemetry-disable environment variables
+recorded that WSL currently lacks `uv`/`uvx` and `mcp`/`supabase` Python dependencies, so full MCP server startup still needs local dependency setup
+changed `/digital-twin` GLB model mode to be URL-preserved and default to GLB unless `model=procedural`
+added visible GLB loading/error diagnostics and base-safe public model path handling
+made non-F2 floors clearly fall back to procedural geometry because only F2 has a GLB in this increment
+replaced the simple 39KB GLB with a richer self-authored synthetic F2 model: 645,664 bytes, 112 nodes, 20 `Store_S021` through `Store_S040` nodes preserved
+saved a reproducible Blender source file and export script
+ran frontend test/build and root quality/audit gates successfully
+```
+
+P7-R2 still does not use external asset APIs, downloaded models, real mall material, real brands, real MySQL, real video, or personal data.
 
 P5-I11 completed CP5 frontend API-mode integration closure review:
 
@@ -261,7 +296,32 @@ P7-I3 did not install Drei, use BlenderMCP, import GLB/GLTF files, add models, t
 
 ## Verification
 
-Latest local verification after P8-I2 store score MVP contract:
+Latest local verification after P7-R2 GLB recovery:
+
+```bash
+npm --prefix frontend run test
+npm --prefix frontend run build
+npm run quality:docs
+npm run quality:compliance
+npm run quality:boundary
+npm run quality:audit
+npm run quality
+```
+
+Results:
+
+```text
+npm --prefix frontend run test: passed, 134 frontend tests
+npm --prefix frontend run build: passed; existing React Router / Motion "use client" warnings remain non-blocking; DigitalTwinPage chunk ~31.25 kB, vendor-three-core chunk ~732.16 kB
+npm run quality:docs: passed
+npm run quality:compliance: passed
+npm run quality:boundary: passed
+npm run quality:audit: passed; found 0 vulnerabilities
+npm run quality: passed; frontend lint passed, frontend tests 134 passed, frontend build passed, backend pytest 35 passed
+Manual browser/network check was not run in this environment; browser-level 3D rendering/E2E remains a known gap
+```
+
+Previous local verification after P8-I2 store score MVP contract:
 
 ```bash
 npm --prefix frontend run test
@@ -459,6 +519,7 @@ Non-goals for P8-I3:
 | P7-I8 3D scene final polish with heatmap animation and score visualization | 2026-05-26 | Added heatmap animation, score-based color visualization, floor switching animation, demo preparation controls, and passed quality gate |
 | P8-I1 production deployment preparation and performance optimization | 2026-05-26 | Added route-level lazy loading, route loading/error fallback, Vite production chunks for React/Router/Motion/Three/R3F/Drei, 3D scene render-loop optimization, and 134 frontend tests; build now emits a small app entry and isolated vendor chunks |
 | P8-I2 store score MVP contract and synthetic event consumption plan | 2026-05-26 | Refined the existing store score response with synthetic aggregate inputs, formula version, weights, deterministic calculation, frontend DTO coverage, and 35 backend tests; no real MySQL, migrations, dependencies, or deployment infrastructure |
+| P7-R2 Blender MCP Windows Blender setup and 3D GLB recovery | 2026-05-26 | Verified Windows Blender and local blender-mcp paths, made `/digital-twin` GLB mode URL-preserved and diagnostic, generated a richer self-authored F2 GLB/source/export script, updated risk/license/context records, and passed frontend/root quality gates |
 
 ## Handoff Prompt
 

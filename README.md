@@ -148,6 +148,7 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P7-I6 | 已完成 | 3D scene visual polish with labels and enhanced lighting |
 | P7-I7 | 已完成 | camera animation, hover highlights, alert indicators, and OrbitControls |
 | P7-I8 | 已完成 | heatmap animation, score visualization, floor switching, and demo polish |
+| P7-R2 | 已完成 | Windows Blender / blender-mcp path verification, URL-preserved diagnostic GLB mode, and richer self-authored F2 GLB recovery |
 | P8-I1 | 已完成 | production build preparation, route lazy loading, manual chunks, and 3D scene performance optimization |
 | P8-I2 | 已完成 | 店铺经营评分 MVP contract and synthetic event consumption plan |
 | P8-I3 | 下一步 | store score ranking filters and synthetic score readiness |

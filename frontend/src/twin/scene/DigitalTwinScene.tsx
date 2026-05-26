@@ -1,10 +1,10 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import type { DigitalTwinRouteParams } from '../../routes/demoFlow.ts';
 import type { DigitalTwinViewModel } from '../../pages/digitalTwinModel.ts';
-import { buildSceneAdapterState, type SceneAdapterState, type SceneStore, type SceneAlert, type SceneInteractionEvent } from '../adapter/sceneAdapter.ts';
+import { buildSceneAdapterState, SCENE_LAYER_HEIGHTS, type SceneAdapterState, type SceneStore, type SceneAlert, type SceneFlowLine, type SceneHeatmapPoint, type SceneInteractionEvent } from '../adapter/sceneAdapter.ts';
 
 type DigitalTwinSceneProps = {
   viewModel: DigitalTwinViewModel;
@@ -13,13 +13,24 @@ type DigitalTwinSceneProps = {
   useGLBModel?: boolean;
 };
 
-const heatmapScenePoints: Array<{ position: [number, number, number]; intensity: number }> = [
-  { position: [-2, 0.2, 1], intensity: 0.8 },
-  { position: [1, 0.2, -1], intensity: 0.6 },
-  { position: [-1, 0.2, 2], intensity: 0.4 },
-  { position: [3, 0.2, 0], intensity: 0.9 },
-  { position: [0, 0.2, -2], intensity: 0.7 }
-];
+const viteBaseUrl = (import.meta as unknown as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/';
+const GLB_MODEL_PATH = `${viteBaseUrl}models/mall_floor_f2.glb`;
+
+export function getStoreIdFromObject(object: THREE.Object3D): string | null {
+  let current: THREE.Object3D | null = object;
+
+  while (current) {
+    const directMatch = current.name.match(/^Store_(S\d{3})$/);
+    if (directMatch) return directMatch[1];
+
+    const detailMatch = current.name.match(/_(S\d{3})(?:_|$)/);
+    if (detailMatch) return detailMatch[1];
+
+    current = current.parent;
+  }
+
+  return null;
+}
 
 function getScoreColor(score: number): string {
   if (score >= 85) return '#10b981';
@@ -50,29 +61,68 @@ function StoreLabel({ store, isHovered }: { store: SceneStore; isHovered: boolea
   );
 }
 
-function HeatmapPoint({ position, intensity }: { position: [number, number, number]; intensity: number }) {
+function HeatmapPoint({ point }: { point: SceneHeatmapPoint }) {
   const ref = useRef<THREE.Mesh>(null);
   const targetScale = useRef(new THREE.Vector3(1, 1, 1));
 
   useFrame((state) => {
     if (ref.current) {
-      const scale = 0.5 + intensity * 0.5 + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.1;
+      const scale = 0.92 + Math.sin(state.clock.elapsedTime * 1.8 + point.position[0]) * 0.04;
       targetScale.current.set(scale, scale, scale);
       ref.current.scale.lerp(targetScale.current, 0.1);
     }
   });
 
   return (
-    <mesh ref={ref} position={position}>
-      <sphereGeometry args={[0.3, 16, 16]} />
+    <mesh ref={ref} position={point.position} rotation={[-Math.PI / 2, 0, 0]}>
+      <circleGeometry args={[point.radius, 36]} />
       <meshStandardMaterial
-        color={intensity > 0.7 ? '#ef4444' : intensity > 0.4 ? '#f59e0b' : '#3b82f6'}
-        emissive={intensity > 0.7 ? '#ef4444' : intensity > 0.4 ? '#f59e0b' : '#3b82f6'}
-        emissiveIntensity={0.3}
+        color={point.intensity > 0.7 ? '#ef4444' : point.intensity > 0.4 ? '#f59e0b' : '#3b82f6'}
+        emissive={point.intensity > 0.7 ? '#ef4444' : point.intensity > 0.4 ? '#f59e0b' : '#3b82f6'}
+        emissiveIntensity={0.18}
         transparent
-        opacity={0.6}
+        opacity={0.24 + point.intensity * 0.28}
+        depthWrite={false}
       />
     </mesh>
+  );
+}
+
+function FlowLine({ flow }: { flow: SceneFlowLine }) {
+  const curve = useMemo(
+    () => new THREE.CatmullRomCurve3([
+      new THREE.Vector3(...flow.from),
+      new THREE.Vector3((flow.from[0] + flow.to[0]) / 2, flow.from[1] + 0.04, (flow.from[2] + flow.to[2]) / 2),
+      new THREE.Vector3(...flow.to)
+    ]),
+    [flow.from, flow.to]
+  );
+  const points = useMemo(() => curve.getPoints(18), [curve]);
+  const arrowRotation = Math.atan2(flow.to[0] - flow.from[0], flow.to[2] - flow.from[2]);
+
+  return (
+    <group>
+      <line>
+        <bufferGeometry attach="geometry" setFromPoints={points} />
+        <lineBasicMaterial
+          attach="material"
+          color={flow.direction === 'inbound' ? '#2563eb' : flow.direction === 'outbound' ? '#0f766e' : '#f59e0b'}
+          transparent
+          opacity={0.32 + flow.intensity * 0.42}
+        />
+      </line>
+      <mesh position={flow.to} rotation={[Math.PI / 2, 0, arrowRotation]}>
+        <coneGeometry args={[0.08 + flow.intensity * 0.05, 0.22, 16]} />
+        <meshStandardMaterial
+          color={flow.direction === 'inbound' ? '#2563eb' : flow.direction === 'outbound' ? '#0f766e' : '#f59e0b'}
+          emissive={flow.direction === 'inbound' ? '#2563eb' : flow.direction === 'outbound' ? '#0f766e' : '#f59e0b'}
+          emissiveIntensity={0.18}
+          transparent
+          opacity={0.74}
+          depthWrite={false}
+        />
+      </mesh>
+    </group>
   );
 }
 
@@ -98,6 +148,47 @@ function AlertIndicator({ alert }: { alert: SceneAlert }) {
       />
     </mesh>
   );
+}
+
+function SceneStatusPanel({ title, detail }: { title: string; detail: string }) {
+  return (
+    <Html center position={[0, 1.1, 0]}>
+      <div className="scene-status-panel" role="status">
+        <strong>{title}</strong>
+        <span>{detail}</span>
+      </div>
+    </Html>
+  );
+}
+
+type ModelErrorBoundaryProps = {
+  children: ReactNode;
+  fallbackPath: string;
+};
+
+type ModelErrorBoundaryState = {
+  error?: Error;
+};
+
+class ModelErrorBoundary extends Component<ModelErrorBoundaryProps, ModelErrorBoundaryState> {
+  state: ModelErrorBoundaryState = {};
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <SceneStatusPanel
+          title="GLB 模型加载失败"
+          detail={`${this.props.fallbackPath} · ${this.state.error.message}`}
+        />
+      );
+    }
+
+    return this.props.children;
+  }
 }
 
 function CameraController({ targetPosition }: { targetPosition?: [number, number, number] }) {
@@ -128,7 +219,7 @@ function MallFloorModel({ onClick, onHover, onUnhover }: {
   onHover?: (storeId: string) => void;
   onUnhover?: () => void;
 }) {
-  const { scene } = useGLTF('/models/mall_floor_f2.glb');
+  const { scene } = useGLTF(GLB_MODEL_PATH);
 
   return (
     <primitive
@@ -156,7 +247,7 @@ function MallFloorModel({ onClick, onHover, onUnhover }: {
   );
 }
 
-useGLTF.preload('/models/mall_floor_f2.glb');
+useGLTF.preload(GLB_MODEL_PATH);
 
 function StoreMesh({ store, onClick, onHover, onUnhover, isHovered }: {
   store: SceneStore;
@@ -269,7 +360,9 @@ function GLBScene({ adapterState, onStoreClick, onStoreHover, onStoreUnhover, ho
       <ambientLight intensity={0.72} />
       <directionalLight intensity={1.85} position={[4, 8, 5]} castShadow />
       <group rotation={[-0.18, -0.34, 0]}>
-        <MallFloorModel onClick={onStoreClick} onHover={onStoreHover} onUnhover={onStoreUnhover} />
+        <ModelErrorBoundary fallbackPath={GLB_MODEL_PATH}>
+          <MallFloorModel onClick={onStoreClick} onHover={onStoreHover} onUnhover={onStoreUnhover} />
+        </ModelErrorBoundary>
         {adapterState.floor && (
           <FloorLabel code={adapterState.floor.code} name={adapterState.floor.name} />
         )}
@@ -359,7 +452,7 @@ export function DigitalTwinScene({ viewModel, buildTwinUrl, onInteraction, useGL
       >
         <CameraController targetPosition={cameraTarget} />
         <OrbitControls enablePan={false} enableZoom={true} enableRotate={true} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<SceneStatusPanel title="正在加载 GLB 商场模型" detail={GLB_MODEL_PATH} />}>
           <group visible={!isTransitioning}>
             {useGLBModel ? (
               <GLBScene
@@ -384,7 +477,7 @@ export function DigitalTwinScene({ viewModel, buildTwinUrl, onInteraction, useGL
         </Suspense>
       </Canvas>
       <div className="digital-twin-scene__overlay" aria-hidden="true">
-        <span>WebGL synthetic scene · Three.js / R3F · {useGLBModel ? 'GLB model' : 'P7-I4 adapter'}</span>
+        <span>WebGL synthetic scene · Three.js / R3F · {useGLBModel ? `GLB model · ${GLB_MODEL_PATH}` : 'procedural adapter'}</span>
         <strong>{adapterState.floor?.code} · {adapterState.stores.length} store blocks · {adapterState.alerts.length} alerts</strong>
       </div>
       <div className="digital-twin-scene__controls">

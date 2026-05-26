@@ -28,7 +28,7 @@ stop for human action when sudo is needed
 update PROGRESS.md, context/*.md, and context/TODO_NEXT.md after completion
 ```
 
-Current next increment: `P7-I4 3D scene adapter and store/floor interaction baseline`.
+Current next increment: `P8-I3 Store score ranking filters and synthetic score readiness`. P7-R2 GLB recovery is closed with quality gates passed; BlenderMCP full server startup remains a future local-dependency setup item.
 
 Normal continuation command:
 

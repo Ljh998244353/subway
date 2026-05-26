@@ -1,7 +1,7 @@
 import type { TwinStoreNode, TwinAlertMarker, DigitalTwinViewModel } from '../../pages/digitalTwinModel.ts';
-import type { Floor, TwinMode } from '../../types/index.ts';
+import type { Floor, FlowEdge, HeatmapPoint, TwinMode } from '../../types/index.ts';
 
-export type SceneObjectType = 'floor' | 'store' | 'corridor' | 'alert';
+export type SceneObjectType = 'floor' | 'store' | 'corridor' | 'alert' | 'heatmap' | 'flow';
 
 export type SceneObjectBase = {
   id: string;
@@ -53,7 +53,33 @@ export type SceneAlert = SceneObjectBase & {
   position: [number, number, number];
 };
 
-export type SceneObject = SceneFloor | SceneCorridor | SceneStore | SceneAlert;
+export type SceneHeatmapPoint = SceneObjectBase & {
+  type: 'heatmap';
+  heatmapId: string;
+  position: [number, number, number];
+  radius: number;
+  intensity: number;
+};
+
+export type SceneFlowLine = SceneObjectBase & {
+  type: 'flow';
+  flowId: string;
+  from: [number, number, number];
+  to: [number, number, number];
+  traffic: number;
+  intensity: number;
+  direction: FlowEdge['direction'];
+};
+
+export type SceneObject = SceneFloor | SceneCorridor | SceneStore | SceneAlert | SceneHeatmapPoint | SceneFlowLine;
+
+export const SCENE_LAYER_HEIGHTS = {
+  floor: 0.02,
+  heatmap: 0.07,
+  flow: 0.16,
+  alert: 0.48,
+  label: 0.3
+} as const;
 
 export type SceneAdapterState = {
   objects: SceneObject[];
@@ -61,6 +87,8 @@ export type SceneAdapterState = {
   corridors: SceneCorridor[];
   stores: SceneStore[];
   alerts: SceneAlert[];
+  heatmapPoints: SceneHeatmapPoint[];
+  flowLines: SceneFlowLine[];
   selectedStoreId: string | null;
   selectedAlertId: string | null;
   hasSpatialData: boolean;
@@ -175,19 +203,65 @@ function buildSceneAlerts(alerts: TwinAlertMarker[], floor: Floor): SceneAlert[]
       storeName: alert.storeName,
       position: [
         normalizePosition(alert.x, floor.width, FLOOR_SPAN),
-        0.4,
+        SCENE_LAYER_HEIGHTS.alert,
         normalizePosition(alert.y, floor.height, FLOOR_DEPTH)
       ] as [number, number, number]
     }));
 }
 
+function buildSceneHeatmapPoints(points: HeatmapPoint[], floor: Floor): SceneHeatmapPoint[] {
+  return points
+    .filter((point) => point.floorId === floor.id)
+    .map((point) => ({
+      id: `heatmap-${point.id}`,
+      type: 'heatmap' as const,
+      floorId: floor.id,
+      heatmapId: point.id,
+      position: [
+        normalizePosition(point.x, floor.width, FLOOR_SPAN),
+        SCENE_LAYER_HEIGHTS.heatmap,
+        normalizePosition(point.y, floor.height, FLOOR_DEPTH)
+      ],
+      radius: 0.28 + point.intensity * 0.48,
+      intensity: point.intensity
+    }));
+}
+
+function buildSceneFlowLines(edges: FlowEdge[], floor: Floor): SceneFlowLine[] {
+  const maxTraffic = Math.max(1, ...edges.filter((edge) => edge.floorId === floor.id).map((edge) => edge.traffic));
+
+  return edges
+    .filter((edge) => edge.floorId === floor.id)
+    .map((edge) => ({
+      id: `flow-${edge.id}`,
+      type: 'flow' as const,
+      floorId: floor.id,
+      flowId: edge.id,
+      from: [
+        normalizePosition(edge.from.x, floor.width, FLOOR_SPAN),
+        SCENE_LAYER_HEIGHTS.flow,
+        normalizePosition(edge.from.y, floor.height, FLOOR_DEPTH)
+      ],
+      to: [
+        normalizePosition(edge.to.x, floor.width, FLOOR_SPAN),
+        SCENE_LAYER_HEIGHTS.flow,
+        normalizePosition(edge.to.y, floor.height, FLOOR_DEPTH)
+      ],
+      traffic: edge.traffic,
+      intensity: Math.max(0.18, edge.traffic / maxTraffic),
+      direction: edge.direction
+    }));
+}
+
 export function buildSceneAdapterState(viewModel: DigitalTwinViewModel): SceneAdapterState {
-  const { floor, stores, alertMarkers, selectedStore, selectedAlert, hasSpatialData, mode } = viewModel;
+  const { floor, stores, heatmapPoints, flowEdges, alertMarkers, selectedStore, selectedAlert, hasSpatialData, mode } = viewModel;
   const sceneFloor = buildSceneFloor(floor);
   const corridors = buildSceneCorridors(floor);
   const sceneStores = buildSceneStores(stores, floor, selectedStore?.id);
   const sceneAlerts = buildSceneAlerts(alertMarkers, floor);
-  const objects: SceneObject[] = [sceneFloor, ...corridors, ...sceneStores, ...sceneAlerts];
+  const sceneHeatmapPoints = buildSceneHeatmapPoints(heatmapPoints, floor);
+  const sceneFlowLines = buildSceneFlowLines(flowEdges, floor);
+  const objects: SceneObject[] = [sceneFloor, ...corridors, ...sceneStores, ...sceneAlerts, ...sceneHeatmapPoints, ...sceneFlowLines];
 
   return {
     objects,
@@ -195,6 +269,8 @@ export function buildSceneAdapterState(viewModel: DigitalTwinViewModel): SceneAd
     corridors,
     stores: sceneStores,
     alerts: sceneAlerts,
+    heatmapPoints: sceneHeatmapPoints,
+    flowLines: sceneFlowLines,
     selectedStoreId: selectedStore?.id ?? null,
     selectedAlertId: selectedAlert?.id ?? null,
     hasSpatialData,

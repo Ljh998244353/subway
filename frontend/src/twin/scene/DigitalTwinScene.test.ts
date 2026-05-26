@@ -4,14 +4,14 @@ import { mockAlerts, mockFloors, mockFlowEdges, mockHeatmapPoints, mockStoresWit
 import { buildDigitalTwinViewModel, digitalTwinCockpitLayout } from '../../pages/digitalTwinModel.ts';
 import { buildSceneAdapterState } from '../adapter/sceneAdapter.ts';
 
-test('P7-I4 preserves fallback and blocked 3D boundaries in the cockpit model', () => {
+test('P7-R2 preserves fallback and audited 3D boundaries in the cockpit model', () => {
   assert.match(digitalTwinCockpitLayout.center, /typed scene adapter layer/);
   assert.match(digitalTwinCockpitLayout.center, /WebGL\/Three\.js/);
   assert.match(digitalTwinCockpitLayout.center, /SVG\/2\.5D FloorPlan fallback/);
-  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no Drei/);
-  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no BlenderMCP/);
-  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no GLB\/GLTF/);
-  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no external assets/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /audited Drei/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /self-authored synthetic GLB/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no external 3D assets/);
+  assert.match(digitalTwinCockpitLayout.protectedBoundary, /no real mall material/);
   assert.match(digitalTwinCockpitLayout.protectedBoundary, /mock\/API data mode preserved/);
 });
 

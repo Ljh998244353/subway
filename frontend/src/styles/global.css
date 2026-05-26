@@ -3521,15 +3521,19 @@ main:focus-visible {
 }
 
 .model-toggle {
+  align-items: center;
   background: transparent;
   border: 1px solid #e5e7eb;
   border-radius: 999px;
   color: #6b7280;
+  display: inline-flex;
   font-size: 12px;
   font-weight: 850;
+  justify-content: center;
   min-height: 32px;
   min-width: 48px;
   padding: 4px 12px;
+  text-decoration: none;
   transition: all 0.2s;
 }
 
@@ -3989,6 +3993,29 @@ main:focus-visible {
 .digital-twin-scene canvas {
   border-radius: 18px;
   display: block;
+}
+
+.scene-status-panel {
+  align-items: center;
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 16px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+  color: #1f2937;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  min-width: 260px;
+  padding: 16px 18px;
+  text-align: center;
+}
+
+.scene-status-panel span {
+  color: #64748b;
+  font-size: 12px;
+  max-width: 360px;
+  word-break: break-all;
 }
 
 .digital-twin-scene__overlay,
