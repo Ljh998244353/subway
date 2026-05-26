@@ -51,11 +51,33 @@ class StoreScoreBreakdownDto(BaseModel):
     penalty: float
 
 
+class StoreScoreWeightsDto(BaseModel):
+    flow: float
+    conversion: float
+    dwell: float
+    trend: float
+    profileFit: float
+
+
+class StoreScoreInputDto(BaseModel):
+    exposureTraffic: int
+    enterCount: int
+    conversionRate: float
+    avgDwellMinutes: float
+    trendIndex: float
+    profileFitIndex: float
+    operationalPenalty: float
+
+
 class StoreScoreDto(BaseModel):
     storeId: str
     date: str
+    source: str
+    formulaVersion: str
     score: float
     grade: str
+    weights: StoreScoreWeightsDto
+    inputs: StoreScoreInputDto
     breakdown: StoreScoreBreakdownDto
     explanations: list[str]
 

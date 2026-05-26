@@ -1,10 +1,10 @@
 # Test State
 
-Updated: 2026-05-25
+Updated: 2026-05-26
 
 ## Current Status
 
-P5-I11 closed frontend API-mode integration. P6-I2 added AI service synthetic fixture tests. P6-R1 updated documentation and roadmap priority without changing runtime code. The Blender mainline modeling-tool decision was recorded and re-verified. P7-I1 added a documentation-only 3D stack and BlenderMCP audit without installing dependencies or changing runtime code. P7-I2 productized the premium `/digital-twin` cockpit shell and added a frontend boundary test while preserving SVG/2.5D and mock/API behavior. P7-I3 installed the audited minimum Three.js/R3F baseline, added a local synthetic WebGL scene shell, and added frontend scene-boundary tests.
+P5-I11 closed frontend API-mode integration. P6-I2 added AI service synthetic fixture tests. P7 completed the premium synthetic 3D digital twin demo track. P8-I1 added frontend production preparation and performance optimization checks.
 
 Latest recorded executable results:
 
@@ -25,6 +25,14 @@ P7-I3 minimal WebGL scene shell npm --prefix frontend run test: 127 passed
 P7-I3 minimal WebGL scene shell npm --prefix frontend run build: passed; existing React Router/Motion use-client warnings plus large-chunk warning after Three.js/R3F adoption
 P7-I3 minimal WebGL scene shell npm run quality: passed; frontend tests 127 passed; backend pytest 34 passed
 P7-I3 minimal WebGL scene shell npm run quality:audit: found 0 vulnerabilities
+P8-I1 npm --prefix frontend run test: passed; 134 frontend tests
+P8-I1 npm --prefix frontend run build: passed; route chunks and vendor chunks emitted without the prior oversized app entry bundle warning
+P8-I1 npm run quality: passed; frontend tests 134 passed; backend pytest 34 passed
+P8-I1 npm run quality:audit: found 0 vulnerabilities
+P8-I2 backend tests: 35 passed
+P8-I2 frontend tests: 134 passed
+P8-I2 npm run quality: passed; frontend tests 134 passed; backend pytest 35 passed
+P8-I2 npm run quality:audit: found 0 vulnerabilities
 ```
 
 P6-R1 note: `backend/.venv` was recreated locally because the Linux quality gate requires `backend/.venv/bin/python`.
@@ -71,7 +79,7 @@ no real MySQL migration execution test
 no live frontend/backend browser integration test
 no browser E2E
 no backend coverage report
-no browser-level 3D rendering or performance test yet; P7-I3 only added unit/model boundary tests plus production build
+no browser-level 3D rendering or performance test yet; P8-I1 added chunk/build checks but not Playwright or FPS instrumentation
 no synthetic scenario persistence test yet
 no Docker Compose startup test
 ```

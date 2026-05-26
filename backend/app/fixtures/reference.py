@@ -18,6 +18,8 @@ from app.schemas.reference import (
     StoreRankingItemDto,
     StoreScoreBreakdownDto,
     StoreScoreDto,
+    StoreScoreInputDto,
+    StoreScoreWeightsDto,
     TrajectoriesDto,
     TrajectoryFlowDto,
 )
@@ -89,35 +91,102 @@ STORES = [
     ),
 ]
 
-STORE_SCORES = [
-    StoreScoreDto(
-        storeId="store_demo_001",
+STORE_SCORE_FORMULA_VERSION = "synthetic-score-v1"
+STORE_SCORE_SOURCE = "synthetic_event_aggregate"
+STORE_SCORE_WEIGHTS = StoreScoreWeightsDto(flow=0.25, conversion=0.25, dwell=0.15, trend=0.20, profileFit=0.15)
+
+
+def calculate_store_score(breakdown: StoreScoreBreakdownDto) -> float:
+    weighted_score = (
+        breakdown.flow * STORE_SCORE_WEIGHTS.flow
+        + breakdown.conversion * STORE_SCORE_WEIGHTS.conversion
+        + breakdown.dwell * STORE_SCORE_WEIGHTS.dwell
+        + breakdown.trend * STORE_SCORE_WEIGHTS.trend
+        + breakdown.profileFit * STORE_SCORE_WEIGHTS.profileFit
+        - breakdown.penalty
+    )
+    return round(min(100, max(0, weighted_score)), 1)
+
+
+def grade_store_score(score: float) -> str:
+    if score >= 85:
+        return "A"
+    if score >= 70:
+        return "B"
+    if score >= 60:
+        return "C"
+    return "D"
+
+
+def build_store_score(
+    *,
+    store_id: str,
+    breakdown: StoreScoreBreakdownDto,
+    inputs: StoreScoreInputDto,
+    explanations: list[str],
+) -> StoreScoreDto:
+    score = calculate_store_score(breakdown)
+    return StoreScoreDto(
+        storeId=store_id,
         date="2026-05-19",
-        score=86.4,
-        grade="A",
+        source=STORE_SCORE_SOURCE,
+        formulaVersion=STORE_SCORE_FORMULA_VERSION,
+        score=score,
+        grade=grade_store_score(score),
+        weights=STORE_SCORE_WEIGHTS,
+        inputs=inputs,
+        breakdown=breakdown,
+        explanations=explanations,
+    )
+
+
+STORE_SCORES = [
+    build_store_score(
+        store_id="store_demo_001",
         breakdown=StoreScoreBreakdownDto(flow=88, conversion=84, dwell=82, trend=90, profileFit=81, penalty=0),
+        inputs=StoreScoreInputDto(
+            exposureTraffic=747,
+            enterCount=202,
+            conversionRate=0.270,
+            avgDwellMinutes=14.2,
+            trendIndex=90,
+            profileFitIndex=81,
+            operationalPenalty=0,
+        ),
         explanations=[
             "Synthetic score: traffic and trend are above fixture baseline",
             "Conversion remains stable for the fashion category",
         ],
     ),
-    StoreScoreDto(
-        storeId="store_demo_002",
-        date="2026-05-19",
-        score=74.2,
-        grade="B",
+    build_store_score(
+        store_id="store_demo_002",
         breakdown=StoreScoreBreakdownDto(flow=77, conversion=71, dwell=73, trend=75, profileFit=70, penalty=0),
+        inputs=StoreScoreInputDto(
+            exposureTraffic=630,
+            enterCount=154,
+            conversionRate=0.244,
+            avgDwellMinutes=12.8,
+            trendIndex=75,
+            profileFitIndex=70,
+            operationalPenalty=0,
+        ),
         explanations=[
             "Synthetic score: food-category traffic is healthy",
             "Dwell time is close to the fixture median",
         ],
     ),
-    StoreScoreDto(
-        storeId="store_demo_101",
-        date="2026-05-19",
-        score=52.8,
-        grade="D",
+    build_store_score(
+        store_id="store_demo_101",
         breakdown=StoreScoreBreakdownDto(flow=58, conversion=45, dwell=49, trend=51, profileFit=56, penalty=8),
+        inputs=StoreScoreInputDto(
+            exposureTraffic=432,
+            enterCount=60,
+            conversionRate=0.139,
+            avgDwellMinutes=8.7,
+            trendIndex=51,
+            profileFitIndex=56,
+            operationalPenalty=8,
+        ),
         explanations=[
             "Synthetic score: renovation status applies an operational penalty",
             "Conversion and dwell indicators are below the fixture baseline",

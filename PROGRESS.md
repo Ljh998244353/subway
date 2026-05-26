@@ -261,11 +261,11 @@ P7-I3 did not install Drei, use BlenderMCP, import GLB/GLTF files, add models, t
 
 ## Verification
 
-Latest local verification after P7-I8 3D scene final polish:
+Latest local verification after P8-I2 store score MVP contract:
 
 ```bash
 npm --prefix frontend run test
-npm --prefix frontend run build
+backend\.venv\Scripts\python.exe -m pytest backend\tests
 npm run quality
 npm run quality:audit
 ```
@@ -273,16 +273,20 @@ npm run quality:audit
 Results:
 
 ```text
-npm --prefix frontend run test: passed, 131 frontend tests
-npm --prefix frontend run build: passed
-npm run quality: passed (frontend portion)
-frontend tests inside quality gate: 131 passed
+npm --prefix frontend run test: passed, 134 frontend tests
+backend pytest: passed, 35 tests
+npm run quality: passed
+frontend tests inside quality gate: 134 passed
 frontend lint: passed
 frontend build: passed
-npm run quality:audit: (not run separately, included in quality gate)
+backend pytest inside quality gate: 35 passed
+npm run quality:audit: passed; found 0 vulnerabilities
 Vite printed existing React Router / Motion "use client" dependency warnings; they remain non-blocking
-Vite printed large-chunk warning: frontend JS bundle about 1,452 kB / 416.70 kB gzip; monitor for later code-splitting/performance increment
 ```
+
+Previous local verification after P8-I1 production performance preparation:
+
+Previous local verification after P7-I8 3D scene final polish:
 
 Previous local verification after P7-I7 3D scene interaction deepening:
 
@@ -387,8 +391,8 @@ no Docker Compose startup test
 BlenderMCP is now approved and used for local synthetic modeling; telemetry must remain disabled
 @react-three/drei installed for GLTF loading; future 3D dependencies/assets still require audit
 `/style-preview` remains a polished reference prototype while `/digital-twin` now carries the productized cockpit shell plus GLB model loading
-full 3D model integration, virtual people, and browser-level 3D performance tests are not implemented yet
-P7-I3 introduced a large frontend chunk warning that should be handled in a later code-splitting/performance increment
+virtual people and browser-level 3D performance tests are not implemented yet
+P8-I1 reduced the oversized app entry bundle with route-level lazy loading and manual chunks; browser-level 3D performance tests are still missing
 synthetic demo data must remain clearly separated from real customer or mall data
 ```
 
@@ -396,20 +400,15 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P8-I1 Production deployment preparation and performance optimization`.
+Next increment: `P8-I3 Store score ranking filters and synthetic score readiness`.
 
 Goal:
-- Prepare the `/digital-twin` application for production deployment.
-- Implement code splitting to reduce the large frontend chunk warning.
-- Add production-ready error handling and fallback mechanisms.
-- Optimize 3D scene rendering performance.
-- Preserve all existing features: BlenderMCP-generated GLB model, typed scene adapter layer, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation.
-- Keep SVG/2.5D FloorPlan available as fallback/reference.
-- Keep `/style-preview` as the reference prototype route.
-- Preserve mock/synthetic default, explicit API mode, route query state, and API fallback behavior.
-- Add/update tests for production readiness, performance optimization, and deployment preparation.
+- Extend the store ranking contract with narrow synthetic filters if still scoped.
+- Keep ranking derived from the P8-I2 deterministic score formula.
+- Add fixture-backed backend tests for filtering, sorting, empty result shape, and boundaries.
+- Document synthetic score persistence readiness without creating migrations or connecting real MySQL.
 
-Non-goals for P8-I1:
+Non-goals for P8-I3:
 - do not use external asset APIs or downloaded models
 - do not connect real MySQL or production data
 - do not use real mall plans, BIM, logos, surveillance footage, or personal data
@@ -458,7 +457,9 @@ Non-goals for P8-I1:
 | P7-I6 3D scene visual polish with labels and enhanced lighting | 2026-05-26 | Added floor label overlays, store name labels, enhanced lighting with shadows, improved scene rendering, and passed quality gate |
 | P7-I7 3D scene interaction deepening with camera animation and visual effects | 2026-05-26 | Added camera animation for store focus, hover highlight effects, alert indicators with animation, OrbitControls, and passed quality gate |
 | P7-I8 3D scene final polish with heatmap animation and score visualization | 2026-05-26 | Added heatmap animation, score-based color visualization, floor switching animation, demo preparation controls, and passed quality gate |
+| P8-I1 production deployment preparation and performance optimization | 2026-05-26 | Added route-level lazy loading, route loading/error fallback, Vite production chunks for React/Router/Motion/Three/R3F/Drei, 3D scene render-loop optimization, and 134 frontend tests; build now emits a small app entry and isolated vendor chunks |
+| P8-I2 store score MVP contract and synthetic event consumption plan | 2026-05-26 | Refined the existing store score response with synthetic aggregate inputs, formula version, weights, deterministic calculation, frontend DTO coverage, and 35 backend tests; no real MySQL, migrations, dependencies, or deployment infrastructure |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P8-I1 Production deployment preparation and performance optimization`; the `/digital-twin` route already uses the premium light three-column cockpit, typed local scene adapter layer with stable WebGL object IDs and store click/focus interaction, BlenderMCP-generated GLB model loading, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation, and should next gain production deployment preparation and performance optimization while preserving SVG/2.5D fallback, mock/API behavior, and synthetic-only boundaries. Do not use external asset APIs, connect real MySQL, or continue real video/real-data integration unless a later task card explicitly changes that boundary.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P8-I3 Store score ranking filters and synthetic score readiness`; P8-I2 already refined the existing store score contract with deterministic synthetic aggregate inputs and formula metadata. Do not use external asset APIs, connect real MySQL, create deployment infrastructure, or continue real video/real-data integration unless a later task card explicitly changes that boundary.

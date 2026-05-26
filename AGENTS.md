@@ -4,12 +4,12 @@ Standard entry for AI coding tools. Long roadmap: `AI_Schedule.md`. Current task
 
 ## Current Task
 
-- Current increment: `P7-I4 3D scene adapter and store/floor interaction baseline` - ready after P7-I3 minimal WebGL scene shell.
-- Primary role: Frontend Mode
+- Current increment: `P8-I3 Store score ranking filters and synthetic score readiness` - ready after P8-I2 store score formula contract.
+- Primary role: Backend Mode
 - Auxiliary reviews: Design, Architect, QA, Security/License
-- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack audit, P7-I2 premium `/digital-twin` cockpit productization, and P7-I3 minimal audited WebGL/Three.js scene shell are complete.
-- Next focus: deepen the local synthetic 3D scene adapter and store/floor interaction baseline inside `/digital-twin` while preserving SVG/2.5D fallback/reference, mock/API data mode, and synthetic-only boundaries.
-- Do not use BlenderMCP, add GLB/GLTF files, download models/textures/assets, connect real MySQL, or use real video, real mall material, BIM/CAD, real brands, face images, or personal trajectories in P7-I4.
+- Current base: P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 through P7-I8, P8-I1, and P8-I2 store score formula contract are complete.
+- Next focus: extend the synthetic store ranking contract with narrow filters and document synthetic score persistence readiness.
+- Do not connect real MySQL, create deployment infrastructure, use real video, real mall material, BIM/CAD, real brands, face images, personal trajectories, external asset APIs, or production data in P8-I3.
 
 ## Required Reading
 

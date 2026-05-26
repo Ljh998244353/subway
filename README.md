@@ -143,12 +143,14 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P7-I1 | 已完成 | 3D 技术栈、许可证审计、前端依赖基线和高级前端重构方向确认 |
 | P7-I2 | 已完成 | premium `/digital-twin` cockpit shell productization |
 | P7-I3 | 已完成 | audited minimal WebGL/Three.js scene shell for `/digital-twin` |
-| P7-I4 | 下一步 | 3D scene adapter and store/floor interaction baseline |
-| P7-I5 | 规划中 | 合成商场空间模型规范：楼层、店铺、走廊、中庭、扶梯、电梯、入口、热点区 |
-| P7-I6 | 规划中 | 虚拟人群、动线粒子、热力和拥挤告警可视化 |
-| P7-I7 | 规划中 | 演示控制台：人数、时间、目的地、事件频率、异常强度、场景预设 |
-| P7-I8 | 规划中 | 前端整体大气精致现代化验收、高级视觉精修、4K/大屏演示、性能门禁和 demo script |
-| P8-I* | 规划中 | 店铺经营评分 MVP，需后续拆分 |
+| P7-I4 | 已完成 | 3D scene adapter and store/floor interaction baseline |
+| P7-I5 | 已完成 | BlenderMCP synthetic GLB model loading baseline |
+| P7-I6 | 已完成 | 3D scene visual polish with labels and enhanced lighting |
+| P7-I7 | 已完成 | camera animation, hover highlights, alert indicators, and OrbitControls |
+| P7-I8 | 已完成 | heatmap animation, score visualization, floor switching, and demo polish |
+| P8-I1 | 已完成 | production build preparation, route lazy loading, manual chunks, and 3D scene performance optimization |
+| P8-I2 | 已完成 | 店铺经营评分 MVP contract and synthetic event consumption plan |
+| P8-I3 | 下一步 | store score ranking filters and synthetic score readiness |
 | P9-I* | 规划中 | 客群、热力、动线分析增强，需后续拆分 |
 | P10-I* | 规划中 | 真实 AI/数据接入准备，需授权和合规评审 |
 | P11-I* | 规划中 | 部署与观测，需后续拆分 |

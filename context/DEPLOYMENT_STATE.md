@@ -1,12 +1,12 @@
 # Deployment State
 
-Updated: 2026-05-25
+Updated: 2026-05-26
 
 ## Current Status
 
 There is still no `infra/`, `docker-compose.yml`, production deployment binding, or real database service. P3-I4 delivered `docs/DEPLOYMENT_PLAN.md` only, not runnable Compose. P4-I16 added `docs/MYSQL_READINESS_PLAN.md` but still did not create a real MySQL service or credentials.
 
-P6-I2 created local `ai-services/` code and tests, but did not create production deployment or container infrastructure. P6-R1 reprioritized the next workstream to a premium synthetic 3D digital twin demo.
+P6-I2 created local `ai-services/` code and tests, but did not create production deployment or container infrastructure. P7 completed the premium synthetic 3D digital twin demo track. P8-I1 prepared the frontend production build with route-level lazy chunks and vendor chunking, but still did not create deployment infrastructure.
 
 ## Current CI Boundary
 
@@ -18,6 +18,7 @@ npm run quality:audit
 no secrets
 no production publish
 no uploaded build artifacts
+frontend production build is locally validated only
 ```
 
 ## P7 Demo Deployment Direction
@@ -49,4 +50,4 @@ backup/restore implementation
 
 ## Next Step
 
-P7-I3 did not create deployment infrastructure. P7-I4 should also avoid deployment infrastructure. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, AI runtime deployment, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.
+P8-I2 did not create deployment infrastructure. P8-I3 should also avoid deployment infrastructure and focus on backend score/ranking contract behavior. Before creating a Docker image, database service, Gitee Go pipeline, cloud deployment, external service, AI runtime deployment, or real monitoring, first audit license, cost, account requirements, environment variables, secrets, and sudo boundaries.

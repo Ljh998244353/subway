@@ -226,19 +226,37 @@ No endpoint may return face images, personal identity, member IDs, phone numbers
 {
   "storeId": "store_001",
   "date": "2026-05-19",
-  "score": 82.4,
+  "source": "synthetic_event_aggregate",
+  "formulaVersion": "synthetic-score-v1",
+  "score": 85.5,
   "grade": "A",
+  "weights": {
+    "flow": 0.25,
+    "conversion": 0.25,
+    "dwell": 0.15,
+    "trend": 0.2,
+    "profileFit": 0.15
+  },
+  "inputs": {
+    "exposureTraffic": 747,
+    "enterCount": 202,
+    "conversionRate": 0.27,
+    "avgDwellMinutes": 14.2,
+    "trendIndex": 90,
+    "profileFitIndex": 81,
+    "operationalPenalty": 0
+  },
   "breakdown": {
-    "flow": 78,
+    "flow": 88,
     "conversion": 84,
-    "dwell": 81,
-    "trend": 88,
-    "profileFit": 76,
+    "dwell": 82,
+    "trend": 90,
+    "profileFit": 81,
     "penalty": 0
   },
   "explanations": [
-    "Conversion rate is above category median",
-    "Dwell time is stable compared with previous week"
+    "Synthetic score: traffic and trend are above fixture baseline",
+    "Conversion remains stable for the fashion category"
   ]
 }
 ```

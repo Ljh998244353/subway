@@ -1,6 +1,6 @@
 # API Contract Current
 
-Updated: 2026-05-25
+Updated: 2026-05-26
 
 ## Current Status
 
@@ -39,7 +39,7 @@ getTrajectories
 getOverview
 ```
 
-P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. P6-I1 documented AI event schema. P6-I2 implemented a local synthetic AI service. P6-R1 reprioritized the next API direction toward synthetic 3D demo controls and fake-data persistence.
+P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. P6-I1 documented AI event schema. P6-I2 implemented a local synthetic AI service. P6-R1 reprioritized the next API direction toward synthetic 3D demo controls and fake-data persistence. P8-I2 refined the store score contract so `GET /api/v1/stores/{storeId}/score` returns deterministic synthetic aggregate scoring metadata: `source`, `formulaVersion`, `weights`, `inputs`, bounded score, grade, breakdown, and explanations.
 
 ## Not Implemented
 
@@ -78,6 +78,7 @@ These endpoints are not implemented yet. They should be designed in a later arch
 
 ```text
 synthetic demo APIs must be clearly labeled synthetic/demo-only
+store score MVP source is currently synthetic_event_aggregate and formulaVersion synthetic-score-v1
 real-data adapter endpoints are deferred
 real video/camera/BIM/floor-plan/brand material must not be required for the 3D demo
 API responses must keep stable IDs and ISO 8601 timestamps
@@ -86,4 +87,4 @@ fake event generation must be idempotent where applicable
 
 ## Next Step
 
-P7-I3 completed as a minimal audited frontend WebGL/Three.js scene shell without adding API endpoints. P7-I4 should continue frontend-local scene adapter and interaction work unless the task card is changed.
+P8-I2 completed the first store score MVP contract refinement without adding a new endpoint. The next API increment should either add score/ranking filters or define synthetic score aggregate persistence boundaries before any real MySQL query work.

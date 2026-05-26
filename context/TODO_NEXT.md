@@ -153,48 +153,74 @@ context/*.md
 
 P7-I8 added heatmap animation, score-based color visualization, floor switching animation, demo preparation controls, and passed the quality gate. It did not use external asset APIs, downloaded models, real MySQL, real video, real mall material, or personal data.
 
+P8-I1 production deployment preparation and performance optimization is complete.
+
+```text
+frontend/src/App.tsx
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/performance/buildChunks.ts
+frontend/src/performance/buildChunks.test.ts
+frontend/vite.config.ts
+frontend/tsconfig.node.json
+frontend/package.json
+PROGRESS.md
+context/*.md
+```
+
+P8-I1 added route-level lazy loading, route loading/error fallback, Vite production chunks for React/Router/Motion/Three/R3F/Drei, and 3D scene render-loop optimization. It preserved `/digital-twin`, `/style-preview`, GLB loading, SVG/2.5D fallback/reference, mock/API state behavior, and synthetic-only boundaries. It did not add dependencies, external assets, real MySQL, real video, production data, or deployment infrastructure.
+
+P8-I2 store score MVP contract and synthetic event consumption plan is complete.
+
+```text
+backend/app/schemas/reference.py
+backend/app/fixtures/reference.py
+backend/tests/test_reference_api.py
+frontend/src/api/referenceClient.ts
+frontend/src/api/referenceClient.test.ts
+frontend/src/api/storeAnalysisDataLoader.test.ts
+docs/STORE_SCORE_MVP.md
+docs/API_CONTRACT.md
+PROGRESS.md
+context/*.md
+```
+
+P8-I2 refined the existing store score API response so it exposes `source`, `formulaVersion`, `weights`, and `inputs` for deterministic synthetic aggregate scoring. It added formula/boundary tests and updated frontend DTO types while preserving mock defaults. It did not add dependencies, real MySQL, real video, real mall data, personal data, migrations, or deployment infrastructure.
+
 ## Task Card
 
 ```text
-Increment: P8-I1 Production deployment preparation and performance optimization
-Primary role: Frontend Mode
+Increment: P8-I3 Store score ranking filters and synthetic score readiness
+Primary role: Backend Mode
 Auxiliary reviews: Design, Architect, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P7-I8 3D scene final polish
+Status: ready after P8-I2 store score formula contract
 ```
 
 ## Goal
 
-Prepare the `/digital-twin` application for production deployment and optimize performance while preserving all existing features.
+Extend the P8 store score MVP contract with narrow ranking filters and readiness notes for synthetic score persistence.
 
-P8-I1 should implement:
+P8-I3 should implement:
 
 ```text
-implement code splitting to reduce the large frontend chunk warning
-add production-ready error handling and fallback mechanisms
-optimize 3D scene rendering performance
-add loading states and progressive enhancement
-preserve all existing features: BlenderMCP-generated GLB model, typed scene adapter layer, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation
-keep the existing SVG/2.5D FloorPlan available as fallback/reference
-keep /style-preview as the reference prototype route
-preserve mock/synthetic default and existing API-mode fallback behavior
-add/update tests for production readiness, performance optimization, and deployment preparation
-avoid external asset APIs or downloaded models
+extend GET /api/v1/stores/ranking with synthetic fixture filters if still narrow: floorId, categoryId, grade, or metric
+keep ranking derived from P8-I2 synthetic score contract
+add backend tests for filtering, sorting, empty result shape, and invalid mall/floor/category boundaries
+update frontend client only if the filter contract needs typed coverage
+document persistence readiness questions for synthetic score aggregates without creating migrations
+preserve existing frontend behavior and mock defaults
 ```
 
 ## Non-goals
 
 ```text
-do not use BlenderMCP yet
-do not install @react-three/drei unless a separate audit and clear need is recorded
-do not import GLB/GLTF model files yet
-do not create or download production model/texture assets yet
 do not use Sketchfab, Poly Haven, Hyper3D, Hunyuan3D, Rodin, Fal, paid model services, or external asset APIs
 do not use real mall floor plans, BIM/CAD, maps, brand logos, tenant logos, shop signs, or scraped media
 do not use real monitoring footage, face images, personal data, or individual trajectories
 do not connect real MySQL or production data
-do not add backend API endpoints or migrations in this frontend increment
 do not create deployment infrastructure
+do not add dependencies unless separately audited and approved
+do not change frontend defaults or require a live backend for the demo
 ```
 
 ## Required Reading
@@ -227,46 +253,33 @@ context/TODO_NEXT.md
 opencode.json
 frontend/package.json
 frontend/src/App.tsx
-frontend/src/routes/routeConfig.ts
-frontend/src/pages/PremiumStylePreviewPage.tsx
-frontend/src/pages/DigitalTwinPage.tsx
-frontend/src/twin/adapter/sceneAdapter.ts
-frontend/src/twin/adapter/sceneAdapter.test.ts
-frontend/src/twin/scene/DigitalTwinScene.tsx
-frontend/src/twin/scene/DigitalTwinScene.test.ts
-frontend/src/components/FloorPlan.tsx
-frontend/src/components/TwinInspector.tsx
-frontend/src/pages/digitalTwinModel.ts
-frontend/src/pages/digitalTwinState.ts
-frontend/src/api/digitalTwinDataLoader.ts
-frontend/src/styles/global.css
-frontend/public/models/mall_floor_f2.glb
+backend/app/api/routes/
+backend/app/fixtures/
+backend/app/schemas/
+backend/tests/
+frontend/src/api/referenceClient.ts
+frontend/src/api/referenceClient.test.ts
 ```
 
 ## Likely Deliverables
 
 ```text
-code splitting for reduced bundle size
-production-ready error handling and fallbacks
-optimized 3D scene rendering performance
-loading states and progressive enhancement
-preserved all existing features
-SVG/2.5D fallback/reference still available
-mock/API state behavior intact
-/style-preview preserved
-no external asset APIs or downloaded models
-route/build/state/scene checks updated
-PROGRESS.md and affected context files record the P8-I1 result and next handoff
+ranking filter contract or documented no-go if scope is reduced
+fixture-backed filtered ranking response
+backend tests for filter shape and synthetic-only boundaries
+context/docs record synthetic score persistence readiness questions
+existing frontend/backend tests/build still pass
+no real MySQL, real mall data, real video, personal data, or deployment infrastructure
+PROGRESS.md and affected context files record the P8-I3 result and next handoff
 ```
 
-## P7-I8 Baseline
+## P8-I2 Baseline
 
 ```text
-P7-I8 3D scene final polish with heatmap animation and score visualization is complete.
-Primary role was Frontend Mode.
-/digital-twin now uses heatmap animation, score-based color visualization, floor switching animation, and demo preparation controls.
-Current FloorPlan remains SVG/2.5D fallback/reference.
-P7-I8 final checks passed: npm --prefix frontend run test; npm --prefix frontend run build; npm run quality.
+P8-I2 store score MVP contract and synthetic event consumption plan is complete.
+Primary role was Backend Mode.
+GET /api/v1/stores/{storeId}/score now returns deterministic synthetic aggregate scoring metadata with formulaVersion synthetic-score-v1.
+Store ranking remains derived from the same fixture-backed scores.
 The quality gate remains npm run quality plus npm run quality:audit.
 ```
 
@@ -279,12 +292,12 @@ npm run quality
 npm run quality:audit
 ```
 
-P8-I1 changes frontend code, so the quality gate is required unless an environment blocker is recorded in `PROGRESS.md` and `context/TEST_STATE.md`.
+P8-I3 changes backend/API contract behavior, so the quality gate is required unless an environment blocker is recorded in `PROGRESS.md` and `context/TEST_STATE.md`.
 
 ## Human Confirmation Gates
 
 ```text
-before installing any new 3D dependency not already audited and recorded
+before installing any new dependency not already audited and recorded
 before using external asset APIs or downloaded models
 before using any real mall material or brand material
 before connecting real MySQL or real production data

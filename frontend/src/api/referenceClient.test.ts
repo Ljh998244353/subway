@@ -168,8 +168,26 @@ test('builds /api/v1/stores/{storeId}/score request and parses object envelope',
     data: {
       storeId: 'store_demo_101',
       date: '2026-05-19',
+      source: 'synthetic_event_aggregate',
+      formulaVersion: 'synthetic-score-v1',
       score: 52.8,
       grade: 'D',
+      weights: {
+        flow: 0.25,
+        conversion: 0.25,
+        dwell: 0.15,
+        trend: 0.2,
+        profileFit: 0.15
+      },
+      inputs: {
+        exposureTraffic: 432,
+        enterCount: 60,
+        conversionRate: 0.139,
+        avgDwellMinutes: 8.7,
+        trendIndex: 51,
+        profileFitIndex: 56,
+        operationalPenalty: 8
+      },
       breakdown: {
         flow: 58,
         conversion: 45,
@@ -205,6 +223,8 @@ test('builds /api/v1/stores/{storeId}/score request and parses object envelope',
   });
   assert.equal(response.data.storeId, 'store_demo_101');
   assert.equal(response.data.grade, 'D');
+  assert.equal(response.data.formulaVersion, 'synthetic-score-v1');
+  assert.equal(response.data.inputs.conversionRate, 0.139);
   assert.equal(response.data.breakdown.profileFit, 56);
   assert.equal(response.data.explanations.length, 2);
 });
@@ -215,8 +235,26 @@ test('encodes store score path param', async () => {
     data: {
       storeId: 'store demo/101',
       date: '2026-05-19',
+      source: 'synthetic_event_aggregate',
+      formulaVersion: 'synthetic-score-v1',
       score: 52.8,
       grade: 'D',
+      weights: {
+        flow: 0.25,
+        conversion: 0.25,
+        dwell: 0.15,
+        trend: 0.2,
+        profileFit: 0.15
+      },
+      inputs: {
+        exposureTraffic: 432,
+        enterCount: 60,
+        conversionRate: 0.139,
+        avgDwellMinutes: 8.7,
+        trendIndex: 51,
+        profileFitIndex: 56,
+        operationalPenalty: 8
+      },
       breakdown: {
         flow: 58,
         conversion: 45,

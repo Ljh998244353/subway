@@ -74,8 +74,26 @@ def test_get_store_score_returns_fixture_contract() -> None:
     assert body["data"] == {
         "storeId": "store_demo_101",
         "date": "2026-05-19",
-        "score": 52.8,
+        "source": "synthetic_event_aggregate",
+        "formulaVersion": "synthetic-score-v1",
+        "score": 43.7,
         "grade": "D",
+        "weights": {
+            "flow": 0.25,
+            "conversion": 0.25,
+            "dwell": 0.15,
+            "trend": 0.2,
+            "profileFit": 0.15,
+        },
+        "inputs": {
+            "exposureTraffic": 432,
+            "enterCount": 60,
+            "conversionRate": 0.139,
+            "avgDwellMinutes": 8.7,
+            "trendIndex": 51.0,
+            "profileFitIndex": 56.0,
+            "operationalPenalty": 8.0,
+        },
         "breakdown": {
             "flow": 58.0,
             "conversion": 45.0,
@@ -89,6 +107,32 @@ def test_get_store_score_returns_fixture_contract() -> None:
             "Conversion and dwell indicators are below the fixture baseline",
         ],
     }
+
+
+def test_store_score_contract_is_calculated_from_synthetic_aggregate_inputs() -> None:
+    response = client.get("/api/v1/stores/store_demo_001/score", headers={"X-Request-Id": "req_store_score_formula"})
+
+    assert response.status_code == 200
+    data = response.json()["data"]
+    breakdown = data["breakdown"]
+    weights = data["weights"]
+    calculated = round(
+        breakdown["flow"] * weights["flow"]
+        + breakdown["conversion"] * weights["conversion"]
+        + breakdown["dwell"] * weights["dwell"]
+        + breakdown["trend"] * weights["trend"]
+        + breakdown["profileFit"] * weights["profileFit"]
+        - breakdown["penalty"],
+        1,
+    )
+
+    assert data["score"] == calculated == 85.5
+    assert data["grade"] == "A"
+    assert data["source"] == "synthetic_event_aggregate"
+    assert 0 <= data["inputs"]["conversionRate"] <= 1
+    serialized = str(data).lower()
+    for forbidden in ("face", "member", "phone", "trajectory", "personid"):
+        assert forbidden not in serialized
 
 
 def test_get_store_flow_returns_fixture_contract() -> None:
@@ -140,7 +184,7 @@ def test_list_store_ranking_returns_fixture_contract() -> None:
             "floorId": "floor_demo_l1",
             "categoryId": "cat_fashion",
             "name": "Fictional Store 001",
-            "score": 86.4,
+            "score": 85.5,
             "grade": "A",
         },
         {
@@ -150,7 +194,7 @@ def test_list_store_ranking_returns_fixture_contract() -> None:
             "floorId": "floor_demo_l1",
             "categoryId": "cat_food",
             "name": "Fictional Store 002",
-            "score": 74.2,
+            "score": 73.5,
             "grade": "B",
         },
         {
@@ -160,7 +204,7 @@ def test_list_store_ranking_returns_fixture_contract() -> None:
             "floorId": "floor_demo_l2",
             "categoryId": "cat_lifestyle",
             "name": "Fictional Store 101",
-            "score": 52.8,
+            "score": 43.7,
             "grade": "D",
         },
     ]

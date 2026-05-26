@@ -35,8 +35,26 @@ function createScoreDto(overrides: Partial<StoreScoreDto> = {}): StoreScoreDto {
   return {
     storeId: 'store_demo_101',
     date: '2026-05-19',
+    source: 'synthetic_event_aggregate',
+    formulaVersion: 'synthetic-score-v1',
     score: 52.8,
     grade: 'D',
+    weights: {
+      flow: 0.25,
+      conversion: 0.25,
+      dwell: 0.15,
+      trend: 0.2,
+      profileFit: 0.15
+    },
+    inputs: {
+      exposureTraffic: 432,
+      enterCount: 60,
+      conversionRate: 0.139,
+      avgDwellMinutes: 8.7,
+      trendIndex: 51,
+      profileFitIndex: 56,
+      operationalPenalty: 8
+    },
     breakdown: {
       flow: 58,
       conversion: 45,

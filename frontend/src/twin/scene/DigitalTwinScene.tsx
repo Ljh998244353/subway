@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -12,6 +12,14 @@ type DigitalTwinSceneProps = {
   onInteraction?: (event: SceneInteractionEvent) => void;
   useGLBModel?: boolean;
 };
+
+const heatmapScenePoints: Array<{ position: [number, number, number]; intensity: number }> = [
+  { position: [-2, 0.2, 1], intensity: 0.8 },
+  { position: [1, 0.2, -1], intensity: 0.6 },
+  { position: [-1, 0.2, 2], intensity: 0.4 },
+  { position: [3, 0.2, 0], intensity: 0.9 },
+  { position: [0, 0.2, -2], intensity: 0.7 }
+];
 
 function getScoreColor(score: number): string {
   if (score >= 85) return '#10b981';
@@ -44,13 +52,13 @@ function StoreLabel({ store, isHovered }: { store: SceneStore; isHovered: boolea
 
 function HeatmapPoint({ position, intensity }: { position: [number, number, number]; intensity: number }) {
   const ref = useRef<THREE.Mesh>(null);
-  const [scale, setScale] = useState(0.5);
+  const targetScale = useRef(new THREE.Vector3(1, 1, 1));
 
   useFrame((state) => {
     if (ref.current) {
-      const targetScale = 0.5 + intensity * 0.5 + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.1;
-      setScale(prev => prev + (targetScale - prev) * 0.1);
-      ref.current.scale.set(scale, scale, scale);
+      const scale = 0.5 + intensity * 0.5 + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.1;
+      targetScale.current.set(scale, scale, scale);
+      ref.current.scale.lerp(targetScale.current, 0.1);
     }
   });
 
@@ -70,17 +78,16 @@ function HeatmapPoint({ position, intensity }: { position: [number, number, numb
 
 function AlertIndicator({ alert }: { alert: SceneAlert }) {
   const ref = useRef<THREE.Mesh>(null);
-  const [visible, setVisible] = useState(true);
 
   useFrame((state) => {
     if (ref.current) {
       ref.current.position.y = alert.position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
-      setVisible(Math.sin(state.clock.elapsedTime * 3) > 0);
+      ref.current.visible = Math.sin(state.clock.elapsedTime * 3) > 0;
     }
   });
 
   return (
-    <mesh ref={ref} position={alert.position} visible={visible}>
+    <mesh ref={ref} position={alert.position}>
       <sphereGeometry args={[0.15, 16, 16]} />
       <meshStandardMaterial
         color={alert.level === 'high' ? '#ef4444' : alert.level === 'medium' ? '#f59e0b' : '#3b82f6'}
@@ -149,6 +156,8 @@ function MallFloorModel({ onClick, onHover, onUnhover }: {
   );
 }
 
+useGLTF.preload('/models/mall_floor_f2.glb');
+
 function StoreMesh({ store, onClick, onHover, onUnhover, isHovered }: {
   store: SceneStore;
   onClick: (storeId: string) => void;
@@ -157,13 +166,13 @@ function StoreMesh({ store, onClick, onHover, onUnhover, isHovered }: {
   isHovered: boolean;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const [hoverScale, setHoverScale] = useState(1);
+  const targetScale = useRef(new THREE.Vector3(1, 1, 1));
 
   useFrame(() => {
     if (meshRef.current) {
-      const targetScale = isHovered ? 1.05 : 1;
-      setHoverScale(prev => prev + (targetScale - prev) * 0.1);
-      meshRef.current.scale.set(hoverScale, hoverScale, hoverScale);
+      const scale = isHovered ? 1.05 : 1;
+      targetScale.current.set(scale, scale, scale);
+      meshRef.current.scale.lerp(targetScale.current, 0.1);
     }
   });
 
@@ -202,14 +211,6 @@ function ProgrammaticScene({ adapterState, onStoreClick, onStoreHover, onStoreUn
   hoveredStoreId: string | null;
   showHeatmap: boolean;
 }) {
-  const heatmapPoints: Array<{ position: [number, number, number]; intensity: number }> = [
-    { position: [-2, 0.2, 1], intensity: 0.8 },
-    { position: [1, 0.2, -1], intensity: 0.6 },
-    { position: [-1, 0.2, 2], intensity: 0.4 },
-    { position: [3, 0.2, 0], intensity: 0.9 },
-    { position: [0, 0.2, -2], intensity: 0.7 },
-  ];
-
   return (
     <>
       <color args={['#f7f9fc']} attach="background" />
@@ -243,7 +244,7 @@ function ProgrammaticScene({ adapterState, onStoreClick, onStoreHover, onStoreUn
             <StoreLabel store={store} isHovered={hoveredStoreId === store.storeId} />
           </group>
         ))}
-        {showHeatmap && heatmapPoints.map((point, index) => (
+        {showHeatmap && heatmapScenePoints.map((point, index) => (
           <HeatmapPoint key={index} position={point.position} intensity={point.intensity} />
         ))}
         {adapterState.alerts.map((alert) => (
@@ -262,14 +263,6 @@ function GLBScene({ adapterState, onStoreClick, onStoreHover, onStoreUnhover, ho
   hoveredStoreId: string | null;
   showHeatmap: boolean;
 }) {
-  const heatmapPoints: Array<{ position: [number, number, number]; intensity: number }> = [
-    { position: [-2, 0.2, 1], intensity: 0.8 },
-    { position: [1, 0.2, -1], intensity: 0.6 },
-    { position: [-1, 0.2, 2], intensity: 0.4 },
-    { position: [3, 0.2, 0], intensity: 0.9 },
-    { position: [0, 0.2, -2], intensity: 0.7 },
-  ];
-
   return (
     <>
       <color args={['#f7f9fc']} attach="background" />
@@ -283,7 +276,7 @@ function GLBScene({ adapterState, onStoreClick, onStoreHover, onStoreUnhover, ho
         {adapterState.stores.map((store) => (
           <StoreLabel key={store.id} store={store} isHovered={hoveredStoreId === store.storeId} />
         ))}
-        {showHeatmap && heatmapPoints.map((point, index) => (
+        {showHeatmap && heatmapScenePoints.map((point, index) => (
           <HeatmapPoint key={index} position={point.position} intensity={point.intensity} />
         ))}
         {adapterState.alerts.map((alert) => (
@@ -295,7 +288,7 @@ function GLBScene({ adapterState, onStoreClick, onStoreHover, onStoreUnhover, ho
 }
 
 export function DigitalTwinScene({ viewModel, buildTwinUrl, onInteraction, useGLBModel = false }: DigitalTwinSceneProps) {
-  const adapterState = buildSceneAdapterState(viewModel);
+  const adapterState = useMemo(() => buildSceneAdapterState(viewModel), [viewModel]);
   const selectedStore = viewModel.selectedStore;
   const [hoveredStoreId, setHoveredStoreId] = useState<string | null>(null);
   const [cameraTarget, setCameraTarget] = useState<[number, number, number] | undefined>();
@@ -356,30 +349,39 @@ export function DigitalTwinScene({ viewModel, buildTwinUrl, onInteraction, useGL
 
   return (
     <div className="digital-twin-scene" aria-label={`${viewModel.floor.name} WebGL 合成数字孪生场景`}>
-      <Canvas camera={{ fov: 43, position: [0, 7.2, 8.4] }} dpr={[1, 1.5]} shadows>
+      <Canvas
+        camera={{ fov: 43, position: [0, 7.2, 8.4] }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: false, powerPreference: 'high-performance' }}
+        performance={{ min: 0.55 }}
+        shadows
+        fallback={<div className="state-panel" role="status">WebGL 不可用，保留 SVG/2.5D 平面作为兜底。</div>}
+      >
         <CameraController targetPosition={cameraTarget} />
         <OrbitControls enablePan={false} enableZoom={true} enableRotate={true} />
-        <group visible={!isTransitioning}>
-          {useGLBModel ? (
-            <GLBScene
-              adapterState={adapterState}
-              onStoreClick={handleStoreClick}
-              onStoreHover={handleStoreHover}
-              onStoreUnhover={handleStoreUnhover}
-              hoveredStoreId={hoveredStoreId}
-              showHeatmap={showHeatmap}
-            />
-          ) : (
-            <ProgrammaticScene
-              adapterState={adapterState}
-              onStoreClick={handleStoreClick}
-              onStoreHover={handleStoreHover}
-              onStoreUnhover={handleStoreUnhover}
-              hoveredStoreId={hoveredStoreId}
-              showHeatmap={showHeatmap}
-            />
-          )}
-        </group>
+        <Suspense fallback={null}>
+          <group visible={!isTransitioning}>
+            {useGLBModel ? (
+              <GLBScene
+                adapterState={adapterState}
+                onStoreClick={handleStoreClick}
+                onStoreHover={handleStoreHover}
+                onStoreUnhover={handleStoreUnhover}
+                hoveredStoreId={hoveredStoreId}
+                showHeatmap={showHeatmap}
+              />
+            ) : (
+              <ProgrammaticScene
+                adapterState={adapterState}
+                onStoreClick={handleStoreClick}
+                onStoreHover={handleStoreHover}
+                onStoreUnhover={handleStoreUnhover}
+                hoveredStoreId={hoveredStoreId}
+                showHeatmap={showHeatmap}
+              />
+            )}
+          </group>
+        </Suspense>
       </Canvas>
       <div className="digital-twin-scene__overlay" aria-hidden="true">
         <span>WebGL synthetic scene · Three.js / R3F · {useGLBModel ? 'GLB model' : 'P7-I4 adapter'}</span>

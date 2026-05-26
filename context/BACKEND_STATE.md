@@ -1,6 +1,6 @@
 # Backend State
 
-Updated: 2026-05-25
+Updated: 2026-05-26
 
 ## Current Status
 
@@ -22,21 +22,19 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented.
+The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented. P8-I2 refined `GET /api/v1/stores/{storeId}/score` so the response is calculated from deterministic synthetic aggregate inputs and includes `source`, `formulaVersion`, `weights`, and `inputs`.
 
-## P7 Backend Direction
+## P8 Store Score Direction
 
-The next backend-related priority is no longer generic AI service expansion. It is synthetic demo data persistence and scenario generation for the premium 3D digital twin.
+The current backend priority is the store score MVP track, starting with fixture-backed synthetic aggregate scoring before real persistence.
 
 Future backend work should support:
 
 ```text
-synthetic scenario seed/reset/generate
-append fake events for demo scenarios
-read synthetic 3D scene layout data
-read replay frames, heatmap snapshots, flow snapshots, and agent-count aggregates
-persist fake/demo data to MySQL after schema/API design is approved
-keep demo controls clearly synthetic and disable-able
+store score formulas with explicit versions
+synthetic aggregate inputs that can later be produced from fake events
+score/ranking consistency checks
+future MySQL-backed fake/demo score persistence after schema/API approval
 preserve later real-data adapter boundary
 ```
 
@@ -66,4 +64,4 @@ production deployment or Docker Compose
 
 ## Next Step
 
-P7-I3 completed as a frontend WebGL/Three.js scene-shell increment and did not require backend code changes. P7-I4 should remain frontend-local unless the task card changes. A later backend/data increment should define the synthetic scenario/event persistence contract before migrations or API implementation.
+P8-I2 now has a deterministic synthetic score formula contract. The next backend increment should either extend score/ranking filters or define persistence/readiness for synthetic score aggregates, without connecting real MySQL until the readiness gate is approved.

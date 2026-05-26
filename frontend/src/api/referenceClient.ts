@@ -80,11 +80,33 @@ export type StoreScoreBreakdownDto = {
   penalty: number;
 };
 
+export type StoreScoreWeightsDto = {
+  flow: number;
+  conversion: number;
+  dwell: number;
+  trend: number;
+  profileFit: number;
+};
+
+export type StoreScoreInputDto = {
+  exposureTraffic: number;
+  enterCount: number;
+  conversionRate: number;
+  avgDwellMinutes: number;
+  trendIndex: number;
+  profileFitIndex: number;
+  operationalPenalty: number;
+};
+
 export type StoreScoreDto = {
   storeId: string;
   date: string;
+  source: string;
+  formulaVersion: string;
   score: number;
   grade: string;
+  weights: StoreScoreWeightsDto;
+  inputs: StoreScoreInputDto;
   breakdown: StoreScoreBreakdownDto;
   explanations: string[];
 };
