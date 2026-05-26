@@ -55,6 +55,7 @@ export function DigitalTwinPage() {
   const dataMode = params.get('dataMode') ?? undefined;
   const apiBaseUrl = params.get('apiBaseUrl') ?? undefined;
   const [twinDataState, setTwinDataState] = useState(() => createInitialDigitalTwinDataState());
+  const [useGLBModel, setUseGLBModel] = useState(params.get('model') === 'glb');
   const viewModel = useMemo(
     () =>
       buildDigitalTwinViewModel(
@@ -236,7 +237,7 @@ export function DigitalTwinPage() {
           <div className="stage-toolbar">
             <div>
               <span>Interactive Digital Twin Workspace</span>
-              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · WebGL + SVG 参考</strong>
+              <strong>{viewModel.floor.name} · {twinModeLabel[viewModel.mode]} · {useGLBModel ? 'GLB Model' : 'WebGL + SVG 参考'}</strong>
             </div>
             <div className="floor-switcher" aria-label="楼层切换">
               {mockFloors.map((floor) => (
@@ -244,6 +245,13 @@ export function DigitalTwinPage() {
                   {floor.code}
                 </Link>
               ))}
+              <button
+                className={`model-toggle ${useGLBModel ? 'is-active' : ''}`}
+                onClick={() => setUseGLBModel(!useGLBModel)}
+                aria-label={useGLBModel ? '切换到程序化几何体' : '切换到 GLB 模型'}
+              >
+                {useGLBModel ? 'GLB' : 'Procedural'}
+              </button>
             </div>
           </div>
 
@@ -253,11 +261,11 @@ export function DigitalTwinPage() {
               <div className="panel-heading">
                 <div>
                   <h2 id="webgl-scene-heading">WebGL 合成场景壳</h2>
-                  <p>Three.js/R3F 最小基线：项目自绘店铺块、楼层底板和走廊，无模型、纹理或真实素材。</p>
+                  <p>{useGLBModel ? 'BlenderMCP 生成的 GLB 模型：合成商场楼层几何体' : 'Three.js/R3F 最小基线：项目自绘店铺块、楼层底板和走廊，无模型、纹理或真实素材。'}</p>
                 </div>
-                <StatusBadge label="WebGL P7-I3" tone="info" />
+                <StatusBadge label={useGLBModel ? 'GLB Model' : 'WebGL P7-I4'} tone="info" />
               </div>
-              <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} onInteraction={handleSceneInteraction} />
+              <DigitalTwinScene viewModel={viewModel} buildTwinUrl={buildTwinUrl} onInteraction={handleSceneInteraction} useGLBModel={useGLBModel} />
             </div>
             <details className="digital-twin-cockpit__fallback-shell">
               <summary>SVG/2.5D 参考与回退视图</summary>

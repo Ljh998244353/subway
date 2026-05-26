@@ -3520,6 +3520,30 @@ main:focus-visible {
   color: #2f54eb;
 }
 
+.model-toggle {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 850;
+  min-height: 32px;
+  min-width: 48px;
+  padding: 4px 12px;
+  transition: all 0.2s;
+}
+
+.model-toggle:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.model-toggle.is-active {
+  background: #2f54eb;
+  border-color: #2f54eb;
+  color: #fff;
+}
+
 .twin-viewport {
   background:
     radial-gradient(circle at 62% 52%, rgba(47, 84, 235, 0.13), transparent 26%),
@@ -4113,4 +4137,116 @@ main:focus-visible {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Scene labels for 3D viewport */
+.scene-label {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  font-family: Inter, "Noto Sans CJK SC", sans-serif;
+  padding: 6px 10px;
+  pointer-events: none;
+  text-align: center;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+.scene-label--floor {
+  background: rgba(47, 84, 235, 0.9);
+  border-color: rgba(47, 84, 235, 0.6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 14px;
+}
+
+.scene-label--floor strong {
+  display: block;
+  font-size: 16px;
+}
+
+.scene-label--floor small {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.scene-label--store {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.scene-label--store span {
+  color: #1e293b;
+  display: block;
+  font-size: 12px;
+}
+
+.scene-label--store small {
+  color: #64748b;
+  display: block;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.scene-label--store.is-selected {
+  background: rgba(47, 84, 235, 0.92);
+  border-color: rgba(47, 84, 235, 0.6);
+}
+
+.scene-label--store.is-selected span {
+  color: #fff;
+}
+
+.scene-label--store.is-selected small {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.scene-label--store.is-hovered {
+  background: rgba(20, 184, 166, 0.92);
+  border-color: rgba(20, 184, 166, 0.6);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.scene-label--store.is-hovered span {
+  color: #fff;
+}
+
+.scene-label--store.is-hovered small {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.digital-twin-scene__controls {
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+  left: 12px;
+  position: absolute;
+  z-index: 10;
+}
+
+.scene-control {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  transition: all 0.2s;
+}
+
+.scene-control:hover {
+  background: #fff;
+  color: #1e293b;
+}
+
+.scene-control.is-active {
+  background: rgba(47, 84, 235, 0.92);
+  border-color: rgba(47, 84, 235, 0.6);
+  color: #fff;
 }

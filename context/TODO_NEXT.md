@@ -104,34 +104,82 @@ context/*.md
 
 P7-I4 created a typed scene adapter layer with stable WebGL object IDs, store click/focus interaction, updated DigitalTwinScene to use the adapter, added 131 frontend tests, and passed the quality gate. It did not add Drei, BlenderMCP, GLB/GLTF files, models, textures, fonts, icons, external assets, external services, real MySQL, real video, real mall material, or personal data.
 
+P7-I5 BlenderMCP integration with GLB model loading is complete.
+
+```text
+opencode.json (BlenderMCP configuration)
+frontend/public/models/mall_floor_f2.glb
+frontend/package.json
+frontend/package-lock.json
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/pages/DigitalTwinPage.tsx
+frontend/src/styles/global.css
+PROGRESS.md
+context/*.md
+```
+
+P7-I5 approved BlenderMCP, created self-authored synthetic mall geometry in Blender, exported as GLB, added GLB loading to DigitalTwinScene with hover/click interactions, installed @react-three/drei, and passed the quality gate. It did not use external asset APIs, downloaded models, real MySQL, real video, real mall material, or personal data.
+
+P7-I6 3D scene visual polish with labels and enhanced lighting is complete.
+
+```text
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/styles/global.css
+PROGRESS.md
+context/*.md
+```
+
+P7-I6 added floor label overlays, store name labels, enhanced lighting with shadows, improved scene rendering, and passed the quality gate. It did not use external asset APIs, downloaded models, real MySQL, real video, real mall material, or personal data.
+
+P7-I7 3D scene interaction deepening with camera animation and visual effects is complete.
+
+```text
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/styles/global.css
+PROGRESS.md
+context/*.md
+```
+
+P7-I7 added camera animation for store focus, hover highlight effects, alert indicators with animation, OrbitControls, and passed the quality gate. It did not use external asset APIs, downloaded models, real MySQL, real video, real mall material, or personal data.
+
+P7-I8 3D scene final polish with heatmap animation and score visualization is complete.
+
+```text
+frontend/src/twin/scene/DigitalTwinScene.tsx
+frontend/src/styles/global.css
+PROGRESS.md
+context/*.md
+```
+
+P7-I8 added heatmap animation, score-based color visualization, floor switching animation, demo preparation controls, and passed the quality gate. It did not use external asset APIs, downloaded models, real MySQL, real video, real mall material, or personal data.
+
 ## Task Card
 
 ```text
-Increment: P7-I5 3D scene visual enhancements and interaction deepening
+Increment: P8-I1 Production deployment preparation and performance optimization
 Primary role: Frontend Mode
 Auxiliary reviews: Design, Architect, QA, Security/License
 Human command: 请进行下一步
-Status: ready after P7-I4 typed scene adapter
+Status: ready after P7-I8 3D scene final polish
 ```
 
 ## Goal
 
-Enhance the `/digital-twin` WebGL scene with additional visual features and interactions while preserving the typed scene adapter layer and stable object IDs from P7-I4.
+Prepare the `/digital-twin` application for production deployment and optimize performance while preserving all existing features.
 
-P7-I5 should implement:
+P8-I1 should implement:
 
 ```text
-add hover effects and visual feedback for store objects in the 3D scene
-implement selection highlights with smooth transitions for store focus
-consider adding floor label overlays and store name labels in the 3D scene
-enhance the store click interaction with visual feedback
-preserve the typed scene adapter layer and stable object IDs from P7-I4
+implement code splitting to reduce the large frontend chunk warning
+add production-ready error handling and fallback mechanisms
+optimize 3D scene rendering performance
+add loading states and progressive enhancement
+preserve all existing features: BlenderMCP-generated GLB model, typed scene adapter layer, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation
 keep the existing SVG/2.5D FloorPlan available as fallback/reference
 keep /style-preview as the reference prototype route
 preserve mock/synthetic default and existing API-mode fallback behavior
-add/update tests for visual enhancements, interactions, and no-real-asset usage
-monitor the large frontend chunk warning but do not solve it unless it can be done narrowly without expanding scope
-avoid additional dependencies unless separately audited and necessary
+add/update tests for production readiness, performance optimization, and deployment preparation
+avoid external asset APIs or downloaded models
 ```
 
 ## Non-goals
@@ -176,6 +224,7 @@ context/DEPLOYMENT_STATE.md
 context/DECISIONS_LOG.md
 context/RISKS_AND_ASSUMPTIONS.md
 context/TODO_NEXT.md
+opencode.json
 frontend/package.json
 frontend/src/App.tsx
 frontend/src/routes/routeConfig.ts
@@ -191,32 +240,33 @@ frontend/src/pages/digitalTwinModel.ts
 frontend/src/pages/digitalTwinState.ts
 frontend/src/api/digitalTwinDataLoader.ts
 frontend/src/styles/global.css
+frontend/public/models/mall_floor_f2.glb
 ```
 
 ## Likely Deliverables
 
 ```text
-hover effects and visual feedback for store objects
-selection highlights with smooth transitions
-floor label overlays and store name labels in 3D scene
-enhanced store click interaction with visual feedback
-preserved typed scene adapter layer and stable object IDs
+code splitting for reduced bundle size
+production-ready error handling and fallbacks
+optimized 3D scene rendering performance
+loading states and progressive enhancement
+preserved all existing features
 SVG/2.5D fallback/reference still available
 mock/API state behavior intact
 /style-preview preserved
-no new assets, model files, external services, or real data
+no external asset APIs or downloaded models
 route/build/state/scene checks updated
-PROGRESS.md and affected context files record the P7-I5 result and next handoff
+PROGRESS.md and affected context files record the P8-I1 result and next handoff
 ```
 
-## P7-I4 Baseline
+## P7-I8 Baseline
 
 ```text
-P7-I4 typed 3D scene adapter and store/floor interaction baseline is complete.
+P7-I8 3D scene final polish with heatmap animation and score visualization is complete.
 Primary role was Frontend Mode.
-/digital-twin now uses a typed scene adapter layer with stable WebGL object IDs and store click/focus interaction.
+/digital-twin now uses heatmap animation, score-based color visualization, floor switching animation, and demo preparation controls.
 Current FloorPlan remains SVG/2.5D fallback/reference.
-P7-I4 final checks passed: npm --prefix frontend run test; npm --prefix frontend run build; npm run quality.
+P7-I8 final checks passed: npm --prefix frontend run test; npm --prefix frontend run build; npm run quality.
 The quality gate remains npm run quality plus npm run quality:audit.
 ```
 
@@ -229,15 +279,13 @@ npm run quality
 npm run quality:audit
 ```
 
-P7-I5 changes frontend code, so the quality gate is required unless an environment blocker is recorded in `PROGRESS.md` and `context/TEST_STATE.md`.
+P8-I1 changes frontend code, so the quality gate is required unless an environment blocker is recorded in `PROGRESS.md` and `context/TEST_STATE.md`.
 
 ## Human Confirmation Gates
 
 ```text
 before installing any new 3D dependency not already audited and recorded
-before using BlenderMCP
-before adding any model, texture, font, icon, copied code, or external asset
-before using external asset/model APIs or downloaded models
+before using external asset APIs or downloaded models
 before using any real mall material or brand material
 before connecting real MySQL or real production data
 before using real video or monitoring footage

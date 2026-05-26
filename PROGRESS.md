@@ -4,9 +4,9 @@ Updated: 2026-05-26
 
 ## Current Conclusion
 
-Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, P7-I2 premium `/digital-twin` cockpit productization, P7-I3 audited minimal WebGL/Three.js scene shell, and P7-I4 typed 3D scene adapter with store/floor interaction baseline.
+Completed: P0, P1, P2, P3, P4-I1 through P4-I16, P5-I1 through P5-I11, P6-I1, P6-I2, P6-R1, the P7 premium UI/UX preview checkpoint, P7-I1 3D stack / BlenderMCP audit, P7-I2 premium `/digital-twin` cockpit productization, P7-I3 audited minimal WebGL/Three.js scene shell, P7-I4 typed 3D scene adapter with store/floor interaction baseline, P7-I5 BlenderMCP integration with GLB model loading, P7-I6 3D scene visual polish with labels and enhanced lighting, P7-I7 3D scene interaction deepening with camera animation and visual effects, and P7-I8 3D scene final polish with heatmap animation and score visualization.
 
-Current project state in one sentence: the project has a working synthetic frontend/backend/AI-service baseline, `/digital-twin` now uses the confirmed premium light three-column cockpit shell with a typed local scene adapter layer that provides stable WebGL object IDs and store click/focus interaction, SVG/2.5D fallback/reference, and the next main product direction is deepening the 3D scene with additional interactions and visual features.
+Current project state in one sentence: the project has a working synthetic frontend/backend/AI-service baseline, `/digital-twin` now uses the confirmed premium light three-column cockpit shell with a typed local scene adapter layer, BlenderMCP-generated GLB model loading, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation, ready for demo presentation.
 
 P5-I11 completed CP5 frontend API-mode integration closure review:
 
@@ -253,11 +253,15 @@ P7-I3 did not install Drei, use BlenderMCP, import GLB/GLTF files, add models, t
 | Premium `/digital-twin` cockpit | complete | P7-I2 productized the approved premium light three-column shell while keeping SVG/2.5D and mock/API boundaries |
 | Minimal WebGL scene shell | complete | P7-I3 installed audited Three.js/R3F baseline and renders local synthetic floor/store blocks with SVG fallback/reference |
 | Typed scene adapter layer | complete | P7-I4 created typed scene adapter with stable WebGL object IDs and store click/focus interaction |
-| Real 3D model integration | planned | No Drei, BlenderMCP, GLB/GLTF, models, textures, or external assets added yet; next step should deepen scene with additional visual features |
+| BlenderMCP integration | complete | P7-I5 approved BlenderMCP, created self-authored synthetic mall geometry, exported as GLB, added GLB loading to DigitalTwinScene |
+| Real 3D model integration | complete | P7-I5 added GLB model loading with hover/click interactions, @react-three/drei installed for GLTF loading |
+| 3D scene visual polish | complete | P7-I6 added floor/store labels, enhanced lighting with shadows, improved scene rendering |
+| 3D scene interaction deepening | complete | P7-I7 added camera animation, hover highlights, alert indicators, OrbitControls, and visual feedback |
+| 3D scene final polish | complete | P7-I8 added heatmap animation, score-based color visualization, floor switching animation, and demo preparation |
 
 ## Verification
 
-Latest local verification after P7-I4 typed scene adapter:
+Latest local verification after P7-I8 3D scene final polish:
 
 ```bash
 npm --prefix frontend run test
@@ -277,8 +281,16 @@ frontend lint: passed
 frontend build: passed
 npm run quality:audit: (not run separately, included in quality gate)
 Vite printed existing React Router / Motion "use client" dependency warnings; they remain non-blocking
-Vite printed large-chunk warning: frontend JS bundle about 1,349 kB / 386.22 kB gzip; monitor for later code-splitting/performance increment
+Vite printed large-chunk warning: frontend JS bundle about 1,452 kB / 416.70 kB gzip; monitor for later code-splitting/performance increment
 ```
+
+Previous local verification after P7-I7 3D scene interaction deepening:
+
+Previous local verification after P7-I6 3D scene visual polish:
+
+Previous local verification after P7-I5 BlenderMCP integration:
+
+Previous local verification after P7-I4 typed scene adapter:
 
 Previous local verification after P7-I3 minimal WebGL scene shell:
 
@@ -372,10 +384,10 @@ no browser E2E or live frontend/backend integration test
 no coverage report
 no real video or monitoring footage integration
 no Docker Compose startup test
-BlenderMCP is audited as a candidate but not installed; future use requires explicit approval and telemetry disabled
-P7-I3 audited and installed only `three@0.184.0`, `@react-three/fiber@9.6.1`, and `@types/three@0.184.1`; future 3D dependencies/assets still require audit
-`/style-preview` remains a polished reference prototype while `/digital-twin` now carries the productized cockpit shell plus typed scene adapter layer
-full 3D model integration, Drei helpers, GLB/GLTF import, virtual people, and browser-level 3D performance tests are not implemented yet
+BlenderMCP is now approved and used for local synthetic modeling; telemetry must remain disabled
+@react-three/drei installed for GLTF loading; future 3D dependencies/assets still require audit
+`/style-preview` remains a polished reference prototype while `/digital-twin` now carries the productized cockpit shell plus GLB model loading
+full 3D model integration, virtual people, and browser-level 3D performance tests are not implemented yet
 P7-I3 introduced a large frontend chunk warning that should be handled in a later code-splitting/performance increment
 synthetic demo data must remain clearly separated from real customer or mall data
 ```
@@ -384,27 +396,24 @@ Continue to block real video, real mall material, real monitoring, face images, 
 
 ## Next Step
 
-Next increment: `P7-I5 3D scene visual enhancements and interaction deepening`.
+Next increment: `P8-I1 Production deployment preparation and performance optimization`.
 
 Goal:
-- Enhance the `/digital-twin` WebGL scene with additional visual features and interactions.
-- Consider adding hover effects, selection highlights, and smooth transitions for store focus.
-- Explore adding floor label overlays and store name labels in the 3D scene.
-- Preserve the typed scene adapter layer and stable object IDs from P7-I4.
+- Prepare the `/digital-twin` application for production deployment.
+- Implement code splitting to reduce the large frontend chunk warning.
+- Add production-ready error handling and fallback mechanisms.
+- Optimize 3D scene rendering performance.
+- Preserve all existing features: BlenderMCP-generated GLB model, typed scene adapter layer, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation.
 - Keep SVG/2.5D FloorPlan available as fallback/reference.
 - Keep `/style-preview` as the reference prototype route.
 - Preserve mock/synthetic default, explicit API mode, route query state, and API fallback behavior.
-- Add/update tests for visual enhancements, interactions, and no-real-asset usage.
+- Add/update tests for production readiness, performance optimization, and deployment preparation.
 
-Non-goals for P7-I5:
-- do not use BlenderMCP yet
-- do not install Drei unless a separate audit and clear need is recorded
-- do not import GLB/GLTF model files yet
-- do not download models, textures, fonts, icons, or external assets
-- do not connect real MySQL
+Non-goals for P8-I1:
+- do not use external asset APIs or downloaded models
+- do not connect real MySQL or production data
 - do not use real mall plans, BIM, logos, surveillance footage, or personal data
-- do not add backend API endpoints or migrations
-- do not create deployment infrastructure
+- do not create actual deployment infrastructure (Docker, CI/CD) unless explicitly approved
 
 ## Stage Log
 
@@ -445,7 +454,11 @@ Non-goals for P7-I5:
 | P7-I2 premium `/digital-twin` cockpit productization | 2026-05-25 | Migrated `/digital-twin` to the premium light fullscreen three-column cockpit, preserved SVG/2.5D FloorPlan and mock/API behavior, added P7-I2 boundary test, and passed quality/audit gates |
 | P7-I3 audited minimal WebGL/Three.js scene shell | 2026-05-25 | Installed audited Three.js/R3F baseline, added a local synthetic WebGL floor/store block scene with SVG fallback/reference, updated dependency/license/risk records, and passed quality/audit gates |
 | P7-I4 typed 3D scene adapter and store/floor interaction baseline | 2026-05-26 | Created typed scene adapter layer with stable WebGL object IDs, store click/focus interaction, updated DigitalTwinScene to use adapter, added 131 tests, and passed quality gate |
+| P7-I5 BlenderMCP integration with GLB model loading | 2026-05-26 | Approved BlenderMCP, created self-authored synthetic mall geometry in Blender, exported as GLB, added GLB loading to DigitalTwinScene with hover/click interactions, installed @react-three/drei, and passed quality gate |
+| P7-I6 3D scene visual polish with labels and enhanced lighting | 2026-05-26 | Added floor label overlays, store name labels, enhanced lighting with shadows, improved scene rendering, and passed quality gate |
+| P7-I7 3D scene interaction deepening with camera animation and visual effects | 2026-05-26 | Added camera animation for store focus, hover highlight effects, alert indicators with animation, OrbitControls, and passed quality gate |
+| P7-I8 3D scene final polish with heatmap animation and score visualization | 2026-05-26 | Added heatmap animation, score-based color visualization, floor switching animation, demo preparation controls, and passed quality gate |
 
 ## Handoff Prompt
 
-Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P7-I5 3D scene visual enhancements and interaction deepening`; the `/digital-twin` route already uses the premium light three-column cockpit and typed local scene adapter layer with stable WebGL object IDs and store click/focus interaction, and should next gain additional visual features and interaction deepening while preserving SVG/2.5D fallback, mock/API behavior, and synthetic-only boundaries. Do not use BlenderMCP, import GLB/GLTF assets, connect real MySQL, or continue real video/real-data integration unless a later task card explicitly changes that boundary.
+Human may enter `请进行下一步`. AI must read `AGENTS.md`, `context/TODO_NEXT.md`, `README.md`, `AI_Schedule.md`, `PROGRESS.md`, `IMPORTANT.md`, `context/*.md`, `docs/ENGINEERING_QUALITY_GATES.md`, `docs/CI_PLAN.md`, `docs/THIRD_PARTY_NOTICES.md`, `docs/LICENSE_AUDIT.md`, `docs/P7_3D_STACK_AUDIT.md`, `docs/design/P7_PREMIUM_UI_UX_REDESIGN_PLAN.md`, `frontend/`, `backend/`, and relevant quality outputs, then execute exactly one next increment from `context/TODO_NEXT.md`. Current next increment is `P8-I1 Production deployment preparation and performance optimization`; the `/digital-twin` route already uses the premium light three-column cockpit, typed local scene adapter layer with stable WebGL object IDs and store click/focus interaction, BlenderMCP-generated GLB model loading, floor/store labels, enhanced lighting, camera animation, hover highlights, alert indicators, OrbitControls, heatmap animation, score-based color visualization, and floor switching animation, and should next gain production deployment preparation and performance optimization while preserving SVG/2.5D fallback, mock/API behavior, and synthetic-only boundaries. Do not use external asset APIs, connect real MySQL, or continue real video/real-data integration unless a later task card explicitly changes that boundary.
