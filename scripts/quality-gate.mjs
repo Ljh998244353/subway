@@ -443,15 +443,15 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P7-R7"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "Context Recovery"]
     },
     {
       name: "hard rules",
       patterns: ["MySQL", "sudo", "license", "real video", "After every increment"]
     },
     {
-      name: "human workflow",
-      patterns: ["请进行下一步", "Human confirmation gates", "quality gate"]
+      name: "cleanup workflow",
+      patterns: ["请进行下一步", "Human confirmation gates", "quality gate", "TODO_NEXT.md = one next task only"]
     }
   ];
 
@@ -487,19 +487,35 @@ function runTaskCardCheck() {
     },
     {
       name: "scope boundaries",
-      patterns: ["Goal", "Non-goals", "Required Reading", "Deliverables"]
+      patterns: ["Goal", "Non-goals", "Minimum Working Set", "Deliverables"]
     },
     {
       name: "acceptance and confirmation",
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P7-R7 frontend rebuild focus",
-      patterns: ["P7-R7", "Next", "frontend", "synthetic", "Frontend Mode", "quality"]
+      name: "handoff and cleanup",
+      patterns: ["Next Handoff", "synthetic", "quality", "one task"]
     }
   ];
 
   assertTextRequirements("TODO task card check", stableRequirements, text);
+  const verboseHistoryPatterns = [
+    "Latest recorded executable results",
+    "Implemented so far",
+    "Completed Frontend Review Result",
+    "Acceptance Checks Already Run",
+    "Stage Log"
+  ];
+  const foundVerboseHistory = verboseHistoryPatterns.filter((pattern) => text.includes(pattern));
+  if (foundVerboseHistory.length > 0) {
+    fail(
+      `TODO task card check failed: TODO_NEXT.md must not contain historical log sections: ${foundVerboseHistory
+        .map((pattern) => `"${pattern}"`)
+        .join(", ")}`
+    );
+  }
+  runProgressStructureCheck();
   ok("context/TODO_NEXT.md records a complete executable task card");
   return;
 
@@ -524,6 +540,26 @@ function runTaskCardCheck() {
 
   assertTextRequirements("TODO task card check", requirements, text);
   ok("context/TODO_NEXT.md records a complete executable task card");
+}
+
+function runProgressStructureCheck() {
+  const text = readTextFile(join(rootDir, "PROGRESS.md"));
+  const requirements = [
+    {
+      name: "compact progress structure",
+      patterns: ["Current Snapshot", "Recent Increments", "Milestone Summary", "Verification Snapshot", "Next Handoff"]
+    }
+  ];
+
+  assertTextRequirements("PROGRESS structure check", requirements, text);
+
+  const recentSection = text.split("## Recent Increments")[1]?.split("\n## ")[0] ?? "";
+  const incrementRows = recentSection
+    .split("\n")
+    .filter((line) => line.trim().startsWith("|") && !line.includes("---") && !line.includes("Increment |"));
+  if (incrementRows.length > 3) {
+    fail(`PROGRESS structure check failed: Recent Increments has ${incrementRows.length} rows; maximum is 3`);
+  }
 }
 
 function assertTextRequirements(label, requirements, text) {
