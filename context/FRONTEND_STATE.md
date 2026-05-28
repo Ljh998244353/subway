@@ -1,135 +1,115 @@
 # Frontend State
 
-Updated: 2026-05-26
+Updated: 2026-05-28
 
 ## Current Status
 
-The frontend remains a React + TypeScript + Vite demo using mock data by default. P4 added a typed API client boundary. P5-I1 through P5-I11 added explicit API-mode data loaders and state adapters across the demo pages while preserving mock defaults. P7 completed the premium `/digital-twin` cockpit, GLB-backed Three.js scene, labels, lighting, camera/hover/alert effects, heatmap animation, and score visualization. P7-R2 corrected GLB model mode visibility and diagnostics, defaulting the digital twin to URL-preserved GLB mode on F2 with clear procedural fallback on other floors, and replaced the simple F2 GLB with a richer self-authored synthetic mall model. P8-I1 prepared the frontend for production delivery with route-level lazy loading, chunk splitting, loading/error fallbacks, and lower per-frame React churn in the 3D scene.
+P7-R7 rebuilt the active frontend as a React + Next.js App Router Digital Twin OS under `frontend/src/app`. The previous Vite/React Router UI has now been removed from the current workspace and from the frontend lockfile. Mock/synthetic data remains the default, and no real mall material, real video, personal data, external model, texture, image, icon pack, paid service, or real MySQL connection is introduced.
 
-Current digital twin implementation:
+The first human review fix improved Chinese typography clarity without adding font files or external services: `globals.css` now prioritizes local CJK fonts before Latin fonts, enables antialiasing/geometric text rendering, and the merchant ranking board reserves clearer columns/gaps for Chinese names.
+
+P7-R7b fixed the next human review issue: `/digital-twin` now has visible multi-level drilldown and information layering. The overview page shows only coarse global status and entry points, floor routes expose detailed floor workspaces, store routes expose store management workspaces, and the viewport overlay is now an actionable navigation surface. The implementation still uses synthetic fixtures only.
+
+After browser feedback, floor and store routes now use a dedicated full-screen detail shell rather than rendering inside the homepage three-column cockpit. This keeps a consistent header/theme but removes the homepage traffic/ranking sidebars from detail pages.
+
+P7-R7c started the workspace optimization requested by the user. The local plan is recorded in `docs/P7_R7_ENTERPRISE_NEXT_DIGITAL_TWIN_FRONTEND_SPEC.md`. Phase 1 replaced the large-overlay cockpit shell with a spatially separated workspace: `TwinCommandBar`, `ViewportStage`, and `InspectorRail` now separate command controls, the model safe area, right-side analysis, and the bottom timeline. The overview overlay was reduced to small telemetry chips so the model is no longer covered by large absolute-positioned cards.
+
+P7-R7c-2 completed the first de-carding pass. The global, floor, and store right-side panels now use compact inspector sections, metric rows, row lists, and small status pills. `ActionableAlertStream` is now an event queue style section instead of nested rounded cards with heavy shadows. The new `InspectorPrimitives.tsx` keeps the pattern consistent without adding dependencies.
+
+P7-R7c-3 completed the calm color system pass. `globals.css` now defines lower-saturation workspace tokens, the global and viewport grid contrast is reduced, command/status controls use calmer blue/teal accents, heatmap/flow shader colors are less neon, and red/amber are kept for semantic risk/warning states. No dependency, asset, data, or route contract changed.
+
+P7-R7c-4 completed the context-aware store workspace. `/digital-twin/store/[storeId]` no longer defaults to a large model surface; it renders a data-first store workspace with score bars, operating metrics, decision notes, and a compact SVG location preview with links back to the floor/model view. Overview and floor routes remain spatial/model-first.
+
+P7-R7c-5 completed the browser-review stabilization increment. Because the local environment had no installed Chromium/Playwright runtime, the review used the current Next production service at `http://127.0.0.1:3002` plus HTTP/HTML checks. `/` now returns an HTTP `307 Temporary Redirect` to `/digital-twin`; `/digital-twin`, `/digital-twin/F2?mode=flow&flowScope=inbound`, and `/digital-twin/store/S045?mode=score&flowScope=outbound` all returned the expected overview/floor/store workspace structures. The old three-column rounded loading skeletons were replaced with workspace-aligned loading states, and the `digital-twin/loading.tsx` parallel-route slot was made neutral so viewport and inspector slots do not nest a full workspace skeleton.
+
+P7-R7c-6 froze the selected frontend direction and cleaned the obsolete frontend surface. `frontend/package-lock.json` was regenerated from the Next-only `package.json`, Vite/React Router records were removed from the active dependency/license tables, and `frontend/tsconfig.json` now type-checks the current Next component tree instead of excluding the old Vite directories.
+
+Current active implementation:
 
 ```text
-route: /digital-twin
-page: frontend/src/pages/DigitalTwinPage.tsx
-WebGL scene: frontend/src/twin/scene/DigitalTwinScene.tsx
-production chunking: frontend/src/performance/buildChunks.ts
-SVG fallback/reference: frontend/src/components/FloorPlan.tsx
-model helpers: frontend/src/pages/digitalTwinModel.ts
-GLB asset: frontend/public/models/mall_floor_f2.glb
-Blender source: assets/blender/mall_floor_f2.blend
-Blender export script: scripts/blender/export_mall_floor_f2.py
-API-mode data loader: frontend/src/api/digitalTwinDataLoader.ts
-rendering style: premium light fullscreen cockpit shell with GLB model loading, synthetic overlays, and SVG/2.5D fallback/reference
-preview route: /style-preview
-preview page: frontend/src/pages/PremiumStylePreviewPage.tsx
-preview status: confirmed premium light three-column cockpit reference preserved after /digital-twin productization
+frontend/src/app/layout.tsx
+frontend/src/app/page.tsx
+frontend/src/app/digital-twin/layout.tsx
+frontend/src/app/digital-twin/page.tsx
+frontend/src/app/digital-twin/@sidebar/default.tsx
+frontend/src/app/digital-twin/@viewport/default.tsx
+frontend/src/app/digital-twin/[floorId]/page.tsx
+frontend/src/app/digital-twin/store/[storeId]/page.tsx
+frontend/src/components/dashboard/
+frontend/src/components/twin-engine/
+frontend/src/hooks/
+frontend/src/store/
+frontend/src/lib/
+frontend/tests/twinUrlState.test.ts
+frontend/tests/navGraph.test.ts
+frontend/tests/digitalTwinTypography.test.ts
+frontend/tests/digitalTwinNavigation.test.ts
 ```
 
-Current frontend API files:
+Key features:
 
 ```text
-frontend/src/api/apiMode.ts
-frontend/src/api/referenceClient.ts
-frontend/src/api/overviewDataLoader.ts
-frontend/src/api/storeAnalysisDataLoader.ts
-frontend/src/api/storeAlertsDataLoader.ts
-frontend/src/api/customerProfileDataLoader.ts
-frontend/src/api/digitalTwinDataLoader.ts
-frontend/src/pages/dashboardOverviewState.ts
-frontend/src/pages/storeAnalysisState.ts
-frontend/src/pages/storeAlertsState.ts
-frontend/src/pages/customerProfileState.ts
-frontend/src/pages/digitalTwinState.ts
-```
-
-## P7/P8 WebGL Baseline
-
-P7-I3 installed:
-
-```text
-three@0.184.0
-@react-three/fiber@9.6.1
-@types/three@0.184.1 as build-required dev dependency
-@react-three/drei@10.7.7 later installed and recorded for approved GLB loading
-```
-
-Still blocked unless a later task card explicitly approves:
-
-```text
-textures, fonts, icons, downloaded assets, copied code, or external asset APIs
-real MySQL
-real video
-real mall material, BIM/CAD, floor plan, map, brand logo, tenant logo, or shop sign
-face images or personal trajectories
-```
-
-## P7 Frontend Goal
-
-The next major frontend workstream is a premium synthetic 3D mall digital twin demo plus a major frontend redesign/refactor. The goal is a grand, refined, elegant, modern operational dashboard experience, not only a 3D canvas upgrade:
-
-```text
-productize the approved /style-preview premium light fullscreen three-column cockpit into /digital-twin
-Blender-authored free 3D mall model exported to GLB/GLTF where needed
-Three.js/WebGL scene inside /digital-twin
-self-authored mall model with floors, stores, corridors, atrium, escalators, elevators, entrances, kiosks, and hotspot zones
-modern lighting, camera, shadows/materials where performance allows, labels, and presentation polish
-major visual-system refactor: elevated layout, typography, spacing, panel depth, restrained motion, premium light dashboard language, and 1920/2K/4K readability
-store picking, floor switching, heatmap, flow, alerts, and score overlays
-virtual people and crowd-flow animation
-scenario/demo controls for crowd density, destinations, incidents, time, replay, seed/reset/append/generate
-large-screen and 4K demo readiness
-```
-
-## Candidate Module Boundary
-
-P7-I3 created the first module under:
-
-```text
-frontend/src/twin/scene/
-```
-
-Expected later modules remain:
-
-```text
-frontend/src/twin/entities/
-frontend/src/twin/adapters/
-frontend/src/twin/simulation/
-frontend/src/twin/controls/
+/ redirects to /digital-twin
+HTTP-level Next redirect from / to /digital-twin
+enterprise light Digital Twin OS layout
+workspace command bar and model safe-area stage
+right-side inspector rail with independent scrolling
+constrained bottom timeline safe area
+workspace-aligned root loading skeleton and neutral parallel-route loading skeleton
+compact inspector sections, metric rows, status pills, and event rows
+calmer low-saturation semantic color tokens and reduced grid contrast
+store routes use a data-first workspace with compact location preview rather than a large default model
+GlobalHeader, TrafficAnalyticsSidebar, MerchantGradingBoard, ActionableAlertStream, TimeScrubber
+URL-driven state for view/floorId/storeId/mode/flowScope
+path-aware App Router hrefs for `/digital-twin`, `/digital-twin/[floorId]`, and `/digital-twin/store/[storeId]`
+visible breadcrumbs, return paths, level titles, floor switching, mode switching, and store shortcuts
+level-specific sidebars for global operations, floor analysis, and store decisions
+actionable viewport overlay with 3D/SVG fallback status
+responsive layout that avoids fixed three-column squeezing below wide desktop
+dedicated full-screen floor/store detail layout separate from the overview cockpit
+operation feedback states for alert dispatch and leasing simulation actions
+Zustand only for transient client UI state
+NavGraph + A* pathing with corridor/store_gate topology
+Three/R3F viewport with SVG fallback boundary
+shader strings for flow particles and SDF heatmap
+Tailwind v4 PostCSS pipeline and Framer Motion interaction layer
+Chinese typography stack and ranking-board layout regression coverage
 ```
 
 ## Dependency Notes
 
 ```text
-Blender is the confirmed free modeling tool for the current mainline; Unity and UE are not current mainline dependencies
-three and @react-three/fiber are now installed as the minimum WebGL baseline
-@react-three/drei is installed for approved GLB loading
-any future 3D dependency, model, texture, font, icon, asset, or external service still requires license/cost/account/version/bundle audit before adoption
-P8-I1 added route-level lazy loading and manual chunks; the production entry chunk is small, while Three.js core remains a known isolated vendor chunk with an 800 kB warning limit
-MotionSurface.tsx imports framer-motion while frontend/package.json lists motion; this remains a dependency-baseline item to verify separately
+next@16.2.6 retained per user decision
+framer-motion installed for motion variants and interactive panels
+zustand installed for lightweight client state coordination
+tailwindcss@4.3.0, @tailwindcss/postcss, and postcss installed for utility styling
+next build uses `--webpack` because Turbopack/PostCSS attempted an internal port bind blocked by the sandbox
 ```
 
-## Test State
+## Verification
 
 ```text
-npm --prefix frontend run test: 134 passed after P8-I1
-npm --prefix frontend run build: passed after P8-I1; entry chunk about 6 kB, DigitalTwinPage chunk about 30 kB, Three.js core isolated vendor chunk about 732 kB
-npm run quality: passed after P8-I1; frontend tests 134 passed; backend pytest 34 passed
-npm run quality:audit: found 0 vulnerabilities after P8-I1
+npm --prefix frontend run lint: passed
+npm --prefix frontend run test: passed, 77 tests
+npm --prefix frontend run build: passed using Next webpack build
+npm --prefix frontend run lint: passed after the dedicated detail-layout update
+npm run quality:frontend: passed
+npm run quality:audit: passed with high-severity threshold; npm reports 2 moderate PostCSS advisories through Next
+npm --prefix frontend run lint: passed after P7-R7c-5
+npm --prefix frontend run test: passed, 81 tests
+npm --prefix frontend run build: passed using Next webpack build
+npm run quality:frontend: passed after P7-R7c-5
+npm run quality:audit: passed with high-severity threshold after network approval; npm reports 2 moderate PostCSS advisories through Next
+npm --prefix frontend run lint: passed after P7-R7c-6 workspace cleanup
 ```
 
-## Constraints
+Pending:
 
 ```text
-mock mode remains default unless explicitly changed
-no real API call in tests
-no real MySQL
-no real video
-no real mall material, BIM/CAD, floor plan, map, brand logo, tenant logo, or shop sign
-no face images
-no personal trajectories
-no unaudited new dependency or asset
+P7-R8 model generation remains deferred until explicit approval
+manual visual screenshot review at 1440px and 1920px remains useful if a browser/Playwright runtime is available
 ```
 
-## Next Step
+## P7-R8 Gate
 
-P7-R2 should finish validation of the recovered GLB path and documentation consistency, then return to P8-I3. P8-I3 should keep frontend mock defaults while backend ranking filters are refined. Only update frontend API client types/tests if the ranking filter contract requires typed coverage; do not add frontend dependencies or external assets unless a later task card explicitly scopes and approves that work.
+Do not start Blender modeling until the P7-R7 frontend is reviewed. The modeling spec is saved at `docs/P7_R8_MULTI_FLOOR_RING_MALL_MODELING_SPEC.md`.

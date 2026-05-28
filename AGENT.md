@@ -1,19 +1,19 @@
 # AGENT.md
 
-Compatibility entry: AI coding tools should read [AGENTS.md](AGENTS.md) first.
+Compatibility entry: Claude Code reads [CLAUDE.md](CLAUDE.md) automatically. Other AI coding tools should read [AGENTS.md](AGENTS.md).
 
 Current task card: `context/TODO_NEXT.md`.
 
-## Required Reading
+## Lean Required Reading
 
 ```text
-AGENTS.md
+CLAUDE.md
 context/TODO_NEXT.md
 PROGRESS.md
 IMPORTANT.md
-AI_Schedule.md
-current increment docs/context/source files
 ```
+
+Then read only the files named by the current task card or directly affected by the requested change. Read `AI_Schedule.md`, broad context files, license docs, API docs, or source files only when the current increment needs them.
 
 ## Fixed Constraints
 
@@ -28,7 +28,7 @@ stop for human action when sudo is needed
 update PROGRESS.md, context/*.md, and context/TODO_NEXT.md after completion
 ```
 
-Current next increment: `P8-I3 Store score ranking filters and synthetic score readiness`. P7-R2 GLB recovery is closed with quality gates passed; BlenderMCP full server startup remains a future local-dependency setup item.
+Current next increment: `P7-R7 Enterprise Next Digital Twin frontend rebuild review`. The active task is to stabilize the clean Next.js frontend after rollback, serve it for human review, and keep P7-R8 Blender model generation deferred until the frontend direction is approved.
 
 Normal continuation command:
 

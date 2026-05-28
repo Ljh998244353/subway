@@ -8,7 +8,7 @@
 
 ```text
 docs structure
-AGENTS.md standard AI coding entry
+CLAUDE.md / AGENTS.md standard AI coding entry
 context/TODO_NEXT.md task card
 compliance keywords
 engineering boundary

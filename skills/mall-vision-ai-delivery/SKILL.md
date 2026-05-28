@@ -1,6 +1,6 @@
 ---
 name: mall-vision-ai-delivery
-description: Single-AI incremental delivery workflow for the commercial mall visual AI digital twin project. Use when Codex works in this repository or on project planning, context recovery, iteration planning, automatic role selection, React/Vite frontend demo, FastAPI/MySQL backend, AI video analytics, store scoring, digital twin, testing gates, deployment, open-source resource selection, license compliance, risk tracking, or handoff documentation.
+description: Single-AI incremental delivery workflow for the commercial mall visual AI digital twin project. Use when Claude Code works in this repository or on project planning, context recovery, iteration planning, automatic role selection, React/Vite frontend demo, FastAPI/MySQL backend, AI video analytics, store scoring, digital twin, testing gates, deployment, open-source resource selection, license compliance, risk tracking, or handoff documentation.
 ---
 
 # Mall Vision AI Delivery
@@ -21,35 +21,47 @@ Optimize in this order:
 10. Recreate Python virtual environments when backend or AI service development starts.
 11. Stop and ask the human to run any sudo or system-level command; do not execute sudo directly.
 
-## Required First Step
+## Tiered Context Recovery
 
-Before implementation, read these files when they exist:
+Use staged recovery so the AI can restore the right context without front-loading the whole repository.
+
+### Stage 1: authority set
+
+Claude Code auto-loads `CLAUDE.md`. Then read these to complete the authority set:
 
 ```text
-AGENTS.md
-AGENT.md
-README.md
-PROGRESS.md
-AI_Schedule.md
-IMPORTANT.md
-docs/THIRD_PARTY_NOTICES.md
-docs/LICENSE_AUDIT.md
-context/PROJECT_STATE.md
-context/REQUIREMENTS_CURRENT.md
-context/ARCHITECTURE_CURRENT.md
-context/DATA_MODEL_CURRENT.md
-context/API_CONTRACT_CURRENT.md
-context/FRONTEND_STATE.md
-context/BACKEND_STATE.md
-context/AI_ALGORITHM_STATE.md
-context/TEST_STATE.md
-context/DEPLOYMENT_STATE.md
-context/DECISIONS_LOG.md
-context/RISKS_AND_ASSUMPTIONS.md
 context/TODO_NEXT.md
+PROGRESS.md
+IMPORTANT.md
 ```
 
-If `/context` is missing, use `AGENTS.md`, `AGENT.md`, `PROGRESS.md`, `AI_Schedule.md`, and `IMPORTANT.md` as the temporary source of truth, then create only the context files required by the current increment. Do not rely on chat history as the only project state.
+Use them to identify the current increment, role, non-goals, risk boundaries, and whether the task is code, docs/workflow, risk/license, deployment, or planning.
+
+### Stage 2: minimum working set
+
+After classification, open only the smallest file set needed to act safely:
+
+- code/API/data change: implementation files and their nearest tests first; open API/data docs only if the contract changes or tests/docs mention them;
+- frontend change: target component/page/model files and nearest tests first; open design docs only if UI requirements are unclear or changed;
+- docs/workflow change: affected workflow/docs files only; do not read backend/frontend source unless the doc claim needs verification;
+- risk/license/dependency/asset change: `IMPORTANT.md`, license notices/audit docs, and the exact dependency/asset metadata needed;
+- deployment change: deployment docs/configs and health/quality gate files only.
+
+### Stage 3: escalation triggers
+
+Read broader files such as `AGENT.md`, `README.md`, `AI_Schedule.md`, extra `context/*.md`, license docs, API docs, deployment docs, or additional source files only when:
+
+- Stage 1 files are missing, stale, ambiguous, or conflict;
+- the current task card explicitly names the file and the file is needed for this task;
+- the requested change affects that file's facts, requirements, roadmap, architecture, API/data model, risks, license, deployment, or user-facing documentation;
+- tests, build, or quality gates fail and point to that file/category;
+- a symbol, contract, or behavior cannot be understood from the minimum working set.
+
+### Stage 4: update scope
+
+At completion, update only the docs/context whose facts changed. `PROGRESS.md` and `context/TODO_NEXT.md` are always updated; broad docs are not touched for ritual.
+
+If `/context` is missing, use the Stage 1 authority set as the temporary source of truth, then create or update only the context files required by the current increment. Do not rely on chat history as the only project state.
 
 If documents conflict, stop implementation and list the conflicts before changing requirements, architecture, contracts, data models, risk decisions, or phase status.
 
@@ -65,11 +77,13 @@ The human should only need to review results and type a short continuation comma
 
 When receiving a short continuation command, do not ask the human to paste a detailed prompt. Automatically recover the next task from repository files:
 
-1. Read the required files.
+1. Read the Stage 1 authority set.
 2. Prefer `context/TODO_NEXT.md` when it exists.
-3. Otherwise parse the next-task handoff, incomplete phase, and risk notes in `PROGRESS.md`.
-4. If `PROGRESS.md` is incomplete, infer the earliest unfinished increment from the roadmap and current files.
-5. Execute exactly one coherent next increment unless the continuation file explicitly recommends a bounded batch.
+3. Classify the task and build the minimum working set.
+4. Read task-card files only when they are needed for that classification; do not treat long task-card lists as mandatory upfront reads.
+5. Otherwise parse the next-task handoff, incomplete phase, and risk notes in `PROGRESS.md`.
+6. If still unclear, infer the earliest unfinished increment from the roadmap and current files, opening `AI_Schedule.md` only at this point.
+7. Execute exactly one coherent next increment unless the continuation file explicitly recommends a bounded batch.
 
 The AI owns the full increment lifecycle for each continuation:
 
@@ -109,8 +123,8 @@ primary role mode
 auxiliary review checklists
 small deliverable
 explicit non-goals
-files to read
-files likely to change
+minimum working set
+escalation files/triggers
 tests/checks to run
 risk review result
 next increment recommendation

@@ -4,27 +4,31 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build",
-    "lint": "tsc -b --pretty false",
-    "test": "node --test --test-isolation=none src/api/referenceClient.test.ts src/api/overviewDataLoader.test.ts src/api/storeAnalysisDataLoader.test.ts src/api/storeAlertsDataLoader.test.ts src/api/customerProfileDataLoader.test.ts src/api/digitalTwinDataLoader.test.ts src/routes/routeConfig.test.ts src/routes/demoFlow.test.ts src/routes/demoReadiness.test.ts src/performance/buildChunks.test.ts src/mock/mockData.test.ts src/pages/DashboardPage.test.ts src/pages/StoreAnalysisPage.test.ts src/pages/StoreAlertsPage.test.ts src/pages/DigitalTwinPage.test.ts src/pages/CustomerProfilePage.test.ts src/twin/scene/DigitalTwinScene.test.ts src/styles/responsiveChecks.test.ts",
-    "preview": "vite preview --host 127.0.0.1"
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build --webpack",
+    "lint": "tsc --noEmit --pretty false",
+    "test": "node --test --test-isolation=none tests/twinUrlState.test.ts tests/navGraph.test.ts tests/digitalTwinTypography.test.ts tests/digitalTwinNavigation.test.ts src/api/referenceClient.test.ts src/api/overviewDataLoader.test.ts src/api/storeAnalysisDataLoader.test.ts src/api/storeAlertsDataLoader.test.ts src/api/customerProfileDataLoader.test.ts src/api/digitalTwinDataLoader.test.ts src/mock/mockData.test.ts",
+    "start": "next start --hostname 127.0.0.1"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@tailwindcss/postcss": "^4.3.0",
+    "framer-motion": "^12.40.0",
     "motion": "^12.38.0",
+    "next": "^16.2.6",
+    "postcss": "^8.5.15",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.0.0",
-    "three": "^0.184.0"
+    "tailwindcss": "^4.3.0",
+    "three": "^0.184.0",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/three": "^0.184.1",
-    "typescript": "^5.0.0",
-    "vite": "^7.0.0"
+    "typescript": "^5.0.0"
   }
 }
