@@ -283,6 +283,12 @@ The five-floor GLB and local Draco decoder copy were removed in P7-R8-V2 after t
 
 BlenderKit "Mall Interior" was initially used only as a visual/style reference after the user suggested it. The user later explicitly requested putting the reference model directly into the frontend first, then simplifying from it. That request changed the local audit status from reference-only to temporary preview asset for P7-R8 review. The preview was removed in P7-R8-V2 after visual rejection.
 
+## P7-R8-V7 controlled BlenderMCP exploded mall prototype audit
+
+P7-R8-V7 generated `assets/blender/mall_exploded_three_layer_prototype.blend` and `frontend/public/models/mall_exploded_three_layer_prototype.glb` from project-authored scripts `scripts/blender/create_exploded_mall_prototype.py`, `scripts/blender/execute_blender_mcp_code.py`, and `scripts/blender/inspect_exploded_mall_prototype.py`. The model was first created through the local Windows BlenderMCP socket and then exported with Windows Blender background mode. A preview render was saved at `assets/blender/mall_exploded_three_layer_preview0001.png`.
+
+P7-R8-V8 restored the prototype after rejecting the elliptical-ring refinement. The current asset contains only synthetic procedural geometry and materials: three separated blue slab floors (`floor.F1`, `floor.F2`, `floor.F3`), 70 generic store meshes with fictional text labels, 7 transparent vertical core groups, 6 named floor escalator groups, 4 named cross-floor escalator bridges, atrium rings, slab edge lights, camera, and lighting. It does not import external models, texture maps, HDRIs, real mall plans, BIM/CAD, maps, shop signs, tenant logos, real brands, surveillance footage, face images, personal data, or production data. The GLB is a review artifact and is not yet wired into the active frontend route.
+
 ## P7-R8 BlenderKit reference preview audit
 
 On 2026-05-28, the project temporarily imported BlenderKit `Mall interior` for visual review:

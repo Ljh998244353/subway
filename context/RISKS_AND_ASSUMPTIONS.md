@@ -12,6 +12,7 @@ Updated: 2026-05-28
 | Demo data is mock/synthetic by default | Avoid real video, real mall material, brands, and personal data |
 | Database planning uses MySQL | Do not design PostgreSQL migrations or connection strings |
 | Blender is the free mainline modeling tool | Use self-authored synthetic geometry for the final controllable model |
+| Windows BlenderMCP bridge is configured | A new/restarted Codex session may be needed before the registered `blender` MCP tools are visible |
 
 ## Active Risks
 
@@ -19,7 +20,7 @@ Updated: 2026-05-28
 | --- | --- | --- |
 | P7-R8 model could accidentally use unauthorized floor plans, BIM/CAD, maps, brands, or store signs | High | Use only self-authored synthetic geometry, fictional names, and audited assets |
 | External 3D references can drift into the shipped frontend if not removed after review | High | BlenderKit preview GLB and related scripts were removed; future external models/textures/HDRIs remain blocked without separate approval and audit |
-| BlenderMCP can execute Blender Python and includes telemetry/external asset paths | High | Use localhost only, disable telemetry, and keep Sketchfab/Poly Haven/Hyper3D/Hunyuan3D/Rodin/Fal/downloaded assets blocked |
+| BlenderMCP can execute Blender Python and includes telemetry/external asset paths | High | Use localhost only, disable telemetry through launch env, and keep Sketchfab/Poly Haven/Hyper3D/Hunyuan3D/Rodin/Fal/downloaded assets blocked |
 | A future “realistic” 2D mall floorplan could drift into copied real-mall geometry if prompt guidance is vague | High | Keep the archived F1 prompt explicit: original synthetic plan only, reference planning logic but never copy a real project layout, brand set, or tenant map |
 | Synthetic demo data may be confused with real customer data | Medium | Label as synthetic/demo-only and keep real-data adapters deferred |
 | npm audit reports 2 moderate PostCSS advisories through Next.js | Medium | High-severity gate passes; do not run `npm audit fix --force` because it proposes a breaking Next downgrade |

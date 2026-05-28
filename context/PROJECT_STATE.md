@@ -6,7 +6,7 @@ Updated: 2026-05-28
 
 The project is a course/demo commercial mall visual AI digital twin operations system. Current priority is a polished synthetic digital twin demo before real video/data integration.
 
-The selected active frontend is the Next.js Digital Twin OS. Backend and AI services remain synthetic fixture baselines. P7-R8 self-authored five-floor ring mall generation and the temporary BlenderKit Mall Interior preview were both rejected visually and removed from the active workspace. The current digital twin viewport is back to the procedural Three/R3F scene with SVG fallback.
+The selected active frontend is the Next.js Digital Twin OS. Backend and AI services remain synthetic fixture baselines. P7-R8 self-authored five-floor ring mall generation and the temporary BlenderKit Mall Interior preview were both rejected visually and removed from the active workspace. The current digital twin viewport is back to the procedural Three/R3F scene with SVG fallback. WSL-to-Windows BlenderMCP connectivity is now configured and verified for controlled local synthetic modeling.
 
 ## Repository Baseline
 
@@ -33,7 +33,7 @@ P8: store score MVP contract refined with synthetic aggregate inputs
 ## Current Gaps
 
 ```text
-full BlenderMCP server startup still needs local dependency setup
+BlenderMCP tools may require a restarted/new Codex session after registration before they appear in the tool list
 browser-level 3D render/performance tests are missing
 real MySQL execution and production data adapters are not implemented
 Docker Compose/production deployment is not implemented
@@ -47,4 +47,5 @@ mock/synthetic mode remains default
 real mall floor plans, BIM/CAD, maps, brands/logos, monitoring footage, face images, personal data, and individual trajectories are blocked
 future dependencies/assets/models/textures/fonts/icons/copied code/external services require license/cost/account review
 BlenderKit Mall Interior preview GLB has been removed from the active workspace; future visual work must avoid external models/textures/HDRIs unless separately approved and audited
+BlenderMCP is allowed only for localhost synthetic geometry; telemetry and external asset/model-generation integrations remain disabled
 ```

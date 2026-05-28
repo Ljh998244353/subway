@@ -8,4 +8,7 @@ backend/.pytest_cache/
 backend/pytest-cache-files-*/
 backend/__pycache__/
 backend/**/__pycache__/
+__pycache__/
+**/__pycache__/
+.venv-blender-mcp/
 opencode.json

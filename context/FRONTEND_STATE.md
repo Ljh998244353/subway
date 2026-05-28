@@ -4,7 +4,7 @@ Updated: 2026-05-28
 
 ## Current Status
 
-The active frontend is a React + Next.js App Router Digital Twin OS under `frontend/src/app`. The old Vite/React Router product surface has been removed from the workspace and the frontend lockfile. Mock/synthetic data remains the default. After the P7-R8 visual rejection, the temporary BlenderKit reference preview and rejected five-floor GLB artifacts have been removed from the active workspace. The SVG fallback viewport now renders a detailed synthetic F1 floorplan (`F1Floorplan` component) with architectural mall layout, replacing the previous simplified rectangle+ellipse placeholder. The Three/R3F procedural mall shell remains the primary 3D viewport.
+The active frontend is a React + Next.js App Router Digital Twin OS under `frontend/src/app`. The old Vite/React Router product surface has been removed from the workspace and the frontend lockfile. Mock/synthetic data remains the default. After the P7-R8 visual rejection, the temporary BlenderKit reference preview and rejected five-floor GLB artifacts have been removed from the active workspace. The SVG fallback viewport now renders a detailed synthetic F1 floorplan (`F1Floorplan` component) with architectural mall layout, replacing the previous simplified rectangle+ellipse placeholder. The Three/R3F procedural mall shell remains the primary 3D viewport. A new self-authored review artifact exists at `frontend/public/models/mall_exploded_three_layer_prototype.glb`, but it is not yet loaded by the active frontend.
 
 ## Active Surface
 
@@ -53,6 +53,7 @@ next build uses --webpack because Turbopack/PostCSS attempted a sandbox-blocked 
 Vite and React Router are no longer active frontend dependencies
 P7-R8 rejected artifacts removed from active workspace: `frontend/public/models/blenderkit_mall_reference.glb`, `frontend/public/models/mall_digital_twin.glb`, `assets/blender/mall_digital_twin.blend`, `frontend/public/draco-gltf/`, and related BlenderKit/five-floor export scripts
 Earlier self-authored F2 baseline remains present as historical asset: `frontend/public/models/mall_floor_f2.glb`, `assets/blender/mall_floor_f2.blend`, `scripts/blender/export_mall_floor_f2.py`
+Self-authored review-only prototype: `frontend/public/models/mall_exploded_three_layer_prototype.glb`, source `assets/blender/mall_exploded_three_layer_prototype.blend`, preview `assets/blender/mall_exploded_three_layer_preview0001.png`; restored to separated three-slab layout with escalator enhancement only; not yet integrated into runtime
 ```
 
 ## Verification
@@ -72,6 +73,7 @@ npm run quality:audit: high-severity threshold passed; 2 moderate PostCSS adviso
 ```text
 browser screenshot review at 1440px/1920px remains useful if Playwright/Chromium is available
 future visual polish should continue from the current constrained procedural scene unless a new scoped self-authored model or Blender script spec is approved
+review the new three-layer exploded mall prototype before deciding whether to replace or augment the procedural Three/R3F shell
 F1 SVG floorplan is ready for overlay refinement: store highlight positions, heat/flow coordinates can be fine-tuned to match architectural store unit boundaries
 F2/F3 floorplans can follow the same architectural drafting approach using F1Floorplan as template
 ```
