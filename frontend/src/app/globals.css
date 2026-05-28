@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --global-bg: #f6f8fb;
+  --surface-base: #fbfcfe;
+  --surface-glass: rgba(251, 252, 254, 0.74);
+  --text-primary: #172033;
+  --text-muted: #667085;
+  --line-soft: #dfe6ef;
+  --line-faint: #edf2f7;
+  --brand-tech-blue: #3f5fb5;
+  --flow-cyan: #3f8f91;
+  --alert-warning: #b7791f;
+  --alert-critical: #c2413a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--global-bg);
+  color: var(--text-primary);
+  font-family:
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    Inter,
+    Roboto,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis-weight: none;
+  letter-spacing: 0;
+  text-rendering: geometricPrecision;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+body::before {
+  background:
+    linear-gradient(to right, rgba(63, 95, 181, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 32, 51, 0.018) 1px, transparent 1px);
+  background-size: 36px 36px;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.range-blue {
+  accent-color: var(--brand-tech-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -47,13 +47,15 @@ Non-Commercial 素材
 | @slidev/theme-default | https://www.npmjs.com/package/@slidev/theme-default | 0.25.0 | MIT | `slides/slidev/slides.md` 默认主题 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | React | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` UI runtime | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | React DOM | https://github.com/facebook/react | 19.2.6 | MIT | `frontend/` DOM renderer | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
-| React Router DOM | https://github.com/remix-run/react-router | 7.15.0 | MIT | `frontend/` 5 个核心路由占位和导航 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | Motion | https://motion.dev/ and https://www.npmjs.com/package/motion | 12.38.0 | MIT | `frontend/` 页面、面板和状态变化的克制动画 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
-| Framer Motion | https://github.com/motiondivision/motion | 12.38.0 | MIT | Motion 的 React 动画传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| Framer Motion | https://github.com/motiondivision/motion | 12.40.0 | MIT | P7-R7 Next.js Digital Twin OS 的面板、标签、列表和状态切换动画 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
 | Motion DOM | https://github.com/motiondivision/motion | 12.38.0 | MIT | Motion 的 DOM 动画传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
 | Motion Utils | https://github.com/motiondivision/motion | 12.36.0 | MIT | Motion 的工具函数传递运行依赖 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
 | tslib | https://github.com/microsoft/tslib | 2.8.1 | 0BSD | Motion 的运行时辅助传递依赖 | 0BSD 通常允许商用 | 保留依赖包许可证记录 | 无已知付费要求；不需要账号 | 允许 |
-| Vite | https://github.com/vitejs/vite | 7.3.3 | MIT | `frontend/` 开发服务器和生产构建 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
+| Next.js | https://github.com/vercel/next.js | 16.2.6 | MIT | P7-R7 当前 `frontend/` App Router、开发服务器和生产构建 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| Tailwind CSS | https://github.com/tailwindlabs/tailwindcss | 4.3.0 | MIT | P7-R7 Next.js Digital Twin OS 样式系统 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| @tailwindcss/postcss | https://github.com/tailwindlabs/tailwindcss | 4.3.0 | MIT | Tailwind CSS v4 的 PostCSS 集成 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
+| PostCSS | https://github.com/postcss/postcss | 8.5.15 | MIT | Tailwind CSS 和 Next.js CSS 转换管线 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求；不需要账号 | 允许 |
 | TypeScript | https://github.com/microsoft/TypeScript | 5.9.3 | Apache-2.0 | `frontend/` 类型检查和构建门禁 | Apache-2.0 通常允许商用 | 保留许可证和 notice | 无已知付费要求 | 允许 |
 | @types/react | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.14 | MIT | React TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
 | @types/react-dom | https://github.com/DefinitelyTyped/DefinitelyTyped | 19.2.3 | MIT | React DOM TypeScript 类型定义 | MIT 通常允许商用 | 保留许可证声明 | 无已知付费要求 | 允许 |
@@ -255,3 +257,18 @@ P7-R2 uses already-adopted `three`, `@react-three/fiber`, and audited `@react-th
 P7-R2 generated a replacement `frontend/public/models/mall_floor_f2.glb` from project-authored Blender script `scripts/blender/export_mall_floor_f2.py` and source `assets/blender/mall_floor_f2.blend`. The asset contains synthetic geometry only: F2 floor, corridors, atrium, escalators, kiosks, lighting, generic signage, and stable store nodes `Store_S021` through `Store_S040`. It uses procedural/basic materials only and does not import external models, textures, HDRI, real mall plans, BIM/CAD, maps, shop signs, tenant logos, real brands, surveillance footage, face images, or personal data.
 
 Windows Blender was verified at `L:\\Software\\blender` as Blender 5.1.1 and is used as a local authoring/export tool. The Blender binary is not redistributed by the project; project-authored GLB output is not automatically GPL solely because Blender exported it. Any future external Blender add-on, texture, model, font, icon, or downloaded asset still requires a separate license/cost/account review before use.
+
+## P7-R7 Next.js frontend rebuild audit
+
+P7-R7 rebuilt the active frontend as a clean Next.js App Router implementation after rollback. The following direct dependencies are approved for the synthetic Digital Twin OS:
+
+| Name | Source | Version | License | Use | Cost/account | Decision |
+| --- | --- | --- | --- | --- | --- | --- |
+| Next.js | https://github.com/vercel/next.js | 16.2.6 | MIT | Active App Router framework, local dev server, and production build for `frontend/` | No known paid account requirement for local use | Allowed |
+| Tailwind CSS | https://github.com/tailwindlabs/tailwindcss | 4.3.0 | MIT | Utility styling and tokenized light interface for the Digital Twin OS | No known paid account requirement | Allowed |
+| @tailwindcss/postcss | https://github.com/tailwindlabs/tailwindcss | 4.3.0 | MIT | Tailwind CSS v4 PostCSS pipeline | No known paid account requirement | Allowed |
+| PostCSS | https://github.com/postcss/postcss | 8.5.15 | MIT | CSS transformation pipeline | No known paid account requirement | Allowed |
+| Framer Motion | https://github.com/motiondivision/motion | 12.40.0 | MIT | Panel transitions, segmented controls, staggered feeds, and smooth UI state changes | No known paid account requirement | Allowed |
+| zustand | https://github.com/pmndrs/zustand | 5.0.13 | MIT | Lightweight transient client coordination for WebGL fallback and selected scene state | No known paid account requirement | Allowed |
+
+P7-R7 adds project-authored TypeScript, CSS, shader strings, synthetic data, URL-state tests, and NavGraph/A* tests only. It does not add icon packs, font files, images, downloaded models, external textures, HDRI, paid services, real mall material, real brands, real video, personal data, production data, or real MySQL access. P7-R8 modeling remains deferred until frontend review approval.

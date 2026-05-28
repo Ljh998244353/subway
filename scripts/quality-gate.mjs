@@ -93,7 +93,24 @@ const requiredFiles = [
   "skills/mall-vision-ai-delivery/agents/openai.yaml",
   "frontend/package.json",
   "frontend/package-lock.json",
-  "frontend/src/App.tsx",
+  "frontend/src/app/layout.tsx",
+  "frontend/src/app/page.tsx",
+  "frontend/src/app/digital-twin/layout.tsx",
+  "frontend/src/app/digital-twin/page.tsx",
+  "frontend/src/app/digital-twin/@sidebar/default.tsx",
+  "frontend/src/app/digital-twin/@viewport/default.tsx",
+  "frontend/src/components/dashboard/GlobalHeader.tsx",
+  "frontend/src/components/dashboard/TrafficAnalyticsSidebar.tsx",
+  "frontend/src/components/dashboard/MerchantGradingBoard.tsx",
+  "frontend/src/components/dashboard/ActionableAlertStream.tsx",
+  "frontend/src/components/dashboard/TimeScrubber.tsx",
+  "frontend/src/components/twin-engine/HybridViewport.tsx",
+  "frontend/src/components/twin-engine/SvgFallbackViewport.tsx",
+  "frontend/src/components/twin-engine/ThreeTwinViewport.tsx",
+  "frontend/src/lib/nav-graph.ts",
+  "frontend/src/lib/url-state.ts",
+  "frontend/src/hooks/use-url-state.ts",
+  "frontend/src/store/twin-store.ts",
   "frontend/src/api/apiMode.ts",
   "frontend/src/api/overviewDataLoader.ts",
   "frontend/src/api/overviewDataLoader.test.ts",
@@ -107,31 +124,11 @@ const requiredFiles = [
   "frontend/src/api/digitalTwinDataLoader.test.ts",
   "frontend/src/api/referenceClient.ts",
   "frontend/src/api/referenceClient.test.ts",
-  "frontend/src/components/AppShell.tsx",
-  "frontend/src/components/MotionSurface.tsx",
-  "frontend/src/components/FloorPlan.tsx",
-  "frontend/src/components/TwinInspector.tsx",
-  "frontend/src/routes/demoFlow.ts",
-  "frontend/src/routes/demoFlow.test.ts",
-  "frontend/src/routes/demoReadiness.test.ts",
-  "frontend/src/routes/routeConfig.test.ts",
   "frontend/src/mock/mockOverview.ts",
   "frontend/src/mock/mockData.test.ts",
   "frontend/src/types/domain.ts",
-  "frontend/src/pages/DashboardPage.tsx",
-  "frontend/src/pages/DashboardPage.test.ts",
-  "frontend/src/pages/dashboardOverviewState.ts",
-  "frontend/src/pages/StoreAnalysisPage.tsx",
-  "frontend/src/pages/StoreAnalysisPage.test.ts",
-  "frontend/src/pages/storeAnalysisState.ts",
-  "frontend/src/pages/StoreAlertsPage.tsx",
-  "frontend/src/pages/StoreAlertsPage.test.ts",
-  "frontend/src/pages/DigitalTwinPage.tsx",
-  "frontend/src/pages/DigitalTwinPage.test.ts",
-  "frontend/src/pages/digitalTwinState.ts",
-  "frontend/src/pages/CustomerProfilePage.tsx",
-  "frontend/src/pages/CustomerProfilePage.test.ts",
-  "frontend/src/styles/responsiveChecks.test.ts",
+  "frontend/tests/twinUrlState.test.ts",
+  "frontend/tests/navGraph.test.ts",
   "slides/project-intro.typ",
   "slides/slide.pdf"
 ];
@@ -446,7 +443,7 @@ function runAgentsEntryCheck() {
   const stableRequirements = [
     {
       name: "standard agent entry",
-      patterns: ["AI coding", "context/TODO_NEXT.md", "P7-I1"]
+      patterns: ["AI coding", "context/TODO_NEXT.md", "P7-R7"]
     },
     {
       name: "hard rules",
@@ -497,8 +494,8 @@ function runTaskCardCheck() {
       patterns: ["Acceptance Checks", "Human Confirmation Gates", "npm run quality", "npm run quality:audit"]
     },
     {
-      name: "P7-I1 3D synthetic twin focus",
-      patterns: ["P7-I1", "3D", "license", "synthetic", "Architect Mode", "quality gate"]
+      name: "P7-R7 frontend rebuild focus",
+      patterns: ["P7-R7", "Next", "frontend", "synthetic", "Frontend Mode", "quality"]
     }
   ];
 

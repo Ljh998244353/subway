@@ -263,8 +263,9 @@ def validate_scene() -> None:
     missing = [f'Store_{sid}' for sid in STORE_IDS if f'Store_{sid}' not in names]
     if missing:
         raise RuntimeError(f'Missing store nodes: {missing}')
-    script_text = Path(__file__).read_text(encoding='utf-8') if '__file__' in globals() else ''
-    blocked = [keyword for keyword in BLOCKED_KEYWORDS if keyword in script_text]
+    text_blocks = [text.body for text in bpy.data.curves if getattr(text, 'body', None)]
+    scene_text = '\n'.join([*names, *text_blocks])
+    blocked = [keyword for keyword in BLOCKED_KEYWORDS if keyword in scene_text]
     if blocked:
         raise RuntimeError(f'Blocked external asset keywords found: {blocked}')
     print(f'P7-R3 model validation: {len(bpy.context.scene.objects)} objects, {len(bpy.data.materials)} materials, {len(STORE_IDS)} store nodes')

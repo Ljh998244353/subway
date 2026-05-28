@@ -4,44 +4,28 @@ Frontend workspace for the commercial mall visual AI digital twin system.
 
 ## Scope
 
-Current P2 scope provides:
+Current active scope is P7-R7: a clean React + Next.js App Router Digital Twin OS frontend rebuilt after rolling back the previous unsatisfactory attempt.
 
 ```text
-React + TypeScript + Vite project skeleton
-5 core routes
-AppShell with Topbar, Sidebar, and content area
-CSS token entry based on docs/design/DESIGN_TOKENS.md
-Node built-in smoke tests for route state helpers
-Shared TypeScript domain types
-Synthetic mock mall, floors, stores, alerts, overview, twin, and customer profile data
-Node built-in data boundary tests for mock data quality
-Business pages for /dashboard, /store-analysis, /store-alerts, and /digital-twin
-Customer profile page for anonymous aggregate time, floor, and category preferences
-Digital twin SVG floor plan with heatmap, flow, alert, and score modes
-Shared demo flow helpers and Node checks for cross-page query preservation
-CP2 demo readiness checks for five core routes, presentation paths, and privacy boundaries
-Responsive CSS checks for core demo layouts
-CP2 visual refinement with local CSS, OKLCH tokens, self-drawn SVG, and no paid assets
-Minimal premium full-site refinement with audited Motion animations
-P5-I1 overview data loader contract with mock/API mode selection and offline tests
-P5-I2 DashboardPage overview state wiring with mock fallback and offline tests
-P5-I3 Store Analysis data loader contract with mock/API mode selection and offline tests
-P5-I4 StoreAnalysisPage state wiring with mock fallback and offline tests
-P5-I5 Store Alerts data loader contract with mock/API mode selection and offline tests
-P5-I6 StoreAlertsPage state wiring with mock fallback and offline tests
-P5-I7 Customer Profile data loader contract with mock/API mode selection and offline tests
-P5-I8 CustomerProfilePage state wiring with mock fallback and offline tests
-P5-I9 Digital Twin data loader contract with mock/API mode selection and offline tests
-P5-I10 DigitalTwinPage state wiring with mock fallback and offline tests
+Next.js App Router under src/app
+/ redirects to /digital-twin
+enterprise light Digital Twin OS layout
+GlobalHeader, TrafficAnalyticsSidebar, MerchantGradingBoard, ActionableAlertStream, TimeScrubber
+URL-driven state for view, floorId, storeId, mode, and flowScope
+Zustand for transient client coordination only
+Three/R3F hybrid viewport with SVG fallback
+NavGraph + A* pathing and CatmullRom smoothing
+shader scaffolds for flow particles and heatmap rendering
+synthetic data only
 ```
 
 It does not implement real APIs, real video, real mall maps, brand logos, backend services, AI services, or deployment infrastructure.
 
-P5-I1 added the frontend loader boundary for explicit API mode. P5-I2 wired DashboardPage to that boundary. P5-I3 added the Store Analysis loader boundary. P5-I4 wired StoreAnalysisPage to that boundary. P5-I5 added the Store Alerts loader boundary. P5-I6 wired StoreAlertsPage to that boundary. P5-I7 added the Customer Profile loader boundary. P5-I8 wired CustomerProfilePage to that boundary. P5-I9 added the Digital Twin loader boundary for heatmap and trajectory data. P5-I10 wired DigitalTwinPage to that boundary. The default demo remains mock mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
+The older Vite/React Router product surface has been removed from the current workspace. The default demo remains mock/synthetic mode, and tests inject client/fetch or loader implementations instead of calling a live backend.
 
 ## Visual Context
 
-The current UI has a product-workbench design context in `../PRODUCT.md` and `../DESIGN.md`. The CP2 visual refinement uses local React/CSS, system font fallbacks, OKLCH tokens, self-drawn SVG geometry, and the audited MIT `motion` package for restrained page and panel transitions. It does not add icon packs, font files, images, videos, external design assets, or paid services.
+The current UI follows the saved frontend specification in `../docs/P7_R7_ENTERPRISE_NEXT_DIGITAL_TWIN_FRONTEND_SPEC.md`: light architectural white-model surfaces, restrained glass panels, dense but readable operating metrics, URL-driven state, and smooth Framer Motion transitions. It does not add icon packs, font files, images, videos, external design assets, or paid services.
 
 ## Mock Data
 
@@ -54,6 +38,8 @@ src/mock/mockAlerts.ts
 src/mock/mockOverview.ts
 src/mock/mockCustomerProfile.ts
 src/mock/mockData.test.ts
+src/lib/twin-data.ts
+src/lib/nav-graph.ts
 ```
 
 All mock names, coordinates, metrics, alerts, and profile data are fictional and intended only for the demo.
@@ -70,16 +56,14 @@ npm run dev
 
 If any command asks for `sudo` or system package installation, stop and let the human execute that step.
 
-## CP2 Demo Paths
+## Demo Paths
 
 Recommended presentation entry points:
 
 ```text
-/dashboard?mallId=M_DEMO&timeRange=today
-/digital-twin?mallId=M_DEMO&timeRange=today&floorId=F2&mode=heatmap
-/store-analysis?mallId=M_DEMO&timeRange=today&storeId=S008
-/store-alerts?mallId=M_DEMO&timeRange=today&alertId=A0002
-/customer-profile?mallId=M_DEMO&timeRange=30d
+/digital-twin?view=overview&floorId=F2&mode=heatmap
+/digital-twin?view=floor&floorId=F3&mode=alerts
+/digital-twin?view=store&floorId=F2&storeId=S042&mode=flow&flowScope=inbound
 ```
 
-For the full CP2 handoff checklist, see `../docs/FRONTEND_DEMO_HANDOFF.md`.
+For the current rebuild and model handoff, see `../docs/P7_R7_ENTERPRISE_NEXT_DIGITAL_TWIN_FRONTEND_SPEC.md` and `../docs/P7_R8_MULTI_FLOOR_RING_MALL_MODELING_SPEC.md`.

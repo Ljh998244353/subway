@@ -8,8 +8,9 @@
 
 | 文件 | 读者 | 用途 |
 | --- | --- | --- |
+| [CLAUDE.md](CLAUDE.md) | AI | Claude Code 主入口：当前任务、硬规则、工作流和质量门禁（Claude Code 自动加载） |
 | [AGENTS.md](AGENTS.md) | AI | AI coding 工具标准入口：硬规则、当前任务、用户工作流和质量门禁 |
-| [AGENT.md](AGENT.md) | AI | 兼容旧链接的短入口，指向 `AGENTS.md` 和当前任务卡 |
+| [AGENT.md](AGENT.md) | AI | 兼容旧链接的短入口，指向 `CLAUDE.md`/`AGENTS.md` 和当前任务卡 |
 | [AI_Schedule.md](AI_Schedule.md) | AI / 人类 | P0-P12 路线图、增量拆分、角色模式、技术栈、测试门禁和许可证规则 |
 | [PROGRESS.md](PROGRESS.md) | 人类 | 当前进度、已完成事项、下一步、当前风险和检查命令 |
 | [IMPORTANT.md](IMPORTANT.md) | AI / 人类 | 付费工具、版权、许可证、隐私、潜在侵权和关键风险记录 |
@@ -28,9 +29,9 @@
 | [backend/README.md](backend/README.md) | AI / 人类 | 后端 FastAPI、迁移、测试和当前边界 |
 | [package.json](package.json) | AI / 人类 | 根级质量门禁命令入口 |
 | [scripts/quality-gate.mjs](scripts/quality-gate.mjs) | AI | 本地质量门禁脚本 |
-| [skills/mall-vision-ai-delivery/SKILL.md](skills/mall-vision-ai-delivery/SKILL.md) | Codex | 本项目专用单 AI 增量迭代开发工作流 |
+| [skills/mall-vision-ai-delivery/SKILL.md](skills/mall-vision-ai-delivery/SKILL.md) | Claude Code | 本项目专用单 AI 增量迭代开发工作流（通过 `/mall-vision-ai-delivery` 调用） |
 
-每次继续开发时，人类通常只需输入“请进行下一步”；AI 应先读 `AGENTS.md`、`context/TODO_NEXT.md`、`PROGRESS.md` 和当前增量点名文件，自动判断当前增量。
+每次继续开发时，人类通常只需输入”请进行下一步”；Claude Code 自动加载 `CLAUDE.md`，然后按 `context/TODO_NEXT.md`、`PROGRESS.md`、`IMPORTANT.md` 恢复上下文，再按当前任务卡或实际变更读取必要文件，避免冗余上下文恢复。详细工作流通过 `/mall-vision-ai-delivery` skill 调用。
 
 ## 项目范围
 
@@ -51,7 +52,7 @@
 
 本项目采用单 AI 增量迭代开发模式。`P0` 到 `P12` 是长期路线图，实际执行必须拆成 `P0-I1`、`P0-I2` 这类小增量；每个增量都要可恢复、可检查、可测试或明确测试缺口。
 
-当前协作方式是“常规短指令续作 + 关键节点人工确认”。普通增量中，人类检查 AI 交付结果、提出必要修正；确认继续时只输入“请进行下一步”。AI 每次必须自动从 `AGENTS.md` 和 `context/TODO_NEXT.md` 找到下一张任务卡，并完成开发、测试、文档、context、风险和许可证记录更新。
+当前协作方式是“常规短指令续作 + 关键节点人工确认”。普通增量中，人类检查 AI 交付结果、提出必要修正；确认继续时只输入“请进行下一步”。AI 每次先用 `AGENTS.md`、`context/TODO_NEXT.md`、`PROGRESS.md`、`IMPORTANT.md` 恢复最小上下文，再只读取任务卡点名或本次变更直接影响的文件，并完成开发、测试、文档、context、风险和许可证记录更新。
 
 关键节点不自动跳过，AI 必须先让人类确认：
 
@@ -151,7 +152,9 @@ README 保留可直接检索的小阶段编号；更完整的角色、门禁和�
 | P7-R2 | 已完成 | Windows Blender / blender-mcp path verification, URL-preserved diagnostic GLB mode, and richer self-authored F2 GLB recovery |
 | P8-I1 | 已完成 | production build preparation, route lazy loading, manual chunks, and 3D scene performance optimization |
 | P8-I2 | 已完成 | 店铺经营评分 MVP contract and synthetic event consumption plan |
-| P8-I3 | 下一步 | store score ranking filters and synthetic score readiness |
+| P7-R7 | 当前 | Next.js App Router 数字孪生前端重构审阅 |
+| P7-R8 | 下一步 | 多层环形商场 Blender 白模重建；需先通过 P7-R7 前端审阅 |
+| P8-I3 | 延期 | store score ranking filters and synthetic score readiness |
 | P9-I* | 规划中 | 客群、热力、动线分析增强，需后续拆分 |
 | P10-I* | 规划中 | 真实 AI/数据接入准备，需授权和合规评审 |
 | P11-I* | 规划中 | 部署与观测，需后续拆分 |

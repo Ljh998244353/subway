@@ -1,6 +1,6 @@
 # Risks And Assumptions
 
-Updated: 2026-05-26
+Updated: 2026-05-28
 
 ## Current Assumptions
 
@@ -9,7 +9,8 @@ Updated: 2026-05-26
 | The project is a course design project | Keep implementation auditable and low-risk |
 | The user continues with short commands | `PROGRESS.md` and `context/TODO_NEXT.md` must stay handoff-ready |
 | Current demo data uses mock or synthetic fixtures | Avoid real video, real mall material, real brands, and personal information |
-| The premium synthetic 3D mall digital twin demo is now production-build prepared | P8 should shift toward store score MVP contracts while preserving synthetic/demo boundaries |
+| The previous self-authored F2 architectural cutaway baseline is now a temporary placeholder | P7-R8 must replace it completely after P7-R7 frontend review |
+| The selected frontend direction is the Next.js App Router Digital Twin OS | Keep all active frontend work under the Next route/component tree and do not restore the discarded Vite/React Router surface |
 | Blender is the confirmed free mainline 3D modeling tool | Use Blender-authored synthetic assets; do not introduce Unity/UE without a new explicit decision |
 | Database planning uses MySQL | Do not design migrations, connection strings, or deployment docs around PostgreSQL |
 | GitHub Actions runs only on GitHub | A Gitee mirror does not automatically run `.github/workflows/ci.yml` |
@@ -29,7 +30,9 @@ Updated: 2026-05-26
 | Privacy and real-material misuse | High | Block real video, real mall material, face images, member IDs, phone numbers, and personal trajectories |
 | Coverage, E2E, and browser-level 3D performance tests are still missing | Medium | P8-I1 added chunk/build checks; browser render/FPS instrumentation remains a later task |
 | AI service real video integration requires human confirmation | Medium | P6-I2 complete with synthetic fixtures; real video is no longer the default next step |
+| P7-R8 could be started before the frontend direction is explicitly approved for modeling | Medium | The frontend direction is selected, but still do not generate the new Blender model until the user explicitly approves P7-R8 model generation |
+| npm audit reports 2 moderate PostCSS advisories through the Next.js dependency chain | Medium | `npm run quality:audit` passes because the gate blocks high severity; do not run `npm audit fix --force` because it proposes a breaking Next downgrade. Track Next/PostCSS patch availability in a later dependency-maintenance increment |
 
 ## Next Step Risk Control
 
-P7-R2 uses only self-authored Blender geometry and a local Windows Blender toolchain. Full BlenderMCP server startup still requires local dependency setup, so do not mark MCP automation complete until `uv`/`uvx` or an equivalent local venv can run the server with telemetry disabled. After P7-R2 validation, return to the P8-I3 store score MVP backend contract using synthetic/demo aggregates only, while still avoiding real MySQL, real mall material, external services, production data, and real video integration by default.
+P7-R7c-6 freezes the Next.js frontend as the selected active direction and removes obsolete frontend residue. P7-R8 should rebuild the mall model from scratch with self-authored Blender geometry only after explicit approval. Full BlenderMCP server startup still requires local dependency setup, so do not mark MCP automation complete until `uv`/`uvx` or an equivalent local venv can run the server with telemetry disabled. P8-I3 is deferred until the P7-R7/P7-R8 repair path is complete or explicitly reprioritized.

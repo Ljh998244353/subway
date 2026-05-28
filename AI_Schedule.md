@@ -17,9 +17,9 @@
 skills/mall-vision-ai-delivery/SKILL.md
 ```
 
-后续让 AI 继续本项目时，人类只需输入“请进行下一步”。AI 必须按该 skill 自动恢复上下文、识别下一增量并执行完整闭环。
+后续让 AI 继续本项目时，人类只需输入“请进行下一步”。AI 必须按该 skill 用最小默认集合恢复上下文、识别下一增量并执行完整闭环。
 
-每次 AI 继续开发前，先读 `AGENT.md`；涉及非工程问题、付费工具、经济成本、版权、许可证、隐私或潜在侵权风险时，必须同步查看和更新 `IMPORTANT.md`。
+默认上下文恢复只读：`AGENTS.md`、`context/TODO_NEXT.md`、`PROGRESS.md`、`IMPORTANT.md`。随后只读取当前任务卡点名或本次变更直接影响的文件；不要把 README、AI_Schedule、全部 context、license/API/deployment 文档作为每次启动的固定必读清单。
 
 ---
 
