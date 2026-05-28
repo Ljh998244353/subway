@@ -41,12 +41,23 @@ test('digital twin viewport overlay is an actionable navigation surface', () => 
   const viewport = read('../src/components/twin-engine/HybridViewport.tsx');
   const fallback = read('../src/components/twin-engine/SvgFallbackViewport.tsx');
   const threeViewport = read('../src/components/twin-engine/ThreeTwinViewport.tsx');
+  const mallSpec = read('../src/components/twin-engine/proceduralMallSpec.ts');
 
   assert.match(viewport, /3D 在线 · SVG 可降级/);
   assert.match(fallback, /TwinLevelNavigation/);
-  assert.match(fallback, /SVG 数字孪生降级平面图/);
-  assert.match(threeViewport, /positions: new Float32Array\(count \* 3\)/);
+  assert.match(fallback, /SVG 数字孪生 F1 平面图/);
+  assert.match(threeViewport, /const positions = new Float32Array\(count \* 3\)/);
   assert.match(threeViewport, /<shaderMaterial/);
+  assert.match(threeViewport, /name="Root_Mall"/);
+  assert.match(threeViewport, /name="Environment"/);
+  assert.match(threeViewport, /name="Skylight_Frame"/);
+  assert.match(threeViewport, /name=\{`Floor_\$\{floor\.floorKey\.slice\(1\)\}`\}/);
+  assert.match(threeViewport, /createSlabShape\(floor\.floorKey !== 'F1'\)/);
+  assert.match(threeViewport, /FlowParticles curve=\{curve\} elevation=\{activeSceneFloor\.baseY \+ 0\.3\}/);
+  assert.match(mallSpec, /coordinateSystem: 'right-handed'/);
+  assert.match(mallSpec, /footprint: \{ width: 120, depth: 80 \}/);
+  assert.match(mallSpec, /atrium: \{ length: 50, width: 24, innerRadius: 12, halfSpan: 13 \}/);
+  assert.match(mallSpec, /targetTriangleBudget: 300000/);
   assert.doesNotMatch(threeViewport, /<rawShaderMaterial/);
 });
 

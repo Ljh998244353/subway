@@ -272,3 +272,42 @@ P7-R7 rebuilt the active frontend as a clean Next.js App Router implementation a
 | zustand | https://github.com/pmndrs/zustand | 5.0.13 | MIT | Lightweight transient client coordination for WebGL fallback and selected scene state | No known paid account requirement | Allowed |
 
 P7-R7 adds project-authored TypeScript, CSS, shader strings, synthetic data, URL-state tests, and NavGraph/A* tests only. It does not add icon packs, font files, images, downloaded models, external textures, HDRI, paid services, real mall material, real brands, real video, personal data, production data, or real MySQL access. P7-R8 modeling remains deferred until frontend review approval.
+
+## P7-R8 self-authored five-floor mall model audit
+
+P7-R8 generated `frontend/public/models/mall_digital_twin.glb` from project-authored Blender script `scripts/blender/export_mall_digital_twin.py` and source file `assets/blender/mall_digital_twin.blend`. The GLB was Draco-compressed, weighed 2,005,900 bytes, and stayed below the 8MB Web budget. A local metadata check found 887 named nodes, 9 materials, 105 pickable store nodes, all required floor/transport nodes, and no blocked external-asset keywords.
+
+The generated model contains only synthetic geometry: five floors (`B1`, `F1`, `F2`, `F3`, `F4`), rounded-ring floor plates, central atrium railing, 105 generic store volumes, simple shopfront/sign material slots, two escalator groups, one elevator/core shaft, columns, seating islands, planters, kiosks, and warm light strips. It uses simple named materials only. It does not import external models, texture maps, AO maps, normal maps, HDRIs, real mall plans, BIM/CAD, maps, real shop signs, tenant logos, real brands, surveillance footage, face images, personal data, or production data.
+
+The five-floor GLB and local Draco decoder copy were removed in P7-R8-V2 after the model direction was visually rejected. The active frontend no longer loads `/models/mall_digital_twin.glb` and no longer ships `frontend/public/draco-gltf/`.
+
+BlenderKit "Mall Interior" was initially used only as a visual/style reference after the user suggested it. The user later explicitly requested putting the reference model directly into the frontend first, then simplifying from it. That request changed the local audit status from reference-only to temporary preview asset for P7-R8 review. The preview was removed in P7-R8-V2 after visual rejection.
+
+## P7-R8 BlenderKit reference preview audit
+
+On 2026-05-28, the project temporarily imported BlenderKit `Mall interior` for visual review:
+
+```text
+Asset name: Mall interior
+Author: peeraphon viriyahirunpaiboon
+Asset type: scene
+Asset page: https://www.blenderkit.com/asset-gallery-detail/d5bda975-2976-4f48-b52d-f5739a22b49a/
+API metadata: https://www.blenderkit.com/api/v1/assets/3f4a8b92-afdf-4752-b188-6ffeeb29c9e3/
+Asset version id: 3f4a8b92-afdf-4752-b188-6ffeeb29c9e3
+Asset base id: d5bda975-2976-4f48-b52d-f5739a22b49a
+Access: free
+License metadata: royalty_free
+Description: Interior mall with shop and chair,coffee shop,with texture
+Source upload size: 203,397,470 bytes
+Source SHA-256: 7d84457bcfe3ca4f7591d39bfc76891a9d1d9a9eb09943064847cf56eabd61f3
+Preview GLB: frontend/public/models/blenderkit_mall_reference.glb
+Preview GLB size: 78,422,332 bytes
+Preview GLB SHA-256: b4216a6d26de612d5a5a366bb46af532965430831d874de63a5623fcc22357b7
+Export script: scripts/blender/export_blenderkit_mall_reference.py
+Inspection script: scripts/blender/inspect_blenderkit_mall_reference.py
+Scene inspection: 219 objects, 216 meshes, bbox size about 122.029 x 114.889 x 59.215
+```
+
+The official BlenderKit download endpoint required a `scene_uuid` parameter and returned a temporary file URL. The raw `.blend` was downloaded to `/tmp/blenderkit_mall_reference.blend` and was not stored in the repository. During P7-R8, the frontend temporarily loaded `/models/blenderkit_mall_reference.glb` as a visual benchmark, with heatmap, flow particles, floor isolation, and store-picking contracts disabled because the external model did not use the project's controlled `Store_{floor}_{id}` naming contract.
+
+Decision: allowed for temporary review only, then removed in P7-R8-V2. The active frontend must not reintroduce this external model, external textures, external HDRIs, or another downloaded 3D asset without a new approval and audit.

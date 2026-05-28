@@ -5,6 +5,7 @@ import { buildFlowPath } from '../../lib/nav-graph.ts';
 import { getStoresForFloor, heatPoints } from '../../lib/twin-data.ts';
 import type { TwinUrlState } from '../../types/index.ts';
 import { TwinLevelNavigation } from '../dashboard/TwinLevelNavigation.tsx';
+import { F1Floorplan } from './F1Floorplan.tsx';
 
 interface SvgFallbackViewportProps {
   state: TwinUrlState;
@@ -24,7 +25,7 @@ export function SvgFallbackViewport({ state, reason }: SvgFallbackViewportProps)
         {reason ? <p className="mb-2 rounded bg-[#FBF3E3] px-2 py-1 text-xs font-bold text-[#98620A]">{reason}</p> : null}
         <TwinLevelNavigation state={state} variant="compact" />
       </div>
-      <svg className="h-full w-full" viewBox="0 0 100 100" role="img" aria-label="SVG 数字孪生降级平面图">
+      <svg className="h-full w-full" viewBox="0 0 100 100" role="img" aria-label="SVG 数字孪生 F1 平面图">
         <defs>
           <radialGradient id="heat">
             <stop offset="0%" stopColor="#C2413A" stopOpacity="0.44" />
@@ -37,17 +38,17 @@ export function SvgFallbackViewport({ state, reason }: SvgFallbackViewportProps)
             <stop offset="100%" stopColor="#3F5FB5" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <rect x="5" y="8" width="90" height="80" rx="12" fill="#FBFCFE" stroke="#DFE6EF" />
-        <ellipse cx="50" cy="48" rx="21" ry="12" fill="#F1F4F8" stroke="#CBD5E1" strokeDasharray="2 1" />
+        <F1Floorplan floorId={state.floorId} />
         {state.mode === 'heatmap' ? points.map((point) => <circle key={point.id} cx={point.x} cy={point.y} r={8 + point.intensity * 10} fill="url(#heat)" />) : null}
         {stores.map((store) => (
           <rect
-            fill={store.id === selected ? '#E7F3F3' : '#FBFCFE'}
+            fill={store.id === selected ? '#E7F3F3' : 'transparent'}
             height="7"
             key={store.id}
             onClick={() => setState({ view: 'store', floorId: store.floorId, storeId: store.id, mode: state.mode === 'heatmap' ? 'score' : state.mode })}
             rx="2"
-            stroke={store.id === selected ? '#3F8F91' : '#D7DEE8'}
+            stroke={store.id === selected ? '#3F8F91' : 'transparent'}
+            strokeWidth={store.id === selected ? 0.6 : 0}
             width="9"
             x={store.x - 4.5}
             y={store.y - 3.5}

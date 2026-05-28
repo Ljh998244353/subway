@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useUrlState } from '../../hooks/use-url-state.ts';
 import { buildTwinHref } from '../../lib/url-state.ts';
 import { floorOrder, getFloor, getStore } from '../../lib/twin-data.ts';
-import type { DataLayer } from '../../types/index.ts';
+import type { DataLayer, ViewportMode } from '../../types/index.ts';
 
 const modeLabels: Record<DataLayer, string> = {
   heatmap: '热力',
@@ -15,6 +15,13 @@ const modeLabels: Record<DataLayer, string> = {
 };
 
 const modeOrder: DataLayer[] = ['heatmap', 'flow', 'alerts', 'score'];
+
+const viewportLabels: Record<ViewportMode, string> = {
+  '2d': '2D',
+  '3d': '3D'
+};
+
+const viewportOrder: ViewportMode[] = ['2d', '3d'];
 
 export function TwinCommandBar() {
   const { state, setState, isPending } = useUrlState();
@@ -70,6 +77,20 @@ export function TwinCommandBar() {
             >
               {state.mode === mode ? <motion.span className="absolute inset-0 -z-10 rounded bg-[#FBFCFE] shadow-[0_3px_12px_rgba(15,23,42,0.045)]" layoutId="commandMode" transition={{ duration: 0.2, ease: 'easeInOut' }} /> : null}
               {modeLabels[mode]}
+            </button>
+          ))}
+        </div>
+        <div className="relative flex rounded-md border border-[#DFE6EF] bg-[#F7F9FC] p-0.5" aria-label="视口切换">
+          {viewportOrder.map((vp) => (
+            <button
+              className={`relative z-10 rounded px-2.5 py-1 text-xs font-bold transition ${state.viewport === vp ? 'text-[#172033]' : 'text-[#667085] hover:text-[#172033]'}`}
+              disabled={isPending}
+              key={vp}
+              onClick={() => setState({ viewport: vp })}
+              type="button"
+            >
+              {state.viewport === vp ? <motion.span className="absolute inset-0 -z-10 rounded bg-[#FBFCFE] shadow-[0_3px_12px_rgba(15,23,42,0.045)]" layoutId="commandViewport" transition={{ duration: 0.2, ease: 'easeInOut' }} /> : null}
+              {viewportLabels[vp]}
             </button>
           ))}
         </div>

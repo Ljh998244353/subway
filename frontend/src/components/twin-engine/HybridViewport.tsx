@@ -10,8 +10,8 @@ export function HybridViewport({ state }: { state: TwinUrlState }) {
   const webglFailed = useTwinStore((store) => store.webglFailed);
   const viewportEmphasis = state.mode === 'heatmap' || state.mode === 'flow';
 
-  if (webglFailed) {
-    return <SvgFallbackViewport state={state} reason="WebGL 不可用，已进入 2D 决策视图。" />;
+  if (webglFailed || state.viewport === '2d') {
+    return <SvgFallbackViewport state={state} reason={state.viewport === '2d' ? 'SVG 2D 平面图模式。' : 'WebGL 不可用，已进入 2D 决策视图。'} />;
   }
 
   return (

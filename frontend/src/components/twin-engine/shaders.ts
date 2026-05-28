@@ -4,19 +4,14 @@ uniform float uSpeed;
 attribute float aProgressOffset;
 varying float vAlpha;
 
-vec3 getPathPosition(float progress) {
-  float x = mix(-34.0, 34.0, progress);
-  float z = sin(progress * 6.2831853) * 8.0;
-  return vec3(x, 0.35, z);
-}
-
 void main() {
   float progress = mod(aProgressOffset + uTime * uSpeed, 1.0);
-  vec3 transformedPosition = getPathPosition(progress);
+  vec3 transformedPosition = position;
+  transformedPosition.y += sin((progress * 6.2831853) + (uTime * 1.4)) * 0.08 + 0.12;
   vec4 mvPosition = modelViewMatrix * vec4(transformedPosition, 1.0);
   gl_Position = projectionMatrix * mvPosition;
-  vAlpha = pow(progress, 3.0);
-  gl_PointSize = 4.0 * (1.0 / max(0.1, -mvPosition.z));
+  vAlpha = 0.3 + 0.7 * smoothstep(0.0, 1.0, sin((progress - 0.5) * 6.2831853) * 0.5 + 0.5);
+  gl_PointSize = 5.0 * (1.0 / max(0.1, -mvPosition.z));
 }
 `;
 

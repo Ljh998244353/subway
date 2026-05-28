@@ -115,6 +115,8 @@ P7-I3 note: the frontend adopted only `three@0.184.0`, `@react-three/fiber@9.6.1
 
 P7-R7 note: the active frontend is now a Next.js App Router implementation. `next@16.2.6`, `tailwindcss@4.3.0`, `@tailwindcss/postcss@4.3.0`, `postcss@8.5.15`, `framer-motion@12.40.0`, and direct `zustand@5.0.13` are MIT-licensed and allowed for the synthetic Digital Twin OS. No icon pack, font file, image, downloaded model, external texture, HDRI, paid service, real mall material, real brand asset, real video, personal data, or real MySQL access is added in P7-R7.
 
+P7-R8-V2 note: the temporary BlenderKit Mall Interior preview, rejected five-floor GLB, local Draco decoder copy, and related export/inspection scripts were removed from the active workspace after visual review. The active `/digital-twin` viewport is again a project-authored procedural Three/R3F scene and does not ship the external BlenderKit model.
+
 ## Blocked Until Reviewed
 
 Do not use the following unless the source, permission, and license have been reviewed and recorded:

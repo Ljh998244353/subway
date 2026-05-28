@@ -30,6 +30,7 @@ export type ViewMode = 'overview' | 'floor' | 'store';
 export type DataLayer = 'heatmap' | 'flow' | 'alerts' | 'score';
 export type FlowScope = 'inbound' | 'outbound';
 export type FloorId = 'B1' | 'F1' | 'F2' | 'F3' | 'F4';
+export type ViewportMode = '2d' | '3d';
 export type EnterpriseStoreCategory = 'Retail' | 'Food' | 'Entertainment' | 'Public';
 export type StoreGrade = 'A+' | 'A' | 'B' | 'C-';
 
@@ -39,6 +40,7 @@ export interface TwinUrlState {
   storeId?: string;
   mode: DataLayer;
   flowScope: FlowScope;
+  viewport: ViewportMode;
 }
 
 export interface StoreMetric {
