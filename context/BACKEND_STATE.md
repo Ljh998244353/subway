@@ -1,6 +1,6 @@
 # Backend State
 
-Updated: 2026-05-26
+Updated: 2026-06-01
 
 ## Current Status
 
@@ -15,6 +15,7 @@ GET /api/v1/stores/{storeId}
 GET /api/v1/stores/{storeId}/score
 GET /api/v1/stores/{storeId}/flow
 GET /api/v1/stores/ranking?mallId=mall_demo_001
+GET /api/v1/stores/ranking?mallId=mall_demo_001&floorId=...&categoryId=...&grade=...&minScore=...&maxScore=...&limit=...
 GET /api/v1/alerts/stores?mallId=mall_demo_001
 GET /api/v1/customer-profile?mallId=mall_demo_001
 GET /api/v1/heatmap?mallId=mall_demo_001
@@ -22,7 +23,9 @@ GET /api/v1/trajectories?mallId=mall_demo_001
 GET /api/v1/overview?mallId=mall_demo_001
 ```
 
-The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented. P8-I2 refined `GET /api/v1/stores/{storeId}/score` so the response is calculated from deterministic synthetic aggregate inputs and includes `source`, `formulaVersion`, `weights`, and `inputs`.
+The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented. P8-I2 refined `GET /api/v1/stores/{storeId}/score` so the response is calculated from deterministic synthetic aggregate inputs and includes `source`, `formulaVersion`, `weights`, and `inputs`. P8-I3 added read-only fixture filters to `GET /api/v1/stores/ranking` for score-board readiness.
+
+P9 did not change the backend. The synthetic analytics cockpit is frontend-only and consumes existing mock aggregate structures plus client URL/store state.
 
 ## P8 Store Score Direction
 
@@ -34,6 +37,7 @@ Future backend work should support:
 store score formulas with explicit versions
 synthetic aggregate inputs that can later be produced from fake events
 score/ranking consistency checks
+score/ranking filters for floor, category, grade, score range, and limit
 future MySQL-backed fake/demo score persistence after schema/API approval
 preserve later real-data adapter boundary
 ```
@@ -64,4 +68,4 @@ production deployment or Docker Compose
 
 ## Next Step
 
-P8-I2 now has a deterministic synthetic score formula contract. The next backend increment should either extend score/ranking filters or define persistence/readiness for synthetic score aggregates, without connecting real MySQL until the readiness gate is approved.
+P9 is complete at the synthetic analytics boundary. The next backend decision should be part of P10 roadmap triage before any scenario API, replay API, analytics endpoint, MySQL query path, migration, or production adapter is implemented.

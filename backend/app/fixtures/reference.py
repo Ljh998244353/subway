@@ -194,6 +194,18 @@ STORE_SCORES = [
     ),
 ]
 
+
+def build_store_score_breakdown_payload(score: StoreScoreDto) -> dict:
+    return {
+        "source": score.source,
+        "formulaVersion": score.formulaVersion,
+        "weights": score.weights.model_dump(),
+        "inputs": score.inputs.model_dump(),
+        "breakdown": score.breakdown.model_dump(),
+        "explanations": list(score.explanations),
+    }
+
+
 STORE_FLOWS = [
     StoreFlowDto(
         storeId="store_demo_001",
@@ -373,17 +385,38 @@ def list_stores_for_floor(floor_id: str) -> list[StoreDto]:
     return [store for store in STORES if store.floorId == floor_id]
 
 
-def list_store_rankings_for_mall(mall_id: str) -> list[StoreRankingItemDto]:
+def list_store_rankings_for_mall(
+    mall_id: str,
+    *,
+    floor_id: str | None = None,
+    category_id: str | None = None,
+    grade: str | None = None,
+    min_score: float | None = None,
+    max_score: float | None = None,
+    limit: int | None = None,
+) -> list[StoreRankingItemDto]:
     ranked_inputs = []
     for store in STORES:
         if store.mallId != mall_id:
             continue
+        if floor_id is not None and store.floorId != floor_id:
+            continue
+        if category_id is not None and store.categoryId != category_id:
+            continue
         score = get_store_score(store.storeId)
         if score is None:
+            continue
+        if grade is not None and score.grade != grade:
+            continue
+        if min_score is not None and score.score < min_score:
+            continue
+        if max_score is not None and score.score > max_score:
             continue
         ranked_inputs.append((store, score))
 
     ranked_inputs.sort(key=lambda item: item[1].score, reverse=True)
+    if limit is not None:
+        ranked_inputs = ranked_inputs[:limit]
     return [
         StoreRankingItemDto(
             rank=index + 1,

@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from app.fixtures.reference import build_store_score_breakdown_payload, get_store_score
 from app.main import create_app
 
 
@@ -135,6 +136,49 @@ def test_store_score_contract_is_calculated_from_synthetic_aggregate_inputs() ->
         assert forbidden not in serialized
 
 
+def test_store_score_breakdown_payload_is_safe_for_future_json_persistence() -> None:
+    score = get_store_score("store_demo_001")
+    assert score is not None
+
+    payload = build_store_score_breakdown_payload(score)
+
+    assert payload == {
+        "source": "synthetic_event_aggregate",
+        "formulaVersion": "synthetic-score-v1",
+        "weights": {
+            "flow": 0.25,
+            "conversion": 0.25,
+            "dwell": 0.15,
+            "trend": 0.2,
+            "profileFit": 0.15,
+        },
+        "inputs": {
+            "exposureTraffic": 747,
+            "enterCount": 202,
+            "conversionRate": 0.27,
+            "avgDwellMinutes": 14.2,
+            "trendIndex": 90.0,
+            "profileFitIndex": 81.0,
+            "operationalPenalty": 0.0,
+        },
+        "breakdown": {
+            "flow": 88.0,
+            "conversion": 84.0,
+            "dwell": 82.0,
+            "trend": 90.0,
+            "profileFit": 81.0,
+            "penalty": 0.0,
+        },
+        "explanations": [
+            "Synthetic score: traffic and trend are above fixture baseline",
+            "Conversion remains stable for the fashion category",
+        ],
+    }
+    serialized = str(payload).lower()
+    for forbidden in ("face", "member", "phone", "person_id", "track", "trajectory", "camera", "raw_frame", "video", "image", "order", "payment"):
+        assert forbidden not in serialized
+
+
 def test_get_store_flow_returns_fixture_contract() -> None:
     response = client.get("/api/v1/stores/store_demo_101/flow", headers={"X-Request-Id": "req_store_flow"})
 
@@ -208,6 +252,46 @@ def test_list_store_ranking_returns_fixture_contract() -> None:
             "grade": "D",
         },
     ]
+
+
+def test_list_store_ranking_supports_synthetic_safe_filters() -> None:
+    response = client.get(
+        "/api/v1/stores/ranking?mallId=mall_demo_001&floorId=floor_demo_l1&categoryId=cat_food&minScore=70&maxScore=80&grade=B&limit=1",
+        headers={"X-Request-Id": "req_store_ranking_filtered"},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["traceId"] == "req_store_ranking_filtered"
+    assert body["page"] == {"page": 1, "pageSize": 1, "total": 1, "hasNext": False}
+    assert body["data"] == [
+        {
+            "rank": 1,
+            "storeId": "store_demo_002",
+            "mallId": "mall_demo_001",
+            "floorId": "floor_demo_l1",
+            "categoryId": "cat_food",
+            "name": "Fictional Store 002",
+            "score": 73.5,
+            "grade": "B",
+        }
+    ]
+
+
+def test_list_store_ranking_rejects_invalid_score_range() -> None:
+    response = client.get(
+        "/api/v1/stores/ranking?mallId=mall_demo_001&minScore=90&maxScore=70",
+        headers={"X-Request-Id": "req_store_ranking_invalid_range"},
+    )
+
+    assert response.status_code == 422
+    body = response.json()
+    assert body["traceId"] == "req_store_ranking_invalid_range"
+    assert body["error"] == {
+        "code": "INVALID_SCORE_RANGE",
+        "message": "minScore must be less than or equal to maxScore",
+        "details": {"minScore": 90.0, "maxScore": 70.0},
+    }
 
 
 def test_list_store_alerts_returns_fixture_contract() -> None:

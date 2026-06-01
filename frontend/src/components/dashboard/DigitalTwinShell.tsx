@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { AnalyticsSnapshotPanel } from './AnalyticsSnapshotPanel.tsx';
 import { InspectorRail } from './InspectorRail.tsx';
 import { MerchantGradingBoard } from './MerchantGradingBoard.tsx';
 import { TimeScrubber } from './TimeScrubber.tsx';
@@ -59,6 +60,7 @@ export function DigitalTwinShell({
       <section className="grid min-h-0 flex-1 grid-cols-1 bg-[#F0F4F8]/55 xl:grid-cols-[260px_minmax(0,1fr)] 2xl:grid-cols-[292px_minmax(0,1fr)_352px]">
         <div className="order-2 hidden min-h-0 flex-col overflow-y-auto border-r border-[#DFE6EF]/80 bg-[#FBFCFE]/56 px-3 py-4 [scrollbar-width:none] xl:order-1 xl:flex">
           <TrafficAnalyticsSidebar compact />
+          <AnalyticsSnapshotPanel />
           <div className="mt-4">
             <MerchantGradingBoard compact />
           </div>

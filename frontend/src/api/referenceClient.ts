@@ -135,6 +135,16 @@ export type StoreRankingItemDto = {
   grade: string;
 };
 
+export type StoreRankingQuery = {
+  mallId: string;
+  floorId?: string;
+  categoryId?: string;
+  grade?: string;
+  minScore?: number;
+  maxScore?: number;
+  limit?: number;
+};
+
 export type StoreAlertEvidenceDto = {
   flowIndex: number;
   conversionRate: number;
@@ -269,7 +279,7 @@ export type ReferenceApiClient = {
   getStore: (storeId: string) => Promise<ApiEnvelope<StoreDto>>;
   getStoreScore: (storeId: string) => Promise<ApiEnvelope<StoreScoreDto>>;
   getStoreFlow: (storeId: string) => Promise<ApiEnvelope<StoreFlowDto>>;
-  getStoreRanking: (mallId: string) => Promise<ApiListEnvelope<StoreRankingItemDto>>;
+  getStoreRanking: (query: string | StoreRankingQuery) => Promise<ApiListEnvelope<StoreRankingItemDto>>;
   listStoreAlerts: (mallId: string) => Promise<ApiListEnvelope<StoreAlertDto>>;
   getCustomerProfile: (mallId: string) => Promise<ApiEnvelope<CustomerProfileDto>>;
   getHeatmap: (mallId: string) => Promise<ApiEnvelope<HeatmapDto>>;
@@ -316,8 +326,8 @@ export function createReferenceApiClient(options: ReferenceApiClientOptions = {}
       requestObject<StoreScoreDto>(fetchImpl, baseUrl, `/api/v1/stores/${encodeURIComponent(storeId)}/score`, requestIdFactory),
     getStoreFlow: (storeId: string) =>
       requestObject<StoreFlowDto>(fetchImpl, baseUrl, `/api/v1/stores/${encodeURIComponent(storeId)}/flow`, requestIdFactory),
-    getStoreRanking: (mallId: string) =>
-      requestList<StoreRankingItemDto>(fetchImpl, baseUrl, `/api/v1/stores/ranking?mallId=${encodeURIComponent(mallId)}`, requestIdFactory),
+    getStoreRanking: (query: string | StoreRankingQuery) =>
+      requestList<StoreRankingItemDto>(fetchImpl, baseUrl, `/api/v1/stores/ranking?${buildStoreRankingQuery(query)}`, requestIdFactory),
     listStoreAlerts: (mallId: string) =>
       requestList<StoreAlertDto>(fetchImpl, baseUrl, `/api/v1/alerts/stores?mallId=${encodeURIComponent(mallId)}`, requestIdFactory),
     getCustomerProfile: (mallId: string) =>
@@ -329,6 +339,18 @@ export function createReferenceApiClient(options: ReferenceApiClientOptions = {}
     getOverview: (mallId: string) =>
       requestObject<OverviewDto>(fetchImpl, baseUrl, `/api/v1/overview?mallId=${encodeURIComponent(mallId)}`, requestIdFactory)
   };
+}
+
+function buildStoreRankingQuery(query: string | StoreRankingQuery) {
+  const normalized = typeof query === 'string' ? { mallId: query } : query;
+  const entries: Array<[string, string]> = [['mallId', normalized.mallId]];
+  if (normalized.floorId) entries.push(['floorId', normalized.floorId]);
+  if (normalized.categoryId) entries.push(['categoryId', normalized.categoryId]);
+  if (normalized.grade) entries.push(['grade', normalized.grade]);
+  if (normalized.minScore !== undefined) entries.push(['minScore', String(normalized.minScore)]);
+  if (normalized.maxScore !== undefined) entries.push(['maxScore', String(normalized.maxScore)]);
+  if (normalized.limit !== undefined) entries.push(['limit', String(normalized.limit)]);
+  return entries.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
 }
 
 async function requestList<T>(

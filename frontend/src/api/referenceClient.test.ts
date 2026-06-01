@@ -412,6 +412,29 @@ test('encodes store ranking mallId query param', async () => {
   assert.deepEqual(urls, ['http://backend.test/api/v1/stores/ranking?mallId=mall%20demo%2F001']);
 });
 
+test('builds filtered store ranking query params', async () => {
+  const urls: string[] = [];
+  const fetchImpl: typeof fetch = async (url) => {
+    urls.push(String(url));
+    return jsonResponse({ data: [], page: { page: 1, pageSize: 0, total: 0, hasNext: false }, traceId: 'req', timestamp: 'now' });
+  };
+
+  const client = createReferenceApiClient({ baseUrl: 'http://backend.test', fetchImpl });
+  await client.getStoreRanking({
+    mallId: 'mall demo/001',
+    floorId: 'floor demo/l1',
+    categoryId: 'cat food',
+    grade: 'B',
+    minScore: 70,
+    maxScore: 80,
+    limit: 5
+  });
+
+  assert.deepEqual(urls, [
+    'http://backend.test/api/v1/stores/ranking?mallId=mall%20demo%2F001&floorId=floor%20demo%2Fl1&categoryId=cat%20food&grade=B&minScore=70&maxScore=80&limit=5'
+  ]);
+});
+
 test('builds /api/v1/alerts/stores request and parses list envelope', async () => {
   const calls: FetchCall[] = [];
   const envelope: ApiListEnvelope<StoreAlertDto> = {

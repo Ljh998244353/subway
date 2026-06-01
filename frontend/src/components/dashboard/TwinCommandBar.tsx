@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useUrlState } from '../../hooks/use-url-state.ts';
 import { buildTwinHref } from '../../lib/url-state.ts';
 import { floorOrder, getFloor, getStore } from '../../lib/twin-data.ts';
-import type { DataLayer, ViewportMode } from '../../types/index.ts';
+import type { DataLayer, TwinModelMode, ViewportMode } from '../../types/index.ts';
 
 const modeLabels: Record<DataLayer, string> = {
   heatmap: '热力',
@@ -23,11 +24,30 @@ const viewportLabels: Record<ViewportMode, string> = {
 
 const viewportOrder: ViewportMode[] = ['2d', '3d'];
 
+const modelLabels: Record<TwinModelMode, string> = {
+  procedural: '程序',
+  prototype: '原型'
+};
+
+const modelOrder: TwinModelMode[] = ['procedural', 'prototype'];
+
 export function TwinCommandBar() {
   const { state, setState, isPending } = useUrlState();
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
   const floor = getFloor(state.floorId);
   const store = getStore(state.storeId);
   const title = state.view === 'store' ? store.name : state.view === 'floor' ? floor.name : '全局态势';
+  const scenarioHref = buildTwinHref(state);
+  const copyScenarioLink = async () => {
+    const url = new URL(scenarioHref, window.location.origin).toString();
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareStatus('copied');
+    } catch {
+      setShareStatus('failed');
+    }
+    window.setTimeout(() => setShareStatus('idle'), 1800);
+  };
 
   return (
     <header className="relative z-50 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[#DFE6EF]/90 bg-[#FBFCFE]/78 px-4 backdrop-blur-md">
@@ -94,10 +114,37 @@ export function TwinCommandBar() {
             </button>
           ))}
         </div>
+        <div className="relative flex rounded-md border border-[#DFE6EF] bg-[#F7F9FC] p-0.5" aria-label="模型源切换">
+          {modelOrder.map((model) => (
+            <button
+              className={`relative z-10 rounded px-2.5 py-1 text-xs font-bold transition ${state.model === model ? 'text-[#172033]' : 'text-[#667085] hover:text-[#172033]'}`}
+              disabled={isPending || state.viewport === '2d'}
+              key={model}
+              onClick={() => setState({ model, viewport: '3d' })}
+              type="button"
+            >
+              {state.model === model ? <motion.span className="absolute inset-0 -z-10 rounded bg-[#FBFCFE] shadow-[0_3px_12px_rgba(15,23,42,0.045)]" layoutId="commandModel" transition={{ duration: 0.2, ease: 'easeInOut' }} /> : null}
+              {modelLabels[model]}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex shrink-0 items-center gap-3 text-xs font-semibold text-[#667085]">
         <span className="hidden font-mono text-[#172033] md:inline">2026-05-27 14:30</span>
+        <div className="hidden items-center gap-1 rounded-md border border-[#DFE6EF] bg-[#F7F9FC] p-0.5 xl:flex" aria-label="场景链接">
+          <button
+            aria-label="复制场景链接"
+            className="rounded px-2 py-1 text-[11px] font-bold text-[#475569] transition hover:bg-[#FBFCFE] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#3F5FB5]/20"
+            onClick={copyScenarioLink}
+            type="button"
+          >
+            {shareStatus === 'copied' ? '已复制' : shareStatus === 'failed' ? '复制失败' : '复制'}
+          </button>
+          <Link className="rounded px-2 py-1 text-[11px] font-bold text-[#475569] transition hover:bg-[#FBFCFE] hover:text-[#172033]" href={scenarioHref} target="_blank">
+            打开场景
+          </Link>
+        </div>
         <span className="inline-flex items-center gap-1 rounded-full border border-[#DFE6EF] bg-[#F7F9FC] px-2 py-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
           在线 98.6%

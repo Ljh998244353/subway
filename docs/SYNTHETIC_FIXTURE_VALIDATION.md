@@ -1,6 +1,6 @@
 # Synthetic Fixture Validation Boundary
 
-Updated: 2026-05-25
+Updated: 2026-06-01
 
 Increment: P6-I1 AI event schema and synthetic fixture boundary
 
@@ -27,6 +27,7 @@ Synthetic fixtures enable:
 | Visit Session Fixtures | Project-authored synthetic data | Validate session aggregation | Dwell time calculation, quality flags, enter/exit correlation |
 | Trajectory Fixtures | Project-authored synthetic data | Validate movement flow | Node transitions, aggregate exposure, retention expiry |
 | Heatmap Fixtures | Project-authored synthetic data | Validate spatial density | Grid cell format, intensity bounds, temporal aggregation |
+| Store Score Aggregate Fixtures | Project-authored synthetic data | Validate store score formulas and ranking filters | Aggregate inputs, formula version, bounded score, blocked real-data fields |
 
 ## Fixture Generation Rules
 
@@ -166,6 +167,39 @@ Validation:
 - Grid dimensions match floor configuration
 - Used for aggregate density visualization only
 
+### Store Score Aggregate Fixtures
+
+```json
+{
+  "store_id": "store_demo_001",
+  "business_date": "2026-05-19",
+  "score_version": "synthetic-score-v1",
+  "score": 85.5,
+  "grade": "A",
+  "breakdown_json": {
+    "source": "synthetic_event_aggregate",
+    "formulaVersion": "synthetic-score-v1",
+    "inputs": {
+      "exposureTraffic": 747,
+      "enterCount": 202,
+      "conversionRate": 0.27,
+      "avgDwellMinutes": 14.2,
+      "trendIndex": 90,
+      "profileFitIndex": 81,
+      "operationalPenalty": 0
+    }
+  },
+  "source_version": "synthetic-score-fixture-v1"
+}
+```
+
+Validation:
+- `score` bounded 0-100
+- `conversionRate` bounded 0-1
+- aggregate counts non-negative
+- `score_version` matches documented formula
+- no real identity, camera, image, video, order, or payment fields
+
 ## Validation Test Cases
 
 ### Schema Validation Tests
@@ -191,6 +225,7 @@ no member ID fields present
 track IDs anonymized per session
 trajectory data not exposed individually
 retention expiry set for trajectory events
+store score aggregate JSON contains no track, camera, image, video, order, payment, or identity fields
 ```
 
 ### Data Quality Tests
@@ -200,6 +235,7 @@ confidence between 0 and 1
 counts non-negative
 conversion rates between 0 and 1
 scores between 0 and 100
+store score aggregate inputs non-negative and formula-bounded
 window_end > window_start
 dwell_seconds non-negative
 bbox coordinates within frame bounds

@@ -6,9 +6,16 @@ import * as THREE from 'three';
 import { useEffect, useMemo, useRef } from 'react';
 import { buildFlowPath, toSmoothCurve } from '../../lib/nav-graph.ts';
 import { getStoresForFloor, heatPoints } from '../../lib/twin-data.ts';
+import { useTwinStore, type ScenarioDensity } from '../../store/twin-store.ts';
 import type { TwinUrlState } from '../../types/index.ts';
 import { PROCEDURAL_MALL_SPEC, getSceneFloorSpecs, isPointInsideAtrium, mapStoreToMallScene } from './proceduralMallSpec.ts';
 import { flowParticleFragmentShader, flowParticleVertexShader, heatmapFragmentShader } from './shaders.ts';
+
+const DENSITY_MULTIPLIER: Record<ScenarioDensity, number> = {
+  baseline: 0.72,
+  peak: 1,
+  surge: 1.35
+};
 
 const FLOOR_TO_STAGE_KEY = {
   B1: 'F1',
@@ -58,7 +65,7 @@ function createSlabShape(hasAtriumVoid: boolean) {
   return slab;
 }
 
-function FlowParticles({ curve, elevation }: { curve: THREE.CatmullRomCurve3; elevation: number }) {
+function FlowParticles({ curve, elevation, speedMultiplier }: { curve: THREE.CatmullRomCurve3; elevation: number; speedMultiplier: number }) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const geometry = useMemo(() => {
     const count = 800;
@@ -82,13 +89,13 @@ function FlowParticles({ curve, elevation }: { curve: THREE.CatmullRomCurve3; el
     const tick = () => {
       frame += 1;
       if (materialRef.current) {
-        materialRef.current.uniforms.uTime.value = frame * 0.012;
+        materialRef.current.uniforms.uTime.value = frame * 0.012 * speedMultiplier;
       }
       raf = window.requestAnimationFrame(tick);
     };
     raf = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(raf);
-  }, []);
+  }, [speedMultiplier]);
 
   return (
     <points>
@@ -105,7 +112,7 @@ function FlowParticles({ curve, elevation }: { curve: THREE.CatmullRomCurve3; el
         vertexShader={flowParticleVertexShader}
         uniforms={{
           uTime: { value: 0 },
-          uSpeed: { value: 0.18 }
+          uSpeed: { value: 0.18 * speedMultiplier }
         }}
       />
     </points>
@@ -115,19 +122,28 @@ function FlowParticles({ curve, elevation }: { curve: THREE.CatmullRomCurve3; el
 function MallScene({ state }: { state: TwinUrlState }) {
   const stores = getStoresForFloor(state.floorId);
   const selected = state.storeId ?? stores[0]?.id;
+  const selectedStore = stores.find((store) => store.id === selected);
   const flow = selected ? buildFlowPath(state.floorId, selected, state.flowScope) : undefined;
   const curve = useMemo(() => (flow ? toSmoothCurve(flow.nodes) : undefined), [flow]);
   const heat = heatPoints.filter((point) => point.floorId === state.floorId).slice(0, 50);
+  const scenarioDensity = useTwinStore((store) => store.scenarioDensity);
+  const scenarioSpeed = useTwinStore((store) => store.scenarioSpeed);
+  const incidentLevel = useTwinStore((store) => store.incidentLevel);
+  const densityMultiplier = DENSITY_MULTIPLIER[scenarioDensity];
+  const incidentScale = Math.max(0, Math.min(3, incidentLevel));
   const sceneFloors = useMemo(() => getSceneFloorSpecs(state.floorId), [state.floorId]);
   const activeFloorKey = FLOOR_TO_STAGE_KEY[state.floorId];
   const activeSceneFloor = sceneFloors.find((floor) => floor.isActive) ?? sceneFloors[1];
+  const selectedPlacement = selectedStore ? mapStoreToMallScene(selectedStore) : undefined;
   const heatUniforms = useMemo(
     () =>
       Array.from({ length: 50 }, (_, index) => {
         const point = heat[index];
-        return point ? new THREE.Vector3(point.x / 100, point.y / 100, point.intensity) : new THREE.Vector3(0, 0, 0);
+        return point
+          ? new THREE.Vector3(point.x / 100, point.y / 100, point.intensity * densityMultiplier * (1 + incidentScale * 0.08))
+          : new THREE.Vector3(0, 0, 0);
       }),
-    [heat]
+    [densityMultiplier, heat, incidentScale]
   );
   const columnPositions = useMemo(() => {
     const positions: Array<[number, number]> = [];
@@ -239,7 +255,7 @@ function MallScene({ state }: { state: TwinUrlState }) {
               {floor.floorKey !== 'F1' ? (
                 <mesh position={[0, floor.baseY + 0.12, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                   <shapeGeometry args={[createAtriumLoopShape(0.08, 0.22), 96]} />
-                  <meshStandardMaterial color="#ffd9a8" emissive="#ffe4b5" emissiveIntensity={state.mode === 'heatmap' ? 2.8 : 1.6} />
+                  <meshStandardMaterial color="#ffd9a8" emissive="#ffe4b5" emissiveIntensity={state.mode === 'heatmap' ? 2.8 * densityMultiplier : 1.6} />
                 </mesh>
               ) : null}
               <mesh position={[0, floor.ceilingY - 0.12, 0]}>
@@ -316,7 +332,25 @@ function MallScene({ state }: { state: TwinUrlState }) {
           </group>
         ))}
 
-        {state.mode === 'flow' && curve ? <FlowParticles curve={curve} elevation={activeSceneFloor.baseY + 0.3} /> : null}
+        {state.mode === 'flow' && curve ? <FlowParticles curve={curve} elevation={activeSceneFloor.baseY + 0.3} speedMultiplier={scenarioSpeed} /> : null}
+        {state.mode === 'alerts' && selectedPlacement ? (
+          <group name="SyntheticScenarioIncidentEmphasis" position={[selectedPlacement.x, activeSceneFloor.baseY + 0.38, selectedPlacement.z]}>
+            <mesh rotation={[-Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[4.3 + incidentScale * 0.58, 0.12 + incidentScale * 0.03, 12, 72]} />
+              <meshBasicMaterial color={incidentScale >= 2 ? '#ef4444' : '#f59e0b'} transparent opacity={0.34 + incidentScale * 0.12} />
+            </mesh>
+            <mesh position={[0, 0.2 + incidentScale * 0.08, 0]}>
+              <cylinderGeometry args={[1.1 + incidentScale * 0.22, 1.1 + incidentScale * 0.22, 0.16, 36]} />
+              <meshStandardMaterial
+                color={incidentScale >= 2 ? '#fecaca' : '#fde68a'}
+                emissive={incidentScale >= 2 ? '#ef4444' : '#f59e0b'}
+                emissiveIntensity={0.7 + incidentScale * 0.45}
+                transparent
+                opacity={0.78}
+              />
+            </mesh>
+          </group>
+        ) : null}
       </group>
       <OrbitControls enableDamping makeDefault />
     </>

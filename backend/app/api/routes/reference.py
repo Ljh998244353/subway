@@ -43,10 +43,35 @@ def get_floor_stores(floor_id: str, request: Request) -> ListEnvelope[StoreDto]:
 
 
 @router.get("/stores/ranking", response_model=ListEnvelope[StoreRankingItemDto])
-def get_store_ranking(request: Request, mallId: str = Query(..., min_length=1)) -> ListEnvelope[StoreRankingItemDto]:
+def get_store_ranking(
+    request: Request,
+    mallId: str = Query(..., min_length=1),
+    floorId: str | None = Query(default=None, min_length=1),
+    categoryId: str | None = Query(default=None, min_length=1),
+    grade: str | None = Query(default=None, pattern="^(A|B|C|D)$"),
+    minScore: float | None = Query(default=None, ge=0, le=100),
+    maxScore: float | None = Query(default=None, ge=0, le=100),
+    limit: int | None = Query(default=None, ge=1, le=100),
+) -> ListEnvelope[StoreRankingItemDto]:
     if get_mall(mallId) is None:
         raise_not_found("MALL_NOT_FOUND", "Mall not found", {"mallId": mallId})
-    return build_list_response(request, list_store_rankings_for_mall(mallId))
+    if minScore is not None and maxScore is not None and minScore > maxScore:
+        raise HTTPException(
+            status_code=422,
+            detail={"code": "INVALID_SCORE_RANGE", "message": "minScore must be less than or equal to maxScore", "details": {"minScore": minScore, "maxScore": maxScore}},
+        )
+    return build_list_response(
+        request,
+        list_store_rankings_for_mall(
+            mallId,
+            floor_id=floorId,
+            category_id=categoryId,
+            grade=grade,
+            min_score=minScore,
+            max_score=maxScore,
+            limit=limit,
+        ),
+    )
 
 
 @router.get("/alerts/stores", response_model=ListEnvelope[StoreAlertDto])

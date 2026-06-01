@@ -1,29 +1,27 @@
 # TODO Next
 
-Updated: 2026-05-28
+Updated: 2026-06-01
 
 one task only
 
 ## Task Card
 
 ```text
-Increment: P7-R8-V9 review restored escalator-enhanced exploded mall prototype
-Primary role: Frontend Mode
-Auxiliary reviews: Design, Security/License, QA
-Human command: 请进行下一步
-Status: ready
+Increment: P10-I1 post-P9 roadmap and hardening triage
+Primary role: Product/Architecture Mode
+Auxiliary reviews: Frontend, Backend, Data, Security/License, QA
+Human command: 自动继续
+Status: parked until post-P9 direction
 ```
 
 ## Goal
 
-Review the restored self-authored three-layer blue exploded mall prototype with escalator enhancement only, then decide whether to keep iterating in Blender or add a safe frontend review mode.
+Define the first post-P9 direction only after the completed P9 synthetic analytics boundary is accepted.
 
 ## Deliverables
 
 ```text
-one task: visually review the restored separated-slab prototype or add a safe review-only GLB mode
-preserve SVG fallback and current procedural viewport unless explicitly adding a review-only GLB mode
-keep all assets self-authored and synthetic
+one task: choose and document the P10 roadmap slice before implementing new runtime, backend, data-model, deployment, or asset work
 ```
 
 ## Non-goals
@@ -36,7 +34,9 @@ do not use real floor plans, BIM/CAD, maps, brands/logos, video, face images, pe
 do not create deployment infrastructure
 do not add dependencies, images, external services, paid services, textures, HDRIs, or model assets without a new audit
 do not copy any identifiable real mall layout even if public examples are consulted for planning logic
-do not make the GLB the default active viewport without explicit review
+do not create backend scenario APIs
+do not create MySQL tables, migrations, or persistence yet
+do not make the GLB the default active viewport
 ```
 
 ## Minimum Working Set
@@ -48,13 +48,23 @@ context/TODO_NEXT.md
 context/FRONTEND_STATE.md
 context/TEST_STATE.md
 docs/BLENDER_MCP_WSL_SETUP.md
-assets/blender/mall_exploded_three_layer_prototype.blend
-frontend/public/models/mall_exploded_three_layer_prototype.glb
-assets/blender/mall_exploded_three_layer_preview0001.png
-scripts/blender/create_exploded_mall_prototype.py
-scripts/blender/inspect_exploded_mall_prototype.py
-scripts/blender/probe_blender_mcp.py
-scripts/blender/run_blender_mcp_server.sh
+docs/STORE_SCORE_MVP.md
+context/API_CONTRACT_CURRENT.md
+context/BACKEND_STATE.md
+context/DATA_MODEL_CURRENT.md
+frontend/src/components/dashboard/
+frontend/src/lib/twin-data.ts
+frontend/src/mock/
+frontend/tests/
+frontend/src/components/dashboard/MerchantGradingBoard.tsx
+docs/SYNTHETIC_FIXTURE_VALIDATION.md
+backend/app/db/metadata.py
+backend/app/fixtures/reference.py
+backend/tests/
+docs/STORE_SCORE_MVP.md
+context/API_CONTRACT_CURRENT.md
+context/BACKEND_STATE.md
+context/DATA_MODEL_CURRENT.md
 ```
 
 ## Acceptance Checks
@@ -64,18 +74,12 @@ npm run quality:docs
 npm run quality:compliance
 npm run quality:boundary
 npm run quality:audit
-python3 -m py_compile any new Python script
-BlenderMCP probe or MCP tool smoke test when Blender is running
-optional frontend checks only if frontend code changes
 ```
 
 ## BlenderMCP Preconditions
 
 ```text
-Windows Blender is running with BlenderMCP add-on connected on port 9876
-Codex session has the registered blender MCP tools available, or use the documented probe/launcher fallback
-telemetry env vars remain true/disabled
-Poly Haven, Sketchfab, Hyper3D/Rodin, Hunyuan3D, and all external downloads remain off
+not required unless the review identifies Blender model changes
 ```
 
 ## Human Confirmation Gates
@@ -83,7 +87,6 @@ Poly Haven, Sketchfab, Hyper3D/Rodin, Hunyuan3D, and all external downloads rema
 ```text
 new dependencies/images/external services
 external model, texture, HDRI, BlenderKit asset, real mall material, or real brand/logos
-switching from prototype to frontend-loaded GLB
 switching from synthetic fixture to real MySQL query
 real data/material access, real AI service, or production deployment
 ```
@@ -91,5 +94,5 @@ real data/material access, real AI service, or production deployment
 ## Next Handoff
 
 ```text
-Recommended next command: 请进行下一步
+Recommended next command: choose P10-I1 direction after P9 completion
 ```

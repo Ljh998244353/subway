@@ -1,6 +1,6 @@
 # API Contract Current
 
-Updated: 2026-05-26
+Updated: 2026-06-01
 
 ## Current Status
 
@@ -15,6 +15,7 @@ GET /api/v1/stores/{storeId}
 GET /api/v1/stores/{storeId}/score
 GET /api/v1/stores/{storeId}/flow
 GET /api/v1/stores/ranking?mallId=mall_demo_001
+GET /api/v1/stores/ranking?mallId=mall_demo_001&floorId=floor_demo_l1&categoryId=cat_food&grade=B&minScore=70&maxScore=80&limit=10
 GET /api/v1/alerts/stores?mallId=mall_demo_001
 GET /api/v1/customer-profile?mallId=mall_demo_001
 GET /api/v1/heatmap?mallId=mall_demo_001
@@ -39,7 +40,9 @@ getTrajectories
 getOverview
 ```
 
-P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. P6-I1 documented AI event schema. P6-I2 implemented a local synthetic AI service. P6-R1 reprioritized the next API direction toward synthetic 3D demo controls and fake-data persistence. P8-I2 refined the store score contract so `GET /api/v1/stores/{storeId}/score` returns deterministic synthetic aggregate scoring metadata: `source`, `formulaVersion`, `weights`, `inputs`, bounded score, grade, breakdown, and explanations.
+P5-I11 reviewed and closed CP5 frontend API-mode integration coverage in `docs/CP5_CLOSURE_REVIEW.md`. P6-I1 documented AI event schema. P6-I2 implemented a local synthetic AI service. P6-R1 reprioritized the next API direction toward synthetic 3D demo controls and fake-data persistence. P8-I2 refined the store score contract so `GET /api/v1/stores/{storeId}/score` returns deterministic synthetic aggregate scoring metadata: `source`, `formulaVersion`, `weights`, `inputs`, bounded score, grade, breakdown, and explanations. P8-I3 added fixture-backed ranking filters for `floorId`, `categoryId`, `grade`, `minScore`, `maxScore`, and `limit`, with filtered rankings re-ranked from `1`.
+
+P9 completed the frontend synthetic analytics cockpit without adding API contracts. The analytics snapshot consumes existing synthetic/mock aggregates and frontend URL/store state only.
 
 ## Not Implemented
 
@@ -79,6 +82,7 @@ These endpoints are not implemented yet. They should be designed in a later arch
 ```text
 synthetic demo APIs must be clearly labeled synthetic/demo-only
 store score MVP source is currently synthetic_event_aggregate and formulaVersion synthetic-score-v1
+store ranking filters are synthetic fixture filters only; invalid score ranges return INVALID_SCORE_RANGE
 real-data adapter endpoints are deferred
 real video/camera/BIM/floor-plan/brand material must not be required for the 3D demo
 API responses must keep stable IDs and ISO 8601 timestamps
@@ -87,4 +91,4 @@ fake event generation must be idempotent where applicable
 
 ## Next Step
 
-P8-I2 completed the first store score MVP contract refinement without adding a new endpoint. The next API increment should either add score/ranking filters or define synthetic score aggregate persistence boundaries before any real MySQL query work.
+P9-I7 closed the synthetic analytics readiness review. The next post-P9 API decision should be a P10 roadmap item; no scenario, replay, analytics, or MySQL-backed API should be implemented before that contract is designed and reviewed.
