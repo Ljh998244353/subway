@@ -11,4 +11,8 @@ backend/**/__pycache__/
 __pycache__/
 **/__pycache__/
 .venv-blender-mcp/
+.env
+.env.local
+backend/.env
+frontend/.env.local
 opencode.json

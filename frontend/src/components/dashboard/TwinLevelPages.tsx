@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -7,6 +7,7 @@ import { alertEvents, floors, getFloor, getStore } from '../../lib/twin-data.ts'
 import type { FloorId, TwinUrlState } from '../../types/index.ts';
 import { containerVariants } from '../ui/motion-variants.ts';
 import { StatusPill } from './InspectorPrimitives.tsx';
+import { StoreManagementAdvicePanel } from './StoreManagementAdvicePanel.tsx';
 
 export function DigitalTwinOverviewContent({ state }: { state: TwinUrlState }) {
   const totalLive = floors.reduce((sum, floor) => sum + floor.liveOccupancy, 0);
@@ -100,6 +101,10 @@ export function StoreFocusContent({ state, storeId }: { state: TwinUrlState; sto
           <StoreWorkspaceNote title="经营判断" body={store.hasWarning ? '该店铺低效信号需要优先进入调铺模拟，并核对店前动线。' : '当前经营表现稳定，适合持续观察邻近业态与客群结构。'} />
           <StoreWorkspaceNote title="动线关注" body="优先查看入口扶梯到店前的路径密度，避免仅凭店内人数判断表现。" />
           <StoreWorkspaceNote title="下一动作" body="在右侧 inspector 中处理相关告警，或切回楼层模型检查空间位置。" />
+        </div>
+
+        <div className="border-t border-[#DFE6EF]/80 pt-4">
+          <StoreManagementAdvicePanel storeId={store.id} />
         </div>
       </section>
 

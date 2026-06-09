@@ -7,7 +7,7 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build --webpack",
     "lint": "tsc --noEmit --pretty false",
-    "test": "node --test --test-isolation=none tests/twinUrlState.test.ts tests/navGraph.test.ts tests/proceduralMallSpec.test.ts tests/digitalTwinTypography.test.ts tests/digitalTwinNavigation.test.ts src/api/referenceClient.test.ts src/api/overviewDataLoader.test.ts src/api/storeAnalysisDataLoader.test.ts src/api/storeAlertsDataLoader.test.ts src/api/customerProfileDataLoader.test.ts src/api/digitalTwinDataLoader.test.ts src/mock/mockData.test.ts",
+    "test": "node --test --test-isolation=none tests/twinUrlState.test.ts tests/navGraph.test.ts tests/proceduralMallSpec.test.ts tests/storeManagementAdvice.test.ts tests/digitalTwinTypography.test.ts tests/digitalTwinNavigation.test.ts src/api/referenceClient.test.ts src/api/overviewDataLoader.test.ts src/api/storeAnalysisDataLoader.test.ts src/api/storeAlertsDataLoader.test.ts src/api/customerProfileDataLoader.test.ts src/api/digitalTwinDataLoader.test.ts src/mock/mockData.test.ts",
     "start": "next start --hostname 127.0.0.1"
   },
   "dependencies": {

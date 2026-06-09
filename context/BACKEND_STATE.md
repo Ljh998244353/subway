@@ -1,4 +1,4 @@
-# Backend State
+﻿# Backend State
 
 Updated: 2026-06-01
 
@@ -25,7 +25,7 @@ GET /api/v1/overview?mallId=mall_demo_001
 
 The backend is currently a synthetic contract baseline. P5 frontend API-mode work used these contracts without backend changes. P6-I2 added a separate `ai-services/` synthetic AI service baseline, but backend ingestion from that service is not implemented. P8-I2 refined `GET /api/v1/stores/{storeId}/score` so the response is calculated from deterministic synthetic aggregate inputs and includes `source`, `formulaVersion`, `weights`, and `inputs`. P8-I3 added read-only fixture filters to `GET /api/v1/stores/ranking` for score-board readiness.
 
-P9 did not change the backend. The synthetic analytics cockpit is frontend-only and consumes existing mock aggregate structures plus client URL/store state.
+P9 did not change the backend. The synthetic analytics cockpit is frontend-only and consumes existing mock aggregate structures plus client URL/store state.`n`nP10-I1 adds `POST /api/v1/advice/store-management` as a synthetic advice endpoint and backend-only LLM proxy placeholder. It reads `LLM_*` environment variables from `backend/.env` at runtime, defaults to disabled rule advice, blocks real-data keys, and does not persist prompts, responses, keys, or payloads.
 
 ## P8 Store Score Direction
 
@@ -68,4 +68,4 @@ production deployment or Docker Compose
 
 ## Next Step
 
-P9 is complete at the synthetic analytics boundary. The next backend decision should be part of P10 roadmap triage before any scenario API, replay API, analytics endpoint, MySQL query path, migration, or production adapter is implemented.
+Next backend increment should smoke-test the advice endpoint with `LLM_ENABLED=false`. Real LLM calls require a local backend/.env and explicit user request; real MySQL, scenario/replay APIs, migrations, and production adapters remain deferred.

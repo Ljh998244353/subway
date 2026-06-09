@@ -1,4 +1,4 @@
-# Frontend State
+﻿# Frontend State
 
 Updated: 2026-06-01
 
@@ -89,8 +89,8 @@ P9-I2: local runtime smoke confirmed `/digital-twin` response includes P9 analyt
 P9-I3: analytics snapshot is mode-aware for heatmap, flow, score, and alerts using only existing synthetic aggregates.
 P9-I4: local runtime smoke confirmed heatmap/flow/score/alerts URLs return the expected mode-specific analytics insight labels.
 P9-I5: analytics snapshot now includes a replay context row driven by the current scrubber minute, scenario speed, and scenario density from the frontend twin store.
-P9-I6: local runtime smoke confirmed `/digital-twin` response includes replay context markers (`回放上下文`, `14:30`, `1x`, `peak`) plus the analytics snapshot title.
-P9-I7: P9 is closed with a readiness review. The frontend analytics layer is complete for the synthetic MVP boundary, and no backend scenario API, replay API, real data source, or persistence layer was added.
+P9-I6: local runtime smoke confirmed `/digital-twin` response includes replay context markers (`鍥炴斁涓婁笅鏂嘸, `14:30`, `1x`, `peak`) plus the analytics snapshot title.
+P9-I7: P9 is closed with a readiness review. The frontend analytics layer is complete for the synthetic MVP boundary, and no backend scenario API, replay API, real data source, or persistence layer was added.`nP10-I1: overview and store workspaces now include `StoreManagementAdvicePanel`, backed by deterministic `generateStoreManagementAdvice` rules over existing synthetic store, alert, URL mode, density, and incident state. The panel labels current output as rule advice and shows the LLM as not enabled.
 ```
 
 ## Pending
@@ -100,7 +100,7 @@ browser screenshot review at 1440px/1920px remains pending because the in-app Br
 future visual polish should continue from the current constrained procedural scene unless a new scoped self-authored model or Blender script spec is approved
 review the new three-layer exploded mall prototype before deciding whether to replace or augment the procedural Three/R3F shell
 prototype review mode is now explicit enough for runtime review, but should remain non-default until visual screenshot review is possible
-P9 is complete at the requested boundary; the next frontend decision should be part of P10 roadmap and hardening triage
+P10 advice UI needs a runtime smoke pass; real LLM output is not shown unless backend/.env is configured and a backend/API-mode path is explicitly enabled later
 F1 SVG floorplan is ready for overlay refinement: store highlight positions, heat/flow coordinates can be fine-tuned to match architectural store unit boundaries
 F2/F3 floorplans can follow the same architectural drafting approach using F1Floorplan as template
 ```

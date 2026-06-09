@@ -123,3 +123,20 @@ export interface FlowPath {
   density: number;
   nodes: NavNode[];
 }
+
+export type AdvicePriority = 'high' | 'medium' | 'low';
+export type AdviceCategory = 'traffic' | 'conversion' | 'dwell' | 'alert' | 'category_ops';
+export type AdviceSource = 'rule' | 'llm';
+
+export interface StoreManagementAdvice {
+  id: string;
+  storeId: string;
+  priority: AdvicePriority;
+  category: AdviceCategory;
+  title: string;
+  reason: string;
+  actions: string[];
+  expectedImpact: string;
+  evidence: string[];
+  source: AdviceSource;
+}

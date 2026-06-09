@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+﻿from fastapi import FastAPI
 
+from app.api.routes.advice import router as advice_router
 from app.api.routes.health import router as health_router
 from app.api.routes.overview import router as overview_router
 from app.api.routes.reference import router as reference_router
@@ -17,6 +18,7 @@ def create_app() -> FastAPI:
     )
     register_trace_middleware(app)
     register_error_handlers(app)
+    app.include_router(advice_router)
     app.include_router(health_router)
     app.include_router(reference_router)
     app.include_router(overview_router)

@@ -1,6 +1,6 @@
 # Progress
 
-Updated: 2026-06-01
+Updated: 2026-06-09
 
 ## Current Snapshot
 
@@ -8,15 +8,15 @@ The selected frontend direction is the React + Next.js App Router Digital Twin O
 
 The command bar now includes a 2D/3D viewport toggle. Clicking "2D" switches to the SVG floorplan view; clicking "3D" returns to the Three/R3F procedural shell. The viewport state is persisted in the URL (`viewport=2d|3d`) and the legacy `?svg=1` param is still supported as a fallback.
 
-Current next decision: P9 is complete at the requested boundary. The next post-P9 decision should be a P10 roadmap and hardening triage before any new API, persistence, real-data, deployment, or asset work.
+Current next decision: P10-I2 adds backend/.env loading and a local LLM smoke path. Real LLM calls remain opt-in through backend/.env; current local placeholder has no key and returns disabled/config-missing until the user fills it.
 
 ## Recent Increments
 
 | Increment | Result | Verification |
 | --- | --- | --- |
+| P10-I2 local LLM proxy smoke preparation | Added backend `.env` loading, an ignored local `backend/.env` placeholder for the user-filled key, and `scripts/smoke_store_advice_llm.py` for synthetic advice endpoint smoke checks. | `backend\.venv\Scripts\python.exe -m pytest backend\tests\test_advice_api.py` passed 6 tests; `python -B scripts\smoke_store_advice_llm.py` returned disabled/rule advice with local `.env` loaded and no key configured. |
+| P10-I1 store management advice and LLM key placeholder | Added synthetic rule-based store management advice, overview/store advice panels, backend `POST /api/v1/advice/store-management` LLM proxy placeholder, `.env` key safeguards, and `docs/STORE_MANAGEMENT_ADVICE_MVP.md`. | `npm --prefix frontend run lint`; `npm --prefix frontend run test` passed 94 tests; `npm --prefix frontend run build` passed with known SWC wasm fallback warning; backend advice/reference/migration tests passed 35 tests; docs/compliance/boundary/audit passed. |
 | P9-I7 analytics readiness review | Closed P9 with `docs/P9_ANALYTICS_READINESS_REVIEW.md`, documenting completed synthetic analytics scope, mode/replay linkage, verification, no-go boundaries, deferred real-data/API/persistence work, and the post-P9 handoff. | `npm run quality:docs`; `npm run quality:compliance`; `npm run quality:boundary`; `npm run quality:audit` passed with the known 2 moderate PostCSS advisories. |
-| P9-I6 replay-aware analytics runtime smoke pass | Ran a local Next dev server on `127.0.0.1:3026` and verified the overview response includes replay-aware analytics markers. The response returned 200 and contained `回放上下文`, default replay time `14:30`, speed `1x`, density `peak`, and the analytics snapshot title. Dev server was stopped and temporary logs removed. | Local HTTP check: `/digital-twin` 200, 69,965 bytes, with replay context markers present. |
-| P9-I5 replay-aware analytics snapshot | Added a replay context row to the P9 analytics snapshot. It reads the current frontend time scrubber minute, scenario speed, and scenario density from the client twin store, connecting the analytics readout to the existing 3D demo/replay controls without adding replay APIs or persistence. | `npm --prefix frontend run lint`; `npm --prefix frontend run test` passed 89 tests; `npm --prefix frontend run build` passed with the known SWC wasm fallback warning. |
 
 ## Milestone Summary
 
@@ -30,6 +30,7 @@ Current next decision: P9 is complete at the requested boundary. The next post-P
 | P7-R8 | First self-authored five-floor ring mall GLB generated, then temporary BlenderKit Mall Interior reference preview integrated for visual review. Both were later removed after visual rejection; the active viewport is now a stricter project-owned procedural mall shell. V5 implemented the first detailed synthetic F1 SVG floorplan base with 21 store units, escalators, elevators, restrooms, fire stairs, and entrance markers, ready for overlay systems. |
 | P8 | Store score MVP contract refined with deterministic synthetic aggregate inputs; backend score-readiness work is deferred. |
 | P9 | Synthetic analytics cockpit completed with aggregate snapshot, mode-aware insights, replay context linkage, runtime smoke coverage, and readiness review. |
+| P10 | Store management advice started with deterministic synthetic operating recommendations and a backend-only OpenAI-compatible LLM key placeholder. |
 
 ## Verification Snapshot
 
@@ -71,6 +72,8 @@ P9 replay context: analytics snapshot reads scrubber time, scenario speed, and d
 P9 replay smoke: overview SSR response includes replay context markers and analytics snapshot title.
 P9 readiness: synthetic analytics scope is closed in docs/P9_ANALYTICS_READINESS_REVIEW.md; real data, APIs, MySQL persistence, deployment, and external assets remain deferred.
 P9 final documentation gates: docs/compliance/boundary/audit passed.
+P10 advice: overview and store workspaces now expose synthetic store management recommendations; backend LLM proxy placeholder stays disabled until backend/.env is configured.
+P10 verification: frontend lint/test/build, backend advice/reference/migration tests, and docs/compliance/boundary/audit passed.
 ```
 
 Known blocker:
@@ -81,4 +84,4 @@ Next build/dev currently emits `@next/swc-win32-x64-msvc ... is not a valid Win3
 
 ## Next Handoff
 
-P9 is complete at the requested boundary. Next recommended increment, if development resumes, is P10-I1 post-P9 roadmap and production-hardening triage.
+Next recommended increment is to fill `backend/.env` with the local GPT proxy key/model if real LLM testing is desired, then run `python -B scripts/smoke_store_advice_llm.py`.

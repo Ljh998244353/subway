@@ -1,4 +1,4 @@
-# API Contract Current
+﻿# API Contract Current
 
 Updated: 2026-06-01
 
@@ -20,7 +20,7 @@ GET /api/v1/alerts/stores?mallId=mall_demo_001
 GET /api/v1/customer-profile?mallId=mall_demo_001
 GET /api/v1/heatmap?mallId=mall_demo_001
 GET /api/v1/trajectories?mallId=mall_demo_001
-GET /api/v1/overview?mallId=mall_demo_001
+GET /api/v1/overview?mallId=mall_demo_001`nPOST /api/v1/advice/store-management
 ```
 
 Implemented frontend client methods:
@@ -55,7 +55,7 @@ synthetic scenario control APIs
 persisted fake-event generation APIs
 3D scene layout read API
 replay frame API
-real-data adapter APIs
+real-data adapter APIs`nreal LLM calls by default; LLM proxy remains disabled until backend/.env is configured
 ```
 
 ## P7 Synthetic 3D Demo API Direction
@@ -91,4 +91,4 @@ fake event generation must be idempotent where applicable
 
 ## Next Step
 
-P9-I7 closed the synthetic analytics readiness review. The next post-P9 API decision should be a P10 roadmap item; no scenario, replay, analytics, or MySQL-backed API should be implemented before that contract is designed and reviewed.
+P10-I1 added `POST /api/v1/advice/store-management` as a backend-only OpenAI-compatible LLM proxy placeholder. It validates synthetic aggregate advice inputs, blocks real-data keys, and returns disabled/fallback rule advice unless local backend LLM environment variables are configured.
