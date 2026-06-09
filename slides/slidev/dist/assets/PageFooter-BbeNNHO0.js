@@ -1,0 +1,1 @@
+import{C as e,y as t,z as n}from"./modules/shiki-BbCZs__W.js";import{n as r}from"./slidev/context--8-9iAVa.js";var i={hidden:``,"aria-hidden":`true`},a=e({__name:`PageFooter`,props:{title:{},author:{},meeting:{},date:{},mode:{}},setup(e){let{$slidev:a,$nav:o,$clicksContext:s,$clicks:c,$page:l,$renderContext:u,$frontmatter:d}=r();return(e,r)=>(n(),t(`span`,i))}});export{a as t};

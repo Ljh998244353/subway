@@ -2,9 +2,9 @@
 theme: /home/ljh/slidev-theme-ustc
 layout: cover
 talkTitle: "商业综合体视觉 AI 数字孪生运营系统"
-subtitle: "Synthetic-first Visual AI Digital Twin for Mall Operations"
-presenter: "工程项目汇报"
-date: "2026 年 5 月"
+subtitle: "从客流感知到经营决策的智能运营驾驶舱"
+presenter: "项目应用场景与系统方案汇报"
+date: "2026 年 6 月"
 sectionBar: true
 sectionBarMode: minimal
 figurePrefix: "图"
@@ -13,497 +13,417 @@ tablePrefix: "表"
 
 <style src="./style.css"></style>
 
-本项目以合成、匿名、可审计数据为起点，把客流、进出店、停留、热力、动线、店铺评分和低效预警统一到可解释的运营视图中。
+<div class="cover-shell">
+  <div>
+    <p class="eyebrow">Synthetic-first · Visual AI · Digital Twin OS</p>
+    <h1>让商场运营从经验判断走向实时感知与智能决策</h1>
+    <p>以合成、匿名、可审计数据为默认边界，融合 2D/3D 数字孪生、客流热力、店铺评分与经营建议。</p>
+  </div>
+  <div class="cover-orbit">
+    <span></span><span></span><span></span>
+    <b>AI<br/>Twin</b>
+  </div>
+</div>
 
 <Takeaway>
-面向商业综合体运营的核心价值：从“看见空间状态”走向“解释经营问题”。
+把看不见的运营问题，变成可观察、可解释、可行动的决策信号。
 </Takeaway>
-
----
-layout: toc
-columns: 2
-highlight: 0
----
-
-# 目录
 
 ---
 layout: section
 ---
 
-# 一、背景与目标
+# 一、为什么值得用？
 
-为什么商业综合体运营需要数字孪生工作台？
+项目首先面向用户价值：管理者需要的不是更多屏幕，而是更快做出正确运营判断。
 
 ---
 layout: split
 ---
 
-# 项目问题：运营决策缺少空间证据
+# 传统商场运营的四个盲区
 
 ::left::
 
-<div class="number-list">
-  <div><b>01</b><span><strong>信息分散</strong><br/>客流、店铺、楼层和告警散落在不同视图。</span></div>
-  <div><b>02</b><span><strong>空间价值不可见</strong><br/>高价值区域、冷区、拥挤点难以被连续观察。</span></div>
+<div class="pain-stack">
+  <div><b>客流看不清</b><span>只能看到总量，难以知道人群在哪聚集、在哪流失。</span></div>
+  <div><b>空间效率难评估</b><span>楼层、通道、店铺之间缺乏统一对比指标。</span></div>
 </div>
 
 ::right::
 
-<div class="number-list">
-  <div><b>03</b><span><strong>低效店铺发现滞后</strong><br/>高客流低转化、停留不足等问题常在复盘后才暴露。</span></div>
-  <div><b>04</b><span><strong>告警缺少证据链</strong><br/>问题从哪里来、影响谁、如何处理，缺少闭环解释。</span></div>
+<div class="pain-stack">
+  <div><b>异常响应慢</b><span>拥堵、低效区域、突发事件依赖人工巡查发现。</span></div>
+  <div><b>建议不闭环</b><span>报表很多，但很难直接转化为具体运营动作。</span></div>
 </div>
 
 <Takeaway>
-系统要解决的不是“再做一个看板”，而是把空间、指标和处置串成可追踪的运营判断。
+核心痛点不是“没有数据”，而是缺少能够指导行动的实时空间运营视角。
 </Takeaway>
 
 ---
 layout: content
 ---
 
-# 系统目标：从视觉事件到运营决策
+# 价值主张：从监控大屏升级为运营智能体
 
-<Grid cols="2" gap="lg" alignY="top">
-<div>
-
-<Block title="功能目标">
-
-- 全场状态一屏判断
-- 楼层、店铺、热力、动线统一查看
-- 低效店铺可诊断、可定位、可跟踪
-- 匿名聚合画像支持时段与业态分析
-
-</Block>
-
+<div class="value-ribbon">
+  <div><b>实时看见</b><span>楼层、店铺、客流、热力、动线、告警统一呈现。</span></div>
+  <div><b>智能诊断</b><span>识别拥堵、冷区、低效店铺与异常聚集。</span></div>
+  <div><b>辅助决策</b><span>给出导视、活动、调度和店铺经营优化建议。</span></div>
+  <div><b>安全演示</b><span>默认合成数据，不接真实监控、不展示个人轨迹。</span></div>
 </div>
-<div>
 
-<Block title="工程目标">
-
-- synthetic-first，先保证演示和测试可重复
-- Mock/API mode 共存，逐步接入后端契约
-- 关键边界可审计，真实数据接入后置
-- 免费、可恢复、可维护优先
-
-</Block>
-
-</div>
-</Grid>
-
-<Takeaway>
-一期目标是形成“可演示、可测试、可审计”的运营闭环，而不是直接承诺真实商场上线。
-</Takeaway>
+<ResultBox title="一句话价值">
+系统不是“看视频”，而是把空间运营转化为可计算、可解释、可优化的决策过程。
+</ResultBox>
 
 ---
 layout: content
 ---
 
-# 用户与使用场景
+# 谁会使用：同一个商场，不同的决策视角
 
-<div class="persona-grid">
-  <div><b>运营经理</b><span>巡检全场客流、拥挤和异常入口</span></div>
-  <div><b>招商 / 调铺负责人</b><span>评估店铺效率、业态表现和调铺机会</span></div>
-  <div><b>楼层主管</b><span>定位局部拥堵、冷区和异常店铺</span></div>
-  <div><b>安保人员</b><span>关注拥挤、异常停留和现场处置状态</span></div>
-  <div><b>数据分析人员</b><span>复盘时段、楼层、业态和评分变化</span></div>
+<div class="persona-grid four">
+  <div><b>商场管理层</b><span>关注整体运营健康度、客流趋势、楼层效率和风险概览。</span><em>看全局</em></div>
+  <div><b>运营人员</b><span>关注哪些区域需要现场处理、导视调整或活动干预。</span><em>管现场</em></div>
+  <div><b>招商 / 店铺管理</b><span>关注店铺表现、业态效率、转化机会和调铺依据。</span><em>优店铺</em></div>
+  <div><b>安防 / 物业</b><span>关注异常聚集、拥堵点位、处置线索和风险边界。</span><em>控风险</em></div>
 </div>
 
-<Callout type="info" title="设计原则">
-界面应像专业运营控制台：克制、可信、清晰；保持信息密度，但不做装饰性大屏或营销页。
+<Callout type="info" title="面向用户的产品定位">
+不同角色不需要学习复杂模型，只需要看到“当前最值得关注的问题”和“下一步建议动作”。
 </Callout>
-
----
-layout: toc
-columns: 2
-highlight: 2
----
-
-# 目录
 
 ---
 layout: section
 ---
 
-# 二、功能闭环
+# 二、怎么用起来？
 
-五个页面共同完成从总览、定位、诊断到处置的业务路径。
-
----
-layout: content
----
-
-# 功能总览：五个核心页面
-
-<div class="function-map">
-  <div class="function-core">数字孪生<br/><span>运营中枢</span></div>
-  <div><b>/dashboard</b><span>运营总览</span><small>KPI、趋势、楼层状态、告警摘要</small></div>
-  <div><b>/digital-twin</b><span>数字孪生</span><small>3D 空间、热力、动线、告警、评分</small></div>
-  <div><b>/store-analysis</b><span>店铺分析</span><small>进店、停留、转化、评分、原因解释</small></div>
-  <div><b>/store-alerts</b><span>低效预警</span><small>C/D 店铺、连续下滑、处理建议</small></div>
-  <div><b>/customer-profile</b><span>匿名客群</span><small>时段、楼层、业态偏好聚合</small></div>
-</div>
-
-<Takeaway>
-每个页面不是孤立模块，而是服务同一条运营决策链。
-</Takeaway>
-
----
-layout: content
----
-
-# 演示主线：上下文连续的业务流
-
-<div class="flow-line">
-  <div><b>Dashboard</b><span>发现全场风险</span></div>
-  <i>→</i>
-  <div><b>Digital Twin</b><span>定位楼层与店铺</span></div>
-  <i>→</i>
-  <div><b>Store Analysis</b><span>解释低效原因</span></div>
-  <i>→</i>
-  <div><b>Store Alerts</b><span>跟踪处置状态</span></div>
-</div>
-
-<div class="route-box">
-
-```text
-/dashboard?mallId=M_DEMO&timeRange=today
-  -> /digital-twin?mallId=M_DEMO&timeRange=today&floorId=F2&mode=heatmap
-  -> /store-analysis?mallId=M_DEMO&timeRange=today&storeId=S008
-  -> /store-alerts?mallId=M_DEMO&timeRange=today&alertId=A0002
-```
-
-</div>
-
-<Callout type="tip" title="演示重点">
-路由跳转保留 mallId、timeRange、floorId、storeId 等上下文，让“发现问题 → 空间定位 → 店铺诊断 → 告警处置”保持连续。
-</Callout>
+围绕真实运营动作组织应用场景：看全局、定位问题、解释原因、给出建议。
 
 ---
 layout: split
 ---
 
-# 运营总览：一屏判断全场状态
+# 场景 1：管理层运营总览驾驶舱
 
 ::left::
 
 <Block title="首屏回答的问题">
 
-- 今天场内人数和累计客流是否异常？
-- 哪个楼层拥挤或转化变差？
-- 哪些店铺已进入低效风险？
-- 告警是否需要现场处置？
+- 今天商场是否处于正常运营状态？
+- 哪个楼层或区域最值得关注？
+- 哪些店铺评分下滑或存在机会？
+- 告警是否会影响用户体验和现场秩序？
 
 </Block>
 
 ::right::
 
-<div class="mini-dashboard">
-  <div><b>18,420</b><span>今日客流</span></div>
-  <div><b>3,286</b><span>场内人数</span></div>
-  <div><b>86.5</b><span>运营指数</span></div>
-  <div class="wide"><b>F2 餐饮区</b><span>热力上升，转化低于同业态均值</span></div>
+<div class="cockpit-card">
+  <div><b>86.5</b><span>运营健康指数</span></div>
+  <div><b>F2</b><span>当前热点楼层</span></div>
+  <div><b>7</b><span>需关注店铺</span></div>
+  <div class="wide"><b>AI 洞察</b><span>餐饮区热力上升，但通道拥堵正在压低部分店铺转化。</span></div>
 </div>
 
 <Takeaway>
-运营总览负责“发现问题”，不是展示所有细节。
+管理者不需要切换多个报表，而是直接看到全场状态、核心风险和优先级。
 </Takeaway>
+
+---
+layout: split
+---
+
+# 场景 2：2D/3D 数字孪生联动定位
+
+::left::
+
+<Block title="2D 平面视角">
+
+- 快速定位店铺、通道、入口和扶梯
+- 清楚展示热力、告警和区域分布
+- 适合运营人员现场沟通与复盘
+
+</Block>
+
+::right::
+
+<Block title="3D 空间视角">
+
+- 呈现楼层关系、空间层级和跨区态势
+- 适合管理汇报和沉浸式演示
+- 与热力、动线、评分模式联动
+
+</Block>
+
+<div class="twin-toggle">
+  <span class="active">2D floorplan</span>
+  <i>⇄</i>
+  <span>3D twin shell</span>
+</div>
 
 ---
 layout: content
 ---
 
-# 3D 数字孪生：空间、热力、告警统一视图
+# 场景 3：客流热力与动线分析
 
-<Grid cols="2" gap="lg" alignY="top">
-<div>
-
-<Block title="当前能力">
-
-- Three / React Three Fiber 场景
-- F2 本地 GLB 模型加载
-- heatmap / flow / alerts / score 四种模式
-- 店铺 hover、click、相机聚焦与联动入口
-
-</Block>
-
-</div>
-<div>
-
-<div class="twin-sketch">
-  <div class="store s1">S021</div>
-  <div class="store s2 hot">S028</div>
-  <div class="store s3">S033</div>
-  <div class="store s4 alert">S040</div>
+<div class="floor-heatmap">
+  <div class="unit u1">零售</div>
+  <div class="unit u2 hot">餐饮</div>
+  <div class="unit u3">服务</div>
+  <div class="unit u4 alert">拥堵</div>
+  <div class="unit u5">休闲</div>
   <span class="heat h1"></span>
   <span class="heat h2"></span>
-  <span class="path p1"></span>
-  <span class="path p2"></span>
+  <span class="flow f1"></span>
+  <span class="flow f2"></span>
+  <span class="flow f3"></span>
 </div>
 
+<div class="insight-row">
+  <div><b>发现热点</b><span>识别人群聚集和高停留区域。</span></div>
+  <div><b>判断动线</b><span>观察入口、扶梯、主通道的流向压力。</span></div>
+  <div><b>解释冷区</b><span>辅助优化导视、活动点位和楼层组织。</span></div>
 </div>
-</Grid>
+
+---
+layout: split
+---
+
+# 场景 4：店铺经营评分与排名
+
+::left::
+
+<Block title="运营人员关心的问题">
+
+- 哪些店铺当前表现最好？
+- 哪些店铺拥有高客流但低转化？
+- 哪些店铺受周边拥堵或冷区影响？
+- 哪些店铺值得优先运营干预？
+
+</Block>
+
+::right::
+
+<div class="rank-card">
+  <div><b>01</b><span>轻食集合店</span><em>92.4</em></div>
+  <div><b>02</b><span>生活方式店</span><em>88.1</em></div>
+  <div class="warn"><b>17</b><span>潮流零售店</span><em>61.8</em></div>
+  <div class="danger"><b>21</b><span>主题体验店</span><em>54.2</em></div>
+</div>
 
 <Takeaway>
-数字孪生页是项目当前最强演示锚点：把空间位置、经营状态和告警证据放在同一张图上。
+评分不是给店铺贴标签，而是发现可优化的经营机会。
 </Takeaway>
 
 ---
 layout: split
 ---
 
-# 数字孪生工程设计：模型与 fallback
+# 场景 5：AI 经营建议变成具体动作
 
 ::left::
 
-<Block title="模型路径">
+<Block title="系统观察到的信号">
 
-- `/models/mall_floor_f2.glb` 作为 F2 主模型
-- Store 节点保留可映射命名
-- URL-preserved GLB mode，默认可复现演示
-- 加载中、错误状态和降级信息可见
+- 店铺周边客流上升
+- 店外停留热度不足
+- 临近主通道出现拥堵
+- 同业态评分排名下降
 
 </Block>
 
 ::right::
 
-<Block title="降级路径">
-
-- 非 F2 楼层明确走 procedural geometry
-- 保留 SVG / 2.5D reference view
-- 不依赖真实平面图、BIM、品牌素材
-- 演示失败时仍能解释数据结构与交互关系
-
-</Block>
-
-<Takeaway>
-fallback 不是临时补丁，而是 synthetic-first 工程策略的一部分：先保证演示可恢复，再逐步增强真实接入能力。
-</Takeaway>
-
----
-layout: content
----
-
-# 店铺分析：把客流转化为经营解释
-
-<div class="analysis-grid">
-  <div><b>进店</b><span>入口流量与捕获能力</span></div>
-  <div><b>停留</b><span>顾客兴趣和空间吸引力</span></div>
-  <div><b>转化</b><span>高客流是否真正进入店铺</span></div>
-  <div><b>评分</b><span>0–100 综合经营质量</span></div>
-  <div><b>趋势</b><span>短期波动与连续下滑</span></div>
-  <div><b>原因</b><span>低效标签与改进建议</span></div>
+<div class="advice-card">
+  <b>建议动作</b>
+  <span>调整入口陈列，提高路过客流捕获能力。</span>
+  <span>在高峰时段增加外摆引导或促销触点。</span>
+  <span>与邻近高热区联动活动，提升转化路径。</span>
 </div>
 
-<Callout type="important" title="功能定位">
-店铺分析不是简单排行，而是把“哪里低效”解释为“为什么低效、影响什么、下一步看哪里”。
+<Callout type="tip" title="产品原则">
+AI 建议只做辅助决策，真实运营动作仍由人工确认。
 </Callout>
-
----
-layout: content
----
-
-# 低效预警：从异常发现到处理建议
-
-<Grid cols="2" gap="lg" alignY="top">
-<div>
-
-<Block title="预警类型">
-
-- C/D 级店铺
-- 高客流低转化
-- 连续下滑
-- 异常数据提示
-
-</Block>
-
-</div>
-<div>
-
-<Block title="处置闭环">
-
-- 告警等级与持续时间
-- 关联楼层、店铺和时段
-- 处理建议与状态统计
-- 回跳数字孪生和店铺分析
-
-</Block>
-
-</div>
-</Grid>
-
-<Takeaway>
-告警页负责把“异常信号”变成“可处理任务”。
-</Takeaway>
-
----
-layout: content
----
-
-# 匿名客群画像：只做聚合，不做识别
-
-<div class="profile-cards">
-  <div><b>时段分布</b><span>早晚高峰、午间、周末差异</span></div>
-  <div><b>楼层偏好</b><span>不同楼层吸引力和停留结构</span></div>
-  <div><b>业态偏好</b><span>餐饮、零售、服务等聚合倾向</span></div>
-</div>
-
-<Callout type="warning" title="隐私边界">
-系统默认只展示匿名聚合指标；不做人脸识别，不展示个人级轨迹，不使用真实会员身份、手机号或顾客照片。
-</Callout>
-
----
-layout: toc
-columns: 2
-highlight: 3
----
-
-# 目录
 
 ---
 layout: section
 ---
 
-# 三、架构与数据流
+# 三、为什么可信？
 
-功能背后是可替换、可测试、可审计的工程链路。
+核心能力背后有可解释的理论框架、评分机制和 AI 策略链路。
 
 ---
 layout: content
 ---
 
-# 系统架构：四层协同
+# 理论框架：数字孪生运营闭环
 
-<div class="arch-grid">
-  <div><b>Frontend Demo</b><span>React + TypeScript + Vite<br/>Dashboard / Twin / Store / Alerts / Profile</span></div>
-  <div><b>Backend API</b><span>FastAPI / Pydantic / SQLAlchemy<br/>统一 `/api/v1` 契约</span></div>
-  <div><b>AI Services</b><span>Synthetic video fixture<br/>OpenCV HOG baseline event output</span></div>
-  <div><b>Data Layer</b><span>MySQL-oriented schema<br/>events / aggregates / scores / alerts / audit</span></div>
+<div class="loop-diagram">
+  <div><b>感知</b><span>热力、动线、告警、评分输入</span></div>
+  <i>→</i>
+  <div><b>建模</b><span>楼层、区域、店铺、通道、设施</span></div>
+  <i>→</i>
+  <div><b>评估</b><span>空间效率、风险等级、经营状态</span></div>
+  <i>→</i>
+  <div><b>决策</b><span>调度、导视、活动、店铺优化</span></div>
+  <i>→</i>
+  <div><b>反馈</b><span>观察策略效果并持续改进</span></div>
 </div>
 
 <Takeaway>
-架构重点不是“堆栈复杂”，而是让前端演示、后端契约、AI 事件和数据模型能够逐步对齐。
+数字孪生的价值不只是“复刻一个商场”，而是让商场具备持续感知和持续优化能力。
 </Takeaway>
 
 ---
 layout: content
 ---
 
-# 数据流：视觉事件如何形成运营指标
+# 店铺打分原理：多因子加权评价
 
-<div class="data-pipeline">
-  <div><b>camera or synthetic video</b><span>真实接入前使用合成 fixture</span></div>
-  <i>→</i>
-  <div><b>AI event service</b><span>person / enter / exit / heatmap event</span></div>
-  <i>→</i>
-  <div><b>aggregation jobs</b><span>flow / dwell / conversion / score / alert</span></div>
-  <i>→</i>
-  <div><b>FastAPI /api/v1</b><span>标准响应与 OpenAPI 契约</span></div>
-  <i>→</i>
-  <div><b>React views</b><span>Dashboard 与 Digital Twin</span></div>
+$$
+Score_i =
+w_1 T_i +
+w_2 H_i +
+w_3 F_i +
+w_4 R_i -
+w_5 A_i
+$$
+
+<div class="factor-grid">
+  <div><b>$T_i$ 客流强度</b><span>店铺周边人流规模与入口曝光。</span></div>
+  <div><b>$H_i$ 停留热度</b><span>顾客在店铺附近的兴趣与停留。</span></div>
+  <div><b>$F_i$ 动线可达性</b><span>通道、入口、扶梯带来的可达程度。</span></div>
+  <div><b>$R_i$ 趋势信号</b><span>近期增长、下滑或同业态变化。</span></div>
+  <div><b>$A_i$ 风险惩罚</b><span>拥堵、异常、低效预警带来的扣分。</span></div>
 </div>
 
-<Callout type="info" title="Mock/API mode 共存">
-前端默认仍可使用 Mock / synthetic 数据；API mode 是显式路径，便于演示降级和契约验证。
+<Callout type="info" title="解释方式">
+每个店铺为什么高分或低分，都能追溯到客流、热力、动线、趋势和异常因素。
 </Callout>
 
 ---
-layout: toc
-columns: 2
-highlight: 4
+layout: content
 ---
 
-# 目录
+# AI 策略原理：从感知到建议的链路
+
+<div class="strategy-chain">
+  <div><b>空间感知</b><span>收集合成热力、动线与告警信号</span></div>
+  <div><b>聚合分析</b><span>按楼层、区域、店铺形成指标</span></div>
+  <div><b>场景识别</b><span>判断高峰拥堵、冷区低效、异常聚集</span></div>
+  <div><b>评分诊断</b><span>解释店铺或区域的关键影响因素</span></div>
+  <div><b>策略建议</b><span>输出导视、活动、调度和经营建议</span></div>
+</div>
+
+<Callout type="tip" title="默认策略">
+先用确定性规则保证可信；可选本地后端代理只作为增强路径，真实调用需要人工配置与确认。
+</Callout>
 
 ---
-layout: section
+layout: content
 ---
 
-# 四、工程质量与边界
+# 系统架构总览：展示、业务、服务、数据四层
 
-先保证可信演示，再讨论真实数据接入。
+<div class="arch-layers">
+  <div><b>展示层</b><span>React · Next.js App Router · Tailwind · Three.js / R3F</span></div>
+  <div><b>业务层</b><span>数字孪生工作台 · 店铺评分 · 经营建议 · 场景控制</span></div>
+  <div><b>服务层</b><span>FastAPI · Pydantic · SQLAlchemy · 统一 API 契约</span></div>
+  <div><b>数据与 AI 层</b><span>MySQL 规划 · 合成数据 · OpenCV 基线 · 可选本地智能代理</span></div>
+</div>
+
+<Callout type="info" title="架构重点">
+前端负责交互与空间表达；后端负责契约、评分与建议接口；AI 服务负责合成视觉分析基线；MySQL 是未来真实事实数据源。
+</Callout>
+
+---
+layout: content
+---
+
+# 数据流：从场景信号到运营决策
+
+<div class="data-pipeline wide">
+  <div><b>合成场景</b><span>客流密度、速度、事件、楼层状态</span></div>
+  <i>→</i>
+  <div><b>匿名聚合</b><span>不保留人脸、身份和个人轨迹</span></div>
+  <i>→</i>
+  <div><b>特征计算</b><span>热力、动线、停留、可达性、趋势</span></div>
+  <i>→</i>
+  <div><b>评分与告警</b><span>店铺分数、风险等级、原因标签</span></div>
+  <i>→</i>
+  <div><b>驾驶舱建议</b><span>可视化展示与经营动作建议</span></div>
+</div>
+
+<Takeaway>
+数据不是直接堆到大屏上，而是经过聚合、评分和解释后服务决策。
+</Takeaway>
 
 ---
 layout: split
 ---
 
-# Synthetic-first 策略与合规边界
+# 合规边界：演示可信，不越过真实数据红线
 
 ::left::
 
-<Block title="为什么先做合成演示">
+<Block title="当前坚持使用">
 
-- 降低授权和隐私风险
-- 测试可重复、问题可复现
-- 便于打磨 3D 交互和业务流
-- 为真实接入保留契约边界
+- 自绘几何与程序化 2D/3D 结构
+- 虚构店铺与通用业态
+- Mock / synthetic 默认数据
+- 匿名聚合指标
 
 </Block>
 
 ::right::
 
-<Block title="当前明确不做">
+<Block title="当前明确不用">
 
-- 不接真实商场数据
-- 不接真实监控视频
-- 不使用真实品牌或店铺标识
-- 不展示个人轨迹或身份信息
-- 不引入付费素材、服务或密钥依赖
+- 真实监控视频、人脸和个人轨迹
+- 未授权商场平面图、BIM/CAD 和地图
+- 真实品牌、商户 Logo 和招牌
+- 付费工具、外部素材服务和未知许可证资产
 
 </Block>
 
-<Takeaway>
-项目可信度来自边界清晰：哪些已经完成，哪些必须等授权、隐私和回滚方案确认后再做。
-</Takeaway>
+<Callout type="warning" title="对外表达边界">
+当前版本是安全演示与工程验证系统；真实上线前必须完成授权、隐私、安全、运维和合规评审。
+</Callout>
 
 ---
 layout: content
 ---
 
-# 当前进度与工程质量
+# 项目亮点：价值、视觉、工程、边界同时成立
 
-<div class="milestone-line">
-  <div><b>P0–P5</b><span>产品边界、前端 MVP、工程骨架、后端 API、Mock/API mode 联调</span></div>
-  <div><b>P6</b><span>AI event schema 与 synthetic AI service baseline</span></div>
-  <div><b>P7</b><span>premium light 3D digital twin、GLB 模型、交互与视觉打磨</span></div>
-  <div><b>P8</b><span>production preparation 与 store score formula contract</span></div>
+<div class="highlight-grid">
+  <div><b>高价值业务叙事</b><span>围绕管理层、运营、店铺和安防四类用户展开。</span></div>
+  <div><b>高沉浸数字孪生</b><span>2D/3D 切换，热力、动线、评分和告警多模式展示。</span></div>
+  <div><b>可解释 AI 原理</b><span>评分公式、因子解释和建议生成链路清楚可讲。</span></div>
+  <div><b>工程架构清晰</b><span>前后端分层、API 契约、合成数据、未来 MySQL 路径明确。</span></div>
+  <div><b>风险边界可审计</b><span>不接真实监控，不用真实品牌和平面图，不引入不清晰素材。</span></div>
+  <div><b>可持续扩展</b><span>后续可扩展真实授权数据、预测预警和多商场协同。</span></div>
 </div>
-
-<ResultBox title="当前状态">
-`/digital-twin` 已形成可演示的 3D 合成数字孪生主线；项目仍保持 Mock / synthetic 默认边界，真实数据接入后置。
-</ResultBox>
-
----
-layout: toc
-columns: 2
-highlight: 5
----
-
-# 目录
-
----
-layout: section
----
-
-# 五、总结与下一步
-
-从演示闭环走向可部署、可授权、可审计的工程系统。
 
 ---
 layout: end
 ---
 
-# 总结
+# 未来愿景
 
-以合成可审计数据为起点，项目已经形成商业综合体运营的可解释数字孪生决策闭环：
-
-<div class="closing-grid">
-  <div><b>功能闭环</b><span>总览 → 孪生 → 分析 → 预警 → 复盘</span></div>
-  <div><b>工程闭环</b><span>前端演示 → API 契约 → AI 事件 → 数据模型</span></div>
-  <div><b>风险闭环</b><span>Mock 默认、合成优先、真实接入前置审批</span></div>
+<div class="roadmap-strip">
+  <div><b>近期</b><span>完善店铺建议前端联动、评分解释和演示脚本。</span></div>
+  <div><b>中期</b><span>增强 3D 回放、场景分享、拥堵预测和多楼层分析。</span></div>
+  <div><b>远期</b><span>在授权前提下接入真实客流、设备和经营数据。</span></div>
 </div>
 
-<Takeaway>
-下一步重点：深化评分与告警闭环、增强 3D 回放交互、推进后端契约与真实数据准入准备。
-</Takeaway>
+<div class="final-statement">
+  <b>让每一平方米空间都可感知、可评估、可优化</b>
+  <span>让商业综合体运营从经验驱动，升级为数据与 AI 驱动。</span>
+</div>
